@@ -173,6 +173,67 @@
   }
 
   initScreenshotScroll();
+
+  // Scramble text effect for metric values
+  function initScramble() {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz%<>+';
+    const metricValues = document.querySelectorAll<HTMLElement>('.metric-value');
+    let hasPlayed = false;
+
+    function scramble(el: HTMLElement, finalText: string) {
+      const length = finalText.length;
+      let iteration = 0;
+      const maxIterations = length * 3;
+
+      // Start in grey
+      el.style.color = '#9ca3af';
+      el.style.transition = 'color 0.3s ease';
+
+      const interval = setInterval(() => {
+        el.textContent = finalText
+          .split('')
+          .map((char, index) => {
+            if (index < iteration / 3) return char;
+            if (char === ' ') return ' ';
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join('');
+
+        iteration++;
+        if (iteration > maxIterations) {
+          el.textContent = finalText;
+          el.style.color = '';
+          clearInterval(interval);
+        }
+      }, 35);
+    }
+
+    // Start with grey placeholder text
+    metricValues.forEach((el) => {
+      el.style.color = '#9ca3af';
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasPlayed) {
+            hasPlayed = true;
+            metricValues.forEach((el, i) => {
+              const finalText = el.textContent || '';
+              // Stagger each metric slightly
+              setTimeout(() => scramble(el, finalText), i * 150);
+            });
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    const grid = document.getElementById('metrics-grid');
+    if (grid) observer.observe(grid);
+  }
+
+  initScramble();
 </script>
 
 <style>

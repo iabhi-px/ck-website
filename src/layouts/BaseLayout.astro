@@ -2,6 +2,7 @@
 import SEO from '../components/shared/SEO.astro';
 import Navbar from '../components/landing/Navbar.astro';
 import Dials from '../components/shared/Dials.tsx';
+import Footer from '../components/shared/Footer.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -29,9 +30,22 @@ const {
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-900">
     <Navbar />
-    <main class="flex-1">
+    <main class="flex-1 relative z-10 bg-white">
       <slot />
     </main>
+    <div id="footer-spacer"></div>
+    <Footer />
     <Dials client:only="react" />
+    <script>
+      function syncFooterSpacer() {
+        const footer = document.querySelector('footer');
+        const spacer = document.getElementById('footer-spacer');
+        if (footer && spacer) {
+          spacer.style.height = `${footer.offsetHeight}px`;
+        }
+      }
+      syncFooterSpacer();
+      window.addEventListener('resize', syncFooterSpacer);
+    </script>
   </body>
 </html>

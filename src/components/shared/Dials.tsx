@@ -288,12 +288,95 @@ function ProductsDials() {
   return null;
 }
 
+function SecurityDials() {
+  const values = useDialKit('Security Section', {
+    'Section Heading': {
+      'Font Size (px)': [48, 24, 80, 1],
+      'Line Height': [1.1, 0.8, 2, 0.05],
+    },
+    'Card Title': {
+      'Font Size (px)': [18, 12, 28, 1],
+    },
+    'Card Description': {
+      'Font Size (px)': [16, 12, 24, 1],
+      'Line Height': [1.6, 1, 2.5, 0.05],
+    },
+    'Icon': {
+      'Size (px)': [48, 32, 80, 2],
+      'Icon Size (px)': [24, 16, 40, 1],
+    },
+    'SOC 2 Badge': {
+      'Width (px)': [48, 24, 120, 2],
+      'Height (px)': [48, 24, 120, 2],
+      'Margin Bottom (px)': [24, 0, 48, 1],
+    },
+    'Spacing': {
+      'Section Padding Top (px)': [80, 32, 200, 4],
+      'Section Padding Bottom (px)': [160, 32, 300, 4],
+      'Cell Padding (px)': [32, 12, 64, 2],
+    },
+  });
+
+  useEffect(() => {
+    const section = document.getElementById('security-section');
+    const heading = section?.querySelector('h2') as HTMLElement;
+    const titles = section?.querySelectorAll<HTMLElement>('.security-cell h3') || [];
+    const descs = section?.querySelectorAll<HTMLElement>('.security-cell p:last-child') || [];
+    const icons = section?.querySelectorAll<HTMLElement>('.security-cell > div:first-child') || [];
+    const cells = section?.querySelectorAll<HTMLElement>('.security-cell') || [];
+
+    if (heading) {
+      heading.style.fontSize = `${values['Section Heading']['Font Size (px)']}px`;
+      heading.style.lineHeight = `${values['Section Heading']['Line Height']}`;
+    }
+    titles.forEach((el) => {
+      el.style.fontSize = `${values['Card Title']['Font Size (px)']}px`;
+    });
+    descs.forEach((el) => {
+      el.style.fontSize = `${values['Card Description']['Font Size (px)']}px`;
+      el.style.lineHeight = `${values['Card Description']['Line Height']}`;
+    });
+    icons.forEach((el) => {
+      el.style.width = `${values['Icon']['Size (px)']}px`;
+      el.style.height = `${values['Icon']['Size (px)']}px`;
+      const iconEl = el.querySelector('i, svg') as HTMLElement;
+      if (iconEl) {
+        iconEl.style.fontSize = `${values['Icon']['Icon Size (px)']}px`;
+        iconEl.style.width = `${values['Icon']['Icon Size (px)']}px`;
+        iconEl.style.height = `${values['Icon']['Icon Size (px)']}px`;
+      }
+    });
+
+    cells.forEach((el) => {
+      el.style.padding = `${values['Spacing']['Cell Padding (px)']}px`;
+    });
+    if (section) {
+      section.style.paddingTop = `${values['Spacing']['Section Padding Top (px)']}px`;
+      section.style.paddingBottom = `${values['Spacing']['Section Padding Bottom (px)']}px`;
+    }
+
+    // SOC 2 badge
+    const soc2Container = section?.querySelector('.flex-1.flex.items-center') as HTMLElement;
+    const soc2Svg = soc2Container?.querySelector('svg') as SVGElement;
+    if (soc2Svg) {
+      soc2Svg.style.width = `${values['SOC 2 Badge']['Width (px)']}px`;
+      soc2Svg.style.height = `${values['SOC 2 Badge']['Height (px)']}px`;
+    }
+    if (soc2Container) {
+      soc2Container.style.marginBottom = `${values['SOC 2 Badge']['Margin Bottom (px)']}px`;
+    }
+  }, [values]);
+
+  return null;
+}
+
 export default function Dials() {
   return (
     <>
       <HeroDials />
       <WhyCodeKarmaDials />
       <ProductsDials />
+      <SecurityDials />
       <DialRoot position="top-right" defaultOpen={false} />
     </>
   );
