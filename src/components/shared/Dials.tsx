@@ -33,11 +33,11 @@ function HeroDials() {
       'Border Radius (px)': [8, 0, 32, 1],
     },
     'Metrics Grid': {
-      'Value Font Size (px)': [28, 20, 60, 1],
-      'Label Font Size (px)': [16, 12, 24, 1],
-      'Label Top Margin (px)': [2, 0, 24, 1],
-      'Cell Padding X (px)': [32, 12, 64, 2],
-      'Cell Padding Y (px)': [16, 12, 64, 2],
+      'Value Font Size (px)': [40, 20, 60, 1],
+      'Label Font Size (px)': [18, 12, 24, 1],
+      'Label Top Margin (px)': [12, 0, 24, 1],
+      'Cell Padding X (px)': [40, 12, 64, 2],
+      'Cell Padding Y (px)': [48, 12, 80, 2],
       'Grid Top Margin (px)': [120, 0, 200, 4],
     },
   });
@@ -202,12 +202,182 @@ function WhyCodeKarmaDials() {
   return null;
 }
 
+function ProductsDials() {
+  const values = useDialKit('Products Section', {
+    'Section Label': {
+      'Font Size (px)': [16, 8, 24, 1],
+      'Letter Spacing (em)': [0.25, 0, 0.6, 0.01],
+    },
+    'Section Heading': {
+      'Font Size (px)': [48, 24, 80, 1],
+      'Line Height': [1.1, 0.8, 2, 0.05],
+      'Letter Spacing (em)': [-0.02, -0.1, 0.1, 0.005],
+    },
+    'Section Subtext': {
+      'Font Size (px)': [18, 12, 28, 1],
+      'Line Height': [1.6, 1, 2.5, 0.05],
+    },
+    'Tabs': {
+      'Font Size (px)': [16, 10, 20, 1],
+      'Width (px)': [260, 100, 400, 4],
+      'Height (px)': [44, 30, 80, 2],
+      'Overlap (px)': [88, 0, 120, 2],
+    },
+    'Content': {
+      'Title Font Size (px)': [24, 16, 40, 1],
+      'Desc Font Size (px)': [16, 12, 24, 1],
+      'Padding (px)': [40, 16, 80, 4],
+    },
+    'Spacing': {
+      'Section Padding Y (px)': [96, 32, 200, 4],
+      'Header Bottom Margin (px)': [64, 16, 120, 4],
+    },
+  });
+
+  useEffect(() => {
+    const section = document.getElementById('products-section');
+    const label = document.getElementById('products-label');
+    const heading = document.getElementById('products-heading');
+    const subtext = document.getElementById('products-subtext');
+    const tabs = document.querySelectorAll<HTMLElement>('.product-tab');
+    const titles = document.querySelectorAll<HTMLElement>('.product-title');
+    const descs = document.querySelectorAll<HTMLElement>('.product-desc');
+    const headerWrap = heading?.parentElement;
+
+    if (label) {
+      label.style.fontSize = `${values['Section Label']['Font Size (px)']}px`;
+      label.style.letterSpacing = `${values['Section Label']['Letter Spacing (em)']}em`;
+    }
+    if (heading) {
+      heading.style.fontSize = `${values['Section Heading']['Font Size (px)']}px`;
+      heading.style.lineHeight = `${values['Section Heading']['Line Height']}`;
+      heading.style.letterSpacing = `${values['Section Heading']['Letter Spacing (em)']}em`;
+    }
+    if (subtext) {
+      subtext.style.fontSize = `${values['Section Subtext']['Font Size (px)']}px`;
+      subtext.style.lineHeight = `${values['Section Subtext']['Line Height']}`;
+    }
+    tabs.forEach((tab) => {
+      tab.style.width = `${values['Tabs']['Width (px)']}px`;
+      tab.style.height = `${values['Tabs']['Height (px)']}px`;
+      tab.style.marginRight = `-${values['Tabs']['Overlap (px)']}px`;
+      const tabLabel = tab.querySelector('.product-tab-label') as HTMLElement;
+      if (tabLabel) {
+        tabLabel.style.fontSize = `${values['Tabs']['Font Size (px)']}px`;
+      }
+    });
+    titles.forEach((el) => {
+      el.style.fontSize = `${values['Content']['Title Font Size (px)']}px`;
+    });
+    descs.forEach((el) => {
+      el.style.fontSize = `${values['Content']['Desc Font Size (px)']}px`;
+    });
+    const contentAreas = document.querySelectorAll<HTMLElement>('.product-panel > div > div:first-child');
+    contentAreas.forEach((el) => {
+      el.style.padding = `${values['Content']['Padding (px)']}px`;
+    });
+    if (section) {
+      section.style.paddingTop = `${values['Spacing']['Section Padding Y (px)']}px`;
+      section.style.paddingBottom = `${values['Spacing']['Section Padding Y (px)']}px`;
+    }
+    if (headerWrap) {
+      headerWrap.style.marginBottom = `${values['Spacing']['Header Bottom Margin (px)']}px`;
+    }
+  }, [values]);
+
+  return null;
+}
+
+function SecurityDials() {
+  const values = useDialKit('Security Section', {
+    'Section Heading': {
+      'Font Size (px)': [48, 24, 80, 1],
+      'Line Height': [1.1, 0.8, 2, 0.05],
+    },
+    'Card Title': {
+      'Font Size (px)': [18, 12, 28, 1],
+    },
+    'Card Description': {
+      'Font Size (px)': [16, 12, 24, 1],
+      'Line Height': [1.6, 1, 2.5, 0.05],
+    },
+    'Icon': {
+      'Size (px)': [48, 32, 80, 2],
+      'Icon Size (px)': [24, 16, 40, 1],
+    },
+    'SOC 2 Badge': {
+      'Width (px)': [48, 24, 120, 2],
+      'Height (px)': [48, 24, 120, 2],
+      'Margin Bottom (px)': [24, 0, 48, 1],
+    },
+    'Spacing': {
+      'Section Padding Top (px)': [80, 32, 200, 4],
+      'Section Padding Bottom (px)': [160, 32, 300, 4],
+      'Cell Padding (px)': [32, 12, 64, 2],
+    },
+  });
+
+  useEffect(() => {
+    const section = document.getElementById('security-section');
+    const heading = section?.querySelector('h2') as HTMLElement;
+    const titles = section?.querySelectorAll<HTMLElement>('.security-cell h3') || [];
+    const descs = section?.querySelectorAll<HTMLElement>('.security-cell p:last-child') || [];
+    const icons = section?.querySelectorAll<HTMLElement>('.security-cell > div:first-child') || [];
+    const cells = section?.querySelectorAll<HTMLElement>('.security-cell') || [];
+
+    if (heading) {
+      heading.style.fontSize = `${values['Section Heading']['Font Size (px)']}px`;
+      heading.style.lineHeight = `${values['Section Heading']['Line Height']}`;
+    }
+    titles.forEach((el) => {
+      el.style.fontSize = `${values['Card Title']['Font Size (px)']}px`;
+    });
+    descs.forEach((el) => {
+      el.style.fontSize = `${values['Card Description']['Font Size (px)']}px`;
+      el.style.lineHeight = `${values['Card Description']['Line Height']}`;
+    });
+    icons.forEach((el) => {
+      el.style.width = `${values['Icon']['Size (px)']}px`;
+      el.style.height = `${values['Icon']['Size (px)']}px`;
+      const iconEl = el.querySelector('i, svg') as HTMLElement;
+      if (iconEl) {
+        iconEl.style.fontSize = `${values['Icon']['Icon Size (px)']}px`;
+        iconEl.style.width = `${values['Icon']['Icon Size (px)']}px`;
+        iconEl.style.height = `${values['Icon']['Icon Size (px)']}px`;
+      }
+    });
+
+    cells.forEach((el) => {
+      el.style.padding = `${values['Spacing']['Cell Padding (px)']}px`;
+    });
+    if (section) {
+      section.style.paddingTop = `${values['Spacing']['Section Padding Top (px)']}px`;
+      section.style.paddingBottom = `${values['Spacing']['Section Padding Bottom (px)']}px`;
+    }
+
+    // SOC 2 badge
+    const soc2Container = section?.querySelector('.flex-1.flex.items-center') as HTMLElement;
+    const soc2Svg = soc2Container?.querySelector('svg') as SVGElement;
+    if (soc2Svg) {
+      soc2Svg.style.width = `${values['SOC 2 Badge']['Width (px)']}px`;
+      soc2Svg.style.height = `${values['SOC 2 Badge']['Height (px)']}px`;
+    }
+    if (soc2Container) {
+      soc2Container.style.marginBottom = `${values['SOC 2 Badge']['Margin Bottom (px)']}px`;
+    }
+  }, [values]);
+
+  return null;
+}
+
 export default function Dials() {
   return (
     <>
       <HeroDials />
       <WhyCodeKarmaDials />
-      <DialRoot position="top-right" defaultOpen={true} />
+      <ProductsDials />
+      <SecurityDials />
+      <DialRoot position="top-right" defaultOpen={false} />
     </>
   );
 }

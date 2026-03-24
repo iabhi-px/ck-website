@@ -15,8 +15,8 @@ const navLinks = [
   <div id="navbar-container" class="mx-auto max-w-7xl px-[106px]">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo -->
-      <a href="/" class="flex items-center">
-        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="h-8 w-auto" />
+      <a href="#" class="flex items-center" onclick="event.preventDefault(); window.__scrollingToTop = true; window.scrollTo({ top: 0, behavior: 'smooth' }); const checkDone = () => { if (window.scrollY <= 0) { window.__scrollingToTop = false; } else { requestAnimationFrame(checkDone); } }; requestAnimationFrame(checkDone);">
+        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="w-auto" style="height: 36px;" />
       </a>
 
       <!-- Desktop nav -->
@@ -36,7 +36,7 @@ const navLinks = [
         <div id="navbar-ctas" class="absolute right-0 flex items-center gap-4 opacity-0 pointer-events-none" style="transition: opacity 0.3s ease;">
           <a
             href="https://google.com"
-            class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-sm font-medium hero-btn-primary"
+            class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
           >
             <span>Schedule Demo</span>
           </a>
@@ -93,10 +93,8 @@ const navLinks = [
         if (self.scroll() > 80) {
           navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
           if (self.direction === 1) {
-            // Scrolling down — hide
             navbar.style.transform = 'translateY(-100%)';
           } else {
-            // Scrolling up — show
             navbar.style.transform = 'translateY(0)';
           }
         } else {
@@ -148,3 +146,4 @@ const navLinks = [
     closeIcon?.classList.toggle('hidden');
   });
 </script>
+
