@@ -1,27 +1,27 @@
 ---
 ---
 
-<section id="hero-section" class="relative bg-white pt-32 pb-0 overflow-hidden">
+<section id="hero-section" class="relative bg-white pt-32 pb-20 overflow-visible">
   <!-- Horizontal gridlines aligned with CTA button top/bottom -->
   <div id="hero-line-top" class="absolute left-0 right-0 h-px pointer-events-none z-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5);" aria-hidden="true"></div>
   <div id="hero-line-bottom" class="absolute left-0 right-0 h-px pointer-events-none z-0" style="background: linear-gradient(to right, #e5e5e5, #fafafa);" aria-hidden="true"></div>
 
   <!-- Vertical gridlines aligned with content edges -->
-  <div class="absolute inset-0 mx-auto max-w-7xl px-6 lg:px-8 pointer-events-none z-0" aria-hidden="true">
+  <div id="hero-gridlines-container" class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
     <div class="relative h-full">
       <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
     </div>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+  <div id="hero-content-container" class="relative z-10 mx-auto max-w-7xl px-[106px]">
     <!-- Top content area: two columns -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
       <!-- Left: Headline -->
       <div id="hero-left">
-        <h1 id="hero-heading" class="text-5xl sm:text-6xl lg:text-7xl tracking-tight text-brand-dark leading-[1.05]">
+        <h1 id="hero-heading" class="text-5xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
           <span class="font-semibold">Production</span><br />
-          <span class="font-mono font-bold">Intelligence</span><br />
+          <span class="font-mono font-semibold">Intelligence</span><br />
           <span class="font-semibold">for the AI Era</span>
         </h1>
       </div>
@@ -54,15 +54,39 @@
     </div>
 
     <!-- IDE Screenshot Placeholder -->
-    <div id="hero-screenshot" class="mt-16 lg:mt-20 relative">
-      <div class="rounded-t-2xl overflow-hidden shadow-2xl border border-gray-200 border-b-0 bg-gray-900 aspect-[16/9] flex items-center justify-center">
-        <p class="text-gray-500 text-sm">Hero screenshot placeholder</p>
+    <div id="hero-screenshot-wrapper" class="mt-16 lg:mt-20 relative">
+      <div id="hero-screenshot" class="relative" style="transform-origin: center center;">
+        <div class="rounded-lg overflow-hidden shadow-2xl border border-gray-200 bg-gray-900 aspect-[16/9] flex items-center justify-center">
+          <p class="text-gray-500 text-sm">Hero screenshot placeholder</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics Grid -->
+    <div id="metrics-grid" class="metrics-grid grid grid-cols-2 lg:grid-cols-4 mt-10">
+      <div class="metrics-cell px-8 py-8">
+        <p class="metric-value text-3xl sm:text-4xl font-bold text-brand-dark tracking-tight">100%</p>
+        <p class="metric-label text-base text-gray-500 mt-2">Traffic captured</p>
+      </div>
+      <div class="metrics-cell px-8 py-8">
+        <p class="metric-value text-3xl sm:text-4xl font-bold text-brand-dark tracking-tight">1000x</p>
+        <p class="metric-label text-base text-gray-500 mt-2">Data efficiency</p>
+      </div>
+      <div class="metrics-cell px-8 py-8">
+        <p class="metric-value text-3xl sm:text-4xl font-bold text-brand-dark tracking-tight">Zero</p>
+        <p class="metric-label text-base text-gray-500 mt-2">Code changes</p>
+      </div>
+      <div class="metrics-cell px-8 py-8">
+        <p class="metric-value text-3xl sm:text-4xl font-bold text-brand-dark tracking-tight">&lt; 1 week</p>
+        <p class="metric-label text-base text-gray-500 mt-2">Time to go-live</p>
       </div>
     </div>
   </div>
 </section>
 
 <script>
+  import { gsap, ScrollTrigger } from '../../lib/gsap';
+
   function syncHero() {
     const left = document.getElementById('hero-left');
     const right = document.getElementById('hero-right');
@@ -87,4 +111,101 @@
   window.addEventListener('resize', syncHero);
   new MutationObserver(syncHero).observe(document.getElementById('hero-heading')!, { attributes: true, attributeFilter: ['style'] });
   new MutationObserver(syncHero).observe(document.getElementById('hero-btn-primary')!, { attributes: true, attributeFilter: ['style'] });
+
+  // Screenshot scale-on-scroll animation
+  function initScreenshotScroll() {
+    const wrapper = document.getElementById('hero-screenshot-wrapper');
+    const screenshot = document.getElementById('hero-screenshot');
+    if (!wrapper || !screenshot) return;
+
+    const targetPadding = 40; // px on each side
+
+    function getScaleValue() {
+      const screenshotWidth = screenshot.offsetWidth;
+      const targetWidth = window.innerWidth * 0.88;
+      return targetWidth / screenshotWidth;
+    }
+
+    function updateScale() {
+      const rect = wrapper.getBoundingClientRect();
+      const vh = window.innerHeight;
+
+      if (window.scrollY === 0) {
+        // Page load / top of page — no scaling
+        screenshot.style.transform = 'scale(1)';
+        return;
+      }
+
+      if (rect.top < 0) {
+        // Scrolling past — shrink back based on how much has left the viewport
+        const gone = Math.abs(rect.top);
+        const progress = Math.max(0, 1 - gone / rect.height);
+        const maxScale = getScaleValue();
+        const scale = 1 + progress * (maxScale - 1);
+        screenshot.style.transform = `scale(${scale})`;
+      } else if (rect.bottom <= vh) {
+        // Fully visible — max scale
+        screenshot.style.transform = `scale(${getScaleValue()})`;
+      } else if (rect.top < vh) {
+        // Partially visible — interpolate
+        const visibleHeight = vh - rect.top;
+        const progress = Math.min(1, visibleHeight / rect.height);
+        const maxScale = getScaleValue();
+        const scale = 1 + progress * (maxScale - 1);
+        screenshot.style.transform = `scale(${scale})`;
+      } else {
+        // Not visible — normal scale
+        screenshot.style.transform = 'scale(1)';
+      }
+    }
+
+    screenshot.style.transformOrigin = 'center center';
+    screenshot.style.transition = 'transform 0.1s ease-out';
+    window.addEventListener('scroll', updateScale, { passive: true });
+    updateScale();
+  }
+
+  initScreenshotScroll();
 </script>
+
+<style>
+  .metrics-grid {
+    border: 1.5px solid #e5e5e5;
+    border-radius: 0;
+  }
+
+  .metrics-cell {
+    border-right: 1.5px solid #e5e5e5;
+  }
+
+  /* 2-col layout: remove right border on 2nd and 4th cells, add bottom border on first row */
+  .metrics-cell:nth-child(2),
+  .metrics-cell:nth-child(4) {
+    border-right: none;
+  }
+
+  .metrics-cell:nth-child(1),
+  .metrics-cell:nth-child(2) {
+    border-bottom: 1.5px solid #e5e5e5;
+  }
+
+  /* 4-col layout on lg+ */
+  @media (min-width: 1024px) {
+    .metrics-cell:nth-child(1),
+    .metrics-cell:nth-child(2) {
+      border-bottom: none;
+    }
+
+    .metrics-cell:nth-child(2) {
+      border-right: 1.5px solid #e5e5e5;
+    }
+
+    .metrics-cell:nth-child(3) {
+      border-right: 1.5px solid #e5e5e5;
+    }
+
+    .metrics-cell:nth-child(4) {
+      border-right: none;
+    }
+  }
+</style>
