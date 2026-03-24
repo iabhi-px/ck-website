@@ -129,10 +129,84 @@ function HeroDials() {
   return null;
 }
 
+function WhyCodeKarmaDials() {
+  const values = useDialKit('Why CodeKarma', {
+    'Section Label': {
+      'Font Size (px)': [16, 8, 24, 1],
+      'Letter Spacing (em)': [0.25, 0, 0.6, 0.01],
+      'Line Height': [1.2, 1, 2.5, 0.05],
+    },
+    'Section Heading': {
+      'Font Size (px)': [48, 24, 80, 1],
+      'Line Height': [1.1, 0.8, 2, 0.05],
+      'Letter Spacing (em)': [-0.02, -0.1, 0.1, 0.005],
+    },
+    'Card Titles': {
+      'Font Size (px)': [20, 10, 28, 1],
+      'Line Height': [1.2, 1, 2.5, 0.05],
+      'Letter Spacing (em)': [0, -0.05, 0.2, 0.005],
+    },
+    'Card Descriptions': {
+      'Font Size (px)': [16, 10, 24, 1],
+      'Line Height': [1.6, 1, 2.5, 0.05],
+      'Letter Spacing (em)': [0, -0.05, 0.2, 0.005],
+    },
+    'Spacing': {
+      'Section Padding Y (px)': [96, 32, 200, 4],
+      'Header Bottom Margin (px)': [64, 16, 120, 4],
+      'Card Padding (px)': [24, 8, 48, 2],
+    },
+  });
+
+  useEffect(() => {
+    const label = document.getElementById('why-label');
+    const heading = document.getElementById('why-heading');
+    const section = document.getElementById('why-codekarma');
+    const headerWrap = heading?.parentElement;
+    const cardTitles = document.querySelectorAll<HTMLElement>('.why-card-title');
+    const cardDescs = document.querySelectorAll<HTMLElement>('.why-card-desc');
+    const cells = document.querySelectorAll<HTMLElement>('.why-cell');
+
+    if (label) {
+      label.style.fontSize = `${values['Section Label']['Font Size (px)']}px`;
+      label.style.letterSpacing = `${values['Section Label']['Letter Spacing (em)']}em`;
+      label.style.lineHeight = `${values['Section Label']['Line Height']}`;
+    }
+    if (heading) {
+      heading.style.fontSize = `${values['Section Heading']['Font Size (px)']}px`;
+      heading.style.lineHeight = `${values['Section Heading']['Line Height']}`;
+      heading.style.letterSpacing = `${values['Section Heading']['Letter Spacing (em)']}em`;
+    }
+    cardTitles.forEach((el) => {
+      el.style.fontSize = `${values['Card Titles']['Font Size (px)']}px`;
+      el.style.lineHeight = `${values['Card Titles']['Line Height']}`;
+      el.style.letterSpacing = `${values['Card Titles']['Letter Spacing (em)']}em`;
+    });
+    cardDescs.forEach((el) => {
+      el.style.fontSize = `${values['Card Descriptions']['Font Size (px)']}px`;
+      el.style.lineHeight = `${values['Card Descriptions']['Line Height']}`;
+      el.style.letterSpacing = `${values['Card Descriptions']['Letter Spacing (em)']}em`;
+    });
+    if (section) {
+      section.style.paddingTop = `${values['Spacing']['Section Padding Y (px)']}px`;
+      section.style.paddingBottom = `${values['Spacing']['Section Padding Y (px)']}px`;
+    }
+    if (headerWrap) {
+      headerWrap.style.marginBottom = `${values['Spacing']['Header Bottom Margin (px)']}px`;
+    }
+    cells.forEach((el) => {
+      el.style.padding = `${values['Spacing']['Card Padding (px)']}px`;
+    });
+  }, [values]);
+
+  return null;
+}
+
 export default function Dials() {
   return (
     <>
       <HeroDials />
+      <WhyCodeKarmaDials />
       <DialRoot position="top-right" defaultOpen={true} />
     </>
   );

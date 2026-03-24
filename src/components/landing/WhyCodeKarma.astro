@@ -1,0 +1,159 @@
+---
+---
+
+<section id="why-codekarma" class="relative bg-white py-24 overflow-hidden">
+  <!-- Vertical gridlines aligned with content edges (same as Hero) -->
+  <div class="absolute inset-0 mx-auto max-w-7xl px-6 lg:px-8 pointer-events-none z-0" aria-hidden="true">
+    <div class="relative h-full">
+      <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="max-w-3xl mb-16">
+      <p id="why-label" class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Why CodeKarma</p>
+      <h2 id="why-heading" class="text-4xl sm:text-5xl tracking-tight text-brand-dark leading-[1.1] font-semibold">
+        Measurable impact<br /> from day one
+      </h2>
+    </div>
+
+    <!-- Cards grid — 4 columns, shared borders, no corner radius -->
+    <div class="why-grid border border-gray-200 overflow-hidden">
+      <div class="why-cell border-r border-gray-200 p-6">
+        <div class="why-placeholder aspect-square -mx-6 -mt-6 mb-6 "></div>
+        <h3 class="why-card-title text-sm font-medium text-brand-dark mb-2">40–60% productivity increase</h3>
+        <p class="why-card-desc text-sm text-gray-500 leading-relaxed">
+          Production-aware development eliminates guesswork. Insights directly in the IDE.
+        </p>
+      </div>
+
+      <div class="why-cell border-r border-gray-200 p-6">
+        <div class="why-placeholder aspect-square -mx-6 -mt-6 mb-6 "></div>
+        <h3 class="why-card-title text-sm font-medium text-brand-dark mb-2">5–10% fewer incidents</h3>
+        <p class="why-card-desc text-sm text-gray-500 leading-relaxed">
+          Behavior regressions caught before deployment. Hidden cascades flagged in planning.
+        </p>
+      </div>
+
+      <div class="why-cell border-r border-gray-200 p-6">
+        <div class="why-placeholder aspect-square -mx-6 -mt-6 mb-6 "></div>
+        <h3 class="why-card-title text-sm font-medium text-brand-dark mb-2">Up to 60% dead code found</h3>
+        <p class="why-card-desc text-sm text-gray-500 leading-relaxed">
+          Deterministically identified. Based on real production traffic. Not estimates.
+        </p>
+      </div>
+
+      <div class="why-cell p-6">
+        <div class="why-placeholder aspect-square -mx-6 -mt-6 mb-6 "></div>
+        <h3 class="why-card-title text-sm font-medium text-brand-dark mb-2">80% less alert noise</h3>
+        <p class="why-card-desc text-sm text-gray-500 leading-relaxed">
+          Correlated root cause analysis. One signal, not a hundred alerts.
+        </p>
+      </div>
+    </div>
+
+    <!-- Dotted grid separator -->
+    <div class="why-dot-separator my-0"></div>
+
+    <!-- Bottom row — 2 cards with side image -->
+    <div class="why-grid-2 border border-t-0 border-gray-200 overflow-hidden">
+      <div class="why-cell why-card-horizontal border-r border-gray-200">
+        <div class="why-card-text">
+          <h3 class="why-card-title text-sm font-medium text-brand-dark mb-2">Real-time production mapping</h3>
+          <p class="why-card-desc text-sm text-gray-500 leading-relaxed">
+            Every line of code linked to live production behavior. See exactly what runs, how often, and where it matters.
+          </p>
+        </div>
+        <div class="why-card-image why-placeholder"></div>
+      </div>
+
+      <div class="why-cell why-card-horizontal">
+        <div class="why-card-text">
+          <h3 class="why-card-title text-sm font-medium text-brand-dark mb-2">AI-native workflow integration</h3>
+          <p class="why-card-desc text-sm text-gray-500 leading-relaxed">
+            Production context flows directly into AI coding assistants. Smarter suggestions grounded in how your system actually behaves.
+          </p>
+        </div>
+        <div class="why-card-image why-placeholder"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dotted separator -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 mt-20">
+    <div class="border-t border-dashed border-gray-300"></div>
+  </div>
+
+</section>
+
+<style>
+  .why-placeholder {
+    background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+    background-size: 16px 16px;
+    background-color: #f5f5f0;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .why-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why-card-horizontal {
+    display: flex;
+    padding: 0;
+  }
+
+  .why-card-text {
+    flex: 1;
+    padding: 24px;
+  }
+
+  .why-card-image {
+    width: 25%;
+    flex-shrink: 0;
+  }
+
+  .why-dot-separator {
+    height: 24px;
+    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+    background-size: 16px 16px;
+    background-position: center;
+    background-color: #fafaf8;
+  }
+
+  @media (max-width: 768px) {
+    .why-grid,
+    .why-grid-2 {
+      grid-template-columns: 1fr;
+    }
+    .why-cell {
+      border-right: none !important;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .why-cell:last-child {
+      border-bottom: none;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1023px) {
+    .why-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .why-cell:nth-child(2n) {
+      border-right: none !important;
+    }
+    .why-cell:nth-child(-n+2) {
+      border-bottom: 1px solid #e5e7eb;
+    }
+  }
+
+</style>
