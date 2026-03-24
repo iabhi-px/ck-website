@@ -1,21 +1,22 @@
 ---
 const navLinks = [
-  { label: 'Features', href: '/#features' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Docs', href: '/getting-started/introduction' },
-  { label: 'GitHub', href: '#' },
+  { label: 'Products', href: '#' },
+  { label: 'Solutions', href: '#' },
+  { label: 'Blogs', href: '/blog' },
+  { label: 'Security', href: '#' },
+  { label: 'About', href: '#' },
 ];
 ---
 
 <nav
   id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"
 >
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo -->
       <a href="/" class="flex items-center">
-        <img src="/assets/logo/logo.svg" alt="YourSite" class="h-8 w-auto" />
+        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="h-8 w-auto" />
       </a>
 
       <!-- Desktop nav -->
@@ -23,20 +24,17 @@ const navLinks = [
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class="text-sm text-gray-300 hover:text-white transition-colors"
+            class="text-sm text-gray-500 hover:text-brand-dark transition-colors"
           >
             {link.label}
           </a>
         ))}
-        <a href="#" class="btn-primary text-sm !py-2 !px-4">
-          Get Started
-        </a>
       </div>
 
       <!-- Mobile hamburger -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden text-gray-300 hover:text-white"
+        class="md:hidden text-gray-500 hover:text-brand-dark"
         aria-label="Toggle menu"
       >
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,14 +50,11 @@ const navLinks = [
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class="text-sm text-gray-300 hover:text-white transition-colors py-1"
+            class="text-sm text-gray-500 hover:text-brand-dark transition-colors py-1"
           >
             {link.label}
           </a>
         ))}
-        <a href="#" class="btn-primary text-sm !py-2 text-center mt-2">
-          Get Started
-        </a>
       </div>
     </div>
   </div>
@@ -75,9 +70,9 @@ const navLinks = [
       const navbar = document.getElementById('navbar');
       if (!navbar) return;
       if (self.direction === 1 && self.scroll() > 80) {
-        navbar.classList.add('bg-brand-dark/90', 'backdrop-blur-md', 'shadow-lg');
+        navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
       } else if (self.scroll() <= 80) {
-        navbar.classList.remove('bg-brand-dark/90', 'backdrop-blur-md', 'shadow-lg');
+        navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
       }
     },
   });

@@ -1,7 +1,18 @@
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/inter/700.css';
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -27,7 +38,7 @@
   }
 
   body {
-    @apply bg-brand-dark text-gray-100 font-sans;
+    @apply bg-white text-gray-900 font-sans;
   }
 }
 
@@ -36,6 +47,19 @@
     @apply inline-flex items-center justify-center px-6 py-3 rounded-xl
            bg-brand-primary text-brand-dark font-semibold
            hover:bg-brand-accent transition-colors duration-200;
+  }
+
+  .hero-btn-primary span {
+    background: linear-gradient(to bottom, #ffffff 0%, #ffffff 40%, #cdff52 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.2s;
+  }
+
+  .hero-btn-primary:hover span {
+    background: none;
+    -webkit-text-fill-color: #000000;
   }
 
   .btn-ghost {
