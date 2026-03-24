@@ -1,0 +1,360 @@
+---
+const products = [
+  {
+    id: 'karmapulse',
+    name: 'KarmaPulse',
+    title: 'KarmaPulse',
+    description: 'Operational action dashboard for leadership. See what\'s broken, what\'s drifting, and what to fix first.',
+  },
+  {
+    id: 'karmalens',
+    name: 'KarmaLens',
+    title: 'KarmaLens',
+    description: 'IDE plugin. Dead and dormant code, method-level telemetry, and performance insights — right where you code.',
+  },
+  {
+    id: 'karmadomain',
+    name: 'KarmaDomain',
+    title: 'KarmaDomain',
+    description: 'Live system topology. API-level dependencies, fan-outs, and traffic flows in a single graph.',
+  },
+  {
+    id: 'karmaiq',
+    name: 'KarmaIQ',
+    title: 'KarmaIQ',
+    description: 'MCP server for AI agents. Production context for Cursor, Claude, Copilot, and custom agents.',
+  },
+];
+---
+
+<section id="products-section" class="relative bg-white">
+  <!-- Vertical gridlines -->
+  <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="relative h-full">
+      <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
+    </div>
+  </div>
+
+  <!-- Section header — normal flow -->
+  <div class="relative z-10 mx-auto max-w-7xl px-[106px] pt-20">
+    <div class="mb-16">
+      <p id="products-label" class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">The Platform</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-end">
+        <h2 id="products-heading" class="text-4xl sm:text-5xl tracking-tight text-brand-dark leading-[1.1] font-semibold">
+          One truth.<br />Four products.
+        </h2>
+        <p id="products-subtext" class="text-lg text-gray-500 leading-relaxed font-light max-w-lg pb-2">
+          From developers and managers to VPs and AI agents — production intelligence for every role.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs sticky container — tall to allow scroll room -->
+  <div id="products-scroll-area" class="relative z-10 mx-auto max-w-7xl px-[106px]" style="height: 500vh;">
+    <div class="products-tabs-wrapper sticky top-[15vh]" style="transition: margin 0.15s ease, border-radius 0.15s ease;">
+      <!-- Tab buttons - folder style -->
+      <div class="product-tabs-row">
+        {products.map((product, index) => (
+          <button
+            class="product-tab"
+            data-tab={product.id}
+            data-index={index}
+          >
+            <span class="product-tab-label">{product.name}</span>
+            <svg class="product-tab-bg" preserveAspectRatio="none" viewBox="0 0 200 50" fill="currentColor">
+              <path d="M0 50 L15 50 Q20 50 25 40 L42 5 Q45 0 50 0 L150 0 Q155 0 158 5 L175 40 Q180 50 185 50 L200 50 Z" class="product-tab-path" />
+            </svg>
+          </button>
+        ))}
+        <!-- Sliding glider -->
+        <div id="product-tab-glider" class="product-tab-glider">
+          <svg preserveAspectRatio="none" viewBox="0 0 200 50" style="width: 100%; height: 100%;">
+            <path d="M0 50 L15 50 Q20 50 25 40 L42 5 Q45 0 50 0 L150 0 Q155 0 158 5 L175 40 Q180 50 185 50 L200 50 Z" fill="#0f0f0f" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Tab content panels -->
+      <div class="product-panels">
+        {products.map((product, index) => (
+          <div
+            class="product-panel"
+            data-panel={product.id}
+            data-index={index}
+          >
+            <!-- Content area -->
+            <div class="flex flex-col lg:flex-row">
+              <!-- Left: Title + Description -->
+              <div class="p-8 lg:p-10 flex flex-col justify-center" style="width: 30%;">
+                <h3 class="product-title text-2xl font-semibold text-white mb-4">{product.title}</h3>
+                <p class="product-desc text-base text-gray-400 leading-relaxed">{product.description}</p>
+                <a
+                  href="#"
+                  class="self-start inline-flex items-center gap-2 font-medium text-base hover:opacity-70 transition-opacity duration-200 mt-8"
+                  style="color: #cdff52;"
+                >
+                  Learn more
+                  <i class="ph ph-arrow-right text-lg"></i>
+                </a>
+              </div>
+              <!-- Right: Placeholder -->
+              <div style="width: 70%;">
+                <div class="product-placeholder aspect-video flex items-center justify-center">
+                  <p class="text-gray-600 text-sm">Image / Video placeholder</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <!-- Horizontal decorative line — full width -->
+      <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initProductTabs() {
+    const tabs = document.querySelectorAll<HTMLElement>('.product-tab');
+    const panels = document.querySelectorAll<HTMLElement>('.product-panel');
+    const glider = document.getElementById('product-tab-glider');
+
+    function moveGlider(index: number) {
+      if (!glider || !tabs[index]) return;
+      const tab = tabs[index];
+      const offsetLeft = tab.offsetLeft;
+      glider.style.transform = `translateX(${offsetLeft}px)`;
+    }
+
+    function activateTab(index: number) {
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+
+      panels.forEach((panel, i) => {
+        if (i === index) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+
+      moveGlider(index);
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const index = parseInt(tab.dataset.index || '0');
+        activateTab(index);
+      });
+    });
+
+    // Activate first tab by default
+    activateTab(0);
+  }
+
+  initProductTabs();
+
+  // Scroll-driven: expand → cycle tabs → shrink
+  function initScrollTabs() {
+    const scrollArea = document.getElementById('products-scroll-area');
+    const wrapper = document.querySelector('.products-tabs-wrapper') as HTMLElement;
+    const panels_el = document.querySelector('.product-panels') as HTMLElement;
+    const tabs = document.querySelectorAll<HTMLElement>('.product-tab');
+    const panels = document.querySelectorAll<HTMLElement>('.product-panel');
+    if (!scrollArea || !wrapper || tabs.length === 0) return;
+
+    const numTabs = tabs.length;
+    // Get the initial negative margin so we can calculate full-width margin
+    const contentContainer = scrollArea;
+    const defaultMargin = 0; // within 106px padded container
+
+    const glider = document.getElementById('product-tab-glider');
+
+    function activateTab(index: number) {
+      tabs.forEach((tab, i) => {
+        if (i === index) tab.classList.add('active');
+        else tab.classList.remove('active');
+      });
+      panels.forEach((panel, i) => {
+        if (i === index) panel.classList.add('active');
+        else panel.classList.remove('active');
+      });
+      if (glider && tabs[index]) {
+        glider.style.transform = `translateX(${tabs[index].offsetLeft}px)`;
+      }
+    }
+
+    function onScroll() {
+      if ((window as any).__scrollingToTop) return;
+      const rect = scrollArea!.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const scrolled = -rect.top;
+      const totalScroll = rect.height - vh;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+      // Phase 1: 0–10% — expand to full width
+      // Phase 2: 10–90% — cycle tabs
+      // Phase 3: 90–100% — shrink back
+      const expandEnd = 0.1;
+      const shrinkStart = 0.9;
+
+      // Calculate full-width margin: need to offset the parent padding (106px) + go edge-to-edge
+      const parentPadding = 106;
+      const fullMargin = -(parentPadding + (window.innerWidth - scrollArea!.offsetWidth) / 2);
+
+      if (progress <= expandEnd) {
+        // Phase 1: expanding
+        const expandProgress = progress / expandEnd;
+        const currentMargin = defaultMargin + (fullMargin - defaultMargin) * expandProgress;
+        wrapper.style.marginLeft = `${currentMargin}px`;
+        wrapper.style.marginRight = `${currentMargin}px`;
+        if (panels_el) panels_el.style.borderRadius = `${8 * (1 - expandProgress)}px`;
+        activateTab(0);
+      } else if (progress <= shrinkStart) {
+        // Phase 2: full width, cycling tabs
+        wrapper.style.marginLeft = `${fullMargin}px`;
+        wrapper.style.marginRight = `${fullMargin}px`;
+        if (panels_el) panels_el.style.borderRadius = '0px';
+        const tabProgress = (progress - expandEnd) / (shrinkStart - expandEnd);
+        const tabIndex = Math.min(numTabs - 1, Math.floor(tabProgress * numTabs));
+        activateTab(tabIndex);
+      } else {
+        // Phase 3: shrinking back
+        const shrinkProgress = (progress - shrinkStart) / (1 - shrinkStart);
+        const currentMargin = fullMargin + (defaultMargin - fullMargin) * shrinkProgress;
+        wrapper.style.marginLeft = `${currentMargin}px`;
+        wrapper.style.marginRight = `${currentMargin}px`;
+        if (panels_el) panels_el.style.borderRadius = `${8 * shrinkProgress}px`;
+        activateTab(numTabs - 1);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  initScrollTabs();
+</script>
+
+<style>
+  /* Folder-style tabs */
+  .product-tabs-row {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+  }
+
+  .product-tab {
+    position: relative;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 260px;
+    height: 44px;
+    margin-right: -88px;
+    color: #d1d5db;
+    transition: color 0.2s;
+  }
+
+  .product-tab-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .product-tab-label {
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .product-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-tab-path {
+    fill: #ffffff;
+    stroke: #e5e5e5;
+    stroke-width: 1.5;
+  }
+
+  .product-tab-glider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 44px;
+    width: 260px;
+    z-index: 5;
+    pointer-events: none;
+    transition: transform 0.15s ease-out;
+  }
+
+  .product-tab.active {
+    z-index: 10;
+  }
+
+  .product-tab.active .product-tab-path {
+    fill: transparent;
+    stroke: none;
+  }
+
+  .product-tab.active .product-tab-label {
+    color: #ffffff;
+  }
+
+  .product-tab:not(.active) .product-tab-label {
+    color: #6b7280;
+  }
+
+  .product-tab:not(.active):hover .product-tab-path {
+    fill: #f5f5f5;
+  }
+
+  .product-tab:not(.active):hover .product-tab-label {
+    color: #374151;
+  }
+
+  /* Panels */
+  .product-panel {
+    display: none;
+  }
+
+  .product-panel.active {
+    display: block;
+  }
+
+  .product-panels {
+    background: #0f0f0f;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 40px 40px 40px 0;
+  }
+
+  .product-placeholder {
+    background-image: radial-gradient(circle, #374151 1px, transparent 1px);
+    background-size: 16px 16px;
+    background-color: #1a1a1a;
+    min-height: 300px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .product-tab {
+      padding: 12px 8px;
+      font-size: 12px;
+    }
+  }
+</style>
