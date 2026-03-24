@@ -8,8 +8,8 @@ export default {
       },
       colors: {
         brand: {
-          primary: '#6366f1',
-          accent: '#06b6d4',
+          primary: '#cdff52',
+          accent: '#a3d944',
           dark: '#0f0f0f',
         },
       },

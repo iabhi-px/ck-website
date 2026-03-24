@@ -8,14 +8,14 @@
 @tailwind utilities;
 
 :root {
-  --brand-primary: #6366f1;
-  --brand-accent: #06b6d4;
+  --brand-primary: #cdff52;
+  --brand-accent: #a3d944;
   --brand-dark: #0f0f0f;
 
   /* Starlight overrides */
-  --sl-color-accent-low: #1e1b4b;
-  --sl-color-accent: #6366f1;
-  --sl-color-accent-high: #a5b4fc;
+  --sl-color-accent-low: #2a3a0e;
+  --sl-color-accent: #cdff52;
+  --sl-color-accent-high: #e4ff99;
   --sl-color-white: #f8fafc;
 }
 
@@ -34,8 +34,8 @@
 @layer components {
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-3 rounded-xl
-           bg-brand-primary text-white font-semibold
-           hover:bg-indigo-500 transition-colors duration-200;
+           bg-brand-primary text-brand-dark font-semibold
+           hover:bg-brand-accent transition-colors duration-200;
   }
 
   .btn-ghost {

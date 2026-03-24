@@ -1,14 +1,22 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/landing/Hero.astro';
-import Features from '../components/landing/Features.astro';
-import Testimonials from '../components/landing/Testimonials.astro';
-import CTA from '../components/landing/CTA.astro';
+import '../styles/global.css';
+import SEO from '../components/shared/SEO.astro';
 ---
 
-<BaseLayout title="Home" description="The modern developer platform that helps your team move from idea to production in record time.">
-  <Hero />
-  <Features />
-  <Testimonials />
-  <CTA />
-</BaseLayout>
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO title="Home" description="Production Intelligence for the AI Era" />
+  </head>
+  <body class="min-h-screen bg-brand-dark">
+    <section class="min-h-screen flex items-center justify-center">
+      <h1 class="text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl text-center px-6">
+        Production Intelligence for the AI Era
+      </h1>
+    </section>
+  </body>
+</html>
