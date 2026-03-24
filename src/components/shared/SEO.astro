@@ -1,0 +1,30 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og-default.png',
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+const siteName = 'YourSite';
+---
+
+<title>{title} | {siteName}</title>
+<meta name="description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+<meta property="og:url" content={canonicalURL} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
+<link rel="canonical" href={canonicalURL} />

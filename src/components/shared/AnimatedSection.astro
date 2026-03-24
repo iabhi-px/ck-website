@@ -1,0 +1,20 @@
+---
+interface Props {
+  class?: string;
+  as?: string;
+}
+
+const { class: className = '', as: Tag = 'section' } = Astro.props;
+---
+
+<div data-animate class:list={[className]}>
+  <slot />
+</div>
+
+<script>
+  import { scrollReveal } from '../../lib/gsap';
+
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    scrollReveal(el);
+  });
+</script>

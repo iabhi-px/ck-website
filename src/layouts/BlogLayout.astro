@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  publishedAt: Date;
+  coverImage?: string;
+  tags?: string[];
+}
+
+const { title, description, publishedAt, coverImage, tags = [] } = Astro.props;
+
+const formattedDate = publishedAt.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description} ogImage={coverImage}>
+  <article class="pt-24 pb-16">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <!-- Back link -->
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors mb-8"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to blog
+      </a>
+
+      {coverImage && (
+        <img
+          src={coverImage}
+          alt={title}
+          class="w-full rounded-2xl mb-8 aspect-[2/1] object-cover"
+        />
+      )}
+
+      <header class="mb-10">
+        <h1 class="text-4xl font-bold text-white mb-4">{title}</h1>
+        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+          <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
+          {tags.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span class="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <div class="prose prose-invert prose-indigo max-w-none prose-headings:text-white prose-a:text-brand-accent prose-code:text-brand-accent">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

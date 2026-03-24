@@ -1,0 +1,60 @@
+---
+title: "Why We Chose Astro Over Next.js"
+description: "An honest comparison of Astro and Next.js for marketing sites, and why we ultimately went with Astro for our new website."
+publishedAt: 2026-03-20
+tags: ["astro", "nextjs", "architecture", "opinion"]
+draft: false
+---
+
+When we started planning our new marketing website, Next.js was the obvious default. Our entire product is built on React, the team knows it inside out, and the ecosystem is massive. But after a week of prototyping, we chose Astro instead. Here's why.
+
+## The problem with Next.js for content sites
+
+Next.js is an incredible framework for building web applications. But a marketing site isn't a web application — it's a content site with a few interactive sprinkles. And that distinction matters more than you'd think.
+
+With Next.js, even a static page ships the React runtime to the browser. For our landing page, that meant ~80KB of JavaScript before any of our actual code ran. On a fast connection that's imperceptible, but on mobile networks it adds up.
+
+## What Astro does differently
+
+Astro's "islands architecture" ships **zero JavaScript by default**. Your pages render to pure HTML at build time, and you only add client-side JavaScript where you explicitly need interactivity.
+
+For a marketing site, this means:
+
+- **Faster page loads**: Our Lighthouse performance score went from 82 (Next.js) to 99 (Astro)
+- **Better SEO**: Faster sites rank better, and the HTML-first approach means crawlers get fully-rendered content
+- **Simpler mental model**: A page is a page, not a React component tree with hydration considerations
+
+## The comparison
+
+| Aspect | Next.js | Astro |
+|---|---|---|
+| JS shipped (landing page) | ~85KB | ~2KB (GSAP only) |
+| Lighthouse Performance | 82 | 99 |
+| Build time | 18s | 6s |
+| Content authoring | MDX with custom setup | Built-in Content Collections |
+| Learning curve (for us) | None | ~2 days |
+
+## Where Next.js still wins
+
+Let's be fair — there are areas where Next.js is clearly the better choice:
+
+- **Dynamic applications**: If your site needs authentication, real-time updates, or complex client state, Next.js is built for that
+- **API routes**: Next.js API routes are mature and well-documented
+- **Ecosystem**: The React ecosystem is enormous, and Next.js has first-class support for it
+- **Team familiarity**: If your team only knows React, the ramp-up cost of Astro is a real consideration
+
+## What sold us
+
+Three things ultimately tipped the scales:
+
+1. **Content Collections**: Astro's built-in content collections with Zod schemas gave us type-safe blog posts out of the box. With Next.js, we'd have needed `contentlayer` or a custom setup.
+
+2. **Starlight for docs**: We needed a documentation site alongside our marketing pages. Astro's Starlight integration gave us a polished docs experience as a simple integration — no separate project or deployment.
+
+3. **Performance by default**: With Astro, you have to opt *in* to JavaScript. With Next.js, you have to opt *out*. For a content site, the former approach produces better results with less effort.
+
+## Six months later
+
+We've been running on Astro for six months now and haven't looked back. Our site loads in under a second on 3G, our blog authors love writing in MDX with type-safe frontmatter, and our docs are always in sync with the marketing site.
+
+Would we use Astro for our product dashboard? No — that's a React application and Next.js is the right tool. But for a marketing site, Astro is exactly what we needed.

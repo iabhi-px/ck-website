@@ -1,0 +1,79 @@
+---
+title: "Getting Started with YourSite"
+description: "A step-by-step guide to setting up your first project with YourSite, from installation to deploying your first API endpoint."
+publishedAt: 2026-03-10
+tags: ["tutorial", "getting-started", "beginner"]
+draft: false
+---
+
+Getting up and running with YourSite takes less than five minutes. In this guide, we'll walk through installation, project setup, and deploying your first API endpoint.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- **Node.js 18+** installed on your machine
+- A free YourSite account (sign up at yoursite.com)
+- Basic familiarity with TypeScript
+
+## Installation
+
+Start by installing the YourSite CLI globally:
+
+```bash
+npm install -g @yoursite/cli
+```
+
+Then create a new project:
+
+```bash
+yoursite init my-project
+cd my-project
+```
+
+The CLI scaffolds a project with sensible defaults — TypeScript configured, linting set up, and a development server ready to go.
+
+## Your first endpoint
+
+Open `src/routes/hello.ts` and you'll see a simple endpoint:
+
+```typescript
+import { defineRoute } from '@yoursite/core';
+
+export default defineRoute({
+  method: 'GET',
+  path: '/hello',
+  handler: async (ctx) => {
+    return ctx.json({ message: 'Hello from YourSite!' });
+  },
+});
+```
+
+Run `yoursite dev` and visit `http://localhost:3000/hello` — you should see the JSON response.
+
+> **Tip:** The development server supports hot reload out of the box. Edit your route handler and the changes appear instantly — no manual restart needed.
+
+## Adding a database
+
+YourSite comes with a built-in SQLite adapter for local development. To add a database model:
+
+```typescript
+import { defineModel } from '@yoursite/db';
+
+export const Post = defineModel('posts', {
+  id: 'uuid',
+  title: 'string',
+  body: 'text',
+  publishedAt: 'datetime',
+});
+```
+
+Run `yoursite db push` to apply the schema, and you're ready to query.
+
+## Next steps
+
+You now have a working YourSite project with an API endpoint and a database. From here, you can:
+
+- Add authentication with `@yoursite/auth`
+- Deploy to the edge with `yoursite deploy`
+- Explore the full [API Reference](/reference/overview)

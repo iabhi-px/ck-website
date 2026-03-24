@@ -1,0 +1,111 @@
+---
+title: "How We Built Our Animation System with GSAP"
+description: "A deep dive into how we implemented performant scroll-based animations using GSAP and ScrollTrigger in our Astro marketing site."
+publishedAt: 2026-03-15
+tags: ["engineering", "gsap", "animations", "performance"]
+draft: false
+---
+
+When we redesigned our marketing site, we wanted animations that felt smooth and intentional — not just decorative. After evaluating several options, we landed on GSAP with ScrollTrigger. Here's how we built a reusable animation system.
+
+## Why GSAP?
+
+CSS animations are great for simple transitions, but when you need scroll-linked animations with precise timing control, GSAP is hard to beat:
+
+- **Performance**: GSAP uses requestAnimationFrame and optimizes for 60fps
+- **ScrollTrigger**: First-class scroll-based animation support
+- **Consistency**: Identical behavior across all browsers
+- **Control**: Pause, reverse, scrub, and sequence animations with ease
+
+## Setting up the foundation
+
+We created a central module that registers plugins and exports reusable helpers:
+
+```typescript
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function fadeInUp(
+  targets: gsap.TweenTarget,
+  delay: number = 0
+) {
+  return gsap.from(targets, {
+    opacity: 0,
+    y: 40,
+    duration: 0.8,
+    delay,
+    ease: 'power2.out',
+  });
+}
+```
+
+This pattern keeps all GSAP configuration in one place and makes it easy to maintain consistent timing across the site.
+
+## Scroll-triggered reveals
+
+The most common pattern on our site is revealing elements as they enter the viewport. We wrapped this into a `scrollReveal` helper:
+
+```typescript
+export function scrollReveal(targets: gsap.TweenTarget) {
+  return gsap.from(targets, {
+    opacity: 0,
+    y: 40,
+    duration: 0.8,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: targets as gsap.DOMTarget,
+      start: 'top 80%',
+    },
+  });
+}
+```
+
+The `start: 'top 80%'` means the animation fires when the top of the element reaches 80% of the viewport height — so users see the animation begin just as the element comes into comfortable view.
+
+## Staggered card animations
+
+For our features grid, we wanted cards to cascade in one by one. The `staggerReveal` helper handles this:
+
+```typescript
+export function staggerReveal(
+  parent: string,
+  childSelector: string,
+  stagger: number = 0.15
+) {
+  return gsap.from(`${parent} ${childSelector}`, {
+    opacity: 0,
+    y: 40,
+    duration: 0.6,
+    stagger,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: parent,
+      start: 'top 80%',
+    },
+  });
+}
+```
+
+In our Astro component, we call it from a client-side script tag:
+
+```html
+<script>
+  import { staggerReveal } from '../../lib/gsap';
+  staggerReveal('#features-grid', '.feature-card', 0.1);
+</script>
+```
+
+## Performance considerations
+
+A few things we learned along the way:
+
+1. **Register ScrollTrigger once** — importing the module multiple times is fine, but `gsap.registerPlugin()` should only run once at the module level
+2. **Use `will-change` sparingly** — GSAP handles GPU acceleration internally; adding `will-change: transform` manually can actually hurt performance
+3. **Kill triggers on cleanup** — in SPAs, always call `ScrollTrigger.kill()` when unmounting. In Astro's static pages, this isn't an issue
+4. **Test on low-end devices** — our animations look great on M1 MacBooks, but we also verify on mid-range Android phones
+
+## The result
+
+Our animation system is about 50 lines of code total, handles every animation on the site, and consistently hits 60fps on all devices we've tested. Sometimes the simplest approach is the best one.

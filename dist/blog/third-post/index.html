@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en" class="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Astro v6.0.8"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Why We Chose Astro Over Next.js | YourSite</title><meta name="description" content="An honest comparison of Astro and Next.js for marketing sites, and why we ultimately went with Astro for our new website."><meta property="og:type" content="website"><meta property="og:title" content="Why We Chose Astro Over Next.js"><meta property="og:description" content="An honest comparison of Astro and Next.js for marketing sites, and why we ultimately went with Astro for our new website."><meta property="og:image" content="https://yoursite.com/og-default.png"><meta property="og:url" content="https://yoursite.com/blog/third-post/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Why We Chose Astro Over Next.js"><meta name="twitter:description" content="An honest comparison of Astro and Next.js for marketing sites, and why we ultimately went with Astro for our new website."><meta name="twitter:image" content="https://yoursite.com/og-default.png"><link rel="canonical" href="https://yoursite.com/blog/third-post/"><link rel="stylesheet" href="/_astro/global.CakmtGY_.css"><script type="module" src="/_astro/page.BIhdncjw.js"></script></head> <body class="min-h-screen flex flex-col"> <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"> <div class="mx-auto max-w-7xl px-6 lg:px-8"> <div class="flex h-16 items-center justify-between"> <!-- Logo --> <a href="/" class="text-xl font-bold text-white"> <span class="text-brand-primary">Your</span>Site
+</a> <!-- Desktop nav --> <div class="hidden items-center gap-8 md:flex"> <a href="/#features" class="text-sm text-gray-300 hover:text-white transition-colors"> Features </a><a href="/blog" class="text-sm text-gray-300 hover:text-white transition-colors"> Blog </a><a href="/getting-started/introduction" class="text-sm text-gray-300 hover:text-white transition-colors"> Docs </a><a href="#" class="text-sm text-gray-300 hover:text-white transition-colors"> GitHub </a> <a href="#" class="btn-primary text-sm !py-2 !px-4">
+Get Started
+</a> </div> <!-- Mobile hamburger --> <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white" aria-label="Toggle menu"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path> </svg> </button> </div> <!-- Mobile menu --> <div id="mobile-menu" class="hidden md:hidden pb-4"> <div class="flex flex-col gap-3 pt-2"> <a href="/#features" class="text-sm text-gray-300 hover:text-white transition-colors py-1"> Features </a><a href="/blog" class="text-sm text-gray-300 hover:text-white transition-colors py-1"> Blog </a><a href="/getting-started/introduction" class="text-sm text-gray-300 hover:text-white transition-colors py-1"> Docs </a><a href="#" class="text-sm text-gray-300 hover:text-white transition-colors py-1"> GitHub </a> <a href="#" class="btn-primary text-sm !py-2 text-center mt-2">
+Get Started
+</a> </div> </div> </div> </nav> <script type="module" src="/_astro/Navbar.astro_astro_type_script_index_0_lang.BCJZJxKR.js"></script> <main class="flex-1">  <article class="pt-24 pb-16"> <div class="mx-auto max-w-3xl px-6 lg:px-8"> <!-- Back link --> <a href="/blog" class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors mb-8"> <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path> </svg>
+Back to blog
+</a>  <header class="mb-10"> <h1 class="text-4xl font-bold text-white mb-4">Why We Chose Astro Over Next.js</h1> <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400"> <time datetime="2026-03-20T00:00:00.000Z">March 20, 2026</time> <div class="flex flex-wrap gap-2"> <span class="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"> astro </span><span class="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"> nextjs </span><span class="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"> architecture </span><span class="rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary"> opinion </span> </div> </div> </header> <div class="prose prose-invert prose-indigo max-w-none prose-headings:text-white prose-a:text-brand-accent prose-code:text-brand-accent">  <p>When we started planning our new marketing website, Next.js was the obvious default. Our entire product is built on React, the team knows it inside out, and the ecosystem is massive. But after a week of prototyping, we chose Astro instead. Here’s why.</p>
+<h2 id="the-problem-with-nextjs-for-content-sites">The problem with Next.js for content sites</h2>
+<p>Next.js is an incredible framework for building web applications. But a marketing site isn’t a web application — it’s a content site with a few interactive sprinkles. And that distinction matters more than you’d think.</p>
+<p>With Next.js, even a static page ships the React runtime to the browser. For our landing page, that meant ~80KB of JavaScript before any of our actual code ran. On a fast connection that’s imperceptible, but on mobile networks it adds up.</p>
+<h2 id="what-astro-does-differently">What Astro does differently</h2>
+<p>Astro’s “islands architecture” ships <strong>zero JavaScript by default</strong>. Your pages render to pure HTML at build time, and you only add client-side JavaScript where you explicitly need interactivity.</p>
+<p>For a marketing site, this means:</p>
+<ul>
+<li><strong>Faster page loads</strong>: Our Lighthouse performance score went from 82 (Next.js) to 99 (Astro)</li>
+<li><strong>Better SEO</strong>: Faster sites rank better, and the HTML-first approach means crawlers get fully-rendered content</li>
+<li><strong>Simpler mental model</strong>: A page is a page, not a React component tree with hydration considerations</li>
+</ul>
+<h2 id="the-comparison">The comparison</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>Next.js</th><th>Astro</th></tr></thead><tbody><tr><td>JS shipped (landing page)</td><td>~85KB</td><td>~2KB (GSAP only)</td></tr><tr><td>Lighthouse Performance</td><td>82</td><td>99</td></tr><tr><td>Build time</td><td>18s</td><td>6s</td></tr><tr><td>Content authoring</td><td>MDX with custom setup</td><td>Built-in Content Collections</td></tr><tr><td>Learning curve (for us)</td><td>None</td><td>~2 days</td></tr></tbody></table>
+<h2 id="where-nextjs-still-wins">Where Next.js still wins</h2>
+<p>Let’s be fair — there are areas where Next.js is clearly the better choice:</p>
+<ul>
+<li><strong>Dynamic applications</strong>: If your site needs authentication, real-time updates, or complex client state, Next.js is built for that</li>
+<li><strong>API routes</strong>: Next.js API routes are mature and well-documented</li>
+<li><strong>Ecosystem</strong>: The React ecosystem is enormous, and Next.js has first-class support for it</li>
+<li><strong>Team familiarity</strong>: If your team only knows React, the ramp-up cost of Astro is a real consideration</li>
+</ul>
+<h2 id="what-sold-us">What sold us</h2>
+<p>Three things ultimately tipped the scales:</p>
+<ol>
+<li>
+<p><strong>Content Collections</strong>: Astro’s built-in content collections with Zod schemas gave us type-safe blog posts out of the box. With Next.js, we’d have needed <code>contentlayer</code> or a custom setup.</p>
+</li>
+<li>
+<p><strong>Starlight for docs</strong>: We needed a documentation site alongside our marketing pages. Astro’s Starlight integration gave us a polished docs experience as a simple integration — no separate project or deployment.</p>
+</li>
+<li>
+<p><strong>Performance by default</strong>: With Astro, you have to opt <em>in</em> to JavaScript. With Next.js, you have to opt <em>out</em>. For a content site, the former approach produces better results with less effort.</p>
+</li>
+</ol>
+<h2 id="six-months-later">Six months later</h2>
+<p>We’ve been running on Astro for six months now and haven’t looked back. Our site loads in under a second on 3G, our blog authors love writing in MDX with type-safe frontmatter, and our docs are always in sync with the marketing site.</p>
+<p>Would we use Astro for our product dashboard? No — that’s a React application and Next.js is the right tool. But for a marketing site, Astro is exactly what we needed.</p>  </div> </div> </article>  </main> <footer class="border-t border-gray-800 bg-brand-dark"> <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8"> <div class="grid grid-cols-2 gap-8 md:grid-cols-4"> <div> <h3 class="text-sm font-semibold text-white">Product</h3> <ul class="mt-4 space-y-3"> <li> <a href="/#features" class="text-sm text-gray-400 hover:text-white transition-colors"> Features </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Pricing </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Changelog </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Roadmap </a> </li> </ul> </div><div> <h3 class="text-sm font-semibold text-white">Resources</h3> <ul class="mt-4 space-y-3"> <li> <a href="/getting-started/introduction" class="text-sm text-gray-400 hover:text-white transition-colors"> Documentation </a> </li><li> <a href="/blog" class="text-sm text-gray-400 hover:text-white transition-colors"> Blog </a> </li><li> <a href="/guides/core-concepts" class="text-sm text-gray-400 hover:text-white transition-colors"> Guides </a> </li><li> <a href="/reference/overview" class="text-sm text-gray-400 hover:text-white transition-colors"> API Reference </a> </li> </ul> </div><div> <h3 class="text-sm font-semibold text-white">Company</h3> <ul class="mt-4 space-y-3"> <li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> About </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Careers </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Contact </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Press </a> </li> </ul> </div><div> <h3 class="text-sm font-semibold text-white">Legal</h3> <ul class="mt-4 space-y-3"> <li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Privacy </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Terms </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Cookie Policy </a> </li><li> <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors"> Licenses </a> </li> </ul> </div> </div> <div class="mt-12 flex flex-col items-center justify-between gap-6 border-t border-gray-800 pt-8 md:flex-row"> <p class="text-sm text-gray-500">
+&copy; 2026 YourSite. All rights reserved.
+</p> <div class="flex gap-5"> <!-- Twitter / X --> <a href="#" class="text-gray-500 hover:text-white transition-colors" aria-label="Twitter"> <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"> <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path> </svg> </a> <!-- GitHub --> <a href="#" class="text-gray-500 hover:text-white transition-colors" aria-label="GitHub"> <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"> <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path> </svg> </a> <!-- Discord --> <a href="#" class="text-gray-500 hover:text-white transition-colors" aria-label="Discord"> <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"> <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path> </svg> </a> </div> </div> </div> </footer> </body></html>

@@ -1,0 +1,26 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          primary: '#6366f1',
+          accent: '#06b6d4',
+          dark: '#0f0f0f',
+        },
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      spacing: {
+        18: '4.5rem',
+        88: '22rem',
+      },
+    },
+  },
+  plugins: [require('@tailwindcss/typography')],
+};

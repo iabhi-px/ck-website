@@ -1,0 +1,55 @@
+---
+const testimonials = [
+  {
+    name: 'Sarah Chen',
+    role: 'CTO',
+    company: 'Stackflow',
+    initials: 'SC',
+    quote: 'We migrated our entire backend to YourSite in two weeks. Our API response times dropped by 60% and our team ships features twice as fast now.',
+  },
+  {
+    name: 'Marcus Rivera',
+    role: 'Lead Engineer',
+    company: 'Nimbus AI',
+    initials: 'MR',
+    quote: 'The type-safe APIs caught three production bugs during our first deployment. The developer experience is genuinely the best I\'ve worked with.',
+  },
+  {
+    name: 'Emily Tanaka',
+    role: 'Founder',
+    company: 'Launchpad',
+    initials: 'ET',
+    quote: 'As a solo founder, I needed something that just works. YourSite let me go from idea to paying customers in under a month. Couldn\'t recommend it more.',
+  },
+];
+---
+
+<section class="py-24 sm:py-32 bg-gray-900/30">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center mb-16">
+      <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        Loved by developers
+      </h2>
+      <p class="mt-4 text-lg text-gray-400">
+        See what teams are saying about building with YourSite.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+      {testimonials.map((t) => (
+        <div class="rounded-2xl border border-gray-800 bg-brand-dark p-8">
+          <p class="text-gray-300 leading-relaxed mb-6">"{t.quote}"</p>
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary/20 text-sm font-semibold text-brand-primary">
+              {t.initials}
+            </div>
+            <div>
+              <p class="text-sm font-medium text-white">{t.name}</p>
+              <p class="text-sm text-gray-500">{t.role}, {t.company}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
