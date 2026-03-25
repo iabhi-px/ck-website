@@ -36,14 +36,14 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
               </span>
             ))}
           </div>
-          <time class="text-sm text-gray-400 font-[410] whitespace-nowrap flex-shrink-0" datetime={publishedAt.toISOString()}>
+          <time class="text-sm text-gray-400 font-normal whitespace-nowrap flex-shrink-0" datetime={publishedAt.toISOString()}>
             {formattedDate}
           </time>
         </div>
-        <h3 class="text-lg lg:text-xl font-semibold text-brand-dark tracking-tight leading-snug mb-2 group-hover:text-brand-dark/70 transition-colors">
+        <h3 class="text-lg lg:text-[24px] font-semibold text-brand-dark tracking-tight leading-[1.25] mb-2 group-hover:text-brand-dark/70 transition-colors">
           {title}
         </h3>
-        <p class="text-base text-gray-600 leading-[1.5] font-[410] line-clamp-2">
+        <p class="text-base text-gray-500 leading-[1.65] font-normal line-clamp-2">
           {description}
         </p>
       </div>

@@ -46,10 +46,10 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
 
       <!-- Section header -->
       <div class="max-w-3xl mb-16">
-        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-5">
+        <h1 class="text-[40px] sm:text-[48px] tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-5">
           {title}
         </h1>
-        <div class="flex items-center gap-2 text-[14px] text-gray-400 font-[410]">
+        <div class="flex items-center gap-2 text-[14px] text-gray-400 font-normal">
           <span>CodeKarma Team</span>
           <span>·</span>
           <span>{industry}</span>
@@ -80,8 +80,8 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
         <aside class="cs-sidebar">
           <div class="cs-widget">
             <p class="text-[12px] font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-3">Ready to start?</p>
-            <p class="text-[20px] font-semibold text-brand-dark tracking-tight leading-tight mb-3">Book a demo</p>
-            <p class="text-[14px] text-gray-600 font-[410] leading-relaxed mb-6">
+            <p class="text-[24px] font-semibold text-brand-dark tracking-tight leading-[1.25] mb-3">Book a demo</p>
+            <p class="text-[14px] text-gray-500 font-normal leading-[1.65] mb-6">
               See how CodeKarma can deliver similar results for your team.
             </p>
             <a
@@ -158,7 +158,7 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
     padding: 6px 0;
     font-size: 14px;
     color: #9ca3af;
-    font-weight: 410;
+    font-weight: 400;
     line-height: 1.5;
     text-decoration: none;
     transition: color 0.2s;
@@ -217,14 +217,14 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
   }
 
   .cs-prose :global(h3) {
-    font-size: 1.15rem;
+    font-size: 1.125rem;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
   }
 
   .cs-prose :global(p) {
     color: #6b7280;
-    line-height: 1.8;
+    line-height: 1.65;
     margin-bottom: 1.25rem;
     font-weight: 400;
   }
@@ -252,12 +252,12 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
     color: #6b7280;
     padding-left: 1.5rem;
     margin-bottom: 1.25rem;
-    font-weight: 410;
+    font-weight: 400;
   }
 
   .cs-prose :global(li) {
     margin-bottom: 0.5rem;
-    line-height: 1.7;
+    line-height: 1.65;
   }
 
   .cs-prose :global(ul > li) {

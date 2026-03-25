@@ -11,7 +11,7 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 ---
 
 <BaseLayout title="Blog — CodeKarma" description="Articles, tutorials, and updates from the CodeKarma team.">
-  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
+  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
     <!-- Vertical gridlines (matching homepage) -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -22,17 +22,14 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <!-- Section header -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-        <div>
-          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent ml-[-4px]">
-            <span class="font-semibold">Articles & Updates</span>
-          </h1>
-        </div>
-        <div class="flex flex-col justify-start py-[12px]">
-          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
-            Engineering insights, product updates, and deep dives from the CodeKarma team.
-          </p>
-        </div>
+      <div class="max-w-3xl mb-16">
+        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Blog</p>
+        <h1 class="text-[40px] sm:text-[48px] tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          Articles & Updates
+        </h1>
+        <p class="text-lg text-gray-500 leading-[1.65] font-normal mt-5 max-w-lg">
+          Engineering insights, product updates, and deep dives from the CodeKarma team.
+        </p>
       </div>
 
       <!-- Horizontal decorative line -->
@@ -75,7 +72,7 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 
       <!-- Empty state -->
       <div class="blog-empty hidden py-20 text-center">
-        <p class="text-gray-400 text-lg font-[410]">No posts found for this category.</p>
+        <p class="text-gray-400 text-lg font-normal">No posts found for this category.</p>
       </div>
 
       <!-- Horizontal decorative line — bottom -->
@@ -136,7 +133,7 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
   @media (max-width: 768px) {
     .blog-filter-tab {
       padding: 8px 18px;
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 </style>
