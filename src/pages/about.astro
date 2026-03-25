@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const principles = [
+  {
+    title: 'Production is truth',
+    description: 'Logs, traces, and metrics tell you what happened. Production intelligence tells you why — and what to do next.',
+  },
+  {
+    title: 'Zero overhead, full fidelity',
+    description: 'Instrumentation should be invisible. No sampling, no performance cost, no blind spots.',
+  },
+  {
+    title: 'Code-level clarity',
+    description: 'Runtime behavior mapped directly to the code that produced it. Not dashboards — understanding.',
+  },
+  {
+    title: 'AI-native from day one',
+    description: 'Built for a world where AI agents write and evolve code. Production intelligence is the feedback loop they need.',
+  },
+];
+
+const founders = [
+  { name: 'Founder Name', title: 'Co-Founder & CEO', photo: null },
+  { name: 'Founder Name', title: 'Co-Founder & CTO', photo: null },
+];
+
+const pressItems = [
+  { outlet: 'TechCrunch', title: 'CodeKarma raises Series A to bring production intelligence to engineering teams', href: '#' },
+  { outlet: 'The Information', title: 'How CodeKarma is rethinking observability for the AI era', href: '#' },
+  { outlet: 'InfoWorld', title: 'Production intelligence: the missing layer in modern software development', href: '#' },
+];
+
+const investors = [
+  { name: 'Investor 1', logo: null },
+  { name: 'Investor 2', logo: null },
+  { name: 'Investor 3', logo: null },
+  { name: 'Investor 4', logo: null },
+];
+---
+
+<BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team.">
+  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
+    <!-- Vertical gridlines -->
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+
+      <!-- WHAT WE STAND FOR -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
+        <!-- Left: Headline -->
+        <div>
+          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent ml-[-4px]">
+            <span class="font-semibold">What we stand for.</span>
+          </h1>
+        </div>
+
+        <!-- Right: Description -->
+        <div class="flex flex-col justify-start py-[12px]">
+          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+            The future of software engineering isn't about writing code faster. It's about understanding systems deeply enough to evolve them with confidence. As AI rewrites how software gets built, production truth becomes the most valuable signal in the stack.
+          </p>
+        </div>
+      </div>
+
+      <!-- OUR PRINCIPLES -->
+      <div class="mb-24">
+        <div class="max-w-3xl mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Our Principles</p>
+          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            How we think.
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-200">
+          {principles.map((item, index) => (
+            <div class={`p-8 lg:p-10 ${index % 2 === 0 ? 'md:border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
+              <h3 class="text-lg font-semibold text-brand-dark mb-3">{item.title}</h3>
+              <p class="text-base text-gray-600 leading-[1.5] font-[410]">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- INVESTORS -->
+      <div class="mb-24">
+        <div class="max-w-3xl mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Investors</p>
+          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            Backed by the best.
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 border border-gray-200">
+          {investors.map((investor) => (
+            <div class="flex items-center justify-center p-10 lg:p-12 border-r border-b border-gray-200 last:border-r-0">
+              <div class="text-center">
+                <div class="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+                  <span class="text-sm text-gray-400 font-mono">Logo</span>
+                </div>
+                <p class="text-sm font-medium text-brand-dark">{investor.name}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- TEAM — FOUNDERS -->
+      <div class="mb-24">
+        <div class="max-w-3xl mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Team</p>
+          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            Founders.
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 border border-gray-200">
+          {founders.map((founder, index) => (
+            <div class={`p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-gray-200' : ''}`}>
+              <div class="w-full aspect-[4/3] bg-gray-100 mb-6 flex items-center justify-center">
+                <span class="text-sm text-gray-400 font-mono">Photo</span>
+              </div>
+              <h3 class="text-lg font-semibold text-brand-dark mb-1">{founder.name}</h3>
+              <p class="text-base text-gray-600 font-[410]">{founder.title}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- IN THE PRESS -->
+      <div class="mb-24">
+        <div class="max-w-3xl mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">In The Press</p>
+          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            What they're saying.
+          </h2>
+        </div>
+
+        <div class="border border-gray-200 divide-y divide-gray-200">
+          {pressItems.map((item) => (
+            <a href={item.href} class="group flex items-center justify-between p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
+              <div>
+                <p class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 group-hover:text-brand-dark/60 mb-2">{item.outlet}</p>
+                <h3 class="text-lg font-semibold text-brand-dark group-hover:text-brand-dark transition-colors">{item.title}</h3>
+              </div>
+              <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-8" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 10h10M11 6l4 4-4 4" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- CONTACT / LET'S TALK -->
+      <div class="mb-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <!-- Left: Info -->
+          <div>
+            <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Contact</p>
+            <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
+              Let's talk.
+            </h2>
+            <p class="text-lg text-gray-600 leading-[1.5] font-[410] max-w-md mb-10">
+              Schedule a demo or drop us a note.
+            </p>
+
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 w-20">Email</span>
+                <a href="mailto:info@codekarma.ai" class="text-base text-brand-dark font-[410] hover:text-brand-primary transition-colors">info@codekarma.ai</a>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 w-20">Web</span>
+                <span class="text-base text-brand-dark font-[410]">www.codekarma.ai</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 w-20">HQ</span>
+                <span class="text-base text-brand-dark font-[410]">Bengaluru, India</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Form -->
+          <div>
+            <form class="space-y-5">
+              <div>
+                <label for="name" class="block text-sm font-medium text-brand-dark mb-1.5">Name</label>
+                <input type="text" id="name" name="name" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="Your name" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-brand-dark mb-1.5">Work Email</label>
+                <input type="email" id="email" name="email" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="you@company.com" />
+              </div>
+              <div>
+                <label for="company" class="block text-sm font-medium text-brand-dark mb-1.5">Company</label>
+                <input type="text" id="company" name="company" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="Company name" />
+              </div>
+              <div>
+                <label for="role" class="block text-sm font-medium text-brand-dark mb-1.5">Role</label>
+                <input type="text" id="role" name="role" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="Your role" />
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-medium text-brand-dark mb-1.5">Message</label>
+                <textarea id="message" name="message" rows="4" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors resize-none" placeholder="Tell us about your use case..."></textarea>
+              </div>
+              <button type="submit" class="inline-flex items-center justify-center px-10 py-4 bg-brand-dark font-medium text-lg hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
+                <span>Schedule Demo</span>
+                <svg class="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 10h10M11 6l4 4-4 4" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

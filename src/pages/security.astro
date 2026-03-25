@@ -26,7 +26,7 @@ const commitments = [
 ---
 
 <BaseLayout title="Security — CodeKarma" description="Security-first by design. Learn how CodeKarma protects your production environment with zero data egress, SOC 2 compliance, and enterprise-grade controls.">
-  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
+  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -37,14 +37,17 @@ const commitments = [
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <!-- Page header -->
-      <div class="max-w-3xl mb-24">
-        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">/ Security</p>
-        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
-          Security first.<br />Always.
-        </h1>
-        <p class="text-lg text-gray-500 leading-relaxed font-[410] max-w-lg">
-          CodeKarma is built for environments where security is non-negotiable. Your data stays yours — no exceptions.
-        </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
+        <div>
+          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent ml-[-4px]">
+            <span class="font-semibold">Security first. Always.</span>
+          </h1>
+        </div>
+        <div class="flex flex-col justify-start py-[12px]">
+          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+            CodeKarma is built for environments where security is non-negotiable. Your data stays yours — no exceptions.
+          </p>
+        </div>
       </div>
 
       <!-- Horizontal decorative line -->
@@ -65,7 +68,7 @@ const commitments = [
           <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold text-brand-dark mb-5">
             Your cloud, your rules
           </h2>
-          <p class="text-base text-gray-500 leading-relaxed font-[410] max-w-xl mx-auto">
+          <p class="text-base text-gray-600 leading-[1.5] font-[410] max-w-xl mx-auto">
             Simple deployment with enterprise security and compliance built-in.<br />Fast contracting, faster time to value.
           </p>
         </div>
@@ -75,17 +78,17 @@ const commitments = [
           <div class="deploy-provider p-8 border-b sm:border-b lg:border-b-0 sm:border-r border-gray-200">
             <img src="/assets/integration_logos/AWS.svg" alt="AWS" class="h-8 w-auto mb-5" />
             <h3 class="text-lg font-semibold text-brand-dark mb-2">AWS</h3>
-            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Deploy in your AWS environment with full control</p>
+            <p class="text-sm text-gray-600 font-[410] leading-[1.5]">Deploy in your AWS environment with full control</p>
           </div>
           <div class="deploy-provider p-8 border-b sm:border-b lg:border-b-0 lg:border-r border-gray-200">
             <img src="/assets/integration_logos/Azure.svg" alt="Azure" class="h-8 w-auto mb-5" />
             <h3 class="text-lg font-semibold text-brand-dark mb-2">Azure</h3>
-            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Native Azure integration with enterprise features</p>
+            <p class="text-sm text-gray-600 font-[410] leading-[1.5]">Native Azure integration with enterprise features</p>
           </div>
           <div class="deploy-provider p-8 border-b sm:border-b-0 sm:border-r border-gray-200">
             <img src="/assets/integration_logos/GCP.svg" alt="GCP" class="h-8 w-auto mb-5" />
             <h3 class="text-lg font-semibold text-brand-dark mb-2">GCP</h3>
-            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Google Cloud integration with advanced ML capabilities</p>
+            <p class="text-sm text-gray-600 font-[410] leading-[1.5]">Google Cloud integration with advanced ML capabilities</p>
           </div>
           <div class="deploy-provider p-8">
             <svg class="h-8 w-8 mb-5 text-brand-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -93,7 +96,7 @@ const commitments = [
               <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
             </svg>
             <h3 class="text-lg font-semibold text-brand-dark mb-2">On-Premise</h3>
-            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Air-gapped deployment for maximum security</p>
+            <p class="text-sm text-gray-600 font-[410] leading-[1.5]">Air-gapped deployment for maximum security</p>
           </div>
         </div>
 
@@ -107,7 +110,7 @@ const commitments = [
           <!-- Left: Enterprise security & compliance -->
           <div class="p-10 lg:p-12 lg:border-r border-gray-200">
             <h3 class="text-2xl font-semibold text-brand-dark tracking-tight mb-3">Enterprise security & compliance</h3>
-            <p class="text-base text-gray-500 font-[410] leading-relaxed mb-10 max-w-lg">
+            <p class="text-base text-gray-600 font-[410] leading-[1.5] mb-10 max-w-lg">
               Industry-standard protections built-in. Fast compliance reviews, faster contract negotiations. Proven with $1B+ revenue enterprises.
             </p>
 
@@ -117,10 +120,10 @@ const commitments = [
                 <div class="w-16 h-16 rounded-full border border-gray-200 flex items-center justify-center mb-3">
                   <div class="text-center leading-tight">
                     <span class="text-[10px] font-semibold text-brand-dark block">AICPA</span>
-                    <span class="text-[9px] text-gray-500">SOC 2</span>
+                    <span class="text-[9px] text-gray-600">SOC 2</span>
                   </div>
                 </div>
-                <p class="text-xs text-gray-500 font-[410]">SOC II<br />Type 2</p>
+                <p class="text-xs text-gray-600 font-[410]">SOC II<br />Type 2</p>
               </div>
             </div>
 
@@ -135,7 +138,7 @@ const commitments = [
           <!-- Right: Simple Deployment -->
           <div class="p-10 lg:p-12 border-t lg:border-t-0">
             <h3 class="text-2xl font-semibold text-brand-dark tracking-tight mb-3">Simple Deployment</h3>
-            <p class="text-base text-gray-500 font-[410] leading-relaxed mb-10">
+            <p class="text-base text-gray-600 font-[410] leading-[1.5] mb-10">
               From contract to production in weeks, not months
             </p>
 
@@ -195,7 +198,7 @@ const commitments = [
           {commitments.map((item, index) => (
             <div class={`security-commitment p-8 lg:p-10 ${index % 3 !== 2 ? 'lg:border-r border-gray-200' : ''} ${index < 3 ? 'border-b border-gray-200' : ''} ${index % 2 === 0 && index < 4 ? 'md:border-r' : ''} ${index < 4 ? 'md:border-b' : ''}`}>
               <h3 class="text-lg font-semibold text-brand-dark mb-3">{item.title}</h3>
-              <p class="text-base text-gray-500 leading-relaxed font-[410]">{item.description}</p>
+              <p class="text-base text-gray-600 leading-[1.5] font-[410]">{item.description}</p>
             </div>
           ))}
         </div>
@@ -269,7 +272,7 @@ const commitments = [
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                   </svg>
                 </span>
-                <p class="text-base text-gray-700 leading-relaxed font-[410]">
+                <p class="text-base text-gray-700 leading-[1.5] font-[410]">
                   Behavioral telemetry — which methods are called, how often, latency, error rates, dependencies, and execution paths.
                 </p>
               </div>
@@ -300,7 +303,7 @@ const commitments = [
               <span class="text-[15px] font-semibold text-brand-dark">Does CodeKarma access our source code?</span>
             </summary>
             <div class="pl-9 pb-4">
-              <p class="text-[15px] text-gray-500 leading-relaxed font-[410]">
+              <p class="text-[15px] text-gray-600 leading-[1.5] font-[410]">
                 No. We instrument production behavior at runtime. We don't access, read, or store source code.
               </p>
             </div>
@@ -314,7 +317,7 @@ const commitments = [
               <span class="text-[15px] font-semibold text-brand-dark">Where is our data stored?</span>
             </summary>
             <div class="pl-9 pb-4">
-              <p class="text-[15px] text-gray-500 leading-relaxed font-[410]">
+              <p class="text-[15px] text-gray-600 leading-[1.5] font-[410]">
                 BYOC: in your cloud. SaaS: in CodeKarma's SOC 2 certified infrastructure.
               </p>
             </div>
@@ -328,7 +331,7 @@ const commitments = [
               <span class="text-[15px] font-semibold text-brand-dark">Do you capture PII or payload data?</span>
             </summary>
             <div class="pl-9 pb-4">
-              <p class="text-[15px] text-gray-500 leading-relaxed font-[410]">
+              <p class="text-[15px] text-gray-600 leading-[1.5] font-[410]">
                 No. Behavioral telemetry only. No PII, no payloads, no data content of any kind.
               </p>
             </div>
@@ -342,7 +345,7 @@ const commitments = [
               <span class="text-[15px] font-semibold text-brand-dark">Is the data sampled?</span>
             </summary>
             <div class="pl-9 pb-4">
-              <p class="text-[15px] text-gray-500 leading-relaxed font-[410]">
+              <p class="text-[15px] text-gray-600 leading-[1.5] font-[410]">
                 No. 100% of production traffic. Every call, every connection, full fidelity.
               </p>
             </div>
@@ -356,7 +359,7 @@ const commitments = [
               <span class="text-[15px] font-semibold text-brand-dark">Does it slow down our apps?</span>
             </summary>
             <div class="pl-9 pb-4">
-              <p class="text-[15px] text-gray-500 leading-relaxed font-[410]">
+              <p class="text-[15px] text-gray-600 leading-[1.5] font-[410]">
                 No. Proven zero impact on latency, CPU, and memory across 5,000+ microservices.
               </p>
             </div>

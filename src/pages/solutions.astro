@@ -46,7 +46,7 @@ const caseStudies = [
 ---
 
 <BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise.">
-  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
+  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -57,14 +57,17 @@ const caseStudies = [
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <!-- Page header -->
-      <div class="max-w-3xl mb-24">
-        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">/ Solutions</p>
-        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
-          Real results from<br />real production.
-        </h1>
-        <p class="text-lg text-gray-500 leading-relaxed font-[410] max-w-lg">
-          No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
-        </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
+        <div>
+          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent ml-[-4px]">
+            <span class="font-semibold">Real results from real production.</span>
+          </h1>
+        </div>
+        <div class="flex flex-col justify-start py-[12px]">
+          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+            No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
+          </p>
+        </div>
       </div>
 
       <!-- Horizontal decorative line -->
@@ -89,7 +92,7 @@ const caseStudies = [
                   <h2 class="text-[32px] font-semibold text-brand-dark tracking-tight leading-[1.15] mb-3">
                     {study.title}
                   </h2>
-                  <p class="text-[16px] text-gray-400 font-[410] tracking-wide">
+                  <p class="text-[16px] text-gray-600 font-[410] tracking-wide">
                     {study.industry}
                   </p>
                 </div>

@@ -6,11 +6,11 @@ function HeroDials() {
   const values = useDialKit('Hero Section', {
     'Heading': {
       'Font Size (px)': [64, 32, 120, 1],
-      'Line Height': [1.15, 0.8, 1.5, 0.01],
+      'Line Height': [1.2, 0.8, 1.5, 0.01],
       'Letter Spacing (em)': [-0.005, -0.1, 0.1, 0.005],
     },
     'Body Text': {
-      'Font Size (px)': [20, 12, 32, 1],
+      'Font Size (px)': [18, 12, 32, 1],
       'Line Height': [1.5, 1.2, 2.5, 0.05],
     },
     'Spacing': {
@@ -34,8 +34,8 @@ function HeroDials() {
     },
     'Metrics Grid': {
       'Value Font Size (px)': [40, 20, 60, 1],
-      'Label Font Size (px)': [18, 12, 24, 1],
-      'Label Top Margin (px)': [12, 0, 24, 1],
+      'Label Font Size (px)': [16, 12, 24, 1],
+      'Label Top Margin (px)': [11, 0, 24, 1],
       'Cell Padding X (px)': [40, 12, 64, 2],
       'Cell Padding Y (px)': [48, 12, 80, 2],
       'Grid Top Margin (px)': [120, 0, 200, 4],
