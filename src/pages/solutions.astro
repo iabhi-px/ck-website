@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Security from '../components/landing/Security.astro';
+
+const caseStudies = [
+  {
+    slug: 'visibility-at-scale',
+    title: 'Visibility at Scale',
+    industry: 'Global E-Commerce  ·  5,000+ services  ·  3 clouds',
+    challenge: 'No visibility into which service impacts another. MTTD measured in hours. Every sale event was high-risk.',
+    solution: 'Full-flow visibility across sync and async systems. Zero-touch. KarmaDomain + KarmaPulse.',
+    result: 'MTTD from hours to under 30 minutes. 50 services instrumented per day. Zero performance impact.',
+    metrics: [
+      { value: '< 30 min', label: 'MTTD' },
+      { value: '50/day', label: 'Services instrumented' },
+      { value: 'Zero', label: 'Performance impact' },
+    ],
+  },
+  {
+    slug: 'operational-sanity',
+    title: 'Operational Sanity',
+    industry: 'Financial Technology',
+    challenge: 'Extreme alert fatigue. High maintenance overhead. Security patches applied to dead code.',
+    solution: 'Correlated root cause analysis. Live vs. dead code identification. Patch only what runs.',
+    result: '80% reduction in alert noise. Streamlined security patching. Engineers freed for feature work.',
+    metrics: [
+      { value: '80%', label: 'Less alert noise' },
+      { value: 'Zero', label: 'Wasted patches' },
+      { value: '2x', label: 'Feature velocity' },
+    ],
+  },
+  {
+    slug: 'legacy-migration',
+    title: 'Legacy Migration & Hygiene',
+    industry: 'Fortune 500 Retailer',
+    challenge: 'Migrating legacy systems with unknown dependencies. Team paralyzed by risk.',
+    solution: 'Automatic dead vs. live code identification based on real production traffic.',
+    result: '60% of codebase identified as dead. Significant infra savings. Months of migration effort saved.',
+    metrics: [
+      { value: '60%', label: 'Dead code found' },
+      { value: 'Months', label: 'Migration effort saved' },
+      { value: 'Significant', label: 'Infra savings' },
+    ],
+  },
+];
+---
+
+<BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise.">
+  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
+    <!-- Vertical gridlines -->
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+      <!-- Page header -->
+      <div class="max-w-3xl mb-24">
+        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">/ Solutions</p>
+        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
+          Real results from<br />real production.
+        </h1>
+        <p class="text-lg text-gray-500 leading-relaxed font-[410] max-w-lg">
+          No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
+        </p>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative mb-16">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- Case studies -->
+      <div class="space-y-16">
+        {caseStudies.map((study) => (
+          <div class="case-study-card relative">
+            <!-- Corner brackets -->
+            <div class="corner corner-tl" aria-hidden="true"></div>
+            <div class="corner corner-tr" aria-hidden="true"></div>
+            <div class="corner corner-bl" aria-hidden="true"></div>
+            <div class="corner corner-br" aria-hidden="true"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+              <!-- Left column -->
+              <div class="flex flex-col justify-between">
+                <div class="p-10 lg:p-12">
+                  <h2 class="text-[32px] font-semibold text-brand-dark tracking-tight leading-[1.15] mb-3">
+                    {study.title}
+                  </h2>
+                  <p class="text-[16px] text-gray-400 font-[410] tracking-wide">
+                    {study.industry}
+                  </p>
+                </div>
+
+                <!-- Metric banner -->
+                <div class="bg-brand-primary px-10 lg:px-12 py-6 mt-auto grid grid-cols-3 gap-6">
+                  {study.metrics.map((metric) => (
+                    <div>
+                      <p class="text-[24px] font-semibold text-brand-dark tracking-tight leading-tight">{metric.value}</p>
+                      <p class="text-[13px] text-brand-dark/60 mt-1 font-[410]">{metric.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Right column -->
+              <div class="p-10 lg:p-12 border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col justify-between">
+                <!-- Challenge -->
+                <div class="mb-10">
+                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">/ Challenge</p>
+                  <p class="text-[16px] text-gray-700 leading-[1.7] font-normal">
+                    {study.challenge}
+                  </p>
+                </div>
+
+                <!-- Solution -->
+                <div class="mb-10">
+                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">/ Solution</p>
+                  <p class="text-[16px] text-gray-700 leading-[1.7] font-normal">
+                    {study.solution}
+                  </p>
+                </div>
+
+                <!-- Result -->
+                <div class="mb-12">
+                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">/ Result</p>
+                  <p class="text-[16px] text-gray-700 leading-[1.7] font-normal">
+                    {study.result}
+                  </p>
+                </div>
+
+                <!-- CTA -->
+                <a
+                  href={`/case-studies/${study.slug}`}
+                  class="inline-flex items-center justify-center px-6 py-2 rounded-none bg-brand-dark font-medium text-sm hover:bg-brand-primary transition-colors duration-200 hero-btn-primary self-start"
+                >
+                  <span>Read full case study</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Bottom decorative line — at bottom edge of last card -->
+      <div class="relative -mt-px">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+    </div>
+  </section>
+
+  <Security />
+</BaseLayout>
+
+<style>
+  .case-study-card {
+    border: 1px solid #e5e7eb;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Corner bracket marks */
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+  }
+
+  .corner-tl {
+    top: -6px;
+    left: -6px;
+    border-top: 1.5px solid #0f0f0f;
+    border-left: 1.5px solid #0f0f0f;
+  }
+
+  .corner-tr {
+    top: -6px;
+    right: -6px;
+    border-top: 1.5px solid #0f0f0f;
+    border-right: 1.5px solid #0f0f0f;
+  }
+
+  .corner-bl {
+    bottom: -6px;
+    left: -6px;
+    border-bottom: 1.5px solid #0f0f0f;
+    border-left: 1.5px solid #0f0f0f;
+  }
+
+  .corner-br {
+    bottom: -6px;
+    right: -6px;
+    border-bottom: 1.5px solid #0f0f0f;
+    border-right: 1.5px solid #0f0f0f;
+  }
+
+  @media (max-width: 768px) {
+    .corner {
+      width: 14px;
+      height: 14px;
+    }
+
+    .corner-tl { top: -4px; left: -4px; }
+    .corner-tr { top: -4px; right: -4px; }
+    .corner-bl { bottom: -4px; left: -4px; }
+    .corner-br { bottom: -4px; right: -4px; }
+  }
+</style>

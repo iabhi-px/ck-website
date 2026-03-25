@@ -1,0 +1,55 @@
+---
+title: "Legacy Migration & Hygiene"
+description: "How a Fortune 500 retailer identified 60% dead code and saved months of migration effort with CodeKarma."
+industry: "Fortune 500 Retailer"
+metrics:
+  - value: "60%"
+    label: "Dead code found"
+  - value: "Months"
+    label: "Migration effort saved"
+  - value: "Significant"
+    label: "Infra savings"
+draft: false
+---
+
+Migrating a legacy monolith to microservices is one of the hardest problems in software engineering. It's even harder when you don't know which parts of the codebase are actually being used. This Fortune 500 retailer was paralyzed by the risk — until CodeKarma showed them what was really running.
+
+## The Challenge
+
+The retailer had a 15-year-old Java monolith serving their entire e-commerce platform. The migration to microservices had been planned for over a year, but the team couldn't move forward.
+
+<div class="cs-img-placeholder" />
+
+- **Unknown dependencies**: No one knew which modules depended on which — the original architects had long since left
+- **Fear of breaking things**: Every attempted change risked taking down the entire platform
+- **Wasted resources**: Infrastructure was provisioned for the entire monolith, including code paths that hadn't been hit in years
+- **Team paralysis**: Engineers were afraid to touch anything, leading to workarounds layered on workarounds
+
+## The Solution
+
+CodeKarma was deployed to analyze real production traffic against the codebase, identifying exactly which code was live and which was dead.
+
+<div class="cs-img-placeholder" />
+
+**Week 1 — Traffic Analysis**: KarmaPulse monitored all production traffic to the monolith, mapping every code path that was actually executed.
+
+**Week 2 — Dependency Mapping**: KarmaDomain built a complete dependency graph of the monolith's modules, cross-referenced with the traffic data.
+
+**Week 3 — Migration Plan**: With live vs. dead code clearly identified, the team could plan the migration in order of actual business impact.
+
+## The Results
+
+The findings were eye-opening:
+
+<div class="cs-img-placeholder" />
+
+- **60% of the codebase was dead** — never hit by production traffic in the 30-day analysis window
+- **Months of migration effort saved** — the team could focus on migrating only the 40% of code that mattered
+- **Significant infrastructure savings** — decommissioning dead code paths freed up compute resources immediately
+- **Team confidence restored** — engineers could finally make changes knowing exactly what was at stake
+
+> "We'd been afraid to touch this codebase for years. CodeKarma showed us that most of it didn't even need to be migrated — it just needed to be deleted." — CTO
+
+## What's Next
+
+The retailer is now using CodeKarma continuously to monitor their new microservices architecture, ensuring dead code never accumulates again.

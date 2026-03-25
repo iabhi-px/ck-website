@@ -5,17 +5,60 @@ import PostCard from '../../components/blog/PostCard.astro';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+// Fixed 4 filter categories
+const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 ---
 
-<BaseLayout title="Blog" description="Latest articles, tutorials, and updates from the YourSite team.">
-  <section class="pt-24 pb-16">
-    <div class="mx-auto max-w-4xl px-6 lg:px-8">
-      <h1 class="text-4xl font-bold text-white mb-4">Blog</h1>
-      <p class="text-lg text-gray-400 mb-12">
-        Articles, tutorials, and updates from our team.
-      </p>
+<BaseLayout title="Blog — CodeKarma" description="Articles, tutorials, and updates from the CodeKarma team.">
+  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
+    <!-- Vertical gridlines (matching homepage) -->
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+      </div>
+    </div>
 
-      <div class="grid gap-6">
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+      <!-- Section header -->
+      <div class="max-w-3xl mb-16">
+        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Blog</p>
+        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          Articles & Updates
+        </h1>
+        <p class="text-lg text-gray-500 leading-relaxed font-[410] mt-5 max-w-lg">
+          Engineering insights, product updates, and deep dives from the CodeKarma team.
+        </p>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="blog-filter-bar mt-10 mb-10">
+        <div class="flex flex-wrap gap-3">
+          <button
+            class="blog-filter-tab active"
+            data-filter="all"
+          >
+            All
+          </button>
+          {filterTags.map((tag) => (
+            <button
+              class="blog-filter-tab"
+              data-filter={tag}
+            >
+              {tag.charAt(0).toUpperCase() + tag.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Posts list — horizontal cards -->
+      <div class="blog-list">
         {posts.map((post) => (
           <PostCard
             title={post.data.title}
@@ -26,6 +69,103 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
           />
         ))}
       </div>
+
+      <!-- Empty state -->
+      <div class="blog-empty hidden py-20 text-center">
+        <p class="text-gray-400 text-lg font-[410]">No posts found for this category.</p>
+      </div>
+
+      <!-- Horizontal decorative line — bottom -->
+      <div class="relative -mt-px">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .blog-filter-bar {
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .blog-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .blog-filter-tab {
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: #666;
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 0;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .blog-filter-tab:hover {
+    color: #333;
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+  }
+
+  .blog-filter-tab.active {
+    color: #fff;
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+  }
+
+  .blog-filter-tab.active:hover {
+    background: #2a2a2a;
+    border-color: #2a2a2a;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .blog-filter-tab {
+      padding: 8px 18px;
+      font-size: 13px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.blog-filter-tab');
+    const cards = document.querySelectorAll<HTMLAnchorElement>('.blog-list > a');
+    const emptyState = document.querySelector('.blog-empty');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const filter = tab.dataset.filter;
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+          if (filter === 'all' || tags.includes(filter)) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (emptyState) {
+          emptyState.classList.toggle('hidden', visibleCount > 0);
+        }
+      });
+    });
+  });
+</script>

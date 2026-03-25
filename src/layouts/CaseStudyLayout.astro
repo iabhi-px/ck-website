@@ -1,0 +1,344 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Metric {
+  value: string;
+  label: string;
+}
+
+interface StudyLink {
+  title: string;
+  slug: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  industry: string;
+  coverImage?: string;
+  metrics?: Metric[];
+  prevStudy?: StudyLink;
+  nextStudy?: StudyLink;
+}
+
+const { title, description, industry, coverImage, metrics = [], prevStudy, nextStudy } = Astro.props;
+---
+
+<BaseLayout title={`${title} — CodeKarma Case Study`} description={description} ogImage={coverImage}>
+  <article class="relative bg-white pt-32 pb-40">
+    <!-- Vertical gridlines -->
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+      <!-- Back link -->
+      <a
+        href="/solutions"
+        class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-brand-dark transition-colors mb-12"
+      >
+        <i class="ph ph-arrow-left text-base"></i>
+        Back to solutions
+      </a>
+
+      <!-- Section header -->
+      <div class="max-w-3xl mb-16">
+        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-5">
+          {title}
+        </h1>
+        <div class="flex items-center gap-2 text-[14px] text-gray-400 font-[410]">
+          <span>CodeKarma Team</span>
+          <span>·</span>
+          <span>{industry}</span>
+        </div>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative mb-12">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- 3-column layout: TOC | Content | Widget -->
+      <div class="cs-layout">
+        <!-- Left: Sticky TOC -->
+        <nav class="cs-toc" id="cs-toc">
+          <p class="text-[12px] font-mono tracking-[0.3em] uppercase text-gray-400 mb-5">On this page</p>
+          <ul class="cs-toc-list" id="cs-toc-list">
+            <!-- Populated by JS -->
+          </ul>
+        </nav>
+
+        <!-- Center: Content -->
+        <div class="cs-prose" id="cs-content">
+          <slot />
+        </div>
+
+        <!-- Right: Sticky CTA widget -->
+        <aside class="cs-sidebar">
+          <div class="cs-widget">
+            <p class="text-[12px] font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-3">Ready to start?</p>
+            <p class="text-[20px] font-semibold text-brand-dark tracking-tight leading-tight mb-3">Book a demo</p>
+            <p class="text-[14px] text-gray-500 font-[410] leading-relaxed mb-6">
+              See how CodeKarma can deliver similar results for your team.
+            </p>
+            <a
+              href="https://google.com"
+              class="inline-flex items-center justify-center w-full px-6 py-3 rounded-none bg-brand-dark font-medium text-sm hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+            >
+              <span>Book a demo</span>
+            </a>
+
+          </div>
+        </aside>
+      </div>
+
+      <!-- Bottom decorative line -->
+      <div class="relative mt-20">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- Prev / Next navigation -->
+      <div class="mt-12 grid grid-cols-2 gap-6">
+        {prevStudy?.slug ? (
+          <a
+            href={`/case-studies/${prevStudy.slug}`}
+            class="group block border border-gray-200 p-6 hover:border-gray-300 transition-colors"
+          >
+            <p class="text-xs font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">
+              <i class="ph ph-arrow-left text-xs mr-1"></i> Previous
+            </p>
+            <p class="text-sm font-medium text-brand-dark group-hover:opacity-70 transition-opacity">
+              {prevStudy.title}
+            </p>
+          </a>
+        ) : <div />}
+        {nextStudy?.slug ? (
+          <a
+            href={`/case-studies/${nextStudy.slug}`}
+            class="group block border border-gray-200 p-6 hover:border-gray-300 transition-colors text-right"
+          >
+            <p class="text-xs font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">
+              Next <i class="ph ph-arrow-right text-xs ml-1"></i>
+            </p>
+            <p class="text-sm font-medium text-brand-dark group-hover:opacity-70 transition-opacity">
+              {nextStudy.title}
+            </p>
+          </a>
+        ) : <div />}
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* 3-column layout */
+  .cs-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr 260px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* TOC */
+  .cs-toc {
+    position: sticky;
+    top: 100px;
+  }
+
+  .cs-toc-list :global(li) {
+    margin-bottom: 0;
+    list-style: none;
+  }
+
+  .cs-toc-list :global(a) {
+    display: block;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #9ca3af;
+    font-weight: 410;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: color 0.2s;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -12px;
+  }
+
+  .cs-toc-list :global(a:hover) {
+    color: #0f0f0f;
+  }
+
+  .cs-toc-list :global(a.active) {
+    color: #0f0f0f;
+  }
+
+  /* Sidebar */
+  .cs-sidebar {
+    position: sticky;
+    top: 100px;
+  }
+
+  .cs-widget {
+    background: #fafaf8;
+    border: 1px solid #e5e7eb;
+    padding: 24px;
+  }
+
+  @media (max-width: 1200px) {
+    .cs-layout {
+      grid-template-columns: 1fr;
+    }
+    .cs-toc {
+      position: static;
+      display: none;
+    }
+    .cs-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+
+  /* Prose styles */
+  .cs-prose :global(h2),
+  .cs-prose :global(h3),
+  .cs-prose :global(h4) {
+    color: #0f0f0f;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .cs-prose :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cs-prose :global(h3) {
+    font-size: 1.15rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cs-prose :global(p) {
+    color: #6b7280;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+  }
+
+  .cs-prose :global(a) {
+    color: #0f0f0f;
+    text-decoration: underline;
+    text-decoration-color: #cdff52;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .cs-prose :global(a:hover) {
+    text-decoration-color: #0f0f0f;
+  }
+
+  .cs-prose :global(strong) {
+    color: #0f0f0f;
+    font-weight: 600;
+  }
+
+  .cs-prose :global(ul),
+  .cs-prose :global(ol) {
+    color: #6b7280;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-weight: 410;
+  }
+
+  .cs-prose :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+
+  .cs-prose :global(ul > li) {
+    list-style-type: disc;
+  }
+
+  .cs-prose :global(ol > li) {
+    list-style-type: decimal;
+  }
+
+  .cs-prose :global(blockquote) {
+    border-left: 3px solid #cdff52;
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+  }
+
+  .cs-prose :global(blockquote p) {
+    color: #4b5563;
+  }
+
+  .cs-prose :global(img) {
+    border: 1px solid #e5e7eb;
+    margin: 1.5rem 0;
+    width: 100%;
+  }
+
+  .cs-prose :global(.cs-img-placeholder) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+    background-size: 16px 16px;
+    background-color: #f5f5f0;
+    border: 1px solid #e5e7eb;
+    margin: 1.5rem 0;
+  }
+
+  .cs-prose > :global(*:first-child) {
+    margin-top: 0;
+  }
+</style>
+
+<script>
+  // Build TOC from h2 headings in content
+  document.addEventListener('DOMContentLoaded', () => {
+    const content = document.getElementById('cs-content');
+    const tocList = document.getElementById('cs-toc-list');
+    if (!content || !tocList) return;
+
+    const headings = content.querySelectorAll('h2');
+    if (headings.length === 0) return;
+
+    headings.forEach((heading, i) => {
+      // Ensure heading has an id
+      if (!heading.id) {
+        heading.id = heading.textContent!.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${heading.id}`;
+      a.textContent = heading.textContent;
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+
+    // Highlight active TOC item on scroll
+    const links = tocList.querySelectorAll('a');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('active'));
+            const active = tocList.querySelector(`a[href="#${entry.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      },
+      { rootMargin: '-100px 0px -60% 0px', threshold: 0 }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+  });
+</script>

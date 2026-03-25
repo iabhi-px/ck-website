@@ -1,9 +1,9 @@
 ---
 const navLinks = [
   { label: 'Products', href: '#' },
-  { label: 'Solutions', href: '#' },
+  { label: 'Solutions', href: '/solutions' },
   { label: 'Blogs', href: '/blog' },
-  { label: 'Security', href: '#' },
+  { label: 'Security', href: '/security' },
   { label: 'About', href: '#' },
 ];
 ---
@@ -15,7 +15,7 @@ const navLinks = [
   <div id="navbar-container" class="mx-auto max-w-7xl px-[106px]">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo -->
-      <a href="#" class="flex items-center" onclick="event.preventDefault(); window.__scrollingToTop = true; window.scrollTo({ top: 0, behavior: 'smooth' }); const checkDone = () => { if (window.scrollY <= 0) { window.__scrollingToTop = false; } else { requestAnimationFrame(checkDone); } }; requestAnimationFrame(checkDone);">
+      <a href="/" class="flex items-center">
         <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="w-auto" style="height: 36px;" />
       </a>
 

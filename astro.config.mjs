@@ -10,6 +10,7 @@ export default defineConfig({
   devToolbar: { enabled: false },
   integrations: [starlight({
     title: 'Docs',
+    disable404Route: true,
     customCss: ['./src/styles/global.css'],
     sidebar: [
       {

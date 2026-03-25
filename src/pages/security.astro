@@ -1,0 +1,431 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const commitments = [
+  {
+    title: 'SOC 2 Type 2 Certified — independently audited',
+    description: 'Our infrastructure and processes are continuously verified by independent auditors across security, availability, and confidentiality trust service criteria.',
+  },
+  {
+    title: 'Encryption at rest and in transit',
+    description: 'All data is encrypted using AES-256 at rest and TLS 1.3 in transit. No unencrypted data touches disk or crosses a network boundary.',
+  },
+  {
+    title: 'Role-based access control (RBAC)',
+    description: 'Fine-grained permissions ensure every user sees only what they need. Integrated with your existing SSO and identity providers for centralized access management.',
+  },
+  {
+    title: 'Audit logging and monitoring',
+    description: 'Every action, configuration change, and access event is recorded with an immutable audit trail. Full visibility into who did what, when, and from where.',
+  },
+  {
+    title: 'Regular third-party security audits',
+    description: 'Independent penetration tests and security assessments are conducted on a regular cadence. Findings are remediated promptly and verified in follow-up reviews.',
+  },
+];
+---
+
+<BaseLayout title="Security — CodeKarma" description="Security-first by design. Learn how CodeKarma protects your production environment with zero data egress, SOC 2 compliance, and enterprise-grade controls.">
+  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
+    <!-- Vertical gridlines -->
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+      <!-- Page header -->
+      <div class="max-w-3xl mb-24">
+        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">/ Security</p>
+        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
+          Security first.<br />Always.
+        </h1>
+        <p class="text-lg text-gray-500 leading-relaxed font-[410] max-w-lg">
+          CodeKarma is built for environments where security is non-negotiable. Your data stays yours — no exceptions.
+        </p>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative mb-16">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- Deploy Anywhere -->
+      <div class="deploy-section relative border border-gray-200 mb-24">
+        <div class="corner corner-tl" aria-hidden="true"></div>
+        <div class="corner corner-tr" aria-hidden="true"></div>
+        <div class="corner corner-bl" aria-hidden="true"></div>
+        <div class="corner corner-br" aria-hidden="true"></div>
+
+        <!-- Header -->
+        <div class="text-center pt-16 pb-12 px-8">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">/ Deploy Anywhere</p>
+          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold text-brand-dark mb-5">
+            Your cloud, your rules
+          </h2>
+          <p class="text-base text-gray-500 leading-relaxed font-[410] max-w-xl mx-auto">
+            Simple deployment with enterprise security and compliance built-in.<br />Fast contracting, faster time to value.
+          </p>
+        </div>
+
+        <!-- Cloud providers grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-gray-200">
+          <div class="deploy-provider p-8 border-b sm:border-b lg:border-b-0 sm:border-r border-gray-200">
+            <img src="/assets/integration_logos/AWS.svg" alt="AWS" class="h-8 w-auto mb-5" />
+            <h3 class="text-lg font-semibold text-brand-dark mb-2">AWS</h3>
+            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Deploy in your AWS environment with full control</p>
+          </div>
+          <div class="deploy-provider p-8 border-b sm:border-b lg:border-b-0 lg:border-r border-gray-200">
+            <img src="/assets/integration_logos/Azure.svg" alt="Azure" class="h-8 w-auto mb-5" />
+            <h3 class="text-lg font-semibold text-brand-dark mb-2">Azure</h3>
+            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Native Azure integration with enterprise features</p>
+          </div>
+          <div class="deploy-provider p-8 border-b sm:border-b-0 sm:border-r border-gray-200">
+            <img src="/assets/integration_logos/GCP.svg" alt="GCP" class="h-8 w-auto mb-5" />
+            <h3 class="text-lg font-semibold text-brand-dark mb-2">GCP</h3>
+            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Google Cloud integration with advanced ML capabilities</p>
+          </div>
+          <div class="deploy-provider p-8">
+            <svg class="h-8 w-8 mb-5 text-brand-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+            </svg>
+            <h3 class="text-lg font-semibold text-brand-dark mb-2">On-Premise</h3>
+            <p class="text-sm text-gray-500 font-[410] leading-relaxed">Air-gapped deployment for maximum security</p>
+          </div>
+        </div>
+
+        <!-- Horizontal line -->
+        <div class="relative">
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+        </div>
+
+        <!-- Bottom two columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr]">
+          <!-- Left: Enterprise security & compliance -->
+          <div class="p-10 lg:p-12 lg:border-r border-gray-200">
+            <h3 class="text-2xl font-semibold text-brand-dark tracking-tight mb-3">Enterprise security & compliance</h3>
+            <p class="text-base text-gray-500 font-[410] leading-relaxed mb-10 max-w-lg">
+              Industry-standard protections built-in. Fast compliance reviews, faster contract negotiations. Proven with $1B+ revenue enterprises.
+            </p>
+
+            <!-- Compliance badges -->
+            <div class="flex items-start gap-10 mb-10">
+              <div class="text-center">
+                <div class="w-16 h-16 rounded-full border border-gray-200 flex items-center justify-center mb-3">
+                  <div class="text-center leading-tight">
+                    <span class="text-[10px] font-semibold text-brand-dark block">AICPA</span>
+                    <span class="text-[9px] text-gray-500">SOC 2</span>
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 font-[410]">SOC II<br />Type 2</p>
+              </div>
+            </div>
+
+            <a
+              href="#"
+              class="inline-flex items-center justify-center px-10 py-4 rounded-none bg-brand-dark font-medium text-lg hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+            >
+              <span>Discuss Deployment Options</span>
+            </a>
+          </div>
+
+          <!-- Right: Simple Deployment -->
+          <div class="p-10 lg:p-12 border-t lg:border-t-0">
+            <h3 class="text-2xl font-semibold text-brand-dark tracking-tight mb-3">Simple Deployment</h3>
+            <p class="text-base text-gray-500 font-[410] leading-relaxed mb-10">
+              From contract to production in weeks, not months
+            </p>
+
+            <div class="space-y-6">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 12l2 2 4-4" /><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                  </svg>
+                </div>
+                <span class="text-base text-brand-dark font-[410]">Security review completed</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
+                  </svg>
+                </div>
+                <span class="text-base text-brand-dark font-[410]">Infrastructure provisioned</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
+                  </svg>
+                </div>
+                <span class="text-base text-brand-dark font-[410]">Workflows deployed & tested</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-brand-primary/20 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-brand-primary" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <span class="text-base text-brand-primary font-medium">Ready for production</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative mb-16">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- Compliance -->
+      <div class="mb-24">
+        <div class="max-w-3xl mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Compliance</p>
+          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            What we guarantee.
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border border-gray-200">
+          {commitments.map((item, index) => (
+            <div class={`security-commitment p-8 lg:p-10 ${index % 3 !== 2 ? 'lg:border-r border-gray-200' : ''} ${index < 3 ? 'border-b border-gray-200' : ''} ${index % 2 === 0 && index < 4 ? 'md:border-r' : ''} ${index < 4 ? 'md:border-b' : ''}`}>
+              <h3 class="text-lg font-semibold text-brand-dark mb-3">{item.title}</h3>
+              <p class="text-base text-gray-500 leading-relaxed font-[410]">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative mb-16">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- Comparison -->
+      <div class="mb-24">
+        <div class="comparison-card relative border border-gray-200">
+          <div class="corner corner-tl" aria-hidden="true"></div>
+          <div class="corner corner-tr" aria-hidden="true"></div>
+          <div class="corner corner-bl" aria-hidden="true"></div>
+          <div class="corner corner-br" aria-hidden="true"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2">
+            <!-- Left: What we don't collect -->
+            <div class="p-10 lg:p-12 lg:border-r border-gray-200">
+              <h3 class="text-2xl font-semibold text-brand-dark tracking-tight mb-10">What we don't collect</h3>
+
+              <div class="space-y-6">
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-md bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <span class="text-base text-brand-dark font-[410]">No application payload data</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-md bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <span class="text-base text-brand-dark font-[410]">No PII of any kind</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-md bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <span class="text-base text-brand-dark font-[410]">No request/response bodies</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-md bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <span class="text-base text-brand-dark font-[410]">No database record contents</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-md bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <span class="text-base text-brand-dark font-[410]">No secrets, tokens, or credentials</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 rounded-md bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <span class="text-base text-brand-dark font-[410]">No user session data</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: What we do collect -->
+            <div class="p-10 lg:p-12 border-t lg:border-t-0">
+              <h3 class="text-2xl font-semibold text-brand-dark tracking-tight mb-10">What we do collect</h3>
+
+              <div class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-md bg-brand-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg class="w-4 h-4 text-brand-primary" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="text-base text-gray-700 leading-relaxed font-[410]">
+                  Behavioral telemetry — which methods are called, how often, latency, error rates, dependencies, and execution paths.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal decorative line -->
+      <div class="relative mb-16">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-24">
+        <div class="max-w-3xl mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">FAQ</p>
+        </div>
+
+        <div class="max-w-3xl divide-y divide-gray-200 border-t border-gray-200">
+          <details class="faq-item group" open>
+            <summary class="flex items-center justify-between cursor-pointer py-6">
+              <span class="text-base font-semibold text-brand-dark pr-8">Does CodeKarma access our source code?</span>
+              <i class="ph ph-plus text-gray-400 text-lg group-open:hidden flex-shrink-0"></i>
+              <i class="ph ph-minus text-gray-400 text-lg hidden group-open:block flex-shrink-0"></i>
+            </summary>
+            <p class="text-base text-gray-500 leading-relaxed font-[410] pb-6 -mt-2">
+              No. We instrument production behavior at runtime. We don't access, read, or store source code.
+            </p>
+          </details>
+          <details class="faq-item group">
+            <summary class="flex items-center justify-between cursor-pointer py-6">
+              <span class="text-base font-semibold text-brand-dark pr-8">Where is our data stored?</span>
+              <i class="ph ph-plus text-gray-400 text-lg group-open:hidden flex-shrink-0"></i>
+              <i class="ph ph-minus text-gray-400 text-lg hidden group-open:block flex-shrink-0"></i>
+            </summary>
+            <p class="text-base text-gray-500 leading-relaxed font-[410] pb-6 -mt-2">
+              BYOC: in your cloud. SaaS: in CodeKarma's SOC 2 certified infrastructure.
+            </p>
+          </details>
+          <details class="faq-item group">
+            <summary class="flex items-center justify-between cursor-pointer py-6">
+              <span class="text-base font-semibold text-brand-dark pr-8">Do you capture PII or payload data?</span>
+              <i class="ph ph-plus text-gray-400 text-lg group-open:hidden flex-shrink-0"></i>
+              <i class="ph ph-minus text-gray-400 text-lg hidden group-open:block flex-shrink-0"></i>
+            </summary>
+            <p class="text-base text-gray-500 leading-relaxed font-[410] pb-6 -mt-2">
+              No. Behavioral telemetry only. No PII, no payloads, no data content of any kind.
+            </p>
+          </details>
+          <details class="faq-item group">
+            <summary class="flex items-center justify-between cursor-pointer py-6">
+              <span class="text-base font-semibold text-brand-dark pr-8">Is the data sampled?</span>
+              <i class="ph ph-plus text-gray-400 text-lg group-open:hidden flex-shrink-0"></i>
+              <i class="ph ph-minus text-gray-400 text-lg hidden group-open:block flex-shrink-0"></i>
+            </summary>
+            <p class="text-base text-gray-500 leading-relaxed font-[410] pb-6 -mt-2">
+              No. 100% of production traffic. Every call, every connection, full fidelity.
+            </p>
+          </details>
+          <details class="faq-item group">
+            <summary class="flex items-center justify-between cursor-pointer py-6">
+              <span class="text-base font-semibold text-brand-dark pr-8">Does it slow down our apps?</span>
+              <i class="ph ph-plus text-gray-400 text-lg group-open:hidden flex-shrink-0"></i>
+              <i class="ph ph-minus text-gray-400 text-lg hidden group-open:block flex-shrink-0"></i>
+            </summary>
+            <p class="text-base text-gray-500 leading-relaxed font-[410] pb-6 -mt-2">
+              No. Proven zero impact on latency, CPU, and memory across 5,000+ microservices.
+            </p>
+          </details>
+        </div>
+      </div>
+
+      <!-- Bottom decorative line -->
+      <div class="relative -mt-px">
+        <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .security-card,
+  .comparison-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+  }
+
+  .corner-tl {
+    top: -6px;
+    left: -6px;
+    border-top: 1.5px solid #0f0f0f;
+    border-left: 1.5px solid #0f0f0f;
+  }
+
+  .corner-tr {
+    top: -6px;
+    right: -6px;
+    border-top: 1.5px solid #0f0f0f;
+    border-right: 1.5px solid #0f0f0f;
+  }
+
+  .corner-bl {
+    bottom: -6px;
+    left: -6px;
+    border-bottom: 1.5px solid #0f0f0f;
+    border-left: 1.5px solid #0f0f0f;
+  }
+
+  .corner-br {
+    bottom: -6px;
+    right: -6px;
+    border-bottom: 1.5px solid #0f0f0f;
+    border-right: 1.5px solid #0f0f0f;
+  }
+
+  .security-commitment {
+    transition: background-color 0.2s ease;
+  }
+
+  .security-commitment:hover {
+    background-color: #fafafa;
+  }
+
+  .deploy-provider {
+    transition: background-color 0.2s ease;
+  }
+
+  .deploy-provider:hover {
+    background-color: #fafafa;
+  }
+
+  .faq-item summary {
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .corner {
+      width: 14px;
+      height: 14px;
+    }
+
+    .corner-tl { top: -4px; left: -4px; }
+    .corner-tr { top: -4px; right: -4px; }
+    .corner-bl { bottom: -4px; left: -4px; }
+    .corner-br { bottom: -4px; right: -4px; }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+title: "Visibility at Scale"
+description: "How a global e-commerce platform achieved full-flow visibility across 5,000+ services and 3 clouds with CodeKarma."
+industry: "Global E-Commerce  ·  5,000+ services  ·  3 clouds"
+metrics:
+  - value: "< 30 min"
+    label: "MTTD"
+  - value: "50/day"
+    label: "Services instrumented"
+  - value: "Zero"
+    label: "Performance impact"
+draft: false
+---
+
+A global e-commerce platform (>$4B annual GMV) needed to reduce Mean Time to Detect from hours to minutes — without slowing down their release velocity or adding manual instrumentation overhead across 5,000+ microservices.
+
+The bottleneck wasn't tooling — it was visibility. Operations teams were flying blind across three cloud providers, unable to trace how a failure in one service cascaded through dozens of downstream dependencies. Every major sale event was treated as a high-risk operation requiring all-hands-on-deck war rooms.
+
+We deployed **KarmaDomain** and **KarmaPulse** across their entire infrastructure — zero code changes, zero SDK integrations, zero performance overhead — and achieved full-flow observability within three weeks.
+
+## Their Infrastructure
+
+The platform had grown organically over eight years. What started as a handful of services on AWS had expanded into a sprawling multi-cloud deployment:
+
+<div class="cs-img-placeholder" />
+
+- **5,000+ microservices** across AWS, GCP, and Azure
+- **200+ engineering teams** deploying independently, averaging 400 deployments per day
+- **Mixed communication patterns**: synchronous REST/gRPC calls interleaved with asynchronous Kafka and SQS event flows
+- **Legacy instrumentation**: partial OpenTelemetry coverage on ~15% of services, with inconsistent trace propagation
+
+The core challenge wasn't any single service — it was the spaces between them. When checkout latency spiked during a flash sale, the on-call engineer had to manually correlate logs from dozens of services across three clouds to find the root cause.
+
+## The Observability Gap
+
+Before CodeKarma, the team relied on a combination of Datadog, CloudWatch, and custom Grafana dashboards. Each tool provided a partial view:
+
+- **Datadog** captured APM traces for the ~15% of services with manual instrumentation
+- **CloudWatch** had infrastructure metrics but no service-level correlation
+- **Grafana dashboards** were maintained by individual teams with no standardization
+
+<div class="cs-img-placeholder" />
+
+The result was a fragmented picture. During incidents, engineers spent the first 30-60 minutes just figuring out *which* services were involved — before they could even begin diagnosing the root cause.
+
+> "We had dashboards for everything, but understanding for nothing. Every incident felt like solving a puzzle where half the pieces were missing." — Director of Platform Engineering
+
+## How We Deployed
+
+CodeKarma was deployed in three phases, with each phase delivering immediate value:
+
+### Phase 1: Automatic Discovery (Week 1)
+
+KarmaDomain was deployed as a lightweight eBPF agent across all compute nodes. Within 48 hours, it had automatically mapped:
+
+- Every service-to-service communication path
+- Request volume and latency distributions for each edge
+- Synchronous and asynchronous dependency chains
+- Cross-cloud communication patterns
+
+No code changes. No SDK integrations. No restart required.
+
+### Phase 2: Flow Tracing (Week 2)
+
+KarmaPulse attached to production traffic and began correlating individual requests across the full service mesh. Unlike traditional distributed tracing, KarmaPulse doesn't require trace context propagation — it infers causality from eBPF-level observations.
+
+<div class="cs-img-placeholder" />
+
+This meant the team got full end-to-end traces covering all 5,000+ services, including the 85% that had no OpenTelemetry instrumentation.
+
+### Phase 3: Alert Correlation (Week 3)
+
+Existing alerts from Datadog and CloudWatch were ingested into CodeKarma's correlation engine. Instead of seeing isolated alerts per service, the on-call team now saw correlated incident views:
+
+- **Root cause identification**: Which service originated the issue
+- **Blast radius mapping**: Which downstream services were affected
+- **Business impact scoring**: How the issue mapped to customer-facing flows
+
+## Results
+
+Within the first month, the results were measurable and significant:
+
+**MTTD dropped from hours to under 30 minutes.** Engineers could pinpoint the exact service and code path causing issues without manual log correlation. The median time from alert to root cause identification went from 47 minutes to 8 minutes.
+
+**50 services instrumented per day.** Compared to the previous rate of 2-3 per week with manual OpenTelemetry setup. By the end of month one, 100% of services had full observability coverage.
+
+**Zero performance overhead.** eBPF-based collection added no measurable latency to production traffic. P99 latency remained unchanged across all monitored services.
+
+**First sale event with zero P1 incidents.** The flash sale following deployment was the first in company history with no critical incidents. The war room was staffed but quiet.
+
+<div class="cs-img-placeholder" />
+
+## What Changed
+
+The impact went beyond metrics. The culture shifted:
+
+- **On-call rotations became manageable** — engineers no longer dreaded their turn
+- **Deployment confidence increased** — teams could see the impact of their changes in real-time across the full service mesh
+- **Cross-team collaboration improved** — when an issue spanned multiple teams, the dependency graph made ownership clear
+
+> "CodeKarma didn't just give us observability — it gave us confidence. We ship faster now because we can see what we're doing." — VP of Engineering
+
+## What's Next
+
+The team is now using CodeKarma's dead code detection to identify and remove unused service endpoints, projecting significant infrastructure cost savings in the next quarter. They're also exploring KarmaDomain's architecture evolution features to plan their next-generation service mesh.

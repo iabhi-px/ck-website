@@ -1,0 +1,52 @@
+---
+title: "Operational Sanity"
+description: "How a fintech company eliminated 80% of alert noise and stopped patching dead code with CodeKarma."
+industry: "Financial Technology"
+metrics:
+  - value: "80%"
+    label: "Less alert noise"
+  - value: "Zero"
+    label: "Wasted patches"
+  - value: "2x"
+    label: "Feature velocity"
+draft: false
+---
+
+Alert fatigue is real. When your on-call engineers are drowning in thousands of alerts per week, the signal gets lost in the noise. This fintech company was spending more time triaging alerts than building features — until they deployed CodeKarma.
+
+## The Challenge
+
+As a regulated financial technology company, every alert had to be investigated. But with over 3,000 alerts per week across 200+ services, the team was overwhelmed.
+
+<div class="cs-img-placeholder" />
+
+- **Extreme alert fatigue**: Engineers spent 60% of their time investigating alerts, most of which were false positives or low-impact
+- **Security patches on dead code**: The security team was applying patches to code paths that hadn't been hit in production for months
+- **High maintenance overhead**: Every dependency update triggered a cascade of alerts and manual verification
+
+## The Solution
+
+CodeKarma was deployed to correlate alerts with actual production behavior and identify live vs. dead code paths.
+
+<div class="cs-img-placeholder" />
+
+**Phase 1 — Alert Correlation**: KarmaPulse analyzed production traffic patterns and correlated alerts to actual service impact. Alerts affecting unused code paths were automatically deprioritized.
+
+**Phase 2 — Dead Code Identification**: KarmaDomain mapped which code paths were actively serving production traffic vs. which hadn't been touched in 90+ days.
+
+**Phase 3 — Patch Prioritization**: Security patches were automatically prioritized based on whether the affected code was live or dead in production.
+
+## The Results
+
+The transformation was dramatic:
+
+- **80% reduction in alert noise** — engineers went from 3,000 alerts/week to ~600 actionable alerts
+- **Zero wasted security patches** — the team stopped patching code that wasn't running in production
+- **2x feature velocity** — engineers reclaimed 60% of their time previously spent on alert triage
+- **Compliance confidence** — auditors were impressed with the live code coverage reports
+
+> "We used to dread on-call rotations. Now they're manageable. CodeKarma didn't just reduce noise — it gave us confidence that every alert we see actually matters." — Head of Platform Engineering
+
+## What's Next
+
+The team is expanding CodeKarma to their staging environments to catch dead code before it reaches production, further reducing the maintenance burden.

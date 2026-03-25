@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+
+export async function getStaticPaths() {
+  const studies = await getCollection('case-studies', ({ data }) => !data.draft);
+  const total = studies.length;
+  return studies.map((study, index) => {
+    const prev = studies[(index - 1 + total) % total];
+    const next = studies[(index + 1) % total];
+    return {
+      params: { slug: study.id },
+      props: {
+        study,
+        prevStudy: { title: prev.data.title, slug: prev.id },
+        nextStudy: { title: next.data.title, slug: next.id },
+      },
+    };
+  });
+}
+
+const { study, prevStudy, nextStudy } = Astro.props;
+const { Content } = await render(study);
+---
+
+<CaseStudyLayout
+  title={study.data.title}
+  description={study.data.description}
+  industry={study.data.industry}
+  coverImage={study.data.coverImage}
+  metrics={study.data.metrics}
+  prevStudy={prevStudy}
+  nextStudy={nextStudy}
+>
+  <Content />
+</CaseStudyLayout>

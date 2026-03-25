@@ -43,6 +43,8 @@ export function fadeInUp(
 
 This pattern keeps all GSAP configuration in one place and makes it easy to maintain consistent timing across the site.
 
+<div class="blog-img-placeholder" />
+
 ## Scroll-triggered reveals
 
 The most common pattern on our site is revealing elements as they enter the viewport. We wrapped this into a `scrollReveal` helper:
@@ -96,6 +98,8 @@ In our Astro component, we call it from a client-side script tag:
   staggerReveal('#features-grid', '.feature-card', 0.1);
 </script>
 ```
+
+<div class="blog-img-placeholder" />
 
 ## Performance considerations
 
