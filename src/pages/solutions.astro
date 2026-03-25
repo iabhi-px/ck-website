@@ -46,7 +46,7 @@ const caseStudies = [
 ---
 
 <BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise.">
-  <section class="relative bg-white pt-32 pb-40 overflow-hidden">
+  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -57,13 +57,14 @@ const caseStudies = [
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <!-- Page header -->
-      <div class="mb-24">
-        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Solutions</p>
-        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-          <h1 class="text-[40px] sm:text-[48px] tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
+        <div>
+          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent ml-[-4px]">
             Real results from<br />real production.
           </h1>
-          <p class="text-lg text-gray-600 leading-[1.5] font-normal max-w-md lg:text-left">
+        </div>
+        <div class="flex flex-col justify-start py-[12px]">
+          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
             No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
           </p>
         </div>
@@ -78,11 +79,6 @@ const caseStudies = [
       <div class="space-y-16">
         {caseStudies.map((study) => (
           <div class="case-study-card relative">
-            <!-- Corner brackets -->
-            <div class="corner corner-tl" aria-hidden="true"></div>
-            <div class="corner corner-tr" aria-hidden="true"></div>
-            <div class="corner corner-bl" aria-hidden="true"></div>
-            <div class="corner corner-br" aria-hidden="true"></div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2">
               <!-- Left column -->
@@ -163,51 +159,4 @@ const caseStudies = [
     overflow: hidden;
   }
 
-  /* Corner bracket marks */
-  .corner {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    z-index: 10;
-  }
-
-  .corner-tl {
-    top: -6px;
-    left: -6px;
-    border-top: 1.5px solid #0f0f0f;
-    border-left: 1.5px solid #0f0f0f;
-  }
-
-  .corner-tr {
-    top: -6px;
-    right: -6px;
-    border-top: 1.5px solid #0f0f0f;
-    border-right: 1.5px solid #0f0f0f;
-  }
-
-  .corner-bl {
-    bottom: -6px;
-    left: -6px;
-    border-bottom: 1.5px solid #0f0f0f;
-    border-left: 1.5px solid #0f0f0f;
-  }
-
-  .corner-br {
-    bottom: -6px;
-    right: -6px;
-    border-bottom: 1.5px solid #0f0f0f;
-    border-right: 1.5px solid #0f0f0f;
-  }
-
-  @media (max-width: 768px) {
-    .corner {
-      width: 14px;
-      height: 14px;
-    }
-
-    .corner-tl { top: -4px; left: -4px; }
-    .corner-tr { top: -4px; right: -4px; }
-    .corner-bl { bottom: -4px; left: -4px; }
-    .corner-br { bottom: -4px; right: -4px; }
-  }
 </style>
