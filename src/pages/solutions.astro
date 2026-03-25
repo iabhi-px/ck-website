@@ -57,14 +57,16 @@ const caseStudies = [
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <!-- Page header -->
-      <div class="max-w-3xl mb-24">
-        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">/ Solutions</p>
-        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
-          Real results from<br />real production.
-        </h1>
-        <p class="text-lg text-gray-500 leading-relaxed font-[410] max-w-lg">
-          No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
-        </p>
+      <div class="mb-24">
+        <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Solutions</p>
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <h1 class="text-[40px] sm:text-[48px] tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            Real results from<br />real production.
+          </h1>
+          <p class="text-lg text-gray-600 leading-[1.5] font-normal max-w-md lg:text-left">
+            No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
+          </p>
+        </div>
       </div>
 
       <!-- Horizontal decorative line -->
@@ -86,10 +88,10 @@ const caseStudies = [
               <!-- Left column -->
               <div class="flex flex-col justify-between">
                 <div class="p-10 lg:p-12">
-                  <h2 class="text-[32px] font-semibold text-brand-dark tracking-tight leading-[1.15] mb-3">
+                  <h2 class="text-[32px] font-semibold text-[#0d0d0e] tracking-tight leading-[1.1] mb-3">
                     {study.title}
                   </h2>
-                  <p class="text-[16px] text-gray-400 font-[410] tracking-wide">
+                  <p class="text-[16px] text-gray-400 font-normal tracking-wide">
                     {study.industry}
                   </p>
                 </div>
@@ -98,8 +100,8 @@ const caseStudies = [
                 <div class="bg-brand-primary px-10 lg:px-12 py-6 mt-auto grid grid-cols-3 gap-6">
                   {study.metrics.map((metric) => (
                     <div>
-                      <p class="text-[24px] font-semibold text-brand-dark tracking-tight leading-tight">{metric.value}</p>
-                      <p class="text-[13px] text-brand-dark/60 mt-1 font-[410]">{metric.label}</p>
+                      <p class="text-[24px] font-semibold text-brand-dark tracking-tight leading-[1.25]">{metric.value}</p>
+                      <p class="text-[12px] text-brand-dark/60 mt-1 font-normal">{metric.label}</p>
                     </div>
                   ))}
                 </div>
@@ -109,24 +111,24 @@ const caseStudies = [
               <div class="p-10 lg:p-12 border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col justify-between">
                 <!-- Challenge -->
                 <div class="mb-10">
-                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">/ Challenge</p>
-                  <p class="text-[16px] text-gray-700 leading-[1.7] font-normal">
+                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">Challenge</p>
+                  <p class="text-[16px] text-[#0d0d0e] leading-[1.65] font-normal">
                     {study.challenge}
                   </p>
                 </div>
 
                 <!-- Solution -->
                 <div class="mb-10">
-                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">/ Solution</p>
-                  <p class="text-[16px] text-gray-700 leading-[1.7] font-normal">
+                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">Solution</p>
+                  <p class="text-[16px] text-[#0d0d0e] leading-[1.65] font-normal">
                     {study.solution}
                   </p>
                 </div>
 
                 <!-- Result -->
                 <div class="mb-12">
-                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">/ Result</p>
-                  <p class="text-[16px] text-gray-700 leading-[1.7] font-normal">
+                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">Result</p>
+                  <p class="text-[16px] text-[#0d0d0e] leading-[1.65] font-normal">
                     {study.result}
                   </p>
                 </div>

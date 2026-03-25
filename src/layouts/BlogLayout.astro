@@ -50,11 +50,11 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
           </div>
         )}
 
-        <h1 class="text-4xl sm:text-5xl tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
+        <h1 class="text-[40px] sm:text-[48px] tracking-tight leading-[1.1] font-semibold ml-[-4px] bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
           {title}
         </h1>
 
-        <div class="flex items-center gap-4 text-sm text-gray-400 font-[410]">
+        <div class="flex items-center gap-4 text-sm text-gray-400 font-normal">
           <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
         </div>
       </header>
@@ -116,20 +116,20 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
   }
 
   .blog-prose :global(h2) {
-    font-size: 1.75rem;
+    font-size: 2rem;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
   }
 
   .blog-prose :global(h3) {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
   }
 
   .blog-prose :global(p) {
     color: #6b7280;
-    line-height: 1.8;
+    line-height: 1.65;
     margin-bottom: 1.25rem;
     font-weight: 400;
   }
@@ -157,12 +157,12 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
     color: #6b7280;
     padding-left: 1.5rem;
     margin-bottom: 1.25rem;
-    font-weight: 410;
+    font-weight: 400;
   }
 
   .blog-prose :global(li) {
     margin-bottom: 0.5rem;
-    line-height: 1.7;
+    line-height: 1.65;
   }
 
   .blog-prose :global(ul > li) {
@@ -200,7 +200,7 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
     margin: 1.5rem 0;
     overflow-x: auto;
     font-size: 0.875rem;
-    line-height: 1.7;
+    line-height: 1.65;
   }
 
   .blog-prose :global(pre code) {
