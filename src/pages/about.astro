@@ -21,8 +21,8 @@ const principles = [
 ];
 
 const founders = [
-  { name: 'Founder Name', title: 'Co-Founder & CEO', photo: null },
-  { name: 'Founder Name', title: 'Co-Founder & CTO', photo: null },
+  { name: 'Founder Name', title: 'Co-Founder & CEO', photo: null, linkedin: '#' },
+  { name: 'Founder Name', title: 'Co-Founder & CTO', photo: null, linkedin: '#' },
 ];
 
 const pressItems = [
@@ -77,13 +77,17 @@ const investors = [
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-200">
-          {principles.map((item, index) => (
-            <div class={`p-8 lg:p-10 ${index % 2 === 0 ? 'md:border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
-              <h3 class="text-lg font-semibold text-brand-dark mb-3">{item.title}</h3>
-              <p class="text-base text-gray-600 leading-[1.5] font-[410]">{item.description}</p>
-            </div>
-          ))}
+        <div class="relative">
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-200">
+            {principles.map((item, index) => (
+              <div class={`p-8 lg:p-10 ${index % 2 === 0 ? 'md:border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
+                <h3 class="text-lg font-semibold text-brand-dark mb-3">{item.title}</h3>
+                <p class="text-base text-gray-600 leading-[1.5] font-[410]">{item.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -96,17 +100,21 @@ const investors = [
           </h2>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 border border-gray-200">
-          {investors.map((investor) => (
-            <div class="flex items-center justify-center p-10 lg:p-12 border-r border-b border-gray-200 last:border-r-0">
-              <div class="text-center">
-                <div class="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
-                  <span class="text-sm text-gray-400 font-mono">Logo</span>
+        <div class="relative">
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="grid grid-cols-2 md:grid-cols-4 border border-gray-200">
+            {investors.map((investor) => (
+              <div class="flex items-center justify-center p-10 lg:p-12 border-r border-b border-gray-200 last:border-r-0">
+                <div class="text-center">
+                  <div class="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+                    <span class="text-sm text-gray-400 font-mono">Logo</span>
+                  </div>
+                  <p class="text-sm font-medium text-brand-dark">{investor.name}</p>
                 </div>
-                <p class="text-sm font-medium text-brand-dark">{investor.name}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -119,16 +127,27 @@ const investors = [
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 border border-gray-200">
-          {founders.map((founder, index) => (
-            <div class={`p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-gray-200' : ''}`}>
-              <div class="w-full aspect-[4/3] bg-gray-100 mb-6 flex items-center justify-center">
-                <span class="text-sm text-gray-400 font-mono">Photo</span>
+        <div class="relative">
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 border border-gray-200">
+            {founders.map((founder, index) => (
+              <div class={`p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-gray-200' : ''}`}>
+                <div class="w-full aspect-square bg-gray-100 mb-6 flex items-center justify-center">
+                  <span class="text-sm text-gray-400 font-mono">Photo</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-lg font-semibold text-brand-dark mb-1">{founder.name}</h3>
+                    <p class="text-base text-gray-600 font-[410]">{founder.title}</p>
+                  </div>
+                  <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" class="text-brand-dark/40 hover:text-brand-dark transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9"><path d="M4.00098 3H20.001C20.5533 3 21.001 3.44772 21.001 4V20C21.001 20.5523 20.5533 21 20.001 21H4.00098C3.44869 21 3.00098 20.5523 3.00098 20V4C3.00098 3.44772 3.44869 3 4.00098 3ZM5.00098 5V19H19.001V5H5.00098ZM7.50098 9C6.67255 9 6.00098 8.32843 6.00098 7.5C6.00098 6.67157 6.67255 6 7.50098 6C8.3294 6 9.00098 6.67157 9.00098 7.5C9.00098 8.32843 8.3294 9 7.50098 9ZM6.50098 10H8.50098V17.5H6.50098V10ZM12.001 10.4295C12.5854 9.86534 13.2665 9.5 14.001 9.5C16.072 9.5 17.501 11.1789 17.501 13.25V17.5H15.501V13.25C15.501 12.2835 14.7175 11.5 13.751 11.5C12.7845 11.5 12.001 12.2835 12.001 13.25V17.5H10.001V10H12.001V10.4295Z"></path></svg>
+                  </a>
+                </div>
               </div>
-              <h3 class="text-lg font-semibold text-brand-dark mb-1">{founder.name}</h3>
-              <p class="text-base text-gray-600 font-[410]">{founder.title}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -141,83 +160,124 @@ const investors = [
           </h2>
         </div>
 
-        <div class="border border-gray-200 divide-y divide-gray-200">
-          {pressItems.map((item) => (
-            <a href={item.href} class="group flex items-center justify-between p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
-              <div>
-                <p class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 group-hover:text-brand-dark/60 mb-2">{item.outlet}</p>
-                <h3 class="text-lg font-semibold text-brand-dark group-hover:text-brand-dark transition-colors">{item.title}</h3>
-              </div>
-              <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-8" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 10h10M11 6l4 4-4 4" />
-              </svg>
-            </a>
-          ))}
+        <div class="relative">
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="border border-gray-200 divide-y divide-gray-200">
+            {pressItems.map((item) => (
+              <a href={item.href} class="group flex items-center justify-between p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
+                <div>
+                  <p class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 group-hover:text-brand-dark/60 mb-2">{item.outlet}</p>
+                  <h3 class="text-lg font-semibold text-brand-dark group-hover:text-brand-dark transition-colors">{item.title}</h3>
+                </div>
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-8" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 10h10M11 6l4 4-4 4" />
+                </svg>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
       <!-- CONTACT / LET'S TALK -->
       <div class="mb-24">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <!-- Left: Info -->
-          <div>
-            <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Contact</p>
-            <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
-              Let's talk.
-            </h2>
-            <p class="text-lg text-gray-600 leading-[1.5] font-[410] max-w-md mb-10">
-              Schedule a demo or drop us a note.
-            </p>
+        <div class="relative">
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
+          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
 
-            <div class="space-y-4">
-              <div class="flex items-center gap-3">
-                <span class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 w-20">Email</span>
-                <a href="mailto:info@codekarma.ai" class="text-base text-brand-dark font-[410] hover:text-brand-primary transition-colors">info@codekarma.ai</a>
+          <div class="border border-gray-200">
+            <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+              <!-- Left: Dark panel -->
+              <div class="bg-brand-dark p-8 lg:p-10 flex flex-col justify-center lg:-mr-px">
+                <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-4">Contact</p>
+                <h2 class="text-2xl sm:text-3xl tracking-tight leading-[1.1] font-semibold text-white mb-3">
+                  Let's talk.
+                </h2>
+                <p class="text-sm text-white/60 leading-[1.5] font-[410] max-w-sm">
+                  Schedule a demo or drop us a note.
+                </p>
               </div>
-              <div class="flex items-center gap-3">
-                <span class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 w-20">Web</span>
-                <span class="text-base text-brand-dark font-[410]">www.codekarma.ai</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 w-20">HQ</span>
-                <span class="text-base text-brand-dark font-[410]">Bengaluru, India</span>
+
+              <!-- Right: Form as grid -->
+              <div class="border-t lg:border-t-0">
+                <form>
+                  <div class="grid grid-cols-1 sm:grid-cols-2">
+                    <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
+                      <label for="name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Name</label>
+                      <input type="text" id="name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="Your name" />
+                    </div>
+                    <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
+                      <label for="email" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Work Email</label>
+                      <input type="email" id="email" name="email" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="you@company.com" />
+                    </div>
+                    <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
+                      <label for="company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Company</label>
+                      <input type="text" id="company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="Company name" />
+                    </div>
+                    <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
+                      <label for="role" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Role</label>
+                      <input type="text" id="role" name="role" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="Your role" />
+                    </div>
+                  </div>
+                  <div class="p-5 lg:p-6 flex justify-end">
+                    <button type="submit" class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
+                      <span>Schedule Demo</span>
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Right: Form -->
-          <div>
-            <form class="space-y-5">
-              <div>
-                <label for="name" class="block text-sm font-medium text-brand-dark mb-1.5">Name</label>
-                <input type="text" id="name" name="name" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="Your name" />
-              </div>
-              <div>
-                <label for="email" class="block text-sm font-medium text-brand-dark mb-1.5">Work Email</label>
-                <input type="email" id="email" name="email" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="you@company.com" />
-              </div>
-              <div>
-                <label for="company" class="block text-sm font-medium text-brand-dark mb-1.5">Company</label>
-                <input type="text" id="company" name="company" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="Company name" />
-              </div>
-              <div>
-                <label for="role" class="block text-sm font-medium text-brand-dark mb-1.5">Role</label>
-                <input type="text" id="role" name="role" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors" placeholder="Your role" />
-              </div>
-              <div>
-                <label for="message" class="block text-sm font-medium text-brand-dark mb-1.5">Message</label>
-                <textarea id="message" name="message" rows="4" class="w-full border border-gray-200 px-4 py-3 text-base text-brand-dark font-[410] focus:outline-none focus:border-brand-dark transition-colors resize-none" placeholder="Tell us about your use case..."></textarea>
-              </div>
-              <button type="submit" class="inline-flex items-center justify-center px-10 py-4 bg-brand-dark font-medium text-lg hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
-                <span>Schedule Demo</span>
-                <svg class="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 10h10M11 6l4 4-4 4" />
-                </svg>
-              </button>
-            </form>
-          </div>
+        <!-- Contact details -->
+        <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
+          <a href="mailto:info@codekarma.ai" class="group inline-flex items-center gap-2 text-sm text-brand-dark font-[410]">
+            <i class="ph ph-envelope text-base text-brand-dark/40"></i>
+            <span class="group-hover:opacity-50 transition-opacity">info@codekarma.ai</span>
+          </a>
+          <span class="text-brand-dark/20 font-light">/</span>
+          <a href="https://www.codekarma.ai" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 text-sm text-brand-dark font-[410]">
+            <i class="ph ph-globe text-base text-brand-dark/40"></i>
+            <span class="group-hover:opacity-50 transition-opacity">www.codekarma.ai</span>
+          </a>
+          <span class="text-brand-dark/20 font-light">/</span>
+          <a href="https://maps.google.com/?q=Bengaluru,India" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 text-sm text-brand-dark font-[410]">
+            <i class="ph ph-map-pin text-base text-brand-dark/40"></i>
+            <span class="group-hover:opacity-50 transition-opacity">Bengaluru, India</span>
+          </a>
         </div>
       </div>
     </div>
   </section>
+<script>
+  document.querySelectorAll('.contact-field').forEach((field) => {
+    field.addEventListener('click', () => {
+      const input = field.querySelector('input, textarea') as HTMLElement;
+      input?.focus();
+    });
+  });
+</script>
+
 </BaseLayout>
+
+<style>
+  .contact-field {
+    position: relative;
+    z-index: 0;
+    cursor: text;
+  }
+
+  .contact-field:focus-within::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 2px solid #0f0f0f;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .contact-field:focus-within label {
+    color: #4b5563;
+  }
+</style>
