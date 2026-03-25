@@ -6,30 +6,43 @@ const navLinks = [
   { label: 'Security', href: '/security' },
   { label: 'About', href: '/about' },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <nav
   id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"
+  class="fixed top-0 left-0 right-0 z-50 pt-4 transition-all duration-300 bg-white border-b border-gray-200"
+  transition:animate="none"
 >
   <div id="navbar-container" class="mx-auto max-w-7xl px-[106px]">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo -->
       <a href="/" class="flex items-center">
-        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="w-auto" style="height: 36px;" />
+        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="navbar-logo-light w-auto" style="height: 44px;" />
+        <img src="/assets/Logos/Logo with name (LR)/Colored (for dark bg).svg" alt="CodeKarma" class="navbar-logo-dark w-auto hidden" style="height: 44px;" />
       </a>
 
       <!-- Desktop nav -->
       <div class="hidden md:flex items-center relative">
-        <div id="navbar-links" class="flex items-center gap-8" style="transition: opacity 0.3s ease;">
-          {navLinks.map((link) => (
-            <a
-              href={link.href}
-              class="text-sm text-gray-500 hover:text-brand-dark transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div id="navbar-links" class="relative flex items-center gap-4" style="transition: opacity 0.3s ease;">
+          <!-- Sliding SVG background pill -->
+          <svg id="nav-pill" class="absolute top-0 left-0 pointer-events-none" style="opacity: 0;" aria-hidden="true">
+            <rect rx="0" ry="0" width="100%" height="100%" fill="#f3f4f6" />
+          </svg>
+          {navLinks.map((link) => {
+            const isActive = currentPath.startsWith(link.href);
+            return (
+              <a
+                href={link.href}
+                class={`nav-link relative z-10 text-sm px-3 py-1.5 transition-all duration-[250ms] ease-out hover:bg-gray-100 ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
+                data-active={isActive ? 'true' : undefined}
+                data-text={link.label}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         <!-- CTAs that appear when hero CTAs scroll out of view -->
@@ -66,25 +79,152 @@ const navLinks = [
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden md:hidden pb-4">
       <div class="flex flex-col gap-3 pt-2">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-sm text-gray-500 hover:text-brand-dark transition-colors py-1"
-          >
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) => {
+          const isActive = currentPath.startsWith(link.href);
+          return (
+            <a
+              href={link.href}
+              class={`text-sm transition-colors py-1 ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
+            >
+              {link.label}
+            </a>
+          );
+        })}
       </div>
     </div>
   </div>
 </nav>
 
+<style>
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.25s ease-out, color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .nav-link::after {
+    content: attr(data-text);
+    font-weight: 600;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Navbar dark mode */
+  #navbar {
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :global(#navbar.navbar-dark) {
+    background-color: #0f0f0f !important;
+    border-color: rgba(255,255,255,0.1);
+  }
+  :global(#navbar.navbar-dark) .nav-link {
+    color: rgba(255,255,255,0.5);
+  }
+  :global(#navbar.navbar-dark) .nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255,255,255,0.1);
+  }
+  :global(#navbar.navbar-dark) .nav-link[data-active] {
+    color: #ffffff;
+  }
+  :global(#navbar.navbar-dark) #nav-pill rect {
+    fill: rgba(255,255,255,0.1);
+    transition: fill 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :global(#navbar.navbar-dark) .navbar-logo-light {
+    display: none;
+  }
+  :global(#navbar.navbar-dark) .navbar-logo-dark {
+    display: block;
+  }
+</style>
+
 <script>
   import { gsap, ScrollTrigger } from '../../lib/gsap';
 
-  // Navbar hide on scroll down, show on scroll up
-  const navbar = document.getElementById('navbar');
-  if (navbar) {
+  function initNavbar() {
+    ScrollTrigger.getAll().forEach((st: any) => st.kill());
+
+    const navbar = document.getElementById('navbar');
+    const navPill = document.getElementById('nav-pill') as SVGSVGElement | null;
+    const navLinksContainer = document.getElementById('navbar-links');
+    const navLinkEls = navLinksContainer?.querySelectorAll<HTMLAnchorElement>('.nav-link');
+
+    if (!navbar || !navPill || !navLinksContainer || !navLinkEls) return;
+
+    // --- Pill helpers ---
+    function getPillPos(target: HTMLElement) {
+      const containerRect = navLinksContainer!.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      return {
+        x: targetRect.left - containerRect.left,
+        y: targetRect.top - containerRect.top,
+        width: targetRect.width,
+        height: targetRect.height,
+      };
+    }
+
+    function setPill(pos: { x: number; y: number; width: number; height: number }, duration: number) {
+      gsap.to(navPill, {
+        attr: { width: pos.width, height: pos.height },
+        x: pos.x,
+        y: pos.y,
+        opacity: 1,
+        duration,
+        ease: 'power2.out',
+        overwrite: true,
+      });
+    }
+
+    // --- Position pill: animate from old position or snap to active ---
+    const activeLink = navLinksContainer.querySelector<HTMLAnchorElement>('.nav-link[data-active]');
+    const savedFrom = sessionStorage.getItem('nav-pill-from');
+    sessionStorage.removeItem('nav-pill-from');
+
+    if (activeLink) {
+      const activePos = getPillPos(activeLink);
+      if (savedFrom) {
+        // Snap pill to old position, then animate to new active
+        const from = JSON.parse(savedFrom);
+        gsap.set(navPill, {
+          attr: { width: from.width, height: from.height },
+          x: from.x,
+          y: from.y,
+          opacity: 1,
+        });
+        setPill(activePos, 0.12);
+      } else {
+        // First load — snap instantly
+        setPill(activePos, 0);
+      }
+    } else {
+      gsap.set(navPill, { opacity: 0 });
+    }
+
+    // --- On click: save current pill position, update active classes ---
+    navLinkEls.forEach((link) => {
+      link.addEventListener('click', () => {
+        // Save current active link's position so the next page can animate from it
+        const currentActive = navLinksContainer!.querySelector<HTMLAnchorElement>('.nav-link[data-active]');
+        if (currentActive) {
+          sessionStorage.setItem('nav-pill-from', JSON.stringify(getPillPos(currentActive)));
+        }
+        // Update active classes immediately for visual feedback
+        navLinkEls.forEach((l) => {
+          delete l.dataset.active;
+          l.classList.remove('text-brand-dark', 'font-semibold');
+          l.classList.add('text-gray-500');
+        });
+        link.dataset.active = 'true';
+        link.classList.add('text-brand-dark', 'font-semibold');
+        link.classList.remove('text-gray-500');
+      });
+    });
+
+    // --- Scroll behavior ---
     navbar.style.transition = 'transform 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease';
 
     ScrollTrigger.create({
@@ -92,58 +232,55 @@ const navLinks = [
       onUpdate: (self) => {
         if (self.scroll() > 80) {
           navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
-          if (self.direction === 1) {
-            navbar.style.transform = 'translateY(-100%)';
-          } else {
-            navbar.style.transform = 'translateY(0)';
-          }
+          navbar.style.transform = self.direction === 1 ? 'translateY(-100%)' : 'translateY(0)';
         } else {
           navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
           navbar.style.transform = 'translateY(0)';
         }
       },
     });
-  }
 
-  // Show/hide navbar CTAs and nav links based on hero CTA visibility
-  const navbarCtas = document.getElementById('navbar-ctas');
-  const navbarLinks = document.getElementById('navbar-links');
-  const heroCta = document.getElementById('hero-cta');
+    // --- CTA swap ---
+    const navbarCtas = document.getElementById('navbar-ctas');
+    const navbarLinks = document.getElementById('navbar-links');
+    const heroCta = document.getElementById('hero-cta');
 
-  if (navbarCtas && navbarLinks && heroCta) {
-    function updateNavbarCtas() {
-      const heroCtaRect = heroCta.getBoundingClientRect();
-      const isHeroCtaVisible = heroCtaRect.bottom > 0 && heroCtaRect.top < window.innerHeight;
+    if (navbarCtas && navbarLinks && heroCta) {
+      function updateNavbarCtas() {
+        const heroCtaRect = heroCta!.getBoundingClientRect();
+        const isHeroCtaVisible = heroCtaRect.bottom > 0 && heroCtaRect.top < window.innerHeight;
 
-      if (!isHeroCtaVisible) {
-        // Hero CTAs scrolled out — fade out nav links, fade in CTAs
-        navbarLinks.style.opacity = '0';
-        navbarLinks.style.pointerEvents = 'none';
-        navbarCtas.style.opacity = '1';
-        navbarCtas.style.pointerEvents = 'auto';
-      } else {
-        // Hero CTAs visible — show nav links instantly, hide CTAs
-        navbarLinks.style.opacity = '1';
-        navbarLinks.style.pointerEvents = 'auto';
-        navbarCtas.style.opacity = '0';
-        navbarCtas.style.pointerEvents = 'none';
+        if (!isHeroCtaVisible) {
+          navbarLinks!.style.opacity = '0';
+          navbarLinks!.style.pointerEvents = 'none';
+          navbarCtas!.style.opacity = '1';
+          navbarCtas!.style.pointerEvents = 'auto';
+        } else {
+          navbarLinks!.style.opacity = '1';
+          navbarLinks!.style.pointerEvents = 'auto';
+          navbarCtas!.style.opacity = '0';
+          navbarCtas!.style.pointerEvents = 'none';
+        }
       }
+
+      window.addEventListener('scroll', updateNavbarCtas, { passive: true });
+      updateNavbarCtas();
     }
 
-    window.addEventListener('scroll', updateNavbarCtas, { passive: true });
-    updateNavbarCtas();
+    // --- Mobile menu toggle ---
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    btn?.addEventListener('click', () => {
+      menu?.classList.toggle('hidden');
+      menuIcon?.classList.toggle('hidden');
+      closeIcon?.classList.toggle('hidden');
+    });
   }
 
-  // Mobile menu toggle
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-    menuIcon?.classList.toggle('hidden');
-    closeIcon?.classList.toggle('hidden');
-  });
+  // Run on initial load and every client-side navigation
+  document.addEventListener('astro:page-load', initNavbar);
 </script>
 

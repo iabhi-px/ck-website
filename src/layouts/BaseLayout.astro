@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import SEO from '../components/shared/SEO.astro';
 import Navbar from '../components/landing/Navbar.astro';
 import Dials from '../components/shared/Dials.tsx';
@@ -28,10 +29,11 @@ const {
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
     <SEO title={title} description={description} ogImage={ogImage} />
+    <ClientRouter />
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-900">
     <Navbar />
-    <main class="flex-1 relative z-10 bg-white">
+    <main class="flex-1 relative z-10 bg-white" transition:animate="none">
       <slot />
     </main>
     <div id="footer-spacer"></div>
