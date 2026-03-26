@@ -1,0 +1,87 @@
+<section class="relative bg-white pb-24 overflow-hidden">
+  <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+    <div class="relative">
+      <div class="border border-gray-200">
+        <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+          <!-- Left: Dark panel -->
+          <div class="bg-brand-dark p-8 lg:p-10 flex flex-col justify-center lg:-mr-px">
+            <h2 class="text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-8">
+              Let's talk
+            </h2>
+
+            <p class="text-sm text-white/40 font-[410] mb-3">Schedule a call:</p>
+            <a href="https://google.com" class="flex items-center gap-4 bg-white/10 border border-white/10 p-3 hover:bg-white/15 transition-colors duration-200">
+              <img src="/images/team/anantharam.png" alt="Anantharam Vanchi Prakash" class="w-12 h-12 object-cover flex-shrink-0" />
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-white">Anantharam Vanchi Prakash</p>
+                <p class="text-xs text-white/50 font-[410]">Co-Founder & CEO</p>
+              </div>
+              <div class="flex-shrink-0 w-9 h-9 border border-white/20 flex items-center justify-center">
+                <i class="ph ph-calendar-blank text-white/70 text-base"></i>
+              </div>
+            </a>
+          </div>
+
+          <!-- Right: Form as grid -->
+          <div class="border-t lg:border-t-0">
+            <form>
+              <div class="grid grid-cols-1 sm:grid-cols-2">
+                <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
+                  <label for="contact-name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Name</label>
+                  <input type="text" id="contact-name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
+                </div>
+                <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
+                  <label for="contact-email" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Work Email</label>
+                  <input type="email" id="contact-email" name="email" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
+                </div>
+                <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
+                  <label for="contact-company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Company</label>
+                  <input type="text" id="contact-company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
+                </div>
+                <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
+                  <label for="contact-role" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Role</label>
+                  <input type="text" id="contact-role" name="role" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
+                </div>
+              </div>
+              <div class="p-5 lg:p-6 flex justify-end">
+                <button type="submit" class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
+                  <span>Send</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.contact-field').forEach((field) => {
+    field.addEventListener('click', () => {
+      const input = field.querySelector('input, textarea') as HTMLElement;
+      input?.focus();
+    });
+  });
+</script>
+
+<style>
+  .contact-field {
+    position: relative;
+    z-index: 0;
+    cursor: text;
+  }
+
+  .contact-field:focus-within::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 2px solid #0f0f0f;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .contact-field:focus-within label {
+    color: #4b5563;
+  }
+</style>

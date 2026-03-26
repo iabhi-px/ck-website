@@ -1,28 +1,32 @@
 ---
 const products = [
   {
-    id: 'karmapulse',
-    name: 'KarmaPulse',
-    title: 'KarmaPulse',
-    description: 'Operational action dashboard for leadership. See what\'s broken, what\'s drifting, and what to fix first.',
-  },
-  {
     id: 'karmalens',
     name: 'KarmaLens',
     title: 'KarmaLens',
     description: 'IDE plugin. Dead and dormant code, method-level telemetry, and performance insights — right where you code.',
+    link: '/products#karmalens',
   },
   {
     id: 'karmadomain',
     name: 'KarmaDomain',
     title: 'KarmaDomain',
     description: 'Live system topology. API-level dependencies, fan-outs, and traffic flows in a single graph.',
+    link: '/products#karmadomain',
+  },
+  {
+    id: 'karmapulse',
+    name: 'KarmaPulse',
+    title: 'KarmaPulse',
+    description: 'Operational action dashboard for leadership. See what\'s broken, what\'s drifting, and what to fix first.',
+    link: '/products#karmapulse',
   },
   {
     id: 'karmaiq',
     name: 'KarmaIQ',
     title: 'KarmaIQ',
     description: 'MCP server for AI agents. Production context for Cursor, Claude, Copilot, and custom agents.',
+    link: '/products#karmaiq',
   },
 ];
 ---
@@ -44,7 +48,7 @@ const products = [
         <h2 id="products-heading" class="pl-4 text-[40px] sm:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
           One truth.<br />Four products.
         </h2>
-        <p id="products-subtext" class="text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
+        <p id="products-subtext" class="pl-4 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
           From developers and managers to VPs and AI agents — production intelligence for every role.
         </p>
       </div>
@@ -71,7 +75,7 @@ const products = [
         <!-- Sliding glider -->
         <div id="product-tab-glider" class="product-tab-glider">
           <svg preserveAspectRatio="none" viewBox="0 0 200 50" style="width: 100%; height: 100%;">
-            <path d="M0 50 L15 50 Q20 50 25 40 L42 5 Q45 0 50 0 L150 0 Q155 0 158 5 L175 40 Q180 50 185 50 L200 50 Z" fill="#0f0f0f" />
+            <path d="M0 50 L15 50 Q20 50 25 40 L42 5 Q45 0 50 0 L150 0 Q155 0 158 5 L175 40 Q180 50 185 50 L200 50 Z" fill="#000000" />
           </svg>
         </div>
       </div>
@@ -88,10 +92,10 @@ const products = [
             <div class="flex flex-col lg:flex-row">
               <!-- Left: Title + Description -->
               <div class="p-8 lg:p-10 flex flex-col justify-center" style="width: 30%;">
-                <h3 class="product-title text-2xl font-semibold text-white mb-4">{product.title}</h3>
+                <h3 class="product-title text-[36px] font-semibold text-white mb-4">{product.title}</h3>
                 <p class="product-desc text-base text-gray-400 leading-[1.65]">{product.description}</p>
                 <a
-                  href="#"
+                  href={product.link}
                   class="self-start inline-flex items-center gap-2 font-medium text-base hover:opacity-70 transition-opacity duration-200 mt-8"
                   style="color: #cdff52;"
                 >
@@ -99,11 +103,41 @@ const products = [
                   <i class="ph ph-arrow-right text-lg"></i>
                 </a>
               </div>
-              <!-- Right: Placeholder -->
+              <!-- Right: Placeholder / Video -->
               <div style="width: 70%;">
-                <div class="product-placeholder aspect-video flex items-center justify-center">
-                  <p class="text-gray-600 text-sm">Image / Video placeholder</p>
-                </div>
+                {product.id === 'karmalens' ? (
+                  <div class="aspect-video overflow-hidden border rounded-[12px]" style="border-color: #2a2a2a;">
+                    <video
+                      class="product-video w-full h-full object-cover"
+                      data-product="karmalens"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                    >
+                      <source src="/assets/Videos/karmalens.webm" type="video/webm" />
+                      <source src="/assets/Videos/karmalens.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                ) : product.id === 'karmadomain' ? (
+                  <div class="aspect-video overflow-hidden border rounded-[12px]" style="border-color: #2a2a2a;">
+                    <video
+                      class="product-video w-full h-full object-cover"
+                      data-product="karmadomain"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                    >
+                      <source src="/assets/Videos/karmadomain.webm" type="video/webm" />
+                      <source src="/assets/Videos/karmadomain.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                ) : (
+                  <div class="product-placeholder aspect-video flex items-center justify-center">
+                    <p class="text-gray-600 text-sm">Image / Video placeholder</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -235,6 +269,33 @@ const products = [
     onScroll();
   }
 
+  function initProductVideos() {
+    const productVideos = document.querySelectorAll<HTMLVideoElement>('.product-video');
+    if (!productVideos.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const panel = entry.target as HTMLElement;
+          const video = panel.querySelector('.product-video') as HTMLVideoElement;
+          if (!video) return;
+          if (entry.isIntersecting) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    document.querySelectorAll<HTMLElement>('.product-panel').forEach((panel) => {
+      if (panel.querySelector('.product-video')) {
+        observer.observe(panel);
+      }
+    });
+  }
+
   function initAll() {
     // Reset inline styles that may be stale from previous navigation
     const wrapper = document.querySelector('.products-tabs-wrapper') as HTMLElement;
@@ -249,9 +310,10 @@ const products = [
 
     initProductTabs();
     initScrollTabs();
+    initProductVideos();
   }
 
-  document.addEventListener('astro:page-load', initAll);
+  document.addEventListener('DOMContentLoaded', initAll);
 </script>
 
 <style>
@@ -348,7 +410,7 @@ const products = [
   }
 
   .product-panels {
-    background: #0f0f0f;
+    background: #000000;
     border-radius: 8px;
     overflow: hidden;
     padding: 40px 40px 40px 0;

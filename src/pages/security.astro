@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Contact from '../components/shared/Contact.astro';
 
 const commitments = [
   {
@@ -26,7 +27,7 @@ const commitments = [
 ---
 
 <BaseLayout title="Security — CodeKarma" description="Security-first by design. Learn how CodeKarma protects your production environment with zero data egress, SOC 2 compliance, and enterprise-grade controls.">
-  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
+  <section class="relative bg-white pt-[220px] pb-16 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -394,6 +395,7 @@ const commitments = [
       </div>
     </div>
   </section>
+  <Contact />
 </BaseLayout>
 
 <script>

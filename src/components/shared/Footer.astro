@@ -1,8 +1,8 @@
 ---
 const productLinks = [
-  { label: 'KarmaPulse', href: '/products#karmapulse' },
   { label: 'KarmaLens', href: '/products#karmalens' },
   { label: 'KarmaDomain', href: '/products#karmadomain' },
+  { label: 'KarmaPulse', href: '/products#karmapulse' },
   { label: 'KarmaIQ', href: '/products#karmaiq' },
 ];
 
@@ -232,7 +232,7 @@ const currentYear = new Date().getFullYear();
       });
     }
 
-    document.addEventListener('astro:page-load', initFooterGlyph);
+    document.addEventListener('DOMContentLoaded', initFooterGlyph);
   </script>
 
 </footer>

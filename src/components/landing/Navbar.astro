@@ -13,7 +13,6 @@ const currentPath = Astro.url.pathname;
 <nav
   id="navbar"
   class="fixed top-0 left-0 right-0 z-50 pt-4 transition-all duration-300 bg-white border-b border-gray-200"
-  transition:animate="none"
 >
   <div id="navbar-container" class="mx-auto max-w-7xl px-[106px]">
     <div class="flex h-16 items-center justify-between">
@@ -35,7 +34,7 @@ const currentPath = Astro.url.pathname;
             return (
               <a
                 href={link.href}
-                class={`nav-link relative z-10 text-sm px-3 py-1.5 transition-all duration-[250ms] ease-out hover:bg-gray-100 ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
+                class={`nav-link relative z-10 text-sm px-3 py-1.5 transition-all duration-[250ms] ease-out ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
                 data-active={isActive ? 'true' : undefined}
                 data-text={link.label}
               >
@@ -125,7 +124,6 @@ const currentPath = Astro.url.pathname;
   }
   :global(#navbar.navbar-dark) .nav-link:hover {
     color: #ffffff;
-    background-color: rgba(255,255,255,0.1);
   }
   :global(#navbar.navbar-dark) .nav-link[data-active] {
     color: #ffffff;
@@ -143,10 +141,11 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
-  import { gsap, ScrollTrigger } from '../../lib/gsap';
+  let navCleanup: (() => void) | null = null;
 
   function initNavbar() {
-    ScrollTrigger.getAll().forEach((st: any) => st.kill());
+    // Clean up previous listeners
+    if (navCleanup) navCleanup();
 
     const navbar = document.getElementById('navbar');
     const navPill = document.getElementById('nav-pill') as SVGSVGElement | null;
@@ -155,132 +154,81 @@ const currentPath = Astro.url.pathname;
 
     if (!navbar || !navPill || !navLinksContainer || !navLinkEls) return;
 
-    // --- Pill helpers ---
-    function getPillPos(target: HTMLElement) {
-      const containerRect = navLinksContainer!.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-      return {
-        x: targetRect.left - containerRect.left,
-        y: targetRect.top - containerRect.top,
-        width: targetRect.width,
-        height: targetRect.height,
-      };
+    const listeners: Array<[EventTarget, string, EventListener]> = [];
+    function listen(el: EventTarget, evt: string, fn: EventListener, opts?: AddEventListenerOptions) {
+      el.addEventListener(evt, fn, opts);
+      listeners.push([el, evt, fn]);
     }
 
-    function setPill(pos: { x: number; y: number; width: number; height: number }, duration: number) {
-      gsap.to(navPill, {
-        attr: { width: pos.width, height: pos.height },
-        x: pos.x,
-        y: pos.y,
-        opacity: 1,
-        duration,
-        ease: 'power2.out',
-        overwrite: true,
-      });
-    }
-
-    // --- Position pill: animate from old position or snap to active ---
+    // --- Pill: snap to active link ---
     const activeLink = navLinksContainer.querySelector<HTMLAnchorElement>('.nav-link[data-active]');
-    const savedFrom = sessionStorage.getItem('nav-pill-from');
-    sessionStorage.removeItem('nav-pill-from');
-
     if (activeLink) {
-      const activePos = getPillPos(activeLink);
-      if (savedFrom) {
-        // Snap pill to old position, then animate to new active
-        const from = JSON.parse(savedFrom);
-        gsap.set(navPill, {
-          attr: { width: from.width, height: from.height },
-          x: from.x,
-          y: from.y,
-          opacity: 1,
-        });
-        setPill(activePos, 0.12);
-      } else {
-        // First load — snap instantly
-        setPill(activePos, 0);
-      }
+      const containerRect = navLinksContainer.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      navPill.setAttribute('width', String(linkRect.width));
+      navPill.setAttribute('height', String(linkRect.height));
+      navPill.style.transform = `translate(${linkRect.left - containerRect.left}px, ${linkRect.top - containerRect.top}px)`;
+      navPill.style.opacity = '1';
     } else {
-      gsap.set(navPill, { opacity: 0 });
+      navPill.style.opacity = '0';
     }
 
-    // --- On click: save current pill position, update active classes ---
-    navLinkEls.forEach((link) => {
-      link.addEventListener('click', () => {
-        // Save current active link's position so the next page can animate from it
-        const currentActive = navLinksContainer!.querySelector<HTMLAnchorElement>('.nav-link[data-active]');
-        if (currentActive) {
-          sessionStorage.setItem('nav-pill-from', JSON.stringify(getPillPos(currentActive)));
-        }
-        // Update active classes immediately for visual feedback
-        navLinkEls.forEach((l) => {
-          delete l.dataset.active;
-          l.classList.remove('text-brand-dark', 'font-semibold');
-          l.classList.add('text-gray-500');
-        });
-        link.dataset.active = 'true';
-        link.classList.add('text-brand-dark', 'font-semibold');
-        link.classList.remove('text-gray-500');
-      });
-    });
+    // --- Scroll: hide on scroll down, show on scroll up ---
+    let lastScrollY = window.scrollY;
+    navbar.style.transition = 'transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease';
 
-    // --- Scroll behavior ---
-    navbar.style.transition = 'transform 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease';
+    function onScroll() {
+      const scrollY = window.scrollY;
+      if (scrollY > 80) {
+        navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+        navbar.style.transform = scrollY > lastScrollY ? 'translateY(-100%)' : 'translateY(0)';
+      } else {
+        navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+        navbar.style.transform = 'translateY(0)';
+      }
+      lastScrollY = scrollY;
+    }
+    listen(window, 'scroll', onScroll, { passive: true });
 
-    ScrollTrigger.create({
-      start: 'top -80',
-      onUpdate: (self) => {
-        if (self.scroll() > 80) {
-          navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
-          navbar.style.transform = self.direction === 1 ? 'translateY(-100%)' : 'translateY(0)';
-        } else {
-          navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
-          navbar.style.transform = 'translateY(0)';
-        }
-      },
-    });
-
-    // --- CTA swap ---
+    // --- CTA swap (homepage only) ---
     const navbarCtas = document.getElementById('navbar-ctas');
     const navbarLinks = document.getElementById('navbar-links');
     const heroCta = document.getElementById('hero-cta');
 
     if (navbarCtas && navbarLinks && heroCta) {
       function updateNavbarCtas() {
-        const heroCtaRect = heroCta!.getBoundingClientRect();
-        const isHeroCtaVisible = heroCtaRect.bottom > 0 && heroCtaRect.top < window.innerHeight;
-
-        if (!isHeroCtaVisible) {
-          navbarLinks!.style.opacity = '0';
-          navbarLinks!.style.pointerEvents = 'none';
-          navbarCtas!.style.opacity = '1';
-          navbarCtas!.style.pointerEvents = 'auto';
-        } else {
-          navbarLinks!.style.opacity = '1';
-          navbarLinks!.style.pointerEvents = 'auto';
-          navbarCtas!.style.opacity = '0';
-          navbarCtas!.style.pointerEvents = 'none';
-        }
+        const rect = heroCta!.getBoundingClientRect();
+        const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+        navbarLinks!.style.opacity = visible ? '1' : '0';
+        navbarLinks!.style.pointerEvents = visible ? 'auto' : 'none';
+        navbarCtas!.style.opacity = visible ? '0' : '1';
+        navbarCtas!.style.pointerEvents = visible ? 'none' : 'auto';
       }
-
-      window.addEventListener('scroll', updateNavbarCtas, { passive: true });
+      listen(window, 'scroll', updateNavbarCtas, { passive: true });
       updateNavbarCtas();
     }
 
-    // --- Mobile menu toggle ---
+    // --- Mobile menu ---
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
 
-    btn?.addEventListener('click', () => {
-      menu?.classList.toggle('hidden');
-      menuIcon?.classList.toggle('hidden');
-      closeIcon?.classList.toggle('hidden');
-    });
+    if (btn && menu && menuIcon && closeIcon) {
+      listen(btn, 'click', () => {
+        menu.classList.toggle('hidden');
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+      });
+    }
+
+    // Cleanup function
+    navCleanup = () => {
+      listeners.forEach(([el, evt, fn]) => el.removeEventListener(evt, fn));
+      listeners.length = 0;
+    };
   }
 
-  // Run on initial load and every client-side navigation
-  document.addEventListener('astro:page-load', initNavbar);
+  document.addEventListener('DOMContentLoaded', initNavbar);
 </script>
 

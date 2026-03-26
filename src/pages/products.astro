@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Security from '../components/landing/Security.astro';
+import Contact from '../components/shared/Contact.astro';
 
 const karmaPulseFeatures = [
   { title: 'API health dashboard', desc: 'Failing, slow, or drifting APIs, prioritized by impact' },
@@ -39,14 +40,13 @@ const karmaIQFeatures = [
 
 <BaseLayout title="Products — CodeKarma" description="Explore CodeKarma's production intelligence platform: KarmaPulse, KarmaLens, KarmaDomain, and KarmaIQ.">
 
-<div id="products-page" class="products-bg">
   <!-- HERO -->
-  <section class="relative pt-[220px] pb-0 overflow-hidden">
+  <section class="relative bg-white pt-[220px] pb-0 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
-        <div class="ts-border absolute left-0 top-0 bottom-0 w-px"></div>
-        <div class="ts-border absolute right-0 top-0 bottom-0 w-px"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
@@ -54,12 +54,12 @@ const karmaIQFeatures = [
       <!-- Hero heading -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
         <div>
-          <h1 class="ts-heading text-[48px] tracking-tight leading-[1.1] font-semibold pl-4">
+          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold pl-4 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             <span>The Production Context Engine</span>
           </h1>
         </div>
         <div class="flex flex-col justify-start py-[12px]">
-          <p class="ts-desc leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+          <p class="pl-4 text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
             One source of truth. Zero-touch instrumentation. Insights for humans and AI agents. Four products for four personas.
           </p>
         </div>
@@ -67,90 +67,56 @@ const karmaIQFeatures = [
     </div>
   </section>
 
-  <!-- KARMAPULSE -->
-  <section id="karmapulse" class="relative pt-40 pb-40 overflow-hidden">
+  <!-- KARMALENS (light) -->
+  <section id="karmalens" class="relative bg-white pt-40 pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
-        <div class="ts-border absolute left-0 top-0 bottom-0 w-px"></div>
-        <div class="ts-border absolute right-0 top-0 bottom-0 w-px"></div>
-      </div>
-    </div>
-
-    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-        <!-- Text left -->
-        <div>
-          <p class="ts-muted text-sm font-mono tracking-[0.3em] uppercase mb-5">For Engineering Leadership</p>
-          <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
-            KarmaPulse
-          </h2>
-          <p class="ts-text text-lg font-[410] mb-6">Know what needs attention. Act with confidence.</p>
-          <p class="ts-desc leading-[1.5] font-[410]" style="font-size: 18px;">
-            The operational command center for your engineering org. KarmaPulse surfaces the most important issues and the specific actions to fix them.
-          </p>
-        </div>
-        <!-- Visual right -->
-        <div class="ts-card flex items-center justify-center aspect-[4/3]">
-          <span class="ts-muted text-sm font-mono">KarmaPulse Screenshot</span>
-        </div>
-      </div>
-
-      <!-- Feature tiles -->
-      <div class="relative">
-        <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {karmaPulseFeatures.map((f, i) => (
-            <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
-              <h4 class="ts-heading text-[16px] font-semibold mb-2">{f.title}</h4>
-              <p class="ts-desc text-[16px] leading-[1.5] font-[410]">{f.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KARMALENS (scroll-to-dark) -->
-  <section id="karmalens" class="theme-section relative pt-40 pb-40 overflow-hidden" data-theme="dark">
-    <!-- Vertical gridlines -->
-    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
-      <div class="relative h-full">
-        <div class="absolute left-0 top-0 bottom-0 w-px ts-border"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-px ts-border"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
       </div>
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
         <!-- Visual left -->
-        <div class="ts-card flex items-center justify-center aspect-[4/3] order-2 lg:order-1">
-          <span class="ts-muted text-sm font-mono">KarmaLens IDE Screenshot</span>
+        <div class="aspect-[4/3] overflow-hidden border rounded-[12px] order-2 lg:order-1" style="border-color: #2a2a2a;">
+          <video
+            class="karmalens-product-video w-full h-full object-cover"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="/assets/Videos/karmalens.webm" type="video/webm" />
+            <source src="/assets/Videos/karmalens.mp4" type="video/mp4" />
+          </video>
         </div>
         <!-- Text right -->
         <div class="order-1 lg:order-2">
-          <p class="theme-trigger text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For Developers</p>
-          <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
+          <p class="pl-4 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Developers</p>
+          <h2 class="pl-4 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
             KarmaLens
           </h2>
-          <p class="ts-text text-lg font-[410] mb-6">Production intelligence, right where you code.</p>
-          <p class="ts-desc leading-[1.5] font-[410] mb-8" style="font-size: 18px;">
+          <p class="pl-4 text-lg text-brand-dark font-[410] mb-6">Production intelligence, right where you code.</p>
+          <p class="pl-4 text-gray-600 leading-[1.5] font-[410] mb-8" style="font-size: 18px;">
             Brings production truth into your IDE. See dead and dormant code, method frequency, performance hotspots, and execution paths — overlaid on your code. 100% of traffic. Not sampled.
           </p>
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="ts-muted text-[11px] font-mono tracking-[0.2em] uppercase mr-1">Supported</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">JetBrains (IntelliJ)</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">VS Code</span>
+          <div class="pl-4 flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mr-1">Supported</span>
+            <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">JetBrains (IntelliJ)</span>
+            <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">VS Code</span>
           </div>
         </div>
       </div>
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-gray-200">
           {karmaLensFeatures.map((f, i) => (
-            <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
-              <h4 class="ts-heading text-[16px] font-semibold mb-2">{f.title}</h4>
-              <p class="ts-desc text-[16px] leading-[1.5] font-[410]">{f.desc}</p>
+            <div class={`p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r border-gray-200' : ''} ${i < 3 ? 'border-b border-gray-200' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
+              <h4 class="text-[16px] font-semibold text-brand-dark mb-2">{f.title}</h4>
+              <p class="text-[16px] text-gray-600 leading-[1.5] font-[410]">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -158,43 +124,52 @@ const karmaIQFeatures = [
     </div>
   </section>
 
-  <!-- KARMADOMAIN -->
-  <section id="karmadomain" class="relative pt-40 pb-40 overflow-hidden">
+  <!-- KARMADOMAIN (dark) -->
+  <section id="karmadomain" class="dark-section relative bg-brand-dark pt-40 pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
-        <div class="ts-border absolute left-0 top-0 bottom-0 w-px"></div>
-        <div class="ts-border absolute right-0 top-0 bottom-0 w-px"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-px bg-white/10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px bg-white/10"></div>
       </div>
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
       <!-- Header -->
       <div class="max-w-3xl mb-12">
-        <p class="ts-muted text-sm font-mono tracking-[0.3em] uppercase mb-5">For Architects & Platform Teams</p>
-        <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
+        <p class="pl-4 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For Architects & Platform Teams</p>
+        <h2 class="pl-4 text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
           KarmaDomain
         </h2>
-        <p class="ts-text text-lg font-[410] mb-6">See how your software actually connects and behaves.</p>
-        <p class="ts-desc leading-[1.5] font-[410]" style="font-size: 18px;">
+        <p class="pl-4 text-lg text-white/80 font-[410] mb-6">See how your software actually connects and behaves.</p>
+        <p class="pl-4 text-white/50 leading-[1.5] font-[410]" style="font-size: 18px;">
           The live graph of your production systems. Microservices, APIs, databases — connected in real time. Unlike traditional tools that show service-to-service, KarmaDomain shows API-to-API level dependencies. Every connection based on 100% production traffic.
         </p>
       </div>
 
       <!-- Full-width visual -->
       <div class="relative mb-16">
-        <div class="ts-card w-full aspect-[21/9] flex items-center justify-center">
-          <span class="ts-muted text-sm font-mono">KarmaDomain Topology Graph</span>
+        <div class="w-full aspect-[21/9] overflow-hidden border rounded-[12px]" style="border-color: #2a2a2a;">
+          <video
+            class="karmadomain-product-video w-full h-full object-cover"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="/assets/Videos/karmadomain.webm" type="video/webm" />
+            <source src="/assets/Videos/karmadomain.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-white/10">
           {karmaDomainFeatures.map((f, i) => (
-            <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
-              <h4 class="ts-heading text-[16px] font-semibold mb-2">{f.title}</h4>
-              <p class="ts-desc text-[16px] leading-[1.5] font-[410]">{f.desc}</p>
+            <div class={`p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r border-white/10' : ''} ${i < 3 ? 'border-b border-white/10' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
+              <h4 class="text-[16px] font-semibold text-white mb-2">{f.title}</h4>
+              <p class="text-[16px] text-white/50 leading-[1.5] font-[410]">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -202,13 +177,13 @@ const karmaIQFeatures = [
     </div>
   </section>
 
-  <!-- KARMAIQ (scroll-to-dark) -->
-  <section id="karmaiq" class="theme-section relative pt-40 pb-40 overflow-hidden" data-theme="dark">
+  <!-- KARMAPULSE (light) -->
+  <section id="karmapulse" class="relative bg-white pt-40 pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
-        <div class="absolute left-0 top-0 bottom-0 w-px ts-border"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-px ts-border"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
       </div>
     </div>
 
@@ -216,36 +191,28 @@ const karmaIQFeatures = [
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
         <!-- Text left -->
         <div>
-          <p class="theme-trigger text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
-          <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
-            KarmaIQ
+          <p class="pl-4 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Engineering Leadership</p>
+          <h2 class="pl-4 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
+            KarmaPulse
           </h2>
-          <p class="ts-text text-lg font-[410] mb-6">Give your AI agents the ground truth from production.</p>
-          <p class="ts-desc leading-[1.5] font-[410] mb-8" style="font-size: 18px;">
-            MCP server that provides production context to AI coding agents. A blended view from service-to-service, to API-to-API, to method-to-method. Trace entire requests across multiple services. Debug issues. Reduce MTTR. Ground AI-generated code in reality.
+          <p class="pl-4 text-lg text-brand-dark font-[410] mb-6">Know what needs attention. Act with confidence.</p>
+          <p class="pl-4 text-gray-600 leading-[1.5] font-[410]" style="font-size: 18px;">
+            The operational command center for your engineering org. KarmaPulse surfaces the most important issues and the specific actions to fix them.
           </p>
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="ts-muted text-[11px] font-mono tracking-[0.2em] uppercase mr-1">Works with</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">Cursor</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">Windsurf</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">GitHub Copilot</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">Claude</span>
-            <span class="ts-tag text-xs font-mono px-3 py-1">Custom agents</span>
-          </div>
         </div>
         <!-- Visual right -->
-        <div class="ts-card flex items-center justify-center aspect-[4/3]">
-          <span class="ts-muted text-sm font-mono">KarmaIQ MCP Diagram</span>
+        <div class="flex items-center justify-center bg-gray-100 aspect-[4/3]">
+          <span class="text-sm text-gray-400 font-mono">KarmaPulse Screenshot</span>
         </div>
       </div>
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {karmaIQFeatures.map((f, i) => (
-            <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
-              <h4 class="ts-heading text-[16px] font-semibold mb-2">{f.title}</h4>
-              <p class="ts-desc text-[16px] leading-[1.5] font-[410]">{f.desc}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-gray-200">
+          {karmaPulseFeatures.map((f, i) => (
+            <div class={`p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r border-gray-200' : ''} ${i < 3 ? 'border-b border-gray-200' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
+              <h4 class="text-[16px] font-semibold text-brand-dark mb-2">{f.title}</h4>
+              <p class="text-[16px] text-gray-600 leading-[1.5] font-[410]">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -253,90 +220,122 @@ const karmaIQFeatures = [
     </div>
   </section>
 
+  <!-- KARMAIQ (dark) -->
+  <section id="karmaiq" class="dark-section relative bg-brand-dark pt-40 pb-40 overflow-hidden">
+    <!-- Vertical gridlines -->
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px bg-white/10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px bg-white/10"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
+        <!-- Text left -->
+        <div>
+          <p class="pl-4 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
+          <h2 class="pl-4 text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
+            KarmaIQ
+          </h2>
+          <p class="pl-4 text-lg text-white/80 font-[410] mb-6">Give your AI agents the ground truth from production.</p>
+          <p class="pl-4 text-white/50 leading-[1.5] font-[410] mb-8" style="font-size: 18px;">
+            MCP server that provides production context to AI coding agents. A blended view from service-to-service, to API-to-API, to method-to-method. Trace entire requests across multiple services. Debug issues. Reduce MTTR. Ground AI-generated code in reality.
+          </p>
+          <div class="pl-4 flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-white/30 mr-1">Works with</span>
+            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Cursor</span>
+            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Windsurf</span>
+            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">GitHub Copilot</span>
+            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Claude</span>
+            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Custom agents</span>
+          </div>
+        </div>
+        <!-- Visual right -->
+        <div class="flex items-center justify-center bg-white/5 border border-white/10 aspect-[4/3]">
+          <span class="text-sm text-white/30 font-mono">KarmaIQ MCP Diagram</span>
+        </div>
+      </div>
+
+      <!-- Feature tiles -->
+      <div class="relative">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-white/10">
+          {karmaIQFeatures.map((f, i) => (
+            <div class={`p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r border-white/10' : ''} ${i < 3 ? 'border-b border-white/10' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
+              <h4 class="text-[16px] font-semibold text-white mb-2">{f.title}</h4>
+              <p class="text-[16px] text-white/50 leading-[1.5] font-[410]">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM LAYER -->
+  <section class="relative bg-white pt-40 pb-0 overflow-hidden">
+    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+      <div class="relative h-full">
+        <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
+      </div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+      <div class="relative">
+        <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-200">
+          <div class="p-8 lg:p-10 md:border-r border-gray-200">
+            <div class="w-12 h-12 bg-gray-100 mb-4 flex items-center justify-center">
+              <span class="text-[10px] text-gray-400 font-mono">Icon</span>
+            </div>
+            <h3 class="text-lg font-semibold text-brand-dark mb-2">KarmaKit</h3>
+            <p class="text-sm text-gray-600 leading-[1.5] font-[410]">Lightweight agent. Proprietary instrumentation. Zero code changes. 100% call capture.</p>
+          </div>
+          <div class="p-8 lg:p-10 border-t md:border-t-0 border-gray-200">
+            <div class="w-12 h-12 bg-gray-100 mb-4 flex items-center justify-center">
+              <span class="text-[10px] text-gray-400 font-mono">Icon</span>
+            </div>
+            <h3 class="text-lg font-semibold text-brand-dark mb-2">KarmaBase</h3>
+            <p class="text-sm text-gray-600 leading-[1.5] font-[410]">Collects, stores, and analyzes production behavior. SaaS or BYOC.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <Security />
+  <Contact />
 
-</div><!-- end #products-page -->
-
-<style>
-  /* Make main transparent so wrapper bg shows through */
-  :global(main):has(.products-bg) {
-    background-color: transparent !important;
-  }
-
-  .products-bg {
-    background-color: #ffffff;
-    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark {
-    background-color: #0f0f0f;
-  }
-
-  /* Text colors that follow the page transition */
-  .products-bg .ts-heading { color: #0f0f0f; transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-  .products-bg.is-dark .ts-heading { color: #ffffff; }
-
-  .products-bg .ts-text { color: #1f2937; transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-  .products-bg.is-dark .ts-text { color: rgba(255,255,255,0.8); }
-
-  .products-bg .ts-desc { color: #6b7280; transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-  .products-bg.is-dark .ts-desc { color: rgba(255,255,255,0.5); }
-
-  .products-bg .ts-muted { color: #9ca3af; transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-  .products-bg.is-dark .ts-muted { color: rgba(255,255,255,0.3); }
-
-  .products-bg .ts-tag {
-    color: #4b5563;
-    border: 1px solid #e5e7eb;
-    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark .ts-tag {
-    color: rgba(255,255,255,0.7);
-    border-color: rgba(255,255,255,0.2);
-  }
-
-  .products-bg .ts-card {
-    background-color: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark .ts-card {
-    background-color: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.1);
-  }
-
-  .products-bg .ts-border {
-    background-color: #e5e7eb;
-    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark .ts-border { background-color: rgba(255,255,255,0.1); }
-
-  .products-bg .ts-tile-grid {
-    border: 1px solid #e5e7eb;
-    transition: border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark .ts-tile-grid { border-color: rgba(255,255,255,0.1); }
-
-  .products-bg .ts-tile {
-    border-color: #e5e7eb;
-    transition: border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark .ts-tile { border-color: rgba(255,255,255,0.1); }
-
-  .products-bg .ts-line {
-    background-color: #e5e5e5;
-    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .products-bg.is-dark .ts-line {
-    background-color: #2a2a2a;
-  }
-</style>
+</BaseLayout>
 
 <script>
-  function initThemeSections() {
-    const wrapper = document.getElementById('products-page');
-    const triggers = document.querySelectorAll<HTMLElement>('.theme-section[data-theme="dark"] .theme-trigger');
-    if (!wrapper || !triggers.length) return;
+  function initProductPageVideos() {
+    const videos = document.querySelectorAll<HTMLVideoElement>('.karmalens-product-video, .karmadomain-product-video');
+    if (!videos.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    videos.forEach((video) => observer.observe(video));
+  }
+
+  document.addEventListener('DOMContentLoaded', initProductPageVideos);
+
+  // Navbar dark/light switching based on visible section
+  function initNavbarTheme() {
+    const darkSections = document.querySelectorAll<HTMLElement>('.dark-section');
+    const navbar = document.getElementById('navbar');
+    if (!navbar || !darkSections.length) return;
 
     let darkCount = 0;
 
@@ -350,32 +349,26 @@ const karmaIQFeatures = [
           }
         });
 
-        const navbar = document.getElementById('navbar');
         if (darkCount > 0) {
-          wrapper.classList.add('is-dark');
-          navbar?.classList.add('navbar-dark');
+          navbar.classList.add('navbar-dark');
         } else {
-          wrapper.classList.remove('is-dark');
-          navbar?.classList.remove('navbar-dark');
+          navbar.classList.remove('navbar-dark');
         }
       },
       {
-        rootMargin: '25% 0px 0px 0px',
+        rootMargin: '-50% 0px -50% 0px',
         threshold: 0,
       }
     );
 
-    triggers.forEach((trigger) => observer.observe(trigger));
+    darkSections.forEach((section) => observer.observe(section));
   }
 
-  document.addEventListener('astro:page-load', () => {
-    // Reset navbar to light when not on products page
+  document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
-    if (!document.getElementById('products-page')) {
+    if (!document.querySelector('.dark-section')) {
       navbar?.classList.remove('navbar-dark');
     }
-    initThemeSections();
+    initNavbarTheme();
   });
 </script>
-
-</BaseLayout>

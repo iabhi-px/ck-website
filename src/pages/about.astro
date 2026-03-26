@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Contact from '../components/shared/Contact.astro';
 
 const principles = [
   {
@@ -47,7 +48,7 @@ const investors = [
 ---
 
 <BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team.">
-  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
+  <section class="relative bg-white pt-[220px] pb-16 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -278,105 +279,15 @@ const investors = [
         </div>
       </div>
 
-      <!-- CONTACT / LET'S TALK -->
-      <div class="mb-24">
-        <div class="relative">
-          <div class="border border-gray-200">
-            <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
-              <!-- Left: Dark panel -->
-              <div class="bg-brand-dark p-8 lg:p-10 flex flex-col justify-center lg:-mr-px">
-                <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-primary mb-4">Contact</p>
-                <h2 class="text-2xl sm:text-3xl tracking-tight leading-[1.1] font-semibold text-white mb-3">
-                  Let's talk
-                </h2>
-                <p class="text-sm text-white/60 leading-[1.5] font-[410] max-w-sm">
-                  Schedule a demo or drop us a note.
-                </p>
-              </div>
 
-              <!-- Right: Form as grid -->
-              <div class="border-t lg:border-t-0">
-                <form>
-                  <div class="grid grid-cols-1 sm:grid-cols-2">
-                    <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
-                      <label for="name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Name</label>
-                      <input type="text" id="name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
-                    </div>
-                    <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
-                      <label for="email" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Work Email</label>
-                      <input type="email" id="email" name="email" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
-                    </div>
-                    <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
-                      <label for="company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Company</label>
-                      <input type="text" id="company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
-                    </div>
-                    <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
-                      <label for="role" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Role</label>
-                      <input type="text" id="role" name="role" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
-                    </div>
-                  </div>
-                  <div class="p-5 lg:p-6 flex justify-end">
-                    <button type="submit" class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
-                      <span>Schedule Demo</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact details -->
-        <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
-          <a href="mailto:info@codekarma.ai" class="group inline-flex items-center gap-2 text-sm text-brand-dark font-[410]">
-            <i class="ph ph-envelope text-base text-brand-dark/40"></i>
-            <span class="group-hover:opacity-50 transition-opacity">info@codekarma.ai</span>
-          </a>
-          <span class="text-brand-dark/20 font-light">/</span>
-          <a href="https://www.codekarma.ai" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 text-sm text-brand-dark font-[410]">
-            <i class="ph ph-globe text-base text-brand-dark/40"></i>
-            <span class="group-hover:opacity-50 transition-opacity">www.codekarma.ai</span>
-          </a>
-          <span class="text-brand-dark/20 font-light">/</span>
-          <a href="https://maps.google.com/?q=Bengaluru,India" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 text-sm text-brand-dark font-[410]">
-            <i class="ph ph-map-pin text-base text-brand-dark/40"></i>
-            <span class="group-hover:opacity-50 transition-opacity">Bengaluru, India</span>
-          </a>
-        </div>
       </div>
     </div>
   </section>
-<script>
-  document.querySelectorAll('.contact-field').forEach((field) => {
-    field.addEventListener('click', () => {
-      const input = field.querySelector('input, textarea') as HTMLElement;
-      input?.focus();
-    });
-  });
-</script>
 
+  <Contact />
 </BaseLayout>
 
 <style>
-  .contact-field {
-    position: relative;
-    z-index: 0;
-    cursor: text;
-  }
-
-  .contact-field:focus-within::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border: 2px solid #0f0f0f;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .contact-field:focus-within label {
-    color: #4b5563;
-  }
-
   .principle-cell {
     transition: background-color 0.2s ease;
   }
