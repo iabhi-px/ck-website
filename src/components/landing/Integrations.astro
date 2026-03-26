@@ -3,25 +3,25 @@
 
 <section id="integrations" class="relative bg-white pt-24 pb-12">
   <!-- Vertical gridlines -->
-  <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+  <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
     <div class="relative h-full">
       <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
       <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
     </div>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
     <!-- Section header -->
     <div class="max-w-3xl mb-16">
       <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Integrations</p>
-      <h2 class="pl-4 text-[40px] sm:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold ml-[-1px]">
+      <h2 class="pl-4 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold ml-[-1px]">
         Zero friction.<br /> Any stack. Any cloud.
       </h2>
     </div>
 
     <!-- Languages & Clouds side by side -->
-    <div class="flex gap-8">
-      <div class="min-w-0 flex-1 max-w-[50%]">
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Languages</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="java" style="--swatch-bg: #B07219; --icon-scale: 1;">
@@ -38,7 +38,7 @@
             <span class="swatch-name">.NET</span></div>
         </section>
       </div>
-      <div class="min-w-0 flex-1 max-w-[50%]">
+      <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Clouds</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="aws" style="--swatch-bg: #FF9900; --icon-scale: 1;">
@@ -115,8 +115,8 @@
     <div class="int-line"></div>
 
     <!-- Infra & Protocols side by side -->
-    <div class="flex gap-8 mt-10">
-      <div class="min-w-0 flex-1 max-w-[50%]">
+    <div class="flex flex-col md:flex-row gap-8 mt-10">
+      <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Infra</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="kubernetes" style="--swatch-bg: #326CE5; --icon-scale: 1;">
@@ -124,7 +124,7 @@
             <span class="swatch-name">Kubernetes</span></div>
         </section>
       </div>
-      <div class="min-w-0 flex-1 max-w-[50%]">
+      <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Protocols</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="https" style="--swatch-bg: #005C9C; --icon-scale: 1;">
@@ -197,6 +197,7 @@
     padding: 16px;
     position: relative;
     will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     --card-color: var(--swatch-bg);
   }
 
@@ -255,103 +256,85 @@
     position: relative;
     z-index: 20;
   }
+
+  @media (max-width: 640px) {
+    .palette {
+      block-size: 50px;
+      padding-top: 20px;
+    }
+    .swatch {
+      block-size: 160px;
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .swatch-icon {
+      width: 18px;
+      height: 18px;
+    }
+    .swatch-name {
+      font-size: 10px;
+    }
+    .swatch + .swatch {
+      margin-inline-start: -25%;
+    }
+  }
 </style>
 
 <script>
-  import { gsap } from '../../lib/gsap';
-
   function initIntegrations() {
-  document.querySelectorAll<HTMLElement>('[data-palette]').forEach((palette) => {
-    const swatches = Array.from(palette.querySelectorAll<HTMLElement>('.swatch'));
+    document.querySelectorAll<HTMLElement>('[data-palette]').forEach((palette) => {
+      const swatches = Array.from(palette.querySelectorAll<HTMLElement>('.swatch'));
 
-    function resetAll() {
-      swatches.forEach((s) => {
-        s.classList.remove('active');
-        gsap.to(s, {
-          yPercent: 0,
-          rotation: 0,
-          duration: 0.4,
-          ease: 'power3.out',
-          overwrite: true,
+      function applyTransform(el: HTMLElement, yPercent: number, rotation: number) {
+        el.style.transform = `translateY(${yPercent}%) rotate(${rotation}deg)`;
+      }
+
+      function resetAll() {
+        swatches.forEach((s) => {
+          s.classList.remove('active');
+          applyTransform(s, 0, 0);
         });
-      });
-    }
+      }
 
-    swatches.forEach((swatch, i) => {
-      swatch.addEventListener('mouseenter', () => {
-        swatches.forEach((s) => s.classList.remove('active'));
-        swatch.classList.add('active');
+      swatches.forEach((swatch, i) => {
+        swatch.addEventListener('mouseenter', () => {
+          swatches.forEach((s) => s.classList.remove('active'));
+          swatch.classList.add('active');
 
-        // Hovered card
-        gsap.to(swatch, {
-          yPercent: -35,
-          rotation: -1,
-          duration: 0.5,
-          ease: 'power3.out',
-          overwrite: true,
-        });
+          // Hovered card
+          applyTransform(swatch, -35, -1);
 
-        // One before
-        if (i > 0) {
-          gsap.to(swatches[i - 1], {
-            yPercent: -12,
-            rotation: -0.5,
-            duration: 0.5,
-            ease: 'power3.out',
-            overwrite: true,
-          });
-        }
-
-        // Two before
-        if (i > 1) {
-          gsap.to(swatches[i - 2], {
-            yPercent: -5,
-            rotation: -0.25,
-            duration: 0.5,
-            ease: 'power3.out',
-            overwrite: true,
-          });
-        }
-
-        // One after
-        if (i < swatches.length - 1) {
-          gsap.to(swatches[i + 1], {
-            yPercent: -5,
-            rotation: -0.25,
-            duration: 0.5,
-            ease: 'power3.out',
-            overwrite: true,
-          });
-        }
-
-        // Two after
-        if (i < swatches.length - 2) {
-          gsap.to(swatches[i + 2], {
-            yPercent: -2,
-            rotation: -0.1,
-            duration: 0.5,
-            ease: 'power3.out',
-            overwrite: true,
-          });
-        }
-
-        // Reset others
-        swatches.forEach((s, j) => {
-          if (Math.abs(j - i) > 2) {
-            gsap.to(s, {
-              yPercent: 0,
-              rotation: 0,
-              duration: 0.5,
-              ease: 'power3.out',
-              overwrite: true,
-            });
+          // One before
+          if (i > 0) {
+            applyTransform(swatches[i - 1], -12, -0.5);
           }
+
+          // Two before
+          if (i > 1) {
+            applyTransform(swatches[i - 2], -5, -0.25);
+          }
+
+          // One after
+          if (i < swatches.length - 1) {
+            applyTransform(swatches[i + 1], -5, -0.25);
+          }
+
+          // Two after
+          if (i < swatches.length - 2) {
+            applyTransform(swatches[i + 2], -2, -0.1);
+          }
+
+          // Reset others
+          swatches.forEach((s, j) => {
+            if (Math.abs(j - i) > 2) {
+              applyTransform(s, 0, 0);
+            }
+          });
         });
       });
-    });
 
-    palette.addEventListener('mouseleave', resetAll);
-  });
+      palette.addEventListener('mouseleave', resetAll);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', initIntegrations);

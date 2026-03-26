@@ -19,16 +19,16 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={`${title} — CodeKarma Blog`} description={description} ogImage={coverImage}>
-  <article class="relative bg-white pt-32 pb-40 overflow-hidden">
+  <article class="relative bg-white pt-32 pb-16 md:pb-24 lg:pb-40 overflow-hidden">
     <!-- Vertical gridlines (matching homepage) -->
-    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
       <!-- Back link -->
       <a
         href="/blog"
@@ -50,7 +50,7 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
           </div>
         )}
 
-        <h1 class="text-[40px] sm:text-[48px] tracking-tight leading-[1.1] font-semibold pl-4 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
+        <h1 class="text-[28px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold pl-4 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-6">
           {title}
         </h1>
 

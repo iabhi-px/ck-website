@@ -11,20 +11,20 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 ---
 
 <BaseLayout title="Blog — CodeKarma" description="Articles, tutorials, and updates from the CodeKarma team.">
-  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[220px] pb-16 md:pb-24 lg:pb-40 overflow-hidden">
     <!-- Vertical gridlines (matching homepage) -->
-    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
       <!-- Section header -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
         <div>
-          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
             Articles & Updates
           </h1>
         </div>
@@ -63,8 +63,8 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
       <div class="relative -mt-px mb-10">
       </div>
 
-      <!-- Posts list — horizontal cards -->
-      <div class="blog-list">
+      <!-- Posts grid — 2-column cards -->
+      <div class="blog-grid">
         {posts.map((post) => (
           <PostCard
             title={post.data.title}
@@ -72,6 +72,7 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
             publishedAt={post.data.publishedAt}
             slug={post.id}
             tags={post.data.tags}
+            coverImage={post.data.coverImage}
           />
         ))}
       </div>
@@ -127,10 +128,16 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
     border-color: #2a2a2a;
   }
 
-  .blog-list {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  @media (max-width: 768px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 768px) {
@@ -144,7 +151,7 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll<HTMLButtonElement>('.blog-filter-tab');
-    const cards = document.querySelectorAll<HTMLAnchorElement>('.blog-list > a');
+    const cards = document.querySelectorAll<HTMLAnchorElement>('.blog-grid > a');
     const emptyState = document.querySelector('.blog-empty');
 
     tabs.forEach((tab) => {

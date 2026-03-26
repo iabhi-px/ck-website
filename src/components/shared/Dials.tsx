@@ -224,7 +224,7 @@ function ProductsDials() {
       'Overlap (px)': [88, 0, 120, 2],
     },
     'Content': {
-      'Title Font Size (px)': [24, 16, 40, 1],
+      'Title Font Size (px)': [36, 16, 40, 1],
       'Desc Font Size (px)': [16, 12, 24, 1],
       'Padding (px)': [40, 16, 80, 4],
     },

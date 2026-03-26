@@ -48,22 +48,22 @@ const investors = [
 ---
 
 <BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team.">
-  <section class="relative bg-white pt-[220px] pb-16 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[220px] pb-16 overflow-hidden">
     <!-- Vertical gridlines -->
-    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
 
       <!-- WHAT WE STAND FOR -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-12 lg:mb-24">
         <!-- Left: Headline -->
         <div>
-          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
             <span class="font-semibold">What we stand for</span>
           </h1>
         </div>
@@ -77,7 +77,7 @@ const investors = [
       </div>
 
       <!-- OUR PRINCIPLES -->
-      <div class="mb-24">
+      <div class="mb-12 lg:mb-24">
         <div class="max-w-3xl mb-16">
           <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Our Principles</p>
           <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
@@ -173,7 +173,7 @@ const investors = [
       </div>
 
       <!-- INVESTORS -->
-      <div class="mb-24">
+      <div class="mb-12 lg:mb-24">
         <div class="max-w-3xl mb-16">
           <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Investors</p>
           <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
@@ -206,7 +206,7 @@ const investors = [
       </div>
 
       <!-- TEAM — FOUNDERS -->
-      <div class="mb-24">
+      <div class="mb-12 lg:mb-24">
         <div class="max-w-3xl mb-16">
           <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Team</p>
           <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
@@ -254,7 +254,7 @@ const investors = [
       </div>
 
       <!-- IN THE PRESS -->
-      <div class="mb-24">
+      <div class="mb-12 lg:mb-24">
         <div class="max-w-3xl mb-16">
           <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">In The Press</p>
           <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
@@ -265,12 +265,12 @@ const investors = [
         <div class="relative">
           <div class="border border-gray-200 divide-y divide-gray-200">
             {pressItems.map((item) => (
-              <a href={item.href} target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
+              <a href={item.href} target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-5 md:p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
                 <div>
                   <p class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 group-hover:text-brand-dark/60 mb-2">{item.outlet}</p>
                   <h3 class="text-lg font-semibold text-brand-dark group-hover:text-brand-dark transition-colors">{item.title}</h3>
                 </div>
-                <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-8" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-4 md:ml-8" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 10h10M11 6l4 4-4 4" />
                 </svg>
               </a>

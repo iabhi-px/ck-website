@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<!-- Preview banner -->
+<div class="fixed top-0 left-0 right-0 z-[9999] bg-amber-500 text-black text-center py-2 text-sm font-medium tracking-wide">
+  PREVIEW — This post is not published yet
+</div>
+
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  publishedAt={post.data.publishedAt}
+  coverImage={post.data.coverImage}
+  tags={post.data.tags}
+>
+  <Content />
+</BlogLayout>

@@ -3,18 +3,18 @@
 
 <section id="why-codekarma" class="relative bg-white py-20 overflow-hidden">
   <!-- Vertical gridlines aligned with content edges (same as Hero) -->
-  <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+  <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
     <div class="relative h-full">
       <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
       <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
     </div>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
     <!-- Section header -->
     <div class="max-w-3xl mb-16">
       <p id="why-label" class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Why CodeKarma</p>
-      <h2 id="why-heading" class="pl-4 text-[40px] sm:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold pl-4">
+      <h2 id="why-heading" class="pl-4 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
         Measurable impact<br /> from day one
       </h2>
     </div>
@@ -108,7 +108,14 @@
 
   .why-card-horizontal {
     display: flex;
+    flex-direction: column;
     padding: 0;
+  }
+
+  @media (min-width: 640px) {
+    .why-card-horizontal {
+      flex-direction: row;
+    }
   }
 
   .why-card-text {
@@ -117,8 +124,16 @@
   }
 
   .why-card-image {
-    width: 25%;
+    width: 100%;
+    min-height: 120px;
     flex-shrink: 0;
+  }
+
+  @media (min-width: 640px) {
+    .why-card-image {
+      width: 25%;
+      min-height: auto;
+    }
   }
 
   .why-dot-separator {

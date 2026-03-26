@@ -47,20 +47,20 @@ const caseStudies = [
 ---
 
 <BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise.">
-  <section class="relative bg-white pt-[220px] pb-40 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[220px] pb-16 md:pb-24 lg:pb-40 overflow-hidden">
     <!-- Vertical gridlines -->
-    <div class="absolute inset-0 mx-auto max-w-7xl px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
       <!-- Page header -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
         <div>
-          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
             Real results from<br />real production.
           </h1>
         </div>
@@ -83,7 +83,7 @@ const caseStudies = [
             <div class="grid grid-cols-1 lg:grid-cols-2">
               <!-- Left column -->
               <div class="flex flex-col justify-between">
-                <div class="p-10 lg:p-12">
+                <div class="p-5 md:p-8 lg:p-12">
                   <h2 class="text-[32px] font-semibold text-[#0d0d0e] tracking-tight leading-[1.1] mb-3">
                     {study.title}
                   </h2>
@@ -93,10 +93,10 @@ const caseStudies = [
                 </div>
 
                 <!-- Metric banner -->
-                <div class="bg-brand-primary px-10 lg:px-12 py-6 mt-auto grid grid-cols-3 gap-6">
+                <div class="bg-brand-primary px-5 md:px-10 lg:px-12 py-6 mt-auto grid grid-cols-3 gap-3 md:gap-6">
                   {study.metrics.map((metric) => (
                     <div>
-                      <p class="text-[24px] font-semibold text-brand-dark tracking-tight leading-[1.25]">{metric.value}</p>
+                      <p class="text-[18px] md:text-[24px] font-semibold text-brand-dark tracking-tight leading-[1.25]">{metric.value}</p>
                       <p class="text-[12px] text-brand-dark/60 mt-1 font-normal">{metric.label}</p>
                     </div>
                   ))}

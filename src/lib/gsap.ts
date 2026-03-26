@@ -1,50 +1,72 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+/**
+ * Scroll-triggered animation utilities (no GSAP — pure CSS + IntersectionObserver).
+ *
+ * Add the class "scroll-fade-up" to any element to get a fade-up-on-scroll effect.
+ * For staggered children, add "scroll-stagger" to the parent.
+ */
 
-gsap.registerPlugin(ScrollTrigger);
+const OBSERVED = new WeakSet<Element>();
 
-export function fadeInUp(
-  targets: gsap.TweenTarget,
-  delay: number = 0
-): gsap.core.Tween {
-  return gsap.from(targets, {
-    opacity: 0,
-    y: 40,
-    duration: 0.8,
-    delay,
-    ease: 'power2.out',
+function createObserver(
+  rootMargin: string,
+  callback: (entry: IntersectionObserverEntry) => void,
+): IntersectionObserver {
+  return new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) callback(e); }),
+    { rootMargin },
+  );
+}
+
+/** Fade-up a single element when it scrolls into view (starts at "top 80%"). */
+export function scrollReveal(target: Element): void {
+  if (OBSERVED.has(target)) return;
+  OBSERVED.add(target);
+
+  target.classList.add('scroll-fade-up');
+
+  const obs = createObserver('0px 0px -20% 0px', (entry) => {
+    entry.target.classList.add('scroll-fade-up--visible');
+    obs.unobserve(entry.target);
+  });
+  obs.observe(target);
+}
+
+/** Fade-up with a fixed delay (no scroll trigger — fires immediately). */
+export function fadeInUp(target: Element, delay: number = 0): void {
+  const el = target as HTMLElement;
+  el.classList.add('scroll-fade-up');
+  el.style.animationDelay = `${delay}s`;
+
+  requestAnimationFrame(() => {
+    el.classList.add('scroll-fade-up--visible');
   });
 }
 
+/** Stagger-reveal children when parent scrolls into view. */
 export function staggerReveal(
   parent: string | Element,
   childSelector: string,
-  stagger: number = 0.15
-): gsap.core.Tween {
-  return gsap.from(`${parent} ${childSelector}`, {
-    opacity: 0,
-    y: 40,
-    duration: 0.6,
-    stagger,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: parent as gsap.DOMTarget,
-      start: 'top 80%',
-    },
-  });
-}
+  stagger: number = 0.15,
+): void {
+  const parentEl =
+    typeof parent === 'string' ? document.querySelector(parent) : parent;
+  if (!parentEl) return;
 
-export function scrollReveal(targets: gsap.TweenTarget): gsap.core.Tween {
-  return gsap.from(targets, {
-    opacity: 0,
-    y: 40,
-    duration: 0.8,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger: targets as gsap.DOMTarget,
-      start: 'top 80%',
-    },
+  const children = parentEl.querySelectorAll(childSelector);
+  children.forEach((child, i) => {
+    const el = child as HTMLElement;
+    el.classList.add('scroll-fade-up');
+    el.style.transitionDelay = `${i * stagger}s`;
   });
-}
 
-export { gsap, ScrollTrigger };
+  if (OBSERVED.has(parentEl)) return;
+  OBSERVED.add(parentEl);
+
+  const obs = createObserver('0px 0px -20% 0px', (entry) => {
+    entry.target.querySelectorAll('.scroll-fade-up').forEach((el) => {
+      el.classList.add('scroll-fade-up--visible');
+    });
+    obs.unobserve(entry.target);
+  });
+  obs.observe(parentEl);
+}

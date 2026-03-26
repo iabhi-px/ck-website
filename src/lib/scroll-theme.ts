@@ -1,5 +1,3 @@
-import { gsap, ScrollTrigger } from './gsap';
-
 interface ThemeConfig {
   defaultBg: string;
   defaultText: string;
@@ -61,7 +59,12 @@ export function initScrollThemes() {
     };
 
     // Add transitions to themed elements
-    [...themedEls.labels, ...themedEls.headings, ...themedEls.subtexts, ...themedEls.gridlines].forEach((el) => {
+    [
+      ...Array.from(themedEls.labels),
+      ...Array.from(themedEls.headings),
+      ...Array.from(themedEls.subtexts),
+      ...Array.from(themedEls.gridlines),
+    ].forEach((el) => {
       el.style.transition = 'color 0.4s ease, background-color 0.4s ease';
     });
 
@@ -92,15 +95,24 @@ export function initScrollThemes() {
       });
     }
 
-    // ScrollTrigger: entering section — switch to scroll theme
-    ScrollTrigger.create({
-      trigger: section,
-      start: () => `top+=${config.offset} ${config.triggerHook * 100}%`,
-      end: () => `bottom-=${Math.abs(config.offset)} ${config.triggerHook * 100}%`,
-      onEnter: () => applyTheme(true),
-      onLeave: () => applyTheme(false),
-      onEnterBack: () => applyTheme(true),
-      onLeaveBack: () => applyTheme(false),
-    });
+    // Compute rootMargin to replicate ScrollTrigger's start/end behavior.
+    // Original: start: `top+=${offset} ${triggerHook*100}%`
+    //           end:   `bottom-=${|offset|} ${triggerHook*100}%`
+    // The IntersectionObserver fires when the section crosses the triggerHook line.
+    const hookPx = config.triggerHook * 100; // percentage from top of viewport
+    const topMargin = -hookPx + config.offset;
+    const bottomMargin = -(100 - hookPx) + Math.abs(config.offset);
+    const rootMargin = `${topMargin}% 0px ${bottomMargin}% 0px`;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          applyTheme(entry.isIntersecting);
+        });
+      },
+      { rootMargin, threshold: 0 },
+    );
+
+    observer.observe(section);
   });
 }
