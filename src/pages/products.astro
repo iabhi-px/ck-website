@@ -54,7 +54,7 @@ const karmaIQFeatures = [
       <!-- Hero heading -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
         <div>
-          <h1 class="ts-heading text-[48px] tracking-tight leading-[1.1] font-semibold ml-[-4px]">
+          <h1 class="ts-heading text-[48px] tracking-tight leading-[1.1] font-semibold pl-4">
             <span>The Production Context Engine</span>
           </h1>
         </div>
@@ -82,7 +82,7 @@ const karmaIQFeatures = [
         <!-- Text left -->
         <div>
           <p class="ts-muted text-sm font-mono tracking-[0.3em] uppercase mb-5">For Engineering Leadership</p>
-          <h2 class="ts-heading text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
+          <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
             KarmaPulse
           </h2>
           <p class="ts-text text-lg font-[410] mb-6">Know what needs attention. Act with confidence.</p>
@@ -98,8 +98,6 @@ const karmaIQFeatures = [
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px top-0"></div>
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0"></div>
         <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {karmaPulseFeatures.map((f, i) => (
             <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
@@ -131,7 +129,7 @@ const karmaIQFeatures = [
         <!-- Text right -->
         <div class="order-1 lg:order-2">
           <p class="theme-trigger text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For Developers</p>
-          <h2 class="ts-heading text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
+          <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
             KarmaLens
           </h2>
           <p class="ts-text text-lg font-[410] mb-6">Production intelligence, right where you code.</p>
@@ -148,8 +146,6 @@ const karmaIQFeatures = [
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px top-0"></div>
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0"></div>
         <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {karmaLensFeatures.map((f, i) => (
             <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
@@ -176,7 +172,7 @@ const karmaIQFeatures = [
       <!-- Header -->
       <div class="max-w-3xl mb-12">
         <p class="ts-muted text-sm font-mono tracking-[0.3em] uppercase mb-5">For Architects & Platform Teams</p>
-        <h2 class="ts-heading text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
+        <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
           KarmaDomain
         </h2>
         <p class="ts-text text-lg font-[410] mb-6">See how your software actually connects and behaves.</p>
@@ -187,8 +183,6 @@ const karmaIQFeatures = [
 
       <!-- Full-width visual -->
       <div class="relative mb-16">
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px top-0"></div>
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0"></div>
         <div class="ts-card w-full aspect-[21/9] flex items-center justify-center">
           <span class="ts-muted text-sm font-mono">KarmaDomain Topology Graph</span>
         </div>
@@ -196,8 +190,6 @@ const karmaIQFeatures = [
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px top-0"></div>
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0"></div>
         <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {karmaDomainFeatures.map((f, i) => (
             <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
@@ -225,7 +217,7 @@ const karmaIQFeatures = [
         <!-- Text left -->
         <div>
           <p class="theme-trigger text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
-          <h2 class="ts-heading text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
+          <h2 class="ts-heading pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold mb-4">
             KarmaIQ
           </h2>
           <p class="ts-text text-lg font-[410] mb-6">Give your AI agents the ground truth from production.</p>
@@ -249,8 +241,6 @@ const karmaIQFeatures = [
 
       <!-- Feature tiles -->
       <div class="relative">
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px top-0"></div>
-        <div class="ts-line absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0"></div>
         <div class="ts-tile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {karmaIQFeatures.map((f, i) => (
             <div class={`ts-tile p-6 lg:p-8 ${(i % 3 !== 2) ? 'lg:border-r' : ''} ${i < 3 ? 'border-b' : ''} ${(i % 2 === 0 && i < 4) ? 'sm:border-r sm:max-lg:border-r' : ''} ${i < 4 ? 'sm:max-lg:border-b' : ''}`}>
