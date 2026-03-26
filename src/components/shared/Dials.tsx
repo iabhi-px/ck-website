@@ -382,8 +382,10 @@ function IntegrationIconDials() {
 
   const config: Record<string, Record<string, [number, number, number, number]>> = {};
   const defaults: Record<string, number> = {
-    go: 1.3, mysql: 1.3, dynamodb: 1.3, cosmos: 1.3, mariadb: 1.3, hbase: 1.3,
-    pulsar: 1.3, sns: 1.3, grpc: 1.3,
+    go: 1.3, dotnet: 1.1, aws: 1.15, gcp: 1.05,
+    mysql: 1.4, mongodb: 1.1, dynamodb: 1.05, redis: 0.95, cosmos: 1.65, mariadb: 1.3, hbase: 1.3, elastic: 0.9,
+    pulsar: 1.2, rabbitmq: 0.9, sqs: 1.15, sns: 1.4,
+    kubernetes: 1.1, https: 1.05, grpc: 1.4,
   };
 
   icons.forEach((id) => {
