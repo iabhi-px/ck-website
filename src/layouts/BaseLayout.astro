@@ -38,7 +38,7 @@ const {
     </main>
     <div id="footer-spacer"></div>
     <Footer />
-    <!-- <Dials client:only="react" /> -->
+    <Dials client:only="react" />
     <script>
       function syncFooterSpacer() {
         const footer = document.querySelector('footer');
@@ -47,7 +47,7 @@ const {
           spacer.style.height = `${footer.offsetHeight}px`;
         }
       }
-      syncFooterSpacer();
+      document.addEventListener('astro:page-load', syncFooterSpacer);
       window.addEventListener('resize', syncFooterSpacer);
     </script>
   </body>

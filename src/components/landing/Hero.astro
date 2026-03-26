@@ -110,10 +110,44 @@
     }
   }
 
-  syncHero();
-  window.addEventListener('resize', syncHero);
-  new MutationObserver(syncHero).observe(document.getElementById('hero-heading')!, { attributes: true, attributeFilter: ['style'] });
-  new MutationObserver(syncHero).observe(document.getElementById('hero-btn-primary')!, { attributes: true, attributeFilter: ['style'] });
+  // Track cleanup references
+  let resizeHandler: (() => void) | null = null;
+  let scrollHandler: (() => void) | null = null;
+  let observers: MutationObserver[] = [];
+  let intersectionObs: IntersectionObserver | null = null;
+
+  function initHero() {
+    // Clean up previous listeners/observers
+    if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+    if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
+    observers.forEach((o) => o.disconnect());
+    observers = [];
+    if (intersectionObs) intersectionObs.disconnect();
+
+    // Wait a frame for layout to settle after View Transitions
+    requestAnimationFrame(() => {
+      syncHero();
+
+      resizeHandler = syncHero;
+      window.addEventListener('resize', syncHero);
+
+      const heading = document.getElementById('hero-heading');
+      const btn = document.getElementById('hero-btn-primary');
+      if (heading) {
+        const mo1 = new MutationObserver(syncHero);
+        mo1.observe(heading, { attributes: true, attributeFilter: ['style'] });
+        observers.push(mo1);
+      }
+      if (btn) {
+        const mo2 = new MutationObserver(syncHero);
+        mo2.observe(btn, { attributes: true, attributeFilter: ['style'] });
+        observers.push(mo2);
+      }
+
+      initScreenshotScroll();
+      initScramble();
+    });
+  }
 
   // Screenshot scale-on-scroll animation
   function initScreenshotScroll() {
@@ -121,58 +155,51 @@
     const screenshot = document.getElementById('hero-screenshot');
     if (!wrapper || !screenshot) return;
 
-    const targetPadding = 40; // px on each side
-
     function getScaleValue() {
-      const screenshotWidth = screenshot.offsetWidth;
+      const screenshotWidth = screenshot!.offsetWidth;
       const targetWidth = window.innerWidth * 0.88;
       return targetWidth / screenshotWidth;
     }
 
     function updateScale() {
       if ((window as any).__scrollingToTop) {
-        screenshot.style.transform = 'scale(1)';
+        screenshot!.style.transform = 'scale(1)';
         return;
       }
-      const rect = wrapper.getBoundingClientRect();
+      const rect = wrapper!.getBoundingClientRect();
       const vh = window.innerHeight;
 
       if (window.scrollY === 0) {
-        // Page load / top of page — no scaling
-        screenshot.style.transform = 'scale(1)';
+        screenshot!.style.transform = 'scale(1)';
         return;
       }
 
       if (rect.top < 0) {
-        // Scrolling past — shrink back based on how much has left the viewport
         const gone = Math.abs(rect.top);
         const progress = Math.max(0, 1 - gone / rect.height);
         const maxScale = getScaleValue();
         const scale = 1 + progress * (maxScale - 1);
-        screenshot.style.transform = `scale(${scale})`;
+        screenshot!.style.transform = `scale(${scale})`;
       } else if (rect.bottom <= vh) {
-        // Fully visible — max scale
-        screenshot.style.transform = `scale(${getScaleValue()})`;
+        screenshot!.style.transform = `scale(${getScaleValue()})`;
       } else if (rect.top < vh) {
-        // Partially visible — interpolate
         const visibleHeight = vh - rect.top;
         const progress = Math.min(1, visibleHeight / rect.height);
         const maxScale = getScaleValue();
         const scale = 1 + progress * (maxScale - 1);
-        screenshot.style.transform = `scale(${scale})`;
+        screenshot!.style.transform = `scale(${scale})`;
       } else {
-        // Not visible — normal scale
-        screenshot.style.transform = 'scale(1)';
+        screenshot!.style.transform = 'scale(1)';
       }
     }
 
     screenshot.style.transformOrigin = 'center center';
     screenshot.style.transition = 'transform 0.1s ease-out';
+    if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
+    scrollHandler = updateScale;
     window.addEventListener('scroll', updateScale, { passive: true });
     updateScale();
   }
-
-  initScreenshotScroll();
 
   // Scramble text effect for metric values
   function initScramble() {
@@ -185,7 +212,6 @@
       let iteration = 0;
       const maxIterations = length * 3;
 
-      // Start in grey
       el.style.color = '#9ca3af';
       el.style.transition = 'color 0.3s ease';
 
@@ -208,19 +234,17 @@
       }, 35);
     }
 
-    // Start with grey placeholder text
     metricValues.forEach((el) => {
       el.style.color = '#9ca3af';
     });
 
-    const observer = new IntersectionObserver(
+    intersectionObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasPlayed) {
             hasPlayed = true;
             metricValues.forEach((el, i) => {
               const finalText = el.textContent || '';
-              // Stagger each metric slightly
               setTimeout(() => scramble(el, finalText), i * 150);
             });
           }
@@ -230,10 +254,10 @@
     );
 
     const grid = document.getElementById('metrics-grid');
-    if (grid) observer.observe(grid);
+    if (grid) intersectionObs.observe(grid);
   }
 
-  initScramble();
+  document.addEventListener('astro:page-load', initHero);
 </script>
 
 <style>

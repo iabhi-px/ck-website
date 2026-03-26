@@ -269,6 +269,7 @@
 <script>
   import { gsap } from '../../lib/gsap';
 
+  function initIntegrations() {
   document.querySelectorAll<HTMLElement>('[data-palette]').forEach((palette) => {
     const swatches = Array.from(palette.querySelectorAll<HTMLElement>('.swatch'));
 
@@ -360,4 +361,7 @@
 
     palette.addEventListener('mouseleave', resetAll);
   });
+  }
+
+  document.addEventListener('astro:page-load', initIntegrations);
 </script>

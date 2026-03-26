@@ -370,6 +370,48 @@ function SecurityDials() {
   return null;
 }
 
+function FooterDials() {
+  const values = useDialKit('Footer', {
+    'Logo Glyph': {
+      'Scale': [1.1, 0.5, 3, 0.1],
+      'Bottom (px)': [-160, -600, 100, 10],
+      'Right (px)': [-170, -600, 100, 10],
+      'Rect Stroke': [1.25, 0.5, 5, 0.25],
+      'Chevron Stroke': [1.25, 0.5, 8, 0.25],
+    },
+  });
+
+  useEffect(() => {
+    const logoContainer = document.getElementById('footer-logo-glyph');
+    if (logoContainer) {
+      logoContainer.style.setProperty('--logo-scale', `${values['Logo Glyph']['Scale']}`);
+      logoContainer.style.setProperty('--logo-bottom', `${values['Logo Glyph']['Bottom (px)']}px`);
+      logoContainer.style.setProperty('--logo-right', `${values['Logo Glyph']['Right (px)']}px`);
+
+      const rectStroke = values['Logo Glyph']['Rect Stroke'];
+      const chevronStroke = values['Logo Glyph']['Chevron Stroke'];
+
+      // Update base SVG strokes
+      logoContainer.querySelectorAll<SVGRectElement>('.glyph-base rect').forEach((r) => {
+        r.setAttribute('stroke-width', `${rectStroke}`);
+      });
+      logoContainer.querySelectorAll<SVGPathElement>('.glyph-base path').forEach((p) => {
+        p.setAttribute('stroke-width', `${chevronStroke}`);
+      });
+
+      // Update mask SVG inline (rebuild data URI)
+      const maskSvg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 256 256' fill='none'%3E%3Crect x='36' y='36' width='184' height='184' rx='32' stroke='white' stroke-width='${rectStroke}' fill='none'/%3E%3Crect x='68' y='52' width='136' height='120' rx='20' stroke='white' stroke-width='${rectStroke}' fill='none'/%3E%3Cpath d='M160 80L176 100.513L160 120' stroke='white' stroke-width='${chevronStroke}' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M128 80L112 100.513L128 120' stroke='white' stroke-width='${chevronStroke}' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E")`;
+      const light = logoContainer.querySelector<HTMLElement>('.glyph-light');
+      if (light) {
+        light.style.webkitMaskImage = maskSvg;
+        light.style.maskImage = maskSvg;
+      }
+    }
+  }, [values]);
+
+  return null;
+}
+
 export default function Dials() {
   return (
     <>
@@ -377,6 +419,7 @@ export default function Dials() {
       <WhyCodeKarmaDials />
       <ProductsDials />
       <SecurityDials />
+      <FooterDials />
       <DialRoot position="top-right" defaultOpen={false} />
     </>
   );

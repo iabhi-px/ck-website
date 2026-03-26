@@ -159,9 +159,9 @@ const products = [
     activateTab(0);
   }
 
-  initProductTabs();
-
   // Scroll-driven: expand → cycle tabs → shrink
+  let scrollHandler: (() => void) | null = null;
+
   function initScrollTabs() {
     const scrollArea = document.getElementById('products-scroll-area');
     const wrapper = document.querySelector('.products-tabs-wrapper') as HTMLElement;
@@ -171,9 +171,7 @@ const products = [
     if (!scrollArea || !wrapper || tabs.length === 0) return;
 
     const numTabs = tabs.length;
-    // Get the initial negative margin so we can calculate full-width margin
-    const contentContainer = scrollArea;
-    const defaultMargin = 0; // within 106px padded container
+    const defaultMargin = 0;
 
     const glider = document.getElementById('product-tab-glider');
 
@@ -199,18 +197,13 @@ const products = [
       const totalScroll = rect.height - vh;
       const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
 
-      // Phase 1: 0–10% — expand to full width
-      // Phase 2: 10–90% — cycle tabs
-      // Phase 3: 90–100% — shrink back
       const expandEnd = 0.1;
       const shrinkStart = 0.9;
 
-      // Calculate full-width margin: need to offset the parent padding (106px) + go edge-to-edge
       const parentPadding = 106;
       const fullMargin = -(parentPadding + (window.innerWidth - scrollArea!.offsetWidth) / 2);
 
       if (progress <= expandEnd) {
-        // Phase 1: expanding
         const expandProgress = progress / expandEnd;
         const currentMargin = defaultMargin + (fullMargin - defaultMargin) * expandProgress;
         wrapper.style.marginLeft = `${currentMargin}px`;
@@ -218,7 +211,6 @@ const products = [
         if (panels_el) panels_el.style.borderRadius = `${8 * (1 - expandProgress)}px`;
         activateTab(0);
       } else if (progress <= shrinkStart) {
-        // Phase 2: full width, cycling tabs
         wrapper.style.marginLeft = `${fullMargin}px`;
         wrapper.style.marginRight = `${fullMargin}px`;
         if (panels_el) panels_el.style.borderRadius = '0px';
@@ -226,7 +218,6 @@ const products = [
         const tabIndex = Math.min(numTabs - 1, Math.floor(tabProgress * numTabs));
         activateTab(tabIndex);
       } else {
-        // Phase 3: shrinking back
         const shrinkProgress = (progress - shrinkStart) / (1 - shrinkStart);
         const currentMargin = fullMargin + (defaultMargin - fullMargin) * shrinkProgress;
         wrapper.style.marginLeft = `${currentMargin}px`;
@@ -236,11 +227,32 @@ const products = [
       }
     }
 
+    // Clean up previous scroll listener
+    if (scrollHandler) {
+      window.removeEventListener('scroll', scrollHandler);
+    }
+    scrollHandler = onScroll;
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
-  initScrollTabs();
+  function initAll() {
+    // Reset inline styles that may be stale from previous navigation
+    const wrapper = document.querySelector('.products-tabs-wrapper') as HTMLElement;
+    if (wrapper) {
+      wrapper.style.marginLeft = '';
+      wrapper.style.marginRight = '';
+    }
+    const panelsEl = document.querySelector('.product-panels') as HTMLElement;
+    if (panelsEl) {
+      panelsEl.style.borderRadius = '';
+    }
+
+    initProductTabs();
+    initScrollTabs();
+  }
+
+  document.addEventListener('astro:page-load', initAll);
 </script>
 
 <style>
