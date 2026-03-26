@@ -24,39 +24,34 @@
       <div class="min-w-0 flex-1 max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Languages</p>
         <section class="palette" data-palette>
-          <div class="swatch" style="--swatch-bg: #B07219;">
-            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/Java.svg" alt="Java" />
-            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/Java_hover.svg" alt="Java" />
-          <span class="swatch-name">Java 8+</span></div>
-          <div class="swatch" style="--swatch-bg: #00ADD8;">
-            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/Go.svg" alt="Go" />
-            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/Go_hover.svg" alt="Go" />
-          <span class="swatch-name">Go</span></div>
-          <div class="swatch" style="--swatch-bg: #3572A5;">
-            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/Python.svg" alt="Python" />
-            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/Python_hover.svg" alt="Python" />
-          <span class="swatch-name">Python</span></div>
-          <div class="swatch" style="--swatch-bg: #512BD4;">
-            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/.Net.svg" alt=".NET" />
-            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/.Net_hover.svg" alt=".NET" />
-          <span class="swatch-name">.NET</span></div>
+          <div class="swatch" data-icon-id="java" style="--swatch-bg: #B07219; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_java.svg" alt="Java" />
+            <span class="swatch-name">Java 8+</span></div>
+          <div class="swatch" data-icon-id="go" style="--swatch-bg: #00ADD8; --icon-scale: 1.3;">
+            <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_go.svg" alt="Go" />
+            <span class="swatch-name">Go</span></div>
+          <div class="swatch" data-icon-id="python" style="--swatch-bg: #3572A5; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_python.svg" alt="Python" />
+            <span class="swatch-name">Python</span></div>
+          <div class="swatch" data-icon-id="dotnet" style="--swatch-bg: #512BD4; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_dotnet.svg" alt=".NET" />
+            <span class="swatch-name">.NET</span></div>
         </section>
       </div>
       <div class="min-w-0 flex-1 max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Clouds</p>
         <section class="palette" data-palette>
-      <div class="swatch dark-text" style="--swatch-bg: #FF9900;">
-        <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/AWS.svg" alt="AWS" />
-        <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/AWS_hover.svg" alt="AWS" />
-      <span class="swatch-name">AWS</span></div>
-      <div class="swatch" style="--swatch-bg: #4285F4;">
-        <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/GCP.svg" alt="GCP" />
-        <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/GCP_hover.svg" alt="GCP" />
-      <span class="swatch-name">GCP</span></div>
-      <div class="swatch" style="--swatch-bg: #0078D4;">
-        <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/Azure.svg" alt="Azure" />
-        <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/Azure_hover.svg" alt="Azure" />
-      <span class="swatch-name">Azure</span></div>
+          <div class="swatch" data-icon-id="aws" style="--swatch-bg: #FF9900; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/AWS.svg" alt="AWS" />
+            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/AWS_hover.svg" alt="AWS" />
+            <span class="swatch-name">AWS</span></div>
+          <div class="swatch" data-icon-id="gcp" style="--swatch-bg: #4285F4; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_gcp.svg" alt="GCP" />
+            <span class="swatch-name">GCP</span></div>
+          <div class="swatch" data-icon-id="azure" style="--swatch-bg: #0078D4; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/Azure.svg" alt="Azure" />
+            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/Azure_hover.svg" alt="Azure" />
+            <span class="swatch-name">Azure</span></div>
         </section>
       </div>
     </div>
@@ -65,54 +60,57 @@
     <!-- Databases -->
     <p class="text-lg font-medium text-gray-400 mt-10">Databases</p>
     <section class="palette" data-palette>
-      <div class="swatch" style="--swatch-bg: #00758F;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><ellipse cx="12" cy="5.5" rx="8" ry="3.5"/><path d="M4 5.5v13c0 1.93 3.58 3.5 8 3.5s8-1.57 8-3.5v-13"/><path d="M20 12c0 1.93-3.58 3.5-8 3.5S4 13.93 4 12" opacity=".5"/></svg>
-      <span class="swatch-name">MySQL</span></div>
-      <div class="swatch" style="--swatch-bg: #336791;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><ellipse cx="12" cy="5.5" rx="8" ry="3.5"/><path d="M4 5.5v13c0 1.93 3.58 3.5 8 3.5s8-1.57 8-3.5v-13"/><path d="M20 9c0 1.93-3.58 3.5-8 3.5S4 10.93 4 9" opacity=".5"/><path d="M20 14c0 1.93-3.58 3.5-8 3.5S4 15.93 4 14" opacity=".3"/></svg>
-      <span class="swatch-name">Postgres</span></div>
-      <div class="swatch" style="--swatch-bg: #47A248;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M12 2C9.243 2 8 5.547 8 8.5c0 2.482.884 4.793 2.5 6.364V22h3v-7.136C15.116 13.293 16 10.982 16 8.5 16 5.547 14.757 2 12 2zm0 2c1.26 0 2 2.77 2 4.5 0 1.93-.726 3.71-1.976 4.984L12 13.508V20h-1v-6.492l-.024-.024C9.726 12.21 9 10.43 9 8.5 9 6.77 9.74 4 12 4z" opacity=".6"/><path d="M11.5 7h1v12h-1z"/></svg>
-      <span class="swatch-name">MongoDB</span></div>
-      <div class="swatch" style="--swatch-bg: #4053D6;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M12 2L4 6v12l8 4 8-4V6l-8-4zm0 2.18L18 8l-6 3-6-3 6-3.82zM5 9l6 3v8l-6-3V9zm8 11v-8l6-3v8l-6 3z" opacity=".85"/></svg>
-      <span class="swatch-name">DynamoDB</span></div>
-      <div class="swatch" style="--swatch-bg: #DC382D;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5L12 2z"/><path d="M2 12l10 5 10-5" opacity=".6"/><path d="M2 17l10 5 10-5" opacity=".3"/></svg>
-      <span class="swatch-name">Redis</span></div>
-      <div class="swatch" style="--swatch-bg: #0078D4;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4" fill="none" stroke="white" stroke-width="1.5" opacity=".5"/><ellipse cx="12" cy="12" rx="10" ry="4" fill="none" stroke="white" stroke-width="1.5" transform="rotate(60 12 12)" opacity=".5"/><ellipse cx="12" cy="12" rx="10" ry="4" fill="none" stroke="white" stroke-width="1.5" transform="rotate(120 12 12)" opacity=".5"/></svg>
-      <span class="swatch-name">Cosmos</span></div>
-      <div class="swatch" style="--swatch-bg: #003545;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><ellipse cx="12" cy="5.5" rx="8" ry="3.5"/><path d="M4 5.5v13c0 1.93 3.58 3.5 8 3.5s8-1.57 8-3.5v-13"/><path d="M20 12c0 1.93-3.58 3.5-8 3.5S4 13.93 4 12" opacity=".4"/></svg>
-      <span class="swatch-name">MariaDB</span></div>
-      <div class="swatch" style="--swatch-bg: #C72E49;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><rect x="3" y="3" width="7" height="7" rx="1" opacity=".5"/><rect x="14" y="3" width="7" height="7" rx="1" opacity=".5"/><rect x="3" y="14" width="7" height="7" rx="1" opacity=".5"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      <span class="swatch-name">HBase</span></div>
-      <div class="swatch dark-text" style="--swatch-bg: #FEC514;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 12c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5.67 1.5 1.5 1.5 1.5-.67 1.5-1.5z"/><path d="M2 10h7.08A3.49 3.49 0 0 1 12 8.5a3.49 3.49 0 0 1 2.92 1.5H22v1H14.92A3.49 3.49 0 0 1 12 12.5 3.49 3.49 0 0 1 9.08 11H2v-1z" opacity=".6"/><path d="M2 6h12a5 5 0 0 1 0 4H2V6zm0 8h12a5 5 0 0 0 0 4H2v-4z" opacity=".3"/></svg>
-      <span class="swatch-name">Elastic</span></div>
+      <div class="swatch" data-icon-id="mysql" style="--swatch-bg: #00758F; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_mysql.svg" alt="MySQL" />
+        <span class="swatch-name">MySQL</span></div>
+      <div class="swatch" data-icon-id="postgres" style="--swatch-bg: #336791; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_postgres.svg" alt="Postgres" />
+        <span class="swatch-name">Postgres</span></div>
+      <div class="swatch" data-icon-id="mongodb" style="--swatch-bg: #47A248; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_mongodb.svg" alt="MongoDB" />
+        <span class="swatch-name">MongoDB</span></div>
+      <div class="swatch" data-icon-id="dynamodb" style="--swatch-bg: #4053D6; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/DynamoDB.svg" alt="DynamoDB" />
+        <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/DynamoDB_hover.svg" alt="DynamoDB" />
+        <span class="swatch-name">DynamoDB</span></div>
+      <div class="swatch" data-icon-id="redis" style="--swatch-bg: #DC382D; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_redis.svg" alt="Redis" />
+        <span class="swatch-name">Redis</span></div>
+      <div class="swatch" data-icon-id="cosmos" style="--swatch-bg: #0078D4; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/Cosmos.svg" alt="Cosmos" />
+        <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/Cosmos_hover.svg" alt="Cosmos" />
+        <span class="swatch-name">Cosmos</span></div>
+      <div class="swatch" data-icon-id="mariadb" style="--swatch-bg: #003545; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_mariadb.svg" alt="MariaDB" />
+        <span class="swatch-name">MariaDB</span></div>
+      <div class="swatch" data-icon-id="hbase" style="--swatch-bg: #C72E49; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_hbase.svg" alt="HBase" />
+        <span class="swatch-name">HBase</span></div>
+      <div class="swatch" data-icon-id="elastic" style="--swatch-bg: #FEC514; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_elasticsearch.svg" alt="Elastic" />
+        <span class="swatch-name">Elastic</span></div>
     </section>
     <div class="int-line"></div>
 
     <!-- Queues -->
     <p class="text-lg font-medium text-gray-400 mt-10">Queues</p>
     <section class="palette" data-palette>
-      <div class="swatch" style="--swatch-bg: #231F20;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><circle cx="15" cy="7" r="2.5" opacity=".6"/><circle cx="15" cy="17" r="2.5" opacity=".6"/><circle cx="9" cy="12" r="3"/><line x1="11.5" y1="10.5" x2="13" y2="8" stroke="white" stroke-width="1.5"/><line x1="11.5" y1="13.5" x2="13" y2="16" stroke="white" stroke-width="1.5"/></svg>
-      <span class="swatch-name">Kafka</span></div>
-      <div class="swatch" style="--swatch-bg: #188FFF;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".5"/><path d="M5.64 5.64l2.83 2.83M15.54 15.54l2.83 2.83M5.64 18.36l2.83-2.83M15.54 8.46l2.83-2.83" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".3"/></svg>
-      <span class="swatch-name">Pulsar</span></div>
-      <div class="swatch" style="--swatch-bg: #FF6600;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><rect x="3" y="10" width="18" height="8" rx="2"/><rect x="6" y="12" width="4" height="4" rx="1" opacity=".4"/><rect x="14" y="12" width="4" height="4" rx="1" opacity=".4"/><path d="M8 10V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4" opacity=".6"/></svg>
-      <span class="swatch-name">RabbitMQ</span></div>
-      <div class="swatch dark-text" style="--swatch-bg: #FF9900;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v12H4V6zm2 2v8h12V8H6z" opacity=".3"/><path d="M7 11h4l-1.5-1.5M7 13h4l-1.5 1.5" /><path d="M13 11h4l-1.5-1.5M13 13h4l-1.5 1.5" opacity=".5"/></svg>
-      <span class="swatch-name">SQS</span></div>
-      <div class="swatch" style="--swatch-bg: #D9A741;">
-        <img class="swatch-icon swatch-icon-img" src="/assets/integration_logos/SNS.svg" alt="SNS" />
-      <span class="swatch-name">SNS</span></div>
+      <div class="swatch" data-icon-id="kafka" style="--swatch-bg: #231F20; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/kafka.svg" alt="Kafka" />
+        <span class="swatch-name">Kafka</span></div>
+      <div class="swatch" data-icon-id="pulsar" style="--swatch-bg: #188FFF; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_pulsar.svg" alt="Pulsar" />
+        <span class="swatch-name">Pulsar</span></div>
+      <div class="swatch" data-icon-id="rabbitmq" style="--swatch-bg: #FF6600; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_rabbitmq.svg" alt="RabbitMQ" />
+        <span class="swatch-name">RabbitMQ</span></div>
+      <div class="swatch" data-icon-id="sqs" style="--swatch-bg: #FF9900; --icon-scale: 1;">
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/SQS.png" alt="SQS" />
+        <span class="swatch-name">SQS</span></div>
+      <div class="swatch" data-icon-id="sns" style="--swatch-bg: #D9A741; --icon-scale: 1.3;">
+        <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/SNS.svg" alt="SNS" />
+        <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/SNS_hover.svg" alt="SNS" />
+        <span class="swatch-name">SNS</span></div>
     </section>
     <div class="int-line"></div>
 
@@ -121,20 +119,22 @@
       <div class="min-w-0 flex-1 max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Infra</p>
         <section class="palette" data-palette>
-          <div class="swatch" style="--swatch-bg: #326CE5;">
-            <img class="swatch-icon swatch-icon-img" src="/assets/integration_logos/devicon_kubernetes.svg" alt="Kubernetes" />
-          <span class="swatch-name">Kubernetes</span></div>
+          <div class="swatch" data-icon-id="kubernetes" style="--swatch-bg: #326CE5; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_kubernetes.svg" alt="Kubernetes" />
+            <span class="swatch-name">Kubernetes</span></div>
         </section>
       </div>
       <div class="min-w-0 flex-1 max-w-[50%]">
         <p class="text-lg font-medium text-gray-400">Protocols</p>
         <section class="palette" data-palette>
-          <div class="swatch" style="--swatch-bg: #005C9C;">
-            <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="9" fill="none" stroke="white" stroke-width="1.5"/><ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="white" stroke-width="1.5"/><line x1="3" y1="12" x2="21" y2="12" stroke="white" stroke-width="1.5"/><line x1="4.5" y1="7.5" x2="19.5" y2="7.5" stroke="white" stroke-width="1" opacity=".5"/><line x1="4.5" y1="16.5" x2="19.5" y2="16.5" stroke="white" stroke-width="1" opacity=".5"/></svg>
-          <span class="swatch-name">HTTP/S</span></div>
-          <div class="swatch" style="--swatch-bg: #244C5A;">
-            <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M4 8h6v2H4zM14 8h6v2h-6zM4 14h6v2H4zM14 14h6v2h-6z" opacity=".5"/><path d="M10 9h4l2 3-2 3h-4l-2-3 2-3z"/></svg>
-          <span class="swatch-name">gRPC</span></div>
+          <div class="swatch" data-icon-id="https" style="--swatch-bg: #005C9C; --icon-scale: 1;">
+            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/www.svg" alt="HTTP/S" />
+            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/www_hover.svg" alt="HTTP/S" />
+            <span class="swatch-name">HTTP/S</span></div>
+          <div class="swatch" data-icon-id="grpc" style="--swatch-bg: #244C5A; --icon-scale: 1.3;">
+            <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/grpc.svg" alt="gRPC" />
+            <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/grpc_hover.svg" alt="gRPC" />
+            <span class="swatch-name">gRPC</span></div>
         </section>
       </div>
     </div>
@@ -144,25 +144,25 @@
     <p class="text-lg font-medium text-gray-400 mt-10">IDEs & AI Tools</p>
     <section class="palette" data-palette>
       <div class="swatch" style="--swatch-bg: #000000;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="5" y="16" width="8" height="2" fill="#000"/><text x="6" y="13" fill="#000" font-size="7" font-weight="bold" font-family="sans-serif">JB</text></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/jetbrains.svg" alt="JetBrains" />
       <span class="swatch-name">JetBrains</span></div>
       <div class="swatch" style="--swatch-bg: #007ACC;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M17 2l5 3.5v13L17 22l-7.5-5.5L4 21l-2-1.5V4.5L4 3l5.5 4.5L17 2zM4.5 6v12l3-2.5V8.5L4.5 6zM10 8.5L17 4v16l-7-4.5V8.5z" opacity=".85"/></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/vscode.svg" alt="VS Code" />
       <span class="swatch-name">VS Code</span></div>
       <div class="swatch" style="--swatch-bg: #1A1A2E;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M5 3l14 9-14 9V3z" opacity=".85"/></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/cursor.svg" alt="Cursor" />
       <span class="swatch-name">Cursor</span></div>
       <div class="swatch" style="--swatch-bg: #09B6A2;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M2 16c3-4 6-8 10-8s7 4 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M2 12c3-4 6-8 10-8s7 4 10 8" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".4"/></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/windsurf.svg" alt="Windsurf" />
       <span class="swatch-name">Windsurf</span></div>
       <div class="swatch" style="--swatch-bg: #24292e;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.477 2 12c0 3.286 1.592 6.2 4.05 8.017l.025-.054C6.6 18.88 8 17.07 8 15v-1c-1.5-.5-3-2-3-4 0-1.5.5-2.5 1-3-.2-1 0-2 0-2s1-.5 3 1c.8-.2 1.7-.3 3-.3s2.2.1 3 .3c2-1.5 3-1 3-1s.2 1 0 2c.5.5 1 1.5 1 3 0 2-1.5 3.5-3 4v1c0 2.07 1.4 3.88 1.925 4.963l.025.054C19.408 18.2 22 15.286 22 12c0-5.523-4.477-10-10-10z" opacity=".85"/></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/copilot.svg" alt="Copilot" />
       <span class="swatch-name">Copilot</span></div>
       <div class="swatch" style="--swatch-bg: #D4A574;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="8" fill="none" stroke="white" stroke-width="2"/><path d="M8.5 10.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5M12.5 10.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5" opacity=".7"/><path d="M8.5 14.5c1 1.5 5.5 1.5 7 0" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/claude.svg" alt="Claude" />
       <span class="swatch-name">Claude</span></div>
       <div class="swatch" style="--swatch-bg: #111111;">
-        <svg class="swatch-icon" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="8" r="3" opacity=".7"/><circle cx="6" cy="16" r="2.5" opacity=".5"/><circle cx="18" cy="16" r="2.5" opacity=".5"/><line x1="12" y1="11" x2="7" y2="14" stroke="white" stroke-width="1.5"/><line x1="12" y1="11" x2="17" y2="14" stroke="white" stroke-width="1.5"/></svg>
+        <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/copilot.svg" alt="Custom Agents" />
       <span class="swatch-name">Custom Agents</span></div>
     </section>
     <div class="int-line"></div>
@@ -179,12 +179,12 @@
     padding: 32px 0 0 0;
     position: relative;
     z-index: 10;
-    clip-path: inset(-200px -10px 0 -10px);
+    clip-path: inset(-200px -10px -10px -10px);
   }
 
   .swatch {
     border-radius: 20px;
-    block-size: 140px;
+    block-size: 220px;
     background-color: #ffffff !important;
     border: 1px solid #e0e0e0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -215,36 +215,24 @@
     filter: brightness(0) invert(1);
   }
 
+  /* Unified icon styling: scale from --icon-scale, grey default, white on active */
   .swatch-icon {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
-    color: #0d0d0e;
-    fill: #0d0d0e;
+    filter: grayscale(1) brightness(0.4);
+    transition: filter 0.3s ease, transform 0.3s ease;
+    transform: scale(var(--icon-scale, 1));
+    transform-origin: center center;
   }
 
-  .swatch-icon-img {
-    filter: brightness(0);
-    width: 24px;
-    height: 24px;
+  .swatch.active .swatch-icon {
+    filter: brightness(0) invert(1);
   }
 
-  .swatch-logo-default {
-    filter: none;
-    display: block;
-  }
-
+  /* Hide hover image variants — CSS filter handles everything */
   .swatch-logo-hover {
-    filter: none;
-    display: none;
-  }
-
-  .swatch.active .swatch-logo-default {
-    display: none;
-  }
-
-  .swatch.active .swatch-logo-hover {
-    display: block;
+    display: none !important;
   }
 
   .swatch-name {
@@ -262,7 +250,10 @@
     height: 1px;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
+    margin-top: 10px;
     background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);
+    position: relative;
+    z-index: 20;
   }
 </style>
 
@@ -293,8 +284,8 @@
 
         // Hovered card
         gsap.to(swatch, {
-          yPercent: -65,
-          rotation: -1.5,
+          yPercent: -35,
+          rotation: -1,
           duration: 0.5,
           ease: 'power3.out',
           overwrite: true,
@@ -303,8 +294,8 @@
         // One before
         if (i > 0) {
           gsap.to(swatches[i - 1], {
-            yPercent: -20,
-            rotation: -1,
+            yPercent: -12,
+            rotation: -0.5,
             duration: 0.5,
             ease: 'power3.out',
             overwrite: true,
@@ -314,8 +305,8 @@
         // Two before
         if (i > 1) {
           gsap.to(swatches[i - 2], {
-            yPercent: -8,
-            rotation: -0.5,
+            yPercent: -5,
+            rotation: -0.25,
             duration: 0.5,
             ease: 'power3.out',
             overwrite: true,
@@ -325,8 +316,8 @@
         // One after
         if (i < swatches.length - 1) {
           gsap.to(swatches[i + 1], {
-            yPercent: -8,
-            rotation: -0.5,
+            yPercent: -5,
+            rotation: -0.25,
             duration: 0.5,
             ease: 'power3.out',
             overwrite: true,
@@ -336,8 +327,8 @@
         // Two after
         if (i < swatches.length - 2) {
           gsap.to(swatches[i + 2], {
-            yPercent: -3,
-            rotation: -0.25,
+            yPercent: -2,
+            rotation: -0.1,
             duration: 0.5,
             ease: 'power3.out',
             overwrite: true,

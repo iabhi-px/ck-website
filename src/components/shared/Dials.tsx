@@ -370,6 +370,40 @@ function SecurityDials() {
   return null;
 }
 
+function IntegrationIconDials() {
+  const icons = [
+    'java', 'go', 'python', 'dotnet',
+    'aws', 'gcp', 'azure',
+    'mysql', 'postgres', 'mongodb', 'dynamodb', 'redis', 'cosmos', 'mariadb', 'hbase', 'elastic',
+    'kafka', 'pulsar', 'rabbitmq', 'sqs', 'sns',
+    'kubernetes', 'https', 'grpc',
+    'jetbrains', 'vscode', 'cursor', 'windsurf', 'copilot', 'claude',
+  ] as const;
+
+  const config: Record<string, Record<string, [number, number, number, number]>> = {};
+  const defaults: Record<string, number> = {
+    go: 1.3, mysql: 1.3, dynamodb: 1.3, cosmos: 1.3, mariadb: 1.3, hbase: 1.3,
+    pulsar: 1.3, sns: 1.3, grpc: 1.3,
+  };
+
+  icons.forEach((id) => {
+    config[id] = { 'Scale': [defaults[id] || 1, 0.5, 3, 0.05] };
+  });
+
+  const values = useDialKit('Integration Icons', config);
+
+  useEffect(() => {
+    icons.forEach((id) => {
+      const swatch = document.querySelector<HTMLElement>(`[data-icon-id="${id}"]`);
+      if (swatch) {
+        swatch.style.setProperty('--icon-scale', `${values[id]['Scale']}`);
+      }
+    });
+  }, [values]);
+
+  return null;
+}
+
 function FooterDials() {
   const values = useDialKit('Footer', {
     'Logo Glyph': {
@@ -419,6 +453,7 @@ export default function Dials() {
       <WhyCodeKarmaDials />
       <ProductsDials />
       <SecurityDials />
+      <IntegrationIconDials />
       <FooterDials />
       <DialRoot position="top-right" defaultOpen={false} />
     </>
