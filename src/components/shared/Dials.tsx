@@ -406,6 +406,80 @@ function IntegrationIconDials() {
   return null;
 }
 
+function InvestorsDials() {
+  const investors = ['Accel', 'Prosus', 'Xeed Ventures', 'SenseAI Ventures', 'Stargazer Ventures'] as const;
+
+  const heightDefaults: Record<string, number> = {
+    'Accel': 56, 'Prosus': 63, 'Xeed Ventures': 124, 'SenseAI Ventures': 40, 'Stargazer Ventures': 30,
+  };
+  const maxWidthDefaults: Record<string, number> = {
+    'Accel': 140, 'Prosus': 164, 'Xeed Ventures': 140, 'SenseAI Ventures': 152, 'Stargazer Ventures': 140,
+  };
+  const bottomPadDefaults: Record<string, number> = {
+    'SenseAI Ventures': 12,
+  };
+  const topPadDefaults: Record<string, number> = {
+    'Stargazer Ventures': 13,
+  };
+  const config: Record<string, Record<string, [number, number, number, number]>> = {
+    'Grid': {
+      'Cell Padding (px)': [16, 12, 80, 2],
+    },
+  };
+  investors.forEach((name) => {
+    const entry: Record<string, [number, number, number, number]> = { 'Height (px)': [heightDefaults[name] || 32, 12, 160, 1] };
+    if (name === 'Prosus') {
+      entry['Top Padding (px)'] = [24, 0, 40, 1];
+    }
+    if (name === 'SenseAI Ventures') {
+      entry['Bottom Padding (px)'] = [bottomPadDefaults[name] || 0, 0, 40, 1];
+    }
+    if (name === 'Stargazer Ventures') {
+      entry['Top Padding (px)'] = [topPadDefaults[name] || 0, 0, 40, 1];
+    }
+    entry['Max Width (px)'] = [maxWidthDefaults[name] || 140, 60, 400, 4];
+    config[name] = entry;
+  });
+
+  const values = useDialKit('Investors', config);
+
+  useEffect(() => {
+    const cellPad = values['Grid']['Cell Padding (px)'];
+    const cells = document.querySelectorAll<HTMLElement>('.investor-cell');
+    cells.forEach((el) => {
+      el.style.padding = `${cellPad}px`;
+    });
+
+    investors.forEach((name) => {
+      const el = document.querySelector<HTMLElement>(`.investor-logo[data-investor="${name}"]`);
+      if (el) {
+        el.style.height = `${values[name]['Height (px)']}px`;
+        el.style.maxWidth = `${values[name]['Max Width (px)']}px`;
+        if (name === 'Prosus') {
+          const cell = el.closest('.investor-cell') as HTMLElement;
+          if (cell) {
+            cell.style.paddingTop = `${values[name]['Top Padding (px)']}px`;
+          }
+        }
+        if (name === 'SenseAI Ventures') {
+          const wrapper = el.closest('.investor-logo-wrapper') as HTMLElement;
+          if (wrapper) {
+            wrapper.style.paddingBottom = `${values[name]['Bottom Padding (px)']}px`;
+          }
+        }
+        if (name === 'Stargazer Ventures') {
+          const wrapper = el.closest('.investor-logo-wrapper') as HTMLElement;
+          if (wrapper) {
+            wrapper.style.paddingTop = `${values[name]['Top Padding (px)']}px`;
+          }
+        }
+      }
+    });
+  }, [values]);
+
+  return null;
+}
+
 function FooterDials() {
   const values = useDialKit('Footer', {
     'Logo Glyph': {
@@ -456,6 +530,7 @@ export default function Dials() {
       <ProductsDials />
       <SecurityDials />
       <IntegrationIconDials />
+      <InvestorsDials />
       <FooterDials />
       <DialRoot position="top-right" defaultOpen={false} />
     </>

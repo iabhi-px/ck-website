@@ -5,37 +5,44 @@ const principles = [
   {
     title: 'Production is truth',
     description: 'Logs, traces, and metrics tell you what happened. Production intelligence tells you why — and what to do next.',
+    icon: 'custom-bars',
   },
   {
     title: 'Zero overhead, full fidelity',
-    description: 'Instrumentation should be invisible. No sampling, no performance cost, no blind spots.',
+    description: 'With 100% of your request monitored yet no performance cost and no blind spots.',
+    icon: 'custom-graph',
   },
   {
     title: 'Code-level clarity',
     description: 'Runtime behavior mapped directly to the code that produced it. Not dashboards — understanding.',
+    icon: 'custom-chip',
   },
   {
     title: 'AI-native from day one',
     description: 'Built for a world where AI agents write and evolve code. Production intelligence is the feedback loop they need.',
+    icon: 'custom-ai',
   },
 ];
 
 const founders = [
-  { name: 'Founder Name', title: 'Co-Founder & CEO', photo: null, linkedin: '#' },
-  { name: 'Founder Name', title: 'Co-Founder & CTO', photo: null, linkedin: '#' },
+  { name: 'Anantharam Vanchi Prakash', title: 'Co-Founder & CEO', photo: '/images/team/anantharam.png', logos: [{ src: '/images/company-logos/amazon.png', alt: 'Amazon', height: 28 }, { src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 28 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 32 }], linkedin: '#' },
+  { name: 'Priyanka Nahata', title: 'Co-Founder & CTO', photo: '/images/team/priyanka.png', logos: [{ src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 28 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 32 }], linkedin: '#' },
 ];
 
 const pressItems = [
-  { outlet: 'TechCrunch', title: 'CodeKarma raises Series A to bring production intelligence to engineering teams', href: '#' },
-  { outlet: 'The Information', title: 'How CodeKarma is rethinking observability for the AI era', href: '#' },
-  { outlet: 'InfoWorld', title: 'Production intelligence: the missing layer in modern software development', href: '#' },
+  { outlet: 'Inc42', title: 'Former Amazon Executive\'s Startup CodeKarma Bags $2.5 Mn', href: 'https://inc42.com/buzz/former-amazon-executives-startup-codekarma-bags-2-5-mn/' },
+  { outlet: 'Inc42', title: '30 Startups To Watch: Startups That Caught Our Eyes In August 2025', href: 'https://inc42.com/startups/30-startups-to-watch-startups-that-caught-our-eye-in-august-2025/' },
+  { outlet: 'Tech In Asia', title: 'Prosus leads $2.5M round for Indian software platform CodeKarma', href: 'https://www.techinasia.com/news/prosus-leads-2-5m-round-for-indian-software-platform-codekarma' },
+  { outlet: 'Entrepreneur India', title: 'Developer Productivity Startup CodeKarma Raises USD 2.5 Mn Round', href: 'https://india.entrepreneur.com/news-and-trends/codekarma-mangopoint-and-nprep-raise-early-stage-funding/495598' },
+  { outlet: 'YourStory', title: 'India\'s AI advantage: How Prosus is betting on its portfolio with Arivihan and CodeKarma', href: 'https://yourstory.com/2025/09/indias-ai-advantage-prosus-betting-portfolio-arivihan-codekarma' },
 ];
 
 const investors = [
-  { name: 'Investor 1', logo: null },
-  { name: 'Investor 2', logo: null },
-  { name: 'Investor 3', logo: null },
-  { name: 'Investor 4', logo: null },
+  { name: 'Accel', logo: '/images/investors/accel.png' },
+  { name: 'Prosus', logo: '/images/investors/prosus.png' },
+  { name: 'Xeed Ventures', logo: '/images/investors/xeed-ventures.png' },
+  { name: 'SenseAI Ventures', logo: '/images/investors/senseai-ventures.png' },
+  { name: 'Stargazer Ventures', logo: '/images/investors/stargazer-ventures.png' },
 ];
 ---
 
@@ -55,8 +62,8 @@ const investors = [
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
         <!-- Left: Headline -->
         <div>
-          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent ml-[-4px]">
-            <span class="font-semibold">What we stand for.</span>
+          <h1 class="text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+            <span class="font-semibold">What we stand for</span>
           </h1>
         </div>
 
@@ -71,18 +78,91 @@ const investors = [
       <!-- OUR PRINCIPLES -->
       <div class="mb-24">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Our Principles</p>
-          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
-            How we think.
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Our Principles</p>
+          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            How we think
           </h2>
         </div>
 
         <div class="relative">
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
           <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-200">
             {principles.map((item, index) => (
-              <div class={`p-8 lg:p-10 ${index % 2 === 0 ? 'md:border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
+              <div class={`principle-cell p-8 lg:p-10 ${index % 2 === 0 ? 'md:border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
+                <div class="principle-icon flex items-center justify-center w-12 h-12 rounded-full bg-[#fafafa] mb-5">
+                  {item.icon === 'custom-bars' ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path d="M10 14V20H14V14" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M18 10V20H22V10" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M2 18V20H6V18" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4.01001 16L4.00001 16" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M12.01 12L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M2.01001 8L2.00001 8" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4.01001 6L4.00001 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M6.01001 4L6.00001 4" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M8.01001 6L8.00001 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M10.01 8L10 8" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M12.01 6L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M14.01 4L14 4" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M20.01 8L20 8" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                    </svg>
+                  ) : item.icon === 'custom-chip' ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path d="M12 16.01V16" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M16 16.01V16" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M8 16.01V16" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M7 3H6" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M17 3H18" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M7 21H6" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M17 21H18" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M2 12H1" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M22 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4 10V5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M20 10V5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4 19V14" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M20 19V14" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                    </svg>
+                  ) : item.icon === 'custom-graph' ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path d="M18.01 21L18 21" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M6.01001 21L6.00001 21" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M20.01 19L20 19" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M16.01 19L16 19" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M8.01001 19L8.00001 19" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4.01001 19L4.00001 19" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M14 13L14 15L12 15" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M20.01 12L20 12" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4.01001 12L4.00001 12" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M10 13V11H12" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M22 9L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M8.01001 9L8.00001 9" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M2 9L2 17" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M20.01 7L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M6.01001 7L6.00001 7" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M18.01 5L18 5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M12.01 5L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M4.01001 5L4.00001 5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M8 3L16 3" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                    </svg>
+                  ) : item.icon === 'custom-ai' ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path d="M17 7V7.01" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M13 7V7.01" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M13 11V11.01" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M17 11V11.01" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M15 13V17" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M15 1V5" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M11.005 8.995L9.005 8.995" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M21.005 8.995L19.005 8.995" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M9.01001 17L9.00001 17" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M3.01001 6L3.00001 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M5.01001 17L5.00001 17" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M7 13L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                      <path d="M7 19L7 21" stroke="currentColor" stroke-width="2" stroke-linecap="square" fill="none" />
+                    </svg>
+                  ) : (
+                    <i class={`${item.icon} text-2xl text-brand-dark/60`}></i>
+                  )}
+                </div>
                 <h3 class="text-lg font-semibold text-brand-dark mb-3">{item.title}</h3>
                 <p class="text-base text-gray-600 leading-[1.5] font-[410]">{item.description}</p>
               </div>
@@ -94,26 +174,32 @@ const investors = [
       <!-- INVESTORS -->
       <div class="mb-24">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Investors</p>
-          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
-            Backed by the best.
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Investors</p>
+          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            Backed by the best
           </h2>
         </div>
 
         <div class="relative">
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
           <div class="grid grid-cols-2 md:grid-cols-4 border border-gray-200">
-            {investors.map((investor) => (
-              <div class="flex items-center justify-center p-10 lg:p-12 border-r border-b border-gray-200 last:border-r-0">
-                <div class="text-center">
-                  <div class="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
-                    <span class="text-sm text-gray-400 font-mono">Logo</span>
-                  </div>
-                  <p class="text-sm font-medium text-brand-dark">{investor.name}</p>
-                </div>
+            <div class="investor-cell flex items-center justify-center p-8 lg:p-10 border-r border-gray-200 max-md:border-b">
+              <img src="/images/investors/accel.png" alt="Accel" class="investor-logo object-contain" data-investor="Accel" style="height: 30px; max-width: 140px;" />
+            </div>
+            <div class="investor-cell flex items-center justify-center p-8 lg:p-10 border-r border-gray-200 max-md:border-b">
+              <img src="/images/investors/prosus.png" alt="Prosus" class="investor-logo object-contain" data-investor="Prosus" style="height: 32px; max-width: 140px;" />
+            </div>
+            <div class="investor-cell flex items-center justify-center p-8 lg:p-10 border-r border-gray-200 max-md:border-b">
+              <img src="/images/investors/xeed-ventures.png" alt="Xeed Ventures" class="investor-logo object-contain" data-investor="Xeed Ventures" style="height: 80px; max-width: 140px;" />
+            </div>
+            <div class="investor-cell flex flex-col items-center justify-center !p-0">
+              <div class="investor-logo-wrapper flex items-center justify-center flex-1 w-full py-4 px-4 lg:px-5">
+                <img src="/images/investors/senseai-ventures.png" alt="SenseAI Ventures" class="investor-logo object-contain" data-investor="SenseAI Ventures" style="height: 44px; max-width: 152px;" />
               </div>
-            ))}
+              <div class="w-full h-px bg-gray-200"></div>
+              <div class="investor-logo-wrapper flex items-center justify-center flex-1 w-full py-4 px-4 lg:px-5">
+                <img src="/images/investors/stargazer-ventures.png" alt="Stargazer Ventures" class="investor-logo object-contain" data-investor="Stargazer Ventures" style="height: 36px; max-width: 140px;" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -121,30 +207,45 @@ const investors = [
       <!-- TEAM — FOUNDERS -->
       <div class="mb-24">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">Team</p>
-          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
-            Founders.
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Team</p>
+          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            Founders
           </h2>
         </div>
 
         <div class="relative">
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 border border-gray-200">
             {founders.map((founder, index) => (
-              <div class={`p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-gray-200' : ''}`}>
-                <div class="w-full aspect-square bg-gray-100 mb-6 flex items-center justify-center">
-                  <span class="text-sm text-gray-400 font-mono">Photo</span>
-                </div>
+              <div class={`founder-card relative overflow-hidden p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-gray-200' : ''}`}>
+                {founder.photo ? (
+                  <div class="w-full aspect-square bg-gray-100 mb-6 overflow-hidden">
+                    <img src={founder.photo} alt={founder.name} class="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div class="w-full aspect-square bg-gray-100 mb-6 flex items-center justify-center">
+                    <span class="text-sm text-gray-400 font-mono">Photo</span>
+                  </div>
+                )}
                 <div class="flex items-center justify-between">
                   <div>
                     <h3 class="text-lg font-semibold text-brand-dark mb-1">{founder.name}</h3>
                     <p class="text-base text-gray-600 font-[410]">{founder.title}</p>
                   </div>
-                  <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" class="text-brand-dark/40 hover:text-brand-dark transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9"><path d="M4.00098 3H20.001C20.5533 3 21.001 3.44772 21.001 4V20C21.001 20.5523 20.5533 21 20.001 21H4.00098C3.44869 21 3.00098 20.5523 3.00098 20V4C3.00098 3.44772 3.44869 3 4.00098 3ZM5.00098 5V19H19.001V5H5.00098ZM7.50098 9C6.67255 9 6.00098 8.32843 6.00098 7.5C6.00098 6.67157 6.67255 6 7.50098 6C8.3294 6 9.00098 6.67157 9.00098 7.5C9.00098 8.32843 8.3294 9 7.50098 9ZM6.50098 10H8.50098V17.5H6.50098V10ZM12.001 10.4295C12.5854 9.86534 13.2665 9.5 14.001 9.5C16.072 9.5 17.501 11.1789 17.501 13.25V17.5H15.501V13.25C15.501 12.2835 14.7175 11.5 13.751 11.5C12.7845 11.5 12.001 12.2835 12.001 13.25V17.5H10.001V10H12.001V10.4295Z"></path></svg>
+                  <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" class="text-brand-dark flex-shrink-0 ml-4 linkedin-icon">
+                    <i class="ph ph-linkedin-logo" style="font-size: 28px;"></i>
+                    <i class="ph-fill ph-linkedin-logo" style="font-size: 28px;"></i>
                   </a>
                 </div>
+                {founder.logos && (
+                  <div class={`flex flex-wrap items-center gap-3 mt-4 pt-4 ${index === 0 ? '-ml-2' : ''}`}>
+                    {founder.logos.map((logo: { src: string; alt: string }, i: number) => (
+                      <>
+                        <img src={logo.src} alt={logo.alt} class="w-auto object-contain" style={`height: ${logo.height || 28}px;`} />
+                        {i < founder.logos.length - 1 && <span class="text-brand-dark text-sm">→</span>}
+                      </>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -154,18 +255,16 @@ const investors = [
       <!-- IN THE PRESS -->
       <div class="mb-24">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">In The Press</p>
-          <h2 class="text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
-            What they're saying.
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">In The Press</p>
+          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            What they're saying
           </h2>
         </div>
 
         <div class="relative">
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
           <div class="border border-gray-200 divide-y divide-gray-200">
             {pressItems.map((item) => (
-              <a href={item.href} class="group flex items-center justify-between p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
+              <a href={item.href} target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-8 lg:p-10 hover:bg-brand-primary transition-colors duration-200">
                 <div>
                   <p class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 group-hover:text-brand-dark/60 mb-2">{item.outlet}</p>
                   <h3 class="text-lg font-semibold text-brand-dark group-hover:text-brand-dark transition-colors">{item.title}</h3>
@@ -182,16 +281,13 @@ const investors = [
       <!-- CONTACT / LET'S TALK -->
       <div class="mb-24">
         <div class="relative">
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px top-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
-          <div class="absolute left-1/2 -translate-x-1/2 w-screen h-px bottom-0" style="background: linear-gradient(to right, #fafafa, #e5e5e5, #fafafa);"></div>
-
           <div class="border border-gray-200">
             <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
               <!-- Left: Dark panel -->
               <div class="bg-brand-dark p-8 lg:p-10 flex flex-col justify-center lg:-mr-px">
-                <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-4">Contact</p>
+                <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-primary mb-4">Contact</p>
                 <h2 class="text-2xl sm:text-3xl tracking-tight leading-[1.1] font-semibold text-white mb-3">
-                  Let's talk.
+                  Let's talk
                 </h2>
                 <p class="text-sm text-white/60 leading-[1.5] font-[410] max-w-sm">
                   Schedule a demo or drop us a note.
@@ -203,20 +299,20 @@ const investors = [
                 <form>
                   <div class="grid grid-cols-1 sm:grid-cols-2">
                     <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
-                      <label for="name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Name</label>
-                      <input type="text" id="name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="Your name" />
+                      <label for="name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Name</label>
+                      <input type="text" id="name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
                     </div>
                     <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
-                      <label for="email" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Work Email</label>
-                      <input type="email" id="email" name="email" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="you@company.com" />
+                      <label for="email" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Work Email</label>
+                      <input type="email" id="email" name="email" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
                     </div>
                     <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
-                      <label for="company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Company</label>
-                      <input type="text" id="company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="Company name" />
+                      <label for="company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Company</label>
+                      <input type="text" id="company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
                     </div>
                     <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
-                      <label for="role" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-brand-dark/40 mb-2">Role</label>
-                      <input type="text" id="role" name="role" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-300" placeholder="Your role" />
+                      <label for="role" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Role</label>
+                      <input type="text" id="role" name="role" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
                     </div>
                   </div>
                   <div class="p-5 lg:p-6 flex justify-end">
@@ -279,5 +375,39 @@ const investors = [
 
   .contact-field:focus-within label {
     color: #4b5563;
+  }
+
+  .principle-cell {
+    transition: background-color 0.2s ease;
+  }
+  .principle-cell:hover {
+    background-color: #fafafa;
+  }
+  .principle-icon {
+    transition: transform 0.3s ease;
+  }
+  .principle-cell:hover .principle-icon {
+    transform: scale(2);
+  }
+
+  .founder-card {
+    transition: background-color 0.2s ease;
+  }
+  .founder-card:hover {
+    background-color: #fafafa;
+  }
+
+  .linkedin-icon .ph-fill {
+    display: none;
+  }
+  .linkedin-icon .ph {
+    display: inline;
+  }
+  .linkedin-icon:hover .ph {
+    display: none;
+  }
+  .linkedin-icon:hover .ph-fill {
+    display: inline;
+    color: #0A66C2;
   }
 </style>
