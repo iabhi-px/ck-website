@@ -419,17 +419,7 @@ const commitments = [
 
 <style>
   .deploy-icon-hover {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .deploy-icon-default {
-    transition: opacity 0.2s ease;
-  }
-  .deploy-provider:hover .deploy-icon-hover {
-    opacity: 1;
-  }
-  .deploy-provider:hover .deploy-icon-default {
-    opacity: 0;
+    display: none;
   }
 
   .security-card,
@@ -445,13 +435,6 @@ const commitments = [
   }
 
 
-  .deploy-provider {
-    transition: background-color 0.2s ease;
-  }
-
-  .deploy-provider:hover {
-    background-color: #fafafa;
-  }
 
   .faq-item {
     transition: background-color 0.15s ease;

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "CodeKarma Website",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro sync && astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -21,16 +21,15 @@
   },
   "homepage": "https://github.com/iabhi-px/ck-website#readme",
   "dependencies": {
-    "@astrojs/mdx": "^5.0.2",
-    "@astrojs/react": "^5.0.1",
-    "@astrojs/sitemap": "^3.7.1",
-    "@astrojs/starlight": "^0.38.2",
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/react": "^5.0.2",
+    "@astrojs/sitemap": "^3.7.2",
     "@fontsource/inter": "^5.2.8",
     "@phosphor-icons/web": "^2.1.2",
     "@tailwindcss/typography": "^0.5.19",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.0.0",
+    "astro": "^6.1.1",
     "dialkit": "^1.1.0",
     "geist": "^1.7.0",
     "interface-kit": "^0.1.1",
@@ -44,6 +43,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
-"postcss": "^8.5.3"
+    "postcss": "^8.5.3"
   }
 }
