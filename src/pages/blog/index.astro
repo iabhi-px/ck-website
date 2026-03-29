@@ -11,32 +11,28 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 ---
 
 <BaseLayout title="Blog — CodeKarma" description="Articles, tutorials, and updates from the CodeKarma team.">
-  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[220px] pb-16 md:pb-24 lg:pb-40 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[240px] pb-20 overflow-hidden">
     <!-- Vertical gridlines (matching homepage) -->
-    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Section header -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-5 md:pl-8 lg:pl-12">
             Articles & Updates
           </h1>
         </div>
-        <div class="flex flex-col justify-start py-[12px]">
+        <div class="flex flex-col justify-start py-[12px] pr-5 md:pr-8 lg:pr-12">
           <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
             Engineering insights, product updates, and deep dives from the CodeKarma team.
           </p>
         </div>
-      </div>
-
-      <!-- Horizontal decorative line -->
-      <div class="relative">
       </div>
 
       <!-- Filter tabs -->
@@ -59,10 +55,6 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
         </div>
       </div>
 
-      <!-- Horizontal decorative line — at bottom edge of tabs -->
-      <div class="relative -mt-px mb-10">
-      </div>
-
       <!-- Posts grid — 2-column cards -->
       <div class="blog-grid">
         {posts.map((post) => (
@@ -82,7 +74,6 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
         <p class="text-gray-400 text-lg font-normal">No posts found for this category.</p>
       </div>
 
-      <!-- Horizontal decorative line — bottom -->
     </div>
   </section>
 </BaseLayout>

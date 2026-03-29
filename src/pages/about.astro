@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Contact from '../components/shared/Contact.astro';
+import InvestorDialKit from '../components/InvestorDialKit';
 
 const principles = [
   {
@@ -26,8 +27,8 @@ const principles = [
 ];
 
 const founders = [
-  { name: 'Anantharam Vanchi Prakash', title: 'Co-Founder & CEO', photo: '/images/team/anantharam.png', logos: [{ src: '/images/company-logos/amazon.png', alt: 'Amazon', height: 28 }, { src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 28 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 32 }], linkedin: '#' },
-  { name: 'Priyanka Nahata', title: 'Co-Founder & CTO', photo: '/images/team/priyanka.png', logos: [{ src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 28 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 32 }], linkedin: '#' },
+  { name: 'Anantharam Vanchi Prakash', title: 'Co-Founder & CEO', photo: '/images/team/anantharam.png', logos: [{ src: '/images/company-logos/amazon.png', alt: 'Amazon', height: 20 }, { src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 20 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 22 }], linkedin: '#' },
+  { name: 'Priyanka Nahata', title: 'Co-Founder & CTO', photo: '/images/team/priyanka.png', logos: [{ src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 20 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 22 }], linkedin: '#' },
 ];
 
 const pressItems = [
@@ -48,28 +49,28 @@ const investors = [
 ---
 
 <BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team.">
-  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[220px] pb-16 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[240px] pb-0 overflow-hidden">
     <!-- Vertical gridlines -->
-    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
 
       <!-- WHAT WE STAND FOR -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-12 lg:mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-40">
         <!-- Left: Headline -->
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-5 md:pl-8 lg:pl-12">
             <span class="font-semibold">What we stand for</span>
           </h1>
         </div>
 
         <!-- Right: Description -->
-        <div class="flex flex-col justify-start py-[12px]">
+        <div class="flex flex-col justify-start py-[12px] pr-5 md:pr-8 lg:pr-12">
           <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
             The future of software engineering isn't about writing code faster. It's about understanding systems deeply enough to evolve them with confidence. As AI rewrites how software gets built, production truth becomes the most valuable signal in the stack.
           </p>
@@ -77,10 +78,10 @@ const investors = [
       </div>
 
       <!-- OUR PRINCIPLES -->
-      <div class="mb-12 lg:mb-24">
+      <div class="mb-40">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Our Principles</p>
-          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">Our Principles</p>
+          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             How we think
           </h2>
         </div>
@@ -173,26 +174,26 @@ const investors = [
       </div>
 
       <!-- INVESTORS -->
-      <div class="mb-12 lg:mb-24">
+      <div class="mb-40">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Investors</p>
-          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">Investors</p>
+          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             Backed by the best
           </h2>
         </div>
 
         <div class="relative">
           <div class="grid grid-cols-2 md:grid-cols-4 border border-gray-200">
-            <div class="investor-cell flex items-center justify-center p-8 lg:p-10 border-r border-gray-200 max-md:border-b">
-              <img src="/images/investors/accel.png" alt="Accel" class="investor-logo object-contain" data-investor="Accel" style="height: 30px; max-width: 140px;" />
+            <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Accel" style="padding-top: 32px; padding-bottom: 40px; padding-left: 32px; padding-right: 32px;">
+              <img src="/images/investors/accel.png" alt="Accel" class="investor-logo object-contain" data-investor="Accel" style="height: 72px; max-width: 140px;" />
             </div>
-            <div class="investor-cell flex items-center justify-center p-8 lg:p-10 border-r border-gray-200 max-md:border-b">
-              <img src="/images/investors/prosus.png" alt="Prosus" class="investor-logo object-contain" data-investor="Prosus" style="height: 32px; max-width: 140px;" />
+            <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Prosus" style="padding-top: 46px; padding-bottom: 36px; padding-left: 32px; padding-right: 32px;">
+              <img src="/images/investors/prosus.png" alt="Prosus" class="investor-logo object-contain" data-investor="Prosus" style="height: 64px; max-width: 168px;" />
             </div>
-            <div class="investor-cell flex items-center justify-center p-8 lg:p-10 border-r border-gray-200 max-md:border-b">
-              <img src="/images/investors/xeed-ventures.png" alt="Xeed Ventures" class="investor-logo object-contain" data-investor="Xeed Ventures" style="height: 80px; max-width: 140px;" />
+            <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Xeed Ventures" style="padding-top: 0px; padding-bottom: 0px; padding-left: 32px; padding-right: 32px;">
+              <img src="/images/investors/xeed-ventures.png" alt="Xeed Ventures" class="investor-logo object-contain" data-investor="Xeed Ventures" style="height: 136px; max-width: 140px;" />
             </div>
-            <div class="investor-cell flex flex-col items-center justify-center !p-0">
+            <div class="investor-cell flex flex-col items-center justify-center !p-0" data-investor-cell="SenseAI+Stargazer">
               <div class="investor-logo-wrapper flex items-center justify-center flex-1 w-full py-4 px-4 lg:px-5">
                 <img src="/images/investors/senseai-ventures.png" alt="SenseAI Ventures" class="investor-logo object-contain" data-investor="SenseAI Ventures" style="height: 44px; max-width: 152px;" />
               </div>
@@ -205,11 +206,13 @@ const investors = [
         </div>
       </div>
 
+      <!-- <InvestorDialKit client:load /> -->
+
       <!-- TEAM — FOUNDERS -->
-      <div class="mb-12 lg:mb-24">
+      <div class="mb-40">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">Team</p>
-          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">Team</p>
+          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             Founders
           </h2>
         </div>
@@ -254,10 +257,10 @@ const investors = [
       </div>
 
       <!-- IN THE PRESS -->
-      <div class="mb-12 lg:mb-24">
+      <div class="mb-[72px]">
         <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">In The Press</p>
-          <h2 class="pl-4 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">In The Press</p>
+          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             What they're saying
           </h2>
         </div>
@@ -270,9 +273,7 @@ const investors = [
                   <p class="text-sm font-mono tracking-[0.2em] uppercase text-brand-dark/40 group-hover:text-brand-dark/60 mb-2">{item.outlet}</p>
                   <h3 class="text-lg font-semibold text-brand-dark group-hover:text-brand-dark transition-colors">{item.title}</h3>
                 </div>
-                <svg class="w-5 h-5 text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-4 md:ml-8" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 10h10M11 6l4 4-4 4" />
-                </svg>
+                <i class="ph ph-arrow-up-right text-xl text-gray-400 group-hover:text-brand-dark transition-colors flex-shrink-0 ml-4 md:ml-8"></i>
               </a>
             ))}
           </div>

@@ -31,9 +31,9 @@ const products = [
 ];
 ---
 
-<section id="products-section" class="relative bg-white">
+<section id="products-section" class="relative bg-white py-20">
   <!-- Vertical gridlines -->
-  <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
+  <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
     <div class="relative h-full">
       <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
       <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
@@ -41,14 +41,14 @@ const products = [
   </div>
 
   <!-- Section header — normal flow -->
-  <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px] pt-20">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
     <div class="mb-16">
-      <p id="products-label" class="text-sm font-mono tracking-[0.3em] uppercase pl-4 text-brand-dark/40 mb-5">The Platform</p>
+      <p id="products-label" class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">The Platform</p>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-end">
-        <h2 id="products-heading" class="pl-4 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
+        <h2 id="products-heading" class="pl-5 md:pl-8 lg:pl-12 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
           One truth.<br />Four products.
         </h2>
-        <p id="products-subtext" class="pl-4 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
+        <p id="products-subtext" class="pl-5 md:pl-8 lg:pl-12 pr-5 md:pr-8 lg:pr-12 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
           From developers and managers to VPs and AI agents — production intelligence for every role.
         </p>
       </div>
@@ -56,7 +56,7 @@ const products = [
   </div>
 
   <!-- Tabs sticky container — tall to allow scroll room -->
-  <div id="products-scroll-area" class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]" style="height: 500vh;">
+  <div id="products-scroll-area" class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]" style="height: 500vh;">
     <div class="products-tabs-wrapper sticky top-[15vh]" style="transition: margin 0.15s ease, border-radius 0.15s ease;">
       <!-- Tab buttons - folder style -->
       <div class="product-tabs-row">
@@ -143,7 +143,6 @@ const products = [
           </div>
         ))}
       </div>
-      <!-- Horizontal decorative line — full width -->
     </div>
   </div>
 </section>

@@ -25,16 +25,16 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
 ---
 
 <BaseLayout title={`${title} — CodeKarma Case Study`} description={description} ogImage={coverImage}>
-  <article class="relative bg-white pt-32 pb-16 md:pb-24 lg:pb-40">
+  <article class="relative bg-white pt-32 pb-20">
     <!-- Vertical gridlines -->
-    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Back link -->
       <a
         href="/solutions"
@@ -46,7 +46,7 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
 
       <!-- Section header -->
       <div class="max-w-3xl mb-16">
-        <h1 class="text-[28px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold pl-4 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-5">
+        <h1 class="text-[28px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold pl-5 md:pl-8 lg:pl-12 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-5">
           {title}
         </h1>
         <div class="flex items-center gap-2 text-[14px] text-gray-400 font-normal">
@@ -54,10 +54,6 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
           <span>·</span>
           <span>{industry}</span>
         </div>
-      </div>
-
-      <!-- Horizontal decorative line -->
-      <div class="relative mb-12">
       </div>
 
       <!-- 3-column layout: TOC | Content | Widget -->
@@ -92,10 +88,6 @@ const { title, description, industry, coverImage, metrics = [], prevStudy, nextS
 
           </div>
         </aside>
-      </div>
-
-      <!-- Bottom decorative line -->
-      <div class="relative mt-20">
       </div>
 
       <!-- Prev / Next navigation -->
