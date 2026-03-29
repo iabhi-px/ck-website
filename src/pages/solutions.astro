@@ -47,32 +47,28 @@ const caseStudies = [
 ---
 
 <BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise.">
-  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[220px] pb-16 md:pb-24 lg:pb-40 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[240px] pb-20 overflow-hidden">
     <!-- Vertical gridlines -->
-    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[106px] pointer-events-none z-0" aria-hidden="true">
+    <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
         <div class="absolute left-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
         <div class="absolute right-0 top-0 bottom-0 w-px" style="background: linear-gradient(to bottom, #fafafa, #e5e5e5);"></div>
       </div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Page header -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-4">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-5 md:pl-8 lg:pl-12">
             Real results from<br />real production.
           </h1>
         </div>
-        <div class="flex flex-col justify-start py-[12px]">
+        <div class="flex flex-col justify-start py-[12px] pr-5 md:pr-8 lg:pr-12">
           <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
             No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
           </p>
         </div>
-      </div>
-
-      <!-- Horizontal decorative line -->
-      <div class="relative mb-16">
       </div>
 
       <!-- Case studies -->
@@ -87,9 +83,13 @@ const caseStudies = [
                   <h2 class="text-[32px] font-semibold text-[#0d0d0e] tracking-tight leading-[1.1] mb-3">
                     {study.title}
                   </h2>
-                  <p class="text-[16px] text-gray-400 font-normal tracking-wide">
-                    {study.industry}
-                  </p>
+                  <div class="flex flex-wrap gap-2 mt-1">
+                    {study.industry.split('·').map((tag: string) => (
+                      <span class="inline-block text-[13px] text-gray-500 font-mono border border-gray-200 px-3 py-1">
+                        {tag.trim()}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 <!-- Metric banner -->
@@ -142,7 +142,6 @@ const caseStudies = [
         ))}
       </div>
 
-      <!-- Bottom decorative line — at bottom edge of last card -->
     </div>
   </section>
 

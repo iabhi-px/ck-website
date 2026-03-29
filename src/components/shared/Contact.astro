@@ -1,5 +1,13 @@
-<section class="relative bg-white pb-24 overflow-hidden">
-  <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[106px]">
+<section class="relative bg-white pt-20 pb-40 overflow-hidden">
+  <!-- Vertical gridlines -->
+  <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
+    <div class="relative h-full">
+      <div class="absolute left-0 top-0 bottom-0 w-px bg-gray-200"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-px bg-gray-200"></div>
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
     <div class="relative">
       <div class="border border-gray-200">
         <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
@@ -27,16 +35,16 @@
             <form>
               <div class="grid grid-cols-1 sm:grid-cols-2">
                 <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
-                  <label for="contact-name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Name</label>
-                  <input type="text" id="contact-name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
+                  <label for="contact-company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Company</label>
+                  <input type="text" id="contact-company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
                 </div>
                 <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
                   <label for="contact-email" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Work Email</label>
                   <input type="email" id="contact-email" name="email" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
                 </div>
                 <div class="contact-field p-5 lg:p-6 border-b border-r border-gray-200 transition-colors duration-150">
-                  <label for="contact-company" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Company</label>
-                  <input type="text" id="contact-company" name="company" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
+                  <label for="contact-name" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Name</label>
+                  <input type="text" id="contact-name" name="name" class="w-full bg-transparent text-base text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
                 </div>
                 <div class="contact-field p-5 lg:p-6 border-b border-gray-200 transition-colors duration-150">
                   <label for="contact-role" class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-500 mb-2">Role</label>
