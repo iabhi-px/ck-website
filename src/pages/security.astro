@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Contact from '../components/shared/Contact.astro';
+import saasArchitecture from '../assets/images/security/saas-architecture.png';
 
 const commitments = [
   {
@@ -69,7 +71,7 @@ const commitments = [
           </div>
           <!-- Right: Image placeholder -->
           <div class="border-t lg:border-t-0 lg:border-l border-gray-200 flex items-center justify-center bg-[#f5f5f5]">
-            <img src="/images/security/saas-architecture.png" alt="SaaS Architecture - CodeKarma deployment" class="w-full h-auto object-contain" />
+            <Image src={saasArchitecture} alt="SaaS Architecture - CodeKarma deployment" class="w-full h-auto object-contain" />
           </div>
         </div>
 

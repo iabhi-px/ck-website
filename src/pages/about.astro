@@ -1,7 +1,17 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Contact from '../components/shared/Contact.astro';
 import InvestorDialKit from '../components/InvestorDialKit';
+
+import accelLogo from '../assets/images/investors/accel.png';
+import prosusLogo from '../assets/images/investors/prosus.png';
+import xeedLogo from '../assets/images/investors/xeed-ventures.png';
+import senseaiLogo from '../assets/images/investors/senseai-ventures.png';
+import stargazerLogo from '../assets/images/investors/stargazer-ventures.png';
+
+import amazonLogo from '../assets/images/company-logos/amazon.png';
+import flipkartLogo from '../assets/images/company-logos/flipkart.png';
 
 const principles = [
   {
@@ -27,8 +37,8 @@ const principles = [
 ];
 
 const founders = [
-  { name: 'Anantharam Vanchi Prakash', title: 'Co-Founder & CEO', photo: '/images/team/anantharam.png', logos: [{ src: '/images/company-logos/amazon.png', alt: 'Amazon', height: 20 }, { src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 20 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 22 }], linkedin: '#' },
-  { name: 'Priyanka Nahata', title: 'Co-Founder & CTO', photo: '/images/team/priyanka.png', logos: [{ src: '/images/company-logos/flipkart.png', alt: 'Flipkart', height: 20 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 22 }], linkedin: '#' },
+  { name: 'Anantharam Vanchi Prakash', title: 'Co-Founder & CEO', photo: '/images/team/anantharam.png', logos: [{ src: amazonLogo, alt: 'Amazon', height: 20 }, { src: flipkartLogo, alt: 'Flipkart', height: 20 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 22, isSvg: true }], linkedin: '#' },
+  { name: 'Priyanka Nahata', title: 'Co-Founder & CTO', photo: '/images/team/priyanka.png', logos: [{ src: flipkartLogo, alt: 'Flipkart', height: 20 }, { src: '/assets/Logos/Logo with name (LR)/Colored (for light bg).svg', alt: 'CodeKarma', height: 22, isSvg: true }], linkedin: '#' },
 ];
 
 const pressItems = [
@@ -40,11 +50,11 @@ const pressItems = [
 ];
 
 const investors = [
-  { name: 'Accel', logo: '/images/investors/accel.png' },
-  { name: 'Prosus', logo: '/images/investors/prosus.png' },
-  { name: 'Xeed Ventures', logo: '/images/investors/xeed-ventures.png' },
-  { name: 'SenseAI Ventures', logo: '/images/investors/senseai-ventures.png' },
-  { name: 'Stargazer Ventures', logo: '/images/investors/stargazer-ventures.png' },
+  { name: 'Accel', logo: accelLogo },
+  { name: 'Prosus', logo: prosusLogo },
+  { name: 'Xeed Ventures', logo: xeedLogo },
+  { name: 'SenseAI Ventures', logo: senseaiLogo },
+  { name: 'Stargazer Ventures', logo: stargazerLogo },
 ];
 ---
 
@@ -185,21 +195,21 @@ const investors = [
         <div class="relative">
           <div class="grid grid-cols-2 md:grid-cols-4 border border-gray-200">
             <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Accel" style="padding-top: 32px; padding-bottom: 40px; padding-left: 32px; padding-right: 32px;">
-              <img src="/images/investors/accel.png" alt="Accel" class="investor-logo object-contain" data-investor="Accel" style="height: 72px; max-width: 140px;" />
+              <Image src={accelLogo} alt="Accel" class="investor-logo object-contain" data-investor="Accel" style="height: 72px; max-width: 140px; width: auto;" />
             </div>
             <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Prosus" style="padding-top: 46px; padding-bottom: 36px; padding-left: 32px; padding-right: 32px;">
-              <img src="/images/investors/prosus.png" alt="Prosus" class="investor-logo object-contain" data-investor="Prosus" style="height: 64px; max-width: 168px;" />
+              <Image src={prosusLogo} alt="Prosus" class="investor-logo object-contain" data-investor="Prosus" style="height: 64px; max-width: 168px; width: auto;" />
             </div>
             <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Xeed Ventures" style="padding-top: 0px; padding-bottom: 0px; padding-left: 32px; padding-right: 32px;">
-              <img src="/images/investors/xeed-ventures.png" alt="Xeed Ventures" class="investor-logo object-contain" data-investor="Xeed Ventures" style="height: 136px; max-width: 140px;" />
+              <Image src={xeedLogo} alt="Xeed Ventures" class="investor-logo object-contain" data-investor="Xeed Ventures" style="height: 136px; max-width: 140px; width: auto;" />
             </div>
             <div class="investor-cell flex flex-col items-center justify-center !p-0" data-investor-cell="SenseAI+Stargazer">
               <div class="investor-logo-wrapper flex items-center justify-center flex-1 w-full py-4 px-4 lg:px-5">
-                <img src="/images/investors/senseai-ventures.png" alt="SenseAI Ventures" class="investor-logo object-contain" data-investor="SenseAI Ventures" style="height: 44px; max-width: 152px;" />
+                <Image src={senseaiLogo} alt="SenseAI Ventures" class="investor-logo object-contain" data-investor="SenseAI Ventures" style="height: 44px; max-width: 152px; width: auto;" />
               </div>
               <div class="w-full h-px bg-gray-200"></div>
               <div class="investor-logo-wrapper flex items-center justify-center flex-1 w-full py-4 px-4 lg:px-5">
-                <img src="/images/investors/stargazer-ventures.png" alt="Stargazer Ventures" class="investor-logo object-contain" data-investor="Stargazer Ventures" style="height: 36px; max-width: 140px;" />
+                <Image src={stargazerLogo} alt="Stargazer Ventures" class="investor-logo object-contain" data-investor="Stargazer Ventures" style="height: 36px; max-width: 140px; width: auto;" />
               </div>
             </div>
           </div>
@@ -242,9 +252,13 @@ const investors = [
                 </div>
                 {founder.logos && (
                   <div class={`flex flex-wrap items-center gap-3 mt-4 pt-4 ${index === 0 ? '-ml-2' : ''}`}>
-                    {founder.logos.map((logo: { src: string; alt: string }, i: number) => (
+                    {founder.logos.map((logo: { src: any; alt: string; height?: number; isSvg?: boolean }, i: number) => (
                       <>
-                        <img src={logo.src} alt={logo.alt} class="w-auto object-contain" style={`height: ${logo.height || 28}px;`} />
+                        {logo.isSvg ? (
+                          <img src={logo.src} alt={logo.alt} class="w-auto object-contain" style={`height: ${logo.height || 28}px;`} />
+                        ) : (
+                          <Image src={logo.src} alt={logo.alt} class="w-auto object-contain" style={`height: ${logo.height || 28}px;`} />
+                        )}
                         {i < founder.logos.length - 1 && <span class="text-brand-dark text-sm">→</span>}
                       </>
                     ))}

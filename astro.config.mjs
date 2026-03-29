@@ -4,7 +4,7 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  site: 'https://yoursite.com',
+  site: 'https://codekarma.ai',
   devToolbar: { enabled: false },
   integrations: [mdx(), sitemap(), react()],
 });

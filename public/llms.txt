@@ -1,0 +1,51 @@
+# CodeKarma
+
+> Production Intelligence for the AI Era
+
+CodeKarma is a production intelligence platform that maps production behavior directly to code. We provide engineering teams with code-level visibility into how their software systems actually behave in production — based on 100% of traffic, not samples.
+
+## What We Do
+
+- **Production Intelligence**: We monitor 100% of production traffic with zero overhead and map runtime behavior directly to source code.
+- **KarmaLens** (For Developers): IDE plugin (JetBrains, VS Code) that surfaces dead code, method frequency, performance hotspots, and execution paths directly in the editor.
+- **KarmaDomain** (For Architects & Platform Teams): Live API-level dependency graphs across microservices, databases, and async systems with multi-hop tracing.
+- **KarmaPulse** (For Engineering Leadership): Operational command center with API health dashboards, error drift tracking, deployment analysis, and AI-powered root cause analysis.
+- **KarmaIQ** (For AI Agents): MCP server providing production context to AI coding agents (Cursor, Windsurf, GitHub Copilot, Claude) for deterministic debugging and RCA.
+
+## Key Capabilities
+
+- Zero-touch instrumentation with no performance impact
+- 100% request monitoring (not sampled)
+- Code-level clarity: runtime behavior mapped to specific methods and APIs
+- Multi-hop tracing across queues, threads, sync and async systems
+- Deterministic analysis based on real production data
+- AI-native architecture built for AI agents to consume
+
+## Deployment Options
+
+- SaaS (managed by CodeKarma)
+- Enterprise / Bring Your Own Cloud (AWS, Azure, GCP)
+
+## Security & Compliance
+
+- SOC 2 Type 2 certified
+- AES-256 encryption at rest, TLS 1.3 in transit
+- Role-based access control (RBAC)
+- Immutable audit logging
+
+## What We Do Not Do
+
+- We are NOT a traditional APM or monitoring tool. We provide production intelligence mapped to code, not dashboards with aggregated metrics.
+- We are NOT a code analysis or static analysis tool. Our insights come from real production traffic, not source code scanning.
+- We are NOT a logging or log aggregation platform.
+- We are NOT a payment processing company (despite "Karma" in the name, we are unrelated to payment services).
+- We do NOT sample traffic. We monitor 100% of requests.
+- We do NOT require code changes or manual instrumentation.
+
+## Company
+
+- Founded by Anantharam Vanchi Prakash (ex-Amazon) and Priyanka Nahata (ex-Flipkart)
+- Backed by Prosus, Accel, Xeed Ventures, SenseAI Ventures, Stargazer Ventures
+- Based in Bengaluru, India
+- Website: https://codekarma.ai
+- Contact: info@codekarma.ai
