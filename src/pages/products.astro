@@ -67,7 +67,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMALENS (light) -->
-  <section id="karmalens" class="relative bg-white py-20 overflow-hidden">
+  <section id="karmalens" class="relative bg-white pt-16 lg:pt-20 pb-28 lg:pb-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -77,11 +77,29 @@ const karmaIQFeatures = [
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-        <!-- Visual left -->
-        <div class="aspect-[4/3] overflow-hidden border rounded-[12px] order-2 lg:order-1" style="border-color: #2a2a2a;">
+      <!-- Header -->
+      <div class="max-w-3xl mb-12">
+        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Developers</p>
+        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
+          KarmaLens
+        </h2>
+        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Production intelligence, right where you code.</p>
+        <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] font-[410] mb-6" style="font-size: 18px;">
+          Brings production truth into your IDE. See dead and dormant code, method frequency, performance hotspots, and execution paths — overlaid on your code. 100% of traffic. Not sampled.
+        </p>
+        <div class="pl-5 md:pl-8 lg:pl-12 flex flex-wrap items-center gap-2">
+          <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mr-1">Supported</span>
+          <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">JetBrains (IntelliJ)</span>
+          <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">VS Code</span>
+        </div>
+      </div>
+
+      <!-- Full-width visual -->
+      <div class="relative mb-16">
+        <div class="w-full aspect-[16/9] overflow-hidden border rounded-none" style="border-color: #2a2a2a;">
           <video
             class="karmalens-product-video w-full h-full object-cover"
+            controls
             muted
             loop
             playsinline
@@ -90,22 +108,6 @@ const karmaIQFeatures = [
             <source src="/assets/Videos/karmalens.webm" type="video/webm" />
             <source src="/assets/Videos/karmalens.mp4" type="video/mp4" />
           </video>
-        </div>
-        <!-- Text right -->
-        <div class="order-1 lg:order-2">
-          <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Developers</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
-            KarmaLens
-          </h2>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Production intelligence, right where you code.</p>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] font-[410] mb-8" style="font-size: 18px;">
-            Brings production truth into your IDE. See dead and dormant code, method frequency, performance hotspots, and execution paths — overlaid on your code. 100% of traffic. Not sampled.
-          </p>
-          <div class="pl-5 md:pl-8 lg:pl-12 flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mr-1">Supported</span>
-            <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">JetBrains (IntelliJ)</span>
-            <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">VS Code</span>
-          </div>
         </div>
       </div>
 
@@ -124,7 +126,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMADOMAIN (dark) -->
-  <section id="karmadomain" class="dark-section relative bg-brand-dark py-20 overflow-hidden">
+  <section id="karmadomain" class="dark-section relative bg-brand-dark py-28 lg:py-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -148,9 +150,10 @@ const karmaIQFeatures = [
 
       <!-- Full-width visual -->
       <div class="relative mb-16">
-        <div class="w-full aspect-[21/9] overflow-hidden border rounded-[12px]" style="border-color: #2a2a2a;">
+        <div class="w-full aspect-[16/9] overflow-hidden border rounded-none" style="border-color: #2a2a2a;">
           <video
             class="karmadomain-product-video w-full h-full object-cover"
+            controls
             muted
             loop
             playsinline
@@ -177,7 +180,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMAPULSE (light) -->
-  <section id="karmapulse" class="relative bg-white py-20 overflow-hidden">
+  <section id="karmapulse" class="relative bg-white py-28 lg:py-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -187,20 +190,21 @@ const karmaIQFeatures = [
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-        <!-- Text left -->
-        <div>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Engineering Leadership</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
-            KarmaPulse
-          </h2>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Know what needs attention. Act with confidence.</p>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] font-[410]" style="font-size: 18px;">
-            The operational command center for your engineering org. KarmaPulse surfaces the most important issues and the specific actions to fix them.
-          </p>
-        </div>
-        <!-- Visual right -->
-        <div class="flex items-center justify-center bg-gray-100 aspect-[4/3]">
+      <!-- Header -->
+      <div class="max-w-3xl mb-12">
+        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Engineering Leadership</p>
+        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
+          KarmaPulse
+        </h2>
+        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Know what needs attention. Act with confidence.</p>
+        <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] font-[410]" style="font-size: 18px;">
+          The operational command center for your engineering org. KarmaPulse surfaces the most important issues and the specific actions to fix them.
+        </p>
+      </div>
+
+      <!-- Full-width visual -->
+      <div class="relative mb-16">
+        <div class="w-full aspect-[16/9] overflow-hidden border rounded-none bg-gray-100 flex items-center justify-center" style="border-color: #e5e5e5;">
           <span class="text-sm text-gray-400 font-mono">KarmaPulse Screenshot</span>
         </div>
       </div>
@@ -220,7 +224,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMAIQ (dark) -->
-  <section id="karmaiq" class="dark-section relative bg-brand-dark py-20 overflow-hidden">
+  <section id="karmaiq" class="dark-section relative bg-brand-dark py-28 lg:py-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -230,28 +234,29 @@ const karmaIQFeatures = [
     </div>
 
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-        <!-- Text left -->
-        <div>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
-            KarmaIQ
-          </h2>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-white/80 font-[410] mb-6">Give your AI agents the ground truth from production.</p>
-          <p class="pl-5 md:pl-8 lg:pl-12 text-white/50 leading-[1.5] font-[410] mb-8" style="font-size: 18px;">
-            MCP server that provides production context to AI coding agents. A blended view from service-to-service, to API-to-API, to method-to-method. Trace entire requests across multiple services. Debug issues. Reduce MTTR. Ground AI-generated code in reality.
-          </p>
-          <div class="pl-5 md:pl-8 lg:pl-12 flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-white/30 mr-1">Works with</span>
-            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Cursor</span>
-            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Windsurf</span>
-            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">GitHub Copilot</span>
-            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Claude</span>
-            <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Custom agents</span>
-          </div>
+      <!-- Header -->
+      <div class="max-w-3xl mb-12">
+        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
+        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
+          KarmaIQ
+        </h2>
+        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-white/80 font-[410] mb-6">Give your AI agents the ground truth from production.</p>
+        <p class="pl-5 md:pl-8 lg:pl-12 text-white/50 leading-[1.5] font-[410] mb-6" style="font-size: 18px;">
+          MCP server that provides production context to AI coding agents. A blended view from service-to-service, to API-to-API, to method-to-method. Trace entire requests across multiple services. Debug issues. Reduce MTTR. Ground AI-generated code in reality.
+        </p>
+        <div class="pl-5 md:pl-8 lg:pl-12 flex flex-wrap items-center gap-2">
+          <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-white/30 mr-1">Works with</span>
+          <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Cursor</span>
+          <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Windsurf</span>
+          <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">GitHub Copilot</span>
+          <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Claude</span>
+          <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Custom agents</span>
         </div>
-        <!-- Visual right -->
-        <div class="flex items-center justify-center bg-white/5 border border-white/10 aspect-[4/3]">
+      </div>
+
+      <!-- Full-width visual -->
+      <div class="relative mb-16">
+        <div class="w-full aspect-[16/9] overflow-hidden border rounded-none flex items-center justify-center" style="border-color: #2a2a2a; background: rgba(255,255,255,0.05);">
           <span class="text-sm text-white/30 font-mono">KarmaIQ MCP Diagram</span>
         </div>
       </div>
