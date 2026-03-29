@@ -52,13 +52,6 @@ const currentPath = Astro.url.pathname;
           >
             <span>Schedule Demo</span>
           </a>
-          <a
-            href="#"
-            class="inline-flex items-center gap-1.5 text-brand-dark text-sm font-medium hover:opacity-70 transition-opacity duration-200"
-          >
-            View platform
-            <i class="ph ph-arrow-right text-base"></i>
-          </a>
         </div>
       </div>
 
@@ -76,14 +69,14 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4">
-      <div class="flex flex-col gap-3 pt-2">
+    <div id="mobile-menu" class="mobile-menu md:hidden pb-4">
+      <div class="flex flex-col gap-3 pt-6">
         {navLinks.map((link) => {
           const isActive = currentPath.startsWith(link.href);
           return (
             <a
               href={link.href}
-              class={`text-sm transition-colors py-1 ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
+              class={`mobile-nav-link transition-colors py-3 border-b border-gray-200 ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
             >
               {link.label}
             </a>
@@ -92,7 +85,7 @@ const currentPath = Astro.url.pathname;
       </div>
         <a
           href="https://google.com"
-          class="inline-flex items-center justify-center px-5 py-2.5 mt-2 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+          class="w-full inline-flex items-center justify-center px-5 py-3 mt-6 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
         >
           <span>Schedule Demo</span>
         </a>
@@ -100,7 +93,37 @@ const currentPath = Astro.url.pathname;
   </div>
 </nav>
 
+<!-- Mobile menu overlay -->
+<div id="mobile-menu-overlay" class="mobile-menu-overlay fixed inset-0 bg-black/50 z-40 md:hidden pointer-events-none" aria-hidden="true"></div>
+
 <style>
+  .mobile-nav-link {
+    font-size: 14px !important;
+  }
+
+  /* Mobile menu animation */
+  .mobile-menu {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  }
+
+  .mobile-menu.open {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  .mobile-menu-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .nav-link {
     display: flex;
     flex-direction: column;
@@ -220,12 +243,24 @@ const currentPath = Astro.url.pathname;
     const menuIcon = document.getElementById('menu-icon');
     const closeIcon = document.getElementById('close-icon');
 
+    const overlay = document.getElementById('mobile-menu-overlay');
+
     if (btn && menu && menuIcon && closeIcon) {
-      listen(btn, 'click', () => {
-        menu.classList.toggle('hidden');
+      function toggleMenu() {
+        const isOpen = menu.classList.contains('open');
+        menu.classList.toggle('open');
         menuIcon.classList.toggle('hidden');
         closeIcon.classList.toggle('hidden');
-      });
+        overlay?.classList.toggle('open');
+        document.body.classList.toggle('overflow-hidden');
+      }
+
+      listen(btn, 'click', toggleMenu);
+
+      // Close menu when overlay is clicked
+      if (overlay) {
+        listen(overlay, 'click', toggleMenu);
+      }
     }
 
     // Cleanup function

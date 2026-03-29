@@ -24,9 +24,9 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-brand-dark fixed bottom-0 left-0 right-0 z-0 overflow-hidden">
-  <div class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] pt-20 md:pt-28 lg:pt-40 pb-20 md:pb-16 relative z-10">
+  <div class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] pt-14 md:pt-28 lg:pt-40 pb-10 md:pb-16 relative z-10">
     <!-- Top section: Logo left, Link columns right -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-10 lg:gap-20 mb-12 lg:mb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-8 lg:gap-20 mb-10 lg:mb-24">
       <!-- Left: Logo -->
       <!-- Left: Logo, tagline, contact, socials, SOC 2 -->
       <div class="flex flex-col">
@@ -43,8 +43,8 @@ const currentYear = new Date().getFullYear();
         <!-- Separator -->
         <div class="w-full h-px bg-white/10 mt-6"></div>
 
-        <!-- Email, HQ, socials — all in one line -->
-        <div class="flex flex-wrap items-center gap-3 md:gap-4 text-[13px] md:text-[14px] text-gray-500 mt-6">
+        <!-- Email, HQ, socials — all in one line (desktop only) -->
+        <div class="hidden md:flex flex-wrap items-center gap-3 md:gap-4 text-[13px] md:text-[14px] text-gray-500 mt-6">
           <a href="mailto:info@codekarma.ai" class="inline-flex items-center gap-2 hover:text-white transition-colors">
             <i class="ph ph-envelope text-base"></i>
             info@codekarma.ai
@@ -66,7 +66,7 @@ const currentYear = new Date().getFullYear();
       </div>
 
       <!-- Right: Link columns -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-8 lg:gap-x-16 gap-y-8">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 lg:gap-x-16 gap-y-8">
         <!-- Products -->
         <div>
           <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-6">Products</p>
@@ -106,6 +106,25 @@ const currentYear = new Date().getFullYear();
                 </a>
               </li>
             ))}
+          </ul>
+        </div>
+
+        <!-- Connect (visible on mobile, hidden on desktop since info is in left column) -->
+        <div class="md:hidden">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-6">Connect</p>
+          <ul class="space-y-4">
+            <li>
+              <a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">LinkedIn</a>
+            </li>
+            <li>
+              <a href="#" class="text-[15px] text-gray-400 hover:text-white transition-colors">Twitter</a>
+            </li>
+            <li>
+              <a href="mailto:info@codekarma.ai" class="text-[15px] text-gray-400 hover:text-white transition-colors">Mail</a>
+            </li>
+            <li>
+              <span class="text-[15px] text-gray-400">Bengaluru, IN</span>
+            </li>
           </ul>
         </div>
       </div>
