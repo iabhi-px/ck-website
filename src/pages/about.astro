@@ -71,35 +71,35 @@ const investors = [
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
 
       <!-- WHAT WE STAND FOR -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-40">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-20 md:mb-40">
         <!-- Left: Headline -->
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-5 md:pl-8 lg:pl-12">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent lg:pl-12">
             <span class="font-semibold">What we stand for</span>
           </h1>
         </div>
 
         <!-- Right: Description -->
-        <div class="flex flex-col justify-start py-[12px] pr-5 md:pr-8 lg:pr-12">
-          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+        <div class="flex flex-col justify-start lg:py-[12px] lg:pr-12">
+          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410] text-lg">
             The future of software engineering isn't about writing code faster. It's about understanding systems deeply enough to evolve them with confidence. As AI rewrites how software gets built, production truth becomes the most valuable signal in the stack.
           </p>
         </div>
       </div>
 
       <!-- OUR PRINCIPLES -->
-      <div class="mb-40">
-        <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">Our Principles</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+      <div class="mb-20 md:mb-40">
+        <div class="max-w-3xl mb-8 md:mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-4 md:mb-5">Our Principles</p>
+          <h2 class="lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             How we think
           </h2>
         </div>
 
         <div class="relative">
-          <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-200">
+          <div class="grid grid-cols-2 border border-gray-200">
             {principles.map((item, index) => (
-              <div class={`principle-cell p-8 lg:p-10 ${index % 2 === 0 ? 'md:border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
+              <div class={`principle-cell p-5 md:p-8 lg:p-10 ${index % 2 === 0 ? 'border-r border-gray-200' : ''} ${index < 2 ? 'border-b border-gray-200' : ''}`}>
                 <div class="principle-icon flex items-center justify-center w-12 h-12 rounded-full bg-[#fafafa] mb-5">
                   {item.icon === 'custom-bars' ? (
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -184,10 +184,10 @@ const investors = [
       </div>
 
       <!-- INVESTORS -->
-      <div class="mb-40">
-        <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">Investors</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+      <div class="mb-20 md:mb-40">
+        <div class="max-w-3xl mb-8 md:mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-4 md:mb-5">Investors</p>
+          <h2 class="lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             Backed by the best
           </h2>
         </div>
@@ -200,7 +200,7 @@ const investors = [
             <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Prosus" style="padding-top: 46px; padding-bottom: 36px; padding-left: 32px; padding-right: 32px;">
               <Image src={prosusLogo} alt="Prosus" class="investor-logo object-contain" data-investor="Prosus" style="height: 64px; max-width: 168px; width: auto;" />
             </div>
-            <div class="investor-cell flex items-center justify-center border-r border-gray-200 max-md:border-b" data-investor-cell="Xeed Ventures" style="padding-top: 0px; padding-bottom: 0px; padding-left: 32px; padding-right: 32px;">
+            <div class="investor-cell flex items-center justify-center max-md:border-b border-r border-gray-200" data-investor-cell="Xeed Ventures" style="padding-top: 0px; padding-bottom: 0px; padding-left: 32px; padding-right: 32px;">
               <Image src={xeedLogo} alt="Xeed Ventures" class="investor-logo object-contain" data-investor="Xeed Ventures" style="height: 136px; max-width: 140px; width: auto;" />
             </div>
             <div class="investor-cell flex flex-col items-center justify-center !p-0" data-investor-cell="SenseAI+Stargazer">
@@ -219,10 +219,10 @@ const investors = [
       <!-- <InvestorDialKit client:load /> -->
 
       <!-- TEAM — FOUNDERS -->
-      <div class="mb-40">
-        <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">Team</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+      <div class="mb-20 md:mb-40">
+        <div class="max-w-3xl mb-8 md:mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-4 md:mb-5">Team</p>
+          <h2 class="lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             Founders
           </h2>
         </div>
@@ -230,7 +230,7 @@ const investors = [
         <div class="relative">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 border border-gray-200">
             {founders.map((founder, index) => (
-              <div class={`founder-card relative overflow-hidden p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-gray-200' : ''}`}>
+              <div class={`founder-card relative overflow-hidden p-5 md:p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-b sm:border-b-0 border-gray-200' : ''}`}>
                 {founder.photo ? (
                   <div class="w-full aspect-square bg-gray-100 mb-6 overflow-hidden">
                     <img src={founder.photo} alt={founder.name} class="w-full h-full object-cover" />
@@ -272,9 +272,9 @@ const investors = [
 
       <!-- IN THE PRESS -->
       <div class="mb-[72px]">
-        <div class="max-w-3xl mb-16">
-          <p class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">In The Press</p>
-          <h2 class="pl-5 md:pl-8 lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+        <div class="max-w-3xl mb-8 md:mb-16">
+          <p class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-4 md:mb-5">In The Press</p>
+          <h2 class="lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             What they're saying
           </h2>
         </div>
@@ -303,24 +303,26 @@ const investors = [
 </BaseLayout>
 
 <style>
-  .principle-cell {
-    transition: background-color 0.2s ease;
-  }
-  .principle-cell:hover {
-    background-color: #fafafa;
-  }
-  .principle-icon {
-    transition: transform 0.3s ease;
-  }
-  .principle-cell:hover .principle-icon {
-    transform: scale(2);
-  }
+  @media (min-width: 1024px) {
+    .principle-cell {
+      transition: background-color 0.2s ease;
+    }
+    .principle-cell:hover {
+      background-color: #fafafa;
+    }
+    .principle-icon {
+      transition: transform 0.3s ease;
+    }
+    .principle-cell:hover .principle-icon {
+      transform: scale(2);
+    }
 
-  .founder-card {
-    transition: background-color 0.2s ease;
-  }
-  .founder-card:hover {
-    background-color: #fafafa;
+    .founder-card {
+      transition: background-color 0.2s ease;
+    }
+    .founder-card:hover {
+      background-color: #fafafa;
+    }
   }
 
   .linkedin-icon .ph-fill {

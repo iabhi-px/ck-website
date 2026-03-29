@@ -43,12 +43,12 @@ const products = [
   <!-- Section header — normal flow -->
   <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
     <div class="mb-16">
-      <p id="products-label" class="text-sm font-mono tracking-[0.3em] uppercase pl-5 md:pl-8 lg:pl-12 text-brand-dark/40 mb-5">The Platform</p>
+      <p id="products-label" class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-5">The Platform</p>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-end">
-        <h2 id="products-heading" class="pl-5 md:pl-8 lg:pl-12 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
+        <h2 id="products-heading" class="lg:pl-12 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
           One truth.<br />Four products.
         </h2>
-        <p id="products-subtext" class="pl-5 md:pl-8 lg:pl-12 pr-5 md:pr-8 lg:pr-12 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
+        <p id="products-subtext" class="lg:pl-12 lg:pr-12 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
           From developers and managers to VPs and AI agents — production intelligence for every role.
         </p>
       </div>
@@ -56,7 +56,7 @@ const products = [
   </div>
 
   <!-- Tabs sticky container — tall to allow scroll room -->
-  <div id="products-scroll-area" class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]" style="height: 500vh;">
+  <div id="products-scroll-area" class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] products-scroll-area">
     <div class="products-tabs-wrapper sticky top-[15vh]" style="transition: margin 0.15s ease, border-radius 0.15s ease;">
       <!-- Tab buttons - folder style -->
       <div class="product-tabs-row">
@@ -433,7 +433,7 @@ const products = [
     background: #000000;
     border-radius: 8px;
     overflow: hidden;
-    padding: 20px 20px 20px 0;
+    padding: 16px;
   }
 
   @media (min-width: 768px) {
@@ -447,6 +447,16 @@ const products = [
     background-size: 16px 16px;
     background-color: #1a1a1a;
     min-height: 300px;
+  }
+
+  .products-scroll-area {
+    height: 300vh;
+  }
+
+  @media (min-width: 768px) {
+    .products-scroll-area {
+      height: 500vh;
+    }
   }
 
   /* Responsive */

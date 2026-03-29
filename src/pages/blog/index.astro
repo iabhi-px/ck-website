@@ -22,21 +22,21 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
 
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Section header -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-16">
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent pl-5 md:pl-8 lg:pl-12">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent lg:pl-12">
             Articles & Updates
           </h1>
         </div>
-        <div class="flex flex-col justify-start py-[12px] pr-5 md:pr-8 lg:pr-12">
-          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+        <div class="flex flex-col justify-start lg:py-[12px] lg:pr-12">
+          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410] text-lg">
             Engineering insights, product updates, and deep dives from the CodeKarma team.
           </p>
         </div>
       </div>
 
       <!-- Filter tabs -->
-      <div class="blog-filter-bar mt-10 mb-0 pl-5 md:pl-8 lg:pl-12 border-b border-gray-200 pb-0" style="margin-bottom: -1px;">
+      <div class="blog-filter-bar mt-10 mb-0 lg:pl-12 md:border-b border-gray-200 pb-0" style="margin-bottom: -1px;">
         <div class="flex flex-wrap gap-3">
           <button
             class="blog-filter-tab active"
@@ -56,7 +56,7 @@ const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
       </div>
 
       <!-- Posts grid — 2-column cards -->
-      <div class="blog-grid mt-10 pl-5 md:pl-8 lg:pl-12">
+      <div class="blog-grid mt-10 lg:pl-12">
         {posts.map((post) => (
           <PostCard
             title={post.data.title}

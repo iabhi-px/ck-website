@@ -40,7 +40,7 @@ const karmaIQFeatures = [
 <BaseLayout title="Products — CodeKarma" description="Explore CodeKarma's production intelligence platform: KarmaPulse, KarmaLens, KarmaDomain, and KarmaIQ.">
 
   <!-- HERO -->
-  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[240px] pb-10 overflow-hidden">
+  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[240px] pb-0 md:pb-10 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -51,14 +51,14 @@ const karmaIQFeatures = [
 
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Hero heading -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-0 md:mb-20">
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold pl-5 md:pl-8 lg:pl-12 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold lg:pl-12 bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
             <span>The Production Context Engine</span>
           </h1>
         </div>
-        <div class="flex flex-col justify-start py-[12px] pr-5 md:pr-8 lg:pr-12">
-          <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] max-w-lg font-[410]" style="font-size: 18px;">
+        <div class="flex flex-col justify-start lg:py-[12px] lg:pr-12">
+          <p class="lg:pl-12 text-gray-600 leading-[1.5] max-w-lg font-[410] text-lg">
             One source of truth. Zero-touch instrumentation. Insights for humans and AI agents. Four products for four personas.
           </p>
         </div>
@@ -67,7 +67,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMALENS (light) -->
-  <section id="karmalens" class="relative bg-white pt-16 lg:pt-20 pb-28 lg:pb-36 overflow-hidden">
+  <section id="karmalens" class="relative bg-white pt-16 lg:pt-20 pb-16 md:pb-28 lg:pb-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -79,15 +79,15 @@ const karmaIQFeatures = [
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Header -->
       <div class="max-w-3xl mb-12">
-        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Developers</p>
-        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
+        <p class="lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Developers</p>
+        <h2 class="lg:pl-12 text-[28px] md:text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
           KarmaLens
         </h2>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Production intelligence, right where you code.</p>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] font-[410] mb-6" style="font-size: 18px;">
+        <p class="lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Production intelligence, right where you code.</p>
+        <p class="lg:pl-12 text-gray-600 leading-[1.5] font-[410] text-lg mb-6">
           Brings production truth into your IDE. See dead and dormant code, method frequency, performance hotspots, and execution paths — overlaid on your code. 100% of traffic. Not sampled.
         </p>
-        <div class="pl-5 md:pl-8 lg:pl-12 flex flex-wrap items-center gap-2">
+        <div class="lg:pl-12 flex flex-wrap items-center gap-2">
           <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mr-1">Supported</span>
           <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">JetBrains (IntelliJ)</span>
           <span class="text-xs font-mono text-gray-600 border border-gray-200 px-3 py-1">VS Code</span>
@@ -126,7 +126,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMADOMAIN (dark) -->
-  <section id="karmadomain" class="dark-section relative bg-brand-dark py-28 lg:py-36 overflow-hidden">
+  <section id="karmadomain" class="dark-section relative bg-brand-dark py-16 md:py-28 lg:py-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -138,12 +138,12 @@ const karmaIQFeatures = [
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Header -->
       <div class="max-w-3xl mb-12">
-        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For Architects & Platform Teams</p>
-        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
+        <p class="lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For Architects & Platform Teams</p>
+        <h2 class="lg:pl-12 text-[28px] md:text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
           KarmaDomain
         </h2>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-white/80 font-[410] mb-6">See how your software actually connects and behaves.</p>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-white/50 leading-[1.5] font-[410]" style="font-size: 18px;">
+        <p class="lg:pl-12 text-lg text-white/80 font-[410] mb-6">See how your software actually connects and behaves.</p>
+        <p class="lg:pl-12 text-white/50 leading-[1.5] font-[410] text-lg">
           The live graph of your production systems. Microservices, APIs, databases — connected in real time. Unlike traditional tools that show service-to-service, KarmaDomain shows API-to-API level dependencies. Every connection based on 100% production traffic.
         </p>
       </div>
@@ -180,7 +180,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMAPULSE (light) -->
-  <section id="karmapulse" class="relative bg-white py-28 lg:py-36 overflow-hidden">
+  <section id="karmapulse" class="relative bg-white py-16 md:py-28 lg:py-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -192,12 +192,12 @@ const karmaIQFeatures = [
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Header -->
       <div class="max-w-3xl mb-12">
-        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Engineering Leadership</p>
-        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
+        <p class="lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-dark/40 mb-5">For Engineering Leadership</p>
+        <h2 class="lg:pl-12 text-[28px] md:text-[36px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent mb-4">
           KarmaPulse
         </h2>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Know what needs attention. Act with confidence.</p>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-gray-600 leading-[1.5] font-[410]" style="font-size: 18px;">
+        <p class="lg:pl-12 text-lg text-brand-dark font-[410] mb-6">Know what needs attention. Act with confidence.</p>
+        <p class="lg:pl-12 text-gray-600 leading-[1.5] font-[410] text-lg">
           The operational command center for your engineering org. KarmaPulse surfaces the most important issues and the specific actions to fix them.
         </p>
       </div>
@@ -224,7 +224,7 @@ const karmaIQFeatures = [
   </section>
 
   <!-- KARMAIQ (dark) -->
-  <section id="karmaiq" class="dark-section relative bg-brand-dark py-28 lg:py-36 overflow-hidden">
+  <section id="karmaiq" class="dark-section relative bg-brand-dark py-16 md:py-28 lg:py-36 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -236,15 +236,15 @@ const karmaIQFeatures = [
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Header -->
       <div class="max-w-3xl mb-12">
-        <p class="pl-5 md:pl-8 lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
-        <h2 class="pl-5 md:pl-8 lg:pl-12 text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
+        <p class="lg:pl-12 text-sm font-mono tracking-[0.3em] uppercase text-brand-primary mb-5">For AI Agents</p>
+        <h2 class="lg:pl-12 text-[28px] md:text-[36px] tracking-tight leading-[1.1] font-semibold text-white mb-4">
           KarmaIQ
         </h2>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-lg text-white/80 font-[410] mb-6">Give your AI agents the ground truth from production.</p>
-        <p class="pl-5 md:pl-8 lg:pl-12 text-white/50 leading-[1.5] font-[410] mb-6" style="font-size: 18px;">
+        <p class="lg:pl-12 text-lg text-white/80 font-[410] mb-6">Give your AI agents the ground truth from production.</p>
+        <p class="lg:pl-12 text-white/50 leading-[1.5] font-[410] text-lg mb-6">
           MCP server that provides production context to AI coding agents. A blended view from service-to-service, to API-to-API, to method-to-method. Trace entire requests across multiple services. Debug issues. Reduce MTTR. Ground AI-generated code in reality.
         </p>
-        <div class="pl-5 md:pl-8 lg:pl-12 flex flex-wrap items-center gap-2">
+        <div class="lg:pl-12 flex flex-wrap items-center gap-2">
           <span class="text-[11px] font-mono tracking-[0.2em] uppercase text-white/30 mr-1">Works with</span>
           <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Cursor</span>
           <span class="text-xs font-mono text-white/70 border border-white/20 px-3 py-1">Windsurf</span>
@@ -344,3 +344,20 @@ const karmaIQFeatures = [
     initNavbarTheme();
   });
 </script>
+
+<style>
+  /* Mobile: add bottom border on stacked feature tiles and reduce padding */
+  @media (max-width: 639px) {
+    .grid.grid-cols-1.sm\:grid-cols-2 > div {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem;
+    }
+    .grid.grid-cols-1.sm\:grid-cols-2 > div:last-child {
+      border-bottom: none;
+    }
+    /* Dark sections */
+    .dark-section .grid.grid-cols-1.sm\:grid-cols-2 > div {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+</style>
