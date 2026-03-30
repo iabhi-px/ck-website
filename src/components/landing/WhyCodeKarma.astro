@@ -67,14 +67,14 @@
 
     <!-- Bottom row — 2 cards with side image -->
     <div class="why-grid-2 border border-t-0 border-gray-200 overflow-hidden">
-      <div class="why-cell why-card-horizontal border-r border-gray-200">
-        <div class="why-card-text">
-          <h3 class="why-card-title text-[20px] font-semibold text-brand-dark mb-2 leading-[1.2]">Real-time production mapping</h3>
-          <p class="why-card-desc text-[15px] md:text-[14px] text-gray-500 leading-[1.4] md:leading-[1.65]">
-            Every line of code linked to live production behavior. See exactly what runs, how often, and where it matters.
-          </p>
+      <div class="why-cell p-6 border-r border-gray-200">
+        <div class="why-placeholder -mx-6 -mt-6 mb-6">
+          <img src="/assets/realtime-production-mapping.png" alt="Real-time production mapping" class="w-full h-full object-cover" />
         </div>
-        <div class="why-card-image why-placeholder"></div>
+        <h3 class="why-card-title text-[20px] font-semibold text-brand-dark mb-2 leading-[1.2]">Real-time production mapping</h3>
+        <p class="why-card-desc text-[15px] md:text-[14px] text-gray-500 leading-[1.4] md:leading-[1.65]">
+          Every line of code linked to live production behavior. See exactly what runs, how often, and where it matters.
+        </p>
       </div>
 
       <div class="why-cell p-6">
@@ -153,13 +153,19 @@
     .why-grid,
     .why-grid-2 {
       grid-template-columns: 1fr;
+      border: none;
+      gap: 16px;
     }
     .why-cell {
-      border-right: none !important;
-      border-bottom: 1px solid #e5e7eb;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 0;
+      overflow: hidden;
     }
-    .why-cell:last-child {
-      border-bottom: none;
+    .why-dot-separator {
+      display: none;
+    }
+    .why-grid-2 {
+      margin-top: 16px;
     }
   }
 
