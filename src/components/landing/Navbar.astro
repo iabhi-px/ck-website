@@ -12,14 +12,14 @@ const currentPath = Astro.url.pathname;
 
 <nav
   id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 pt-4 transition-all duration-300 bg-white border-b border-gray-200"
+  class="fixed top-0 left-0 right-0 z-50 py-4 md:pb-0 transition-all duration-300 bg-white border-b border-gray-200"
 >
   <div id="navbar-container" class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
-    <div class="flex h-16 items-center justify-between">
+    <div class="flex items-center justify-between md:h-16">
       <!-- Logo -->
       <a href="/" class="flex items-center">
-        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="navbar-logo-light w-auto" style="height: 44px;" />
-        <img src="/assets/Logos/Logo with name (LR)/Colored (for dark bg).svg" alt="CodeKarma" class="navbar-logo-dark w-auto hidden" style="height: 44px;" />
+        <img src="/assets/Logos/Logo with name (LR)/Colored (for light bg).svg" alt="CodeKarma" class="navbar-logo-light w-auto h-9 md:h-[44px]" />
+        <img src="/assets/Logos/Logo with name (LR)/Colored (for dark bg).svg" alt="CodeKarma" class="navbar-logo-dark w-auto hidden h-9 md:h-[44px]" />
       </a>
 
       <!-- Desktop nav -->
@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname;
         <div id="navbar-ctas" class="absolute right-0 hidden md:flex items-center gap-4 opacity-0 pointer-events-none" style="transition: opacity 0.3s ease;">
           <a
             href="https://google.com"
-            class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+            class="inline-flex items-center justify-center px-5 py-2 rounded-none bg-brand-dark text-[15px] md:text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
           >
             <span>Schedule Demo</span>
           </a>
@@ -75,26 +75,27 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="mobile-menu md:hidden pb-4">
-      <div class="flex flex-col gap-3 pt-6">
-        {navLinks.map((link) => {
+    <div id="mobile-menu" class="mobile-menu md:hidden">
+      <div class="border border-gray-200 mt-6">
+        {navLinks.map((link, i) => {
           const isActive = currentPath.startsWith(link.href);
+          const isLast = i === navLinks.length - 1;
           return (
             <a
               href={link.href}
-              class={`mobile-nav-link transition-colors py-3 border-b border-gray-200 ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
+              class={`mobile-nav-link flex items-center px-5 py-4 text-[15px] transition-colors ${!isLast ? 'border-b border-gray-200' : ''} ${isActive ? 'text-brand-dark font-semibold' : 'text-gray-500 hover:text-brand-dark'}`}
             >
               {link.label}
             </a>
           );
         })}
       </div>
-        <a
-          href="https://google.com"
-          class="w-full inline-flex items-center justify-center px-5 py-3 mt-6 rounded-none bg-brand-dark text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
-        >
-          <span>Schedule Demo</span>
-        </a>
+      <a
+        href="https://google.com"
+        class="w-full inline-flex items-center justify-center px-5 py-3 mt-6 mb-4 rounded-none bg-brand-dark text-[15px] md:text-sm font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+      >
+        <span>Schedule Demo</span>
+      </a>
     </div>
   </div>
 </nav>
@@ -104,7 +105,7 @@ const currentPath = Astro.url.pathname;
 
 <style>
   .mobile-nav-link {
-    font-size: 14px !important;
+    font-size: 15px !important;
   }
 
   /* Mobile menu animation */
