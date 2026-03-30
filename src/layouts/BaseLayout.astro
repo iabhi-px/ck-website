@@ -31,13 +31,105 @@ const {
     <SEO title={title} description={description} ogImage={ogImage} />
 
   </head>
-  <body class="min-h-screen flex flex-col bg-white text-gray-900">
+  <body class="min-h-screen flex flex-col bg-white text-gray-900 pb-[72px] md:pb-0">
     <Navbar />
     <main class="flex-1 relative z-10 bg-white">
       <slot />
     </main>
     <div id="footer-spacer"></div>
     <Footer />
+
+    <!-- Mobile sticky CTA bar -->
+    <div id="mobile-cta-bar" class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-5 py-3 flex gap-3">
+      <a
+        href="https://google.com"
+        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none bg-brand-dark text-[14px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+      >
+        <span>Schedule Call</span>
+      </a>
+      <button
+        id="mobile-contact-btn"
+        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none border border-brand-dark text-[14px] font-medium text-brand-dark hover:bg-gray-100 transition-colors duration-200"
+      >
+        Contact Us
+      </button>
+    </div>
+
+    <!-- Mobile bottom sheet -->
+    <div id="mobile-sheet-overlay" class="fixed inset-0 z-[60] bg-black/50 md:hidden pointer-events-none opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-sheet" class="fixed bottom-0 left-0 right-0 z-[70] md:hidden bg-white rounded-t-2xl translate-y-full transition-transform duration-300 ease-out" style="max-height: 90vh; overflow-y: auto;">
+      <!-- Handle + Close -->
+      <div class="flex items-center justify-between px-5 pt-4 pb-2">
+        <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto"></div>
+      </div>
+      <div class="flex items-center justify-between px-5 pb-2">
+        <h3 class="text-[20px] font-semibold text-brand-dark">Contact Us</h3>
+        <button id="mobile-sheet-close" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-dark">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Form -->
+      <form class="px-5 pb-8">
+        <div class="border-t border-gray-200">
+          <div class="py-4 border-b border-gray-200">
+            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Company</label>
+            <input type="text" name="company" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
+          </div>
+          <div class="py-4 border-b border-gray-200">
+            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Work Email</label>
+            <input type="email" name="email" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
+          </div>
+          <div class="py-4 border-b border-gray-200">
+            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Name</label>
+            <input type="text" name="name" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
+          </div>
+          <div class="py-4 border-b border-gray-200">
+            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Role</label>
+            <input type="text" name="role" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
+          </div>
+        </div>
+        <button type="submit" class="w-full mt-6 inline-flex items-center justify-center px-5 py-3 rounded-none bg-brand-dark text-[14px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
+          <span>Send</span>
+        </button>
+      </form>
+    </div>
+
+    <script>
+      function initMobileSheet() {
+        const btn = document.getElementById('mobile-contact-btn');
+        const sheet = document.getElementById('mobile-sheet');
+        const overlay = document.getElementById('mobile-sheet-overlay');
+        const closeBtn = document.getElementById('mobile-sheet-close');
+        const ctaBar = document.getElementById('mobile-cta-bar');
+        if (!btn || !sheet || !overlay || !closeBtn || !ctaBar) return;
+
+        function openSheet() {
+          ctaBar.classList.add('hidden');
+          sheet.classList.remove('translate-y-full');
+          sheet.classList.add('translate-y-0');
+          overlay.classList.remove('opacity-0', 'pointer-events-none');
+          overlay.classList.add('opacity-100', 'pointer-events-auto');
+          document.body.classList.add('overflow-hidden');
+        }
+
+        function closeSheet() {
+          sheet.classList.remove('translate-y-0');
+          sheet.classList.add('translate-y-full');
+          overlay.classList.remove('opacity-100', 'pointer-events-auto');
+          overlay.classList.add('opacity-0', 'pointer-events-none');
+          document.body.classList.remove('overflow-hidden');
+          ctaBar.classList.remove('hidden');
+        }
+
+        btn.addEventListener('click', openSheet);
+        closeBtn.addEventListener('click', closeSheet);
+        overlay.addEventListener('click', closeSheet);
+      }
+
+      document.addEventListener('DOMContentLoaded', initMobileSheet);
+    </script>
 
     <script>
       function syncFooterSpacer() {

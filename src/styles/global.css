@@ -57,16 +57,13 @@
 
 /* Mobile font size step-down: 18→16, 16→14, 14→12 */
 @media (max-width: 767px) {
-  .text-lg,
-  .text-\[18px\] {
+  .text-lg {
     font-size: 16px !important;
   }
-  .text-base,
-  .text-\[16px\] {
+  .text-base {
     font-size: 14px !important;
   }
-  .text-sm,
-  .text-\[14px\] {
+  .text-sm:not(.hero-btn-primary) {
     font-size: 12px !important;
   }
 }

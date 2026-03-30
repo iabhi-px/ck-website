@@ -59,7 +59,7 @@ const investors = [
 ---
 
 <BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team.">
-  <section class="relative bg-white pt-32 md:pt-40 lg:pt-[240px] pb-0 overflow-hidden">
+  <section class="relative bg-white pt-44 lg:pt-[240px] pb-0 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
       <div class="relative h-full">
@@ -230,7 +230,7 @@ const investors = [
         <div class="relative">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 border border-gray-200">
             {founders.map((founder, index) => (
-              <div class={`founder-card relative overflow-hidden p-5 md:p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-b sm:border-b-0 border-gray-200' : ''}`}>
+              <div class={`founder-card relative overflow-hidden p-5 pt-6 md:p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-b sm:border-b-0 border-gray-200' : ''}`}>
                 {founder.photo ? (
                   <div class="w-full aspect-square bg-gray-100 mb-6 overflow-hidden">
                     <img src={founder.photo} alt={founder.name} class="w-full h-full object-cover" />
@@ -251,7 +251,7 @@ const investors = [
                   </a>
                 </div>
                 {founder.logos && (
-                  <div class={`flex flex-wrap items-center gap-3 mt-4 pt-4 ${index === 0 ? '-ml-2' : ''}`}>
+                  <div class={`flex flex-wrap items-center gap-3 mt-0 md:mt-4 pt-4 ${index === 0 ? '-ml-2' : ''}`}>
                     {founder.logos.map((logo: { src: any; alt: string; height?: number; isSvg?: boolean }, i: number) => (
                       <>
                         {logo.isSvg ? (
@@ -271,7 +271,7 @@ const investors = [
       </div>
 
       <!-- IN THE PRESS -->
-      <div class="mb-[72px]">
+      <div class="mb-8 md:mb-[72px]">
         <div class="max-w-3xl mb-8 md:mb-16">
           <p class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-4 md:mb-5">In The Press</p>
           <h2 class="lg:pl-12 text-3xl sm:text-4xl tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
