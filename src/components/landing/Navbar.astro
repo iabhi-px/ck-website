@@ -110,8 +110,12 @@ const currentPath = Astro.url.pathname;
   }
 
   .mobile-menu.open {
-    max-height: 500px;
+    max-height: 100vh;
     opacity: 1;
+  }
+
+  #navbar.menu-open {
+    background: white !important;
   }
 
   .mobile-menu-overlay {
@@ -167,6 +171,26 @@ const currentPath = Astro.url.pathname;
   :global(#navbar.navbar-dark) .navbar-logo-dark {
     display: block;
   }
+  :global(#navbar.navbar-dark) #mobile-menu-btn {
+    color: rgba(255,255,255,0.7);
+  }
+  :global(#navbar.navbar-dark) .mobile-nav-link {
+    color: rgba(255,255,255,0.5) !important;
+    border-color: rgba(255,255,255,0.1);
+  }
+  :global(#navbar.navbar-dark) .mobile-nav-link[class*="font-semibold"] {
+    color: #ffffff !important;
+  }
+  :global(#navbar.navbar-dark.menu-open) {
+    background-color: #0f0f0f !important;
+  }
+  :global(#navbar.navbar-dark) .mobile-menu a.hero-btn-primary {
+    background-color: #ffffff !important;
+  }
+  :global(#navbar.navbar-dark) .mobile-menu a.hero-btn-primary span {
+    background: none !important;
+    -webkit-text-fill-color: #0f0f0f !important;
+  }
 </style>
 
 <script>
@@ -208,11 +232,16 @@ const currentPath = Astro.url.pathname;
 
     function onScroll() {
       const scrollY = window.scrollY;
+      const isMobile = window.innerWidth < 768;
       if (scrollY > 80) {
-        navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+        if (isMobile) {
+          navbar.classList.add('bg-white', 'shadow-sm');
+        } else {
+          navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+        }
         navbar.style.transform = scrollY > lastScrollY ? 'translateY(-100%)' : 'translateY(0)';
       } else {
-        navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+        navbar.classList.remove('bg-white/90', 'bg-white', 'backdrop-blur-md', 'shadow-sm');
         navbar.style.transform = 'translateY(0)';
       }
       lastScrollY = scrollY;
@@ -247,12 +276,12 @@ const currentPath = Astro.url.pathname;
 
     if (btn && menu && menuIcon && closeIcon) {
       function toggleMenu() {
-        const isOpen = menu.classList.contains('open');
         menu.classList.toggle('open');
         menuIcon.classList.toggle('hidden');
         closeIcon.classList.toggle('hidden');
         overlay?.classList.toggle('open');
         document.body.classList.toggle('overflow-hidden');
+        navbar.classList.toggle('menu-open');
       }
 
       listen(btn, 'click', toggleMenu);

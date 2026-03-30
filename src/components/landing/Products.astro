@@ -44,19 +44,57 @@ const products = [
   <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
     <div class="mb-16">
       <p id="products-label" class="text-sm font-mono tracking-[0.3em] uppercase lg:pl-12 text-brand-dark/40 mb-5">The Platform</p>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-end">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 items-end">
         <h2 id="products-heading" class="lg:pl-12 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
           One truth.<br />Four products.
         </h2>
-        <p id="products-subtext" class="lg:pl-12 lg:pr-12 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-2">
+        <p id="products-subtext" class="lg:pl-12 lg:pr-12 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-0 md:pb-2">
           From developers and managers to VPs and AI agents — production intelligence for every role.
         </p>
       </div>
     </div>
   </div>
 
-  <!-- Tabs sticky container — tall to allow scroll room -->
-  <div id="products-scroll-area" class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] products-scroll-area">
+  <!-- Mobile: Horizontal scroll product cards -->
+  <div class="md:hidden relative z-10 mx-auto max-w-7xl px-5">
+    <div id="mobile-products-scroll" class="flex gap-2 overflow-x-auto snap-x snap-mandatory pb-4" style="-webkit-overflow-scrolling: touch;">
+      {products.map((product) => (
+        <a href={product.link} class="mobile-product-card snap-center flex-shrink-0 w-[80vw] group" style="transform: scale(0.95); transform-origin: center center; transition: transform 0.05s linear, opacity 0.05s linear; opacity: 0.5; will-change: transform, opacity;">
+          <!-- Card visual -->
+          <div class="relative bg-brand-dark rounded-xl overflow-hidden mb-4">
+            <div class="w-full aspect-[16/9]">
+              {product.id === 'karmalens' ? (
+                <video class="w-full h-full object-contain" muted loop playsinline preload="metadata">
+                  <source src="/assets/Videos/karmalens.webm" type="video/webm" />
+                  <source src="/assets/Videos/karmalens.mp4" type="video/mp4" />
+                </video>
+              ) : product.id === 'karmadomain' ? (
+                <video class="w-full h-full object-contain" muted loop playsinline preload="metadata">
+                  <source src="/assets/Videos/karmadomain.webm" type="video/webm" />
+                  <source src="/assets/Videos/karmadomain.mp4" type="video/mp4" />
+                </video>
+              ) : (
+                <div class="w-full h-full" style="background: radial-gradient(circle at 50% 40%, #1a1a2e 0%, #0f0f0f 100%);"></div>
+              )}
+            </div>
+            <!-- Product name overlay -->
+            <div class="p-4 bg-brand-dark">
+              <span class="text-[24px] font-semibold text-white">{product.title}</span>
+            </div>
+          </div>
+          <!-- Description below card -->
+          <p class="text-[14px] text-gray-600 leading-[1.5] mb-3">{product.description}</p>
+          <span class="inline-flex items-center gap-1.5 text-[14px] font-medium text-brand-dark group-hover:opacity-70 transition-opacity">
+            Learn more
+            <i class="ph ph-arrow-right text-base"></i>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Desktop: Tabs sticky container — tall to allow scroll room -->
+  <div id="products-scroll-area" class="hidden md:block relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] products-scroll-area">
     <div class="products-tabs-wrapper sticky top-[15vh]" style="transition: margin 0.15s ease, border-radius 0.15s ease;">
       <!-- Tab buttons - folder style -->
       <div class="product-tabs-row">
@@ -310,6 +348,38 @@ const products = [
     initProductTabs();
     initScrollTabs();
     initProductVideos();
+    initMobileProductScroll();
+  }
+
+  function initMobileProductScroll() {
+    const container = document.getElementById('mobile-products-scroll');
+    if (!container) return;
+
+    const cards = container.querySelectorAll<HTMLElement>('.mobile-product-card');
+    if (!cards.length) return;
+
+    function updateCards() {
+      const containerRect = container!.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+
+      cards.forEach((card) => {
+        const cardRect = card.getBoundingClientRect();
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const distance = Math.abs(containerCenter - cardCenter);
+        const maxDistance = containerRect.width * 0.5;
+        const progress = Math.max(0, 1 - distance / maxDistance);
+
+        const scale = 0.95 + 0.05 * progress;
+        const opacity = 0.5 + 0.5 * progress;
+
+        card.style.transform = `scale(${scale})`;
+        card.style.opacity = String(opacity);
+      });
+    }
+
+    container.addEventListener('scroll', updateCards, { passive: true });
+    // Initial update
+    requestAnimationFrame(updateCards);
   }
 
   document.addEventListener('DOMContentLoaded', initAll);
