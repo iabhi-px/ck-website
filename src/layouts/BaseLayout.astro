@@ -43,13 +43,13 @@ const {
     <div id="mobile-cta-bar" class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-5 py-3 flex gap-3">
       <a
         href="https://google.com"
-        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none bg-brand-dark text-[14px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none bg-brand-dark text-[15px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
       >
         <span>Schedule Call</span>
       </a>
       <button
         id="mobile-contact-btn"
-        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none border border-brand-dark text-[14px] font-medium text-brand-dark hover:bg-gray-100 transition-colors duration-200"
+        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none border border-brand-dark text-[15px] font-medium text-brand-dark hover:bg-gray-100 transition-colors duration-200"
       >
         Contact Us
       </button>
@@ -74,23 +74,23 @@ const {
       <form class="px-5 pb-8">
         <div class="border-t border-gray-200">
           <div class="py-4 border-b border-gray-200">
-            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Company</label>
+            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Company</label>
             <input type="text" name="company" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
           </div>
           <div class="py-4 border-b border-gray-200">
-            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Work Email</label>
+            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Work Email</label>
             <input type="email" name="email" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
           </div>
           <div class="py-4 border-b border-gray-200">
-            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Name</label>
+            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Name</label>
             <input type="text" name="name" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
           </div>
           <div class="py-4 border-b border-gray-200">
-            <label class="block text-[11px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Role</label>
+            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Role</label>
             <input type="text" name="role" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
           </div>
         </div>
-        <button type="submit" class="w-full mt-6 inline-flex items-center justify-center px-5 py-3 rounded-none bg-brand-dark text-[14px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
+        <button type="submit" class="w-full mt-6 inline-flex items-center justify-center px-5 py-3 rounded-none bg-brand-dark text-[15px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
           <span>Send</span>
         </button>
       </form>
@@ -129,6 +129,30 @@ const {
       }
 
       document.addEventListener('DOMContentLoaded', initMobileSheet);
+
+      // Hide mobile CTA bar when user scrolls to Contact section or footer
+      function initCtaBarVisibility() {
+        const ctaBar = document.getElementById('mobile-cta-bar');
+        const contactSection = document.getElementById('contact-section');
+        if (!ctaBar || !contactSection) return;
+
+        ctaBar.style.transition = 'transform 0.3s ease';
+
+        function checkVisibility() {
+          const contactTop = contactSection.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (contactTop <= windowHeight) {
+            ctaBar.style.transform = 'translateY(100%)';
+          } else {
+            ctaBar.style.transform = 'translateY(0)';
+          }
+        }
+
+        window.addEventListener('scroll', checkVisibility, { passive: true });
+        checkVisibility();
+      }
+
+      document.addEventListener('DOMContentLoaded', initCtaBarVisibility);
     </script>
 
     <script>

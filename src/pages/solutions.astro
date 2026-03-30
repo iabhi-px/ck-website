@@ -58,14 +58,14 @@ const caseStudies = [
 
     <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px]">
       <!-- Page header -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-16 md:mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 mb-20 md:mb-24">
         <div>
-          <h1 class="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent lg:pl-12">
+          <h1 class="text-[40px] md:text-[48px] tracking-tight leading-[1.1] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent lg:pl-12">
             Real results from<br />real production.
           </h1>
         </div>
         <div class="flex flex-col justify-start lg:py-[12px] lg:pr-12">
-          <p class="text-gray-600 leading-[1.5] max-w-lg font-[410] text-lg">
+          <p class="text-gray-600 leading-[1.4] md:leading-[1.5] max-w-lg font-[410] text-[18px] md:text-lg">
             No lengthy implementation. No guesswork. Teams go live in days and see measurable impact from week one.
           </p>
         </div>
@@ -80,12 +80,12 @@ const caseStudies = [
               <!-- Left column -->
               <div class="flex flex-col justify-between">
                 <div class="p-5 md:p-8 lg:p-12">
-                  <h2 class="text-[28px] md:text-[32px] font-semibold text-[#0d0d0e] tracking-tight leading-[1.1] mb-5 md:mb-3">
+                  <h2 class="text-[28px] md:text-[32px] font-semibold text-[#0d0d0e] tracking-tight leading-[1.2] mb-5 md:mb-3">
                     {study.title}
                   </h2>
                   <div class="flex flex-wrap gap-2 mt-1">
                     {study.industry.split('·').map((tag: string) => (
-                      <span class="inline-block text-[13px] text-gray-500 font-mono border border-gray-200 px-3 py-1">
+                      <span class="inline-block text-[12px] md:text-[13px] text-gray-500 font-mono border border-gray-200 px-3 py-1">
                         {tag.trim()}
                       </span>
                     ))}
@@ -97,7 +97,7 @@ const caseStudies = [
                   {study.metrics.map((metric) => (
                     <div>
                       <p class="text-[18px] md:text-[24px] font-semibold text-brand-dark tracking-tight leading-[1.25]">{metric.value}</p>
-                      <p class="text-[12px] text-brand-dark/60 mt-1 font-normal">{metric.label}</p>
+                      <p class="text-[14px] md:text-[12px] text-brand-dark/60 mt-1 font-normal">{metric.label}</p>
                     </div>
                   ))}
                 </div>
@@ -107,24 +107,24 @@ const caseStudies = [
               <div class="p-5 md:p-10 lg:p-12 border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col justify-between">
                 <!-- Challenge -->
                 <div class="mb-6 md:mb-10 pb-6 md:pb-0 border-b md:border-b-0 border-gray-200 -mx-5 px-5 md:mx-0 md:px-0">
-                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-3 md:mb-4">Challenge</p>
-                  <p class="text-[16px] text-[#0d0d0e] leading-[1.65] font-normal">
+                  <p class="text-[12px] md:text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-3 md:mb-4">Challenge</p>
+                  <p class="text-[15px] md:text-[16px] text-[#0d0d0e] leading-[1.4] md:leading-[1.65] font-normal">
                     {study.challenge}
                   </p>
                 </div>
 
                 <!-- Solution -->
                 <div class="mb-6 md:mb-10 pb-6 md:pb-0 border-b md:border-b-0 border-gray-200 -mx-5 px-5 md:mx-0 md:px-0">
-                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-3 md:mb-4">Solution</p>
-                  <p class="text-[16px] text-[#0d0d0e] leading-[1.65] font-normal">
+                  <p class="text-[12px] md:text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-3 md:mb-4">Solution</p>
+                  <p class="text-[15px] md:text-[16px] text-[#0d0d0e] leading-[1.4] md:leading-[1.65] font-normal">
                     {study.solution}
                   </p>
                 </div>
 
                 <!-- Result -->
                 <div class="mb-8 md:mb-12 -mx-5 px-5 md:mx-0 md:px-0">
-                  <p class="text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">Result</p>
-                  <p class="text-[16px] text-[#0d0d0e] leading-[1.65] font-normal">
+                  <p class="text-[12px] md:text-[14px] font-mono tracking-[0.35em] uppercase text-gray-400 mb-4">Result</p>
+                  <p class="text-[15px] md:text-[16px] text-[#0d0d0e] leading-[1.4] md:leading-[1.65] font-normal">
                     {study.result}
                   </p>
                 </div>
@@ -132,7 +132,7 @@ const caseStudies = [
                 <!-- CTA -->
                 <a
                   href={`/case-studies/${study.slug}`}
-                  class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 md:py-2 rounded-none bg-brand-dark font-medium text-sm hover:bg-brand-primary transition-colors duration-200 hero-btn-primary md:self-start"
+                  class="w-full md:w-auto inline-flex items-center justify-center px-6 py-3 md:py-2 rounded-none bg-brand-dark font-medium text-[15px] md:text-sm hover:bg-brand-primary transition-colors duration-200 hero-btn-primary md:self-start"
                 >
                   <span>Read full case study</span>
                 </a>

@@ -48,7 +48,7 @@ const products = [
         <h2 id="products-heading" class="lg:pl-12 text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-brand-dark leading-[1.1] font-semibold">
           One truth.<br />Four products.
         </h2>
-        <p id="products-subtext" class="lg:pl-12 lg:pr-12 text-lg text-gray-500 leading-[1.65] font-normal max-w-lg pb-0 md:pb-2">
+        <p id="products-subtext" class="lg:pl-12 lg:pr-12 text-[15px] md:text-lg text-gray-500 leading-[1.4] md:leading-[1.65] font-normal max-w-lg pb-0 md:pb-2">
           From developers and managers to VPs and AI agents — production intelligence for every role.
         </p>
       </div>
@@ -69,8 +69,8 @@ const products = [
             </div>
           </div>
           <!-- Description below card -->
-          <p class="text-[14px] text-gray-600 leading-[1.5] mb-3">{product.description}</p>
-          <span class="inline-flex items-center gap-1.5 text-[14px] font-medium text-brand-dark group-hover:opacity-70 transition-opacity">
+          <p class="text-[15px] text-gray-600 leading-[1.4] md:leading-[1.5] mb-3">{product.description}</p>
+          <span class="inline-flex items-center gap-1.5 text-[15px] font-medium text-brand-dark group-hover:opacity-70 transition-opacity">
             Learn more
             <i class="ph ph-arrow-right text-base"></i>
           </span>
@@ -116,11 +116,11 @@ const products = [
             <div class="flex flex-col lg:flex-row">
               <!-- Left: Title + Description -->
               <div class="p-5 md:p-8 lg:p-10 flex flex-col justify-center w-full lg:w-[30%]">
-                <h3 class="product-title text-[36px] font-semibold text-white mb-4">{product.title}</h3>
-                <p class="product-desc text-base text-gray-400 leading-[1.65]">{product.description}</p>
+                <h3 class="product-title text-[32px] font-semibold text-white mb-4">{product.title}</h3>
+                <p class="product-desc text-[16px] md:text-base text-gray-400 leading-[1.65]">{product.description}</p>
                 <a
                   href={product.link}
-                  class="self-start inline-flex items-center gap-2 font-medium text-base hover:opacity-70 transition-opacity duration-200 mt-8"
+                  class="self-start inline-flex items-center gap-2 font-medium text-[15px] md:text-base hover:opacity-70 transition-opacity duration-200 mt-8"
                   style="color: #cdff52;"
                 >
                   Learn more
