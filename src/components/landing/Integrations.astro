@@ -2,7 +2,7 @@
 import IntegrationDialKit from './IntegrationDialKit';
 ---
 
-<section id="integrations" class="relative bg-white py-20">
+<section id="integrations" class="relative bg-white pt-4 md:pt-20 pb-20">
   <!-- Vertical gridlines -->
   <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
     <div class="relative h-full">
@@ -20,10 +20,10 @@ import IntegrationDialKit from './IntegrationDialKit';
       </h2>
     </div>
 
-    <!-- Languages & Clouds side by side -->
+    <!-- Desktop: Languages & Clouds side by side -->
     <div class="flex flex-col md:flex-row gap-8">
       <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
-        <p class="text-lg font-medium text-gray-400 pl-6">Languages</p>
+        <p class="text-lg font-medium text-gray-400 pl-0 md:pl-6">Languages</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="java" style="--swatch-bg: #B07219; --icon-scale: 1.3;">
             <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/Java.svg" alt="Java" />
@@ -40,7 +40,7 @@ import IntegrationDialKit from './IntegrationDialKit';
         </section>
       </div>
       <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
-        <p class="text-lg font-medium text-gray-400 pl-6">Clouds</p>
+        <p class="text-lg font-medium text-gray-400 pl-0 md:pl-6">Clouds</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="aws" style="--swatch-bg: #FF9900; --icon-scale: 1.1;">
             <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/AWS.svg" alt="AWS" />
@@ -59,7 +59,7 @@ import IntegrationDialKit from './IntegrationDialKit';
     <div class="palette-line"></div>
 
     <!-- Databases -->
-    <p class="text-lg font-medium text-gray-400 mt-[54px] pl-6">Databases</p>
+    <p class="text-lg font-medium text-gray-400 mt-[54px] pl-0 md:pl-6">Databases</p>
     <section class="palette" data-palette>
       <div class="swatch" data-icon-id="mysql" style="--swatch-bg: #00758F; --icon-scale: 1.5;">
         <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_mysql.svg" alt="MySQL" />
@@ -96,7 +96,7 @@ import IntegrationDialKit from './IntegrationDialKit';
     <div class="palette-line"></div>
 
     <!-- Queues -->
-    <p class="text-lg font-medium text-gray-400 mt-[54px] pl-6">Queues</p>
+    <p class="text-lg font-medium text-gray-400 mt-[54px] pl-0 md:pl-6">Queues</p>
     <section class="palette" data-palette>
       <div class="swatch" data-icon-id="kafka" style="--swatch-bg: #231F20; --icon-scale: 1;">
         <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/kafka.svg" alt="Kafka" />
@@ -117,17 +117,33 @@ import IntegrationDialKit from './IntegrationDialKit';
     </section>
     <div class="palette-line"></div>
 
-    <!-- Infra & Protocols side by side -->
-    <div class="flex flex-col md:flex-row gap-8 mt-[54px]">
-      <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
+    <!-- Infra & Protocols: combined on mobile, side-by-side on desktop -->
+    <div class="block md:hidden mt-[54px]">
+      <p class="text-lg font-medium text-gray-400 pl-0">Infra & Protocols</p>
+      <section class="palette" data-palette>
+        <div class="swatch swatch-kubernetes" data-icon-id="kubernetes" style="--swatch-bg: #326CE5; --icon-scale: 1;">
+          <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_kubernetes.svg" alt="Kubernetes" />
+          <span class="swatch-name">Kubernetes</span></div>
+        <div class="swatch" data-icon-id="https" style="--swatch-bg: #005C9C; --icon-scale: 1;">
+          <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/www.svg" alt="HTTP/S" />
+          <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/www_hover.svg" alt="HTTP/S" />
+          <span class="swatch-name">HTTP/S</span></div>
+        <div class="swatch" data-icon-id="grpc" style="--swatch-bg: #244C5A; --icon-scale: 1.3;">
+          <img class="swatch-icon swatch-icon-img swatch-logo-default" src="/assets/integration_logos/gRPC_default.png" alt="gRPC" />
+          <img class="swatch-icon swatch-icon-img swatch-logo-hover" src="/assets/integration_logos/gRPC_hover.png" alt="gRPC" />
+          <span class="swatch-name">gRPC</span></div>
+      </section>
+    </div>
+    <div class="hidden md:flex flex-row gap-8 mt-[54px]">
+      <div class="min-w-0 flex-1 max-w-[50%]">
         <p class="text-lg font-medium text-gray-400 pl-6">Infra</p>
         <section class="palette" data-palette>
-          <div class="swatch" data-icon-id="kubernetes" style="--swatch-bg: #326CE5; --icon-scale: 1;">
+          <div class="swatch swatch-kubernetes" data-icon-id="kubernetes" style="--swatch-bg: #326CE5; --icon-scale: 1;">
             <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/si_kubernetes.svg" alt="Kubernetes" />
             <span class="swatch-name">Kubernetes</span></div>
         </section>
       </div>
-      <div class="min-w-0 flex-1 max-w-full md:max-w-[50%]">
+      <div class="min-w-0 flex-1 max-w-[50%]">
         <p class="text-lg font-medium text-gray-400 pl-6">Protocols</p>
         <section class="palette" data-palette>
           <div class="swatch" data-icon-id="https" style="--swatch-bg: #005C9C; --icon-scale: 1;">
@@ -144,7 +160,7 @@ import IntegrationDialKit from './IntegrationDialKit';
     <div class="palette-line"></div>
 
     <!-- IDEs & AI Tools -->
-    <p class="text-lg font-medium text-gray-400 mt-[54px] pl-6">IDEs & AI Tools</p>
+    <p class="text-lg font-medium text-gray-400 mt-[54px] pl-0 md:pl-6">IDEs & AI Tools</p>
     <section class="palette" data-palette>
       <div class="swatch" data-icon-id="jetbrains" style="--swatch-bg: #000000; --icon-scale: 1;">
         <img class="swatch-icon swatch-icon-filter" src="/assets/integration_logos/jetbrains.svg" alt="JetBrains" />
@@ -265,24 +281,65 @@ import IntegrationDialKit from './IntegrationDialKit';
   }
 
   @media (max-width: 640px) {
+    /* Hide category labels, lines, and side-by-side layout on mobile */
+    .palette-line {
+      display: none;
+    }
+
     .palette {
-      block-size: 50px;
-      padding-top: 20px;
+      block-size: auto;
+      padding: 10px 0;
+      clip-path: none;
+      gap: 8px;
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .palette::-webkit-scrollbar {
+      display: none;
     }
     .swatch {
-      block-size: 160px;
+      block-size: 100px;
+      min-width: 100px;
+      max-width: 100px;
+      flex-shrink: 0;
       border-radius: 14px;
       padding: 10px;
+      flex-direction: column;
+      scroll-snap-align: start;
+    }
+    .swatch + .swatch {
+      margin-inline-start: 0;
+    }
+    .swatch-kubernetes {
+      min-width: fit-content;
     }
     .swatch-icon {
       width: 18px;
       height: 18px;
     }
     .swatch-name {
-      font-size: 10px;
+      font-size: 13px;
+      text-align: left;
+      margin-top: auto;
     }
-    .swatch + .swatch {
-      margin-inline-start: -25%;
+    .swatch {
+      background-color: var(--swatch-bg, #fafafa) !important;
+      color: #ffffff;
+      border-color: transparent;
+      pointer-events: none;
+    }
+    .swatch .swatch-icon {
+      filter: brightness(0) invert(1);
+    }
+    .swatch .swatch-logo-default {
+      opacity: 0;
+    }
+    .swatch .swatch-logo-hover {
+      opacity: 1;
+      filter: none;
     }
   }
 </style>

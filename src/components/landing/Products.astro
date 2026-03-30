@@ -31,7 +31,7 @@ const products = [
 ];
 ---
 
-<section id="products-section" class="relative bg-white py-20">
+<section id="products-section" class="relative bg-white pt-4 md:pt-20 pb-4 md:pb-20">
   <!-- Vertical gridlines -->
   <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
     <div class="relative h-full">
@@ -59,26 +59,12 @@ const products = [
   <div class="md:hidden relative z-10 mx-auto max-w-7xl px-5">
     <div id="mobile-products-scroll" class="flex gap-2 overflow-x-auto snap-x snap-mandatory pb-4" style="-webkit-overflow-scrolling: touch;">
       {products.map((product) => (
-        <a href={product.link} class="mobile-product-card snap-center flex-shrink-0 w-[80vw] group" style="transform: scale(0.95); transform-origin: center center; transition: transform 0.05s linear, opacity 0.05s linear; opacity: 0.5; will-change: transform, opacity;">
+        <a href={product.link} class="mobile-product-card snap-center flex-shrink-0 w-[80vw] group" style="transform-origin: center center; will-change: transform, opacity;">
           <!-- Card visual -->
-          <div class="relative bg-brand-dark rounded-xl overflow-hidden mb-4">
-            <div class="w-full aspect-[16/9]">
-              {product.id === 'karmalens' ? (
-                <video class="w-full h-full object-contain" muted loop playsinline preload="metadata">
-                  <source src="/assets/Videos/karmalens.webm" type="video/webm" />
-                  <source src="/assets/Videos/karmalens.mp4" type="video/mp4" />
-                </video>
-              ) : product.id === 'karmadomain' ? (
-                <video class="w-full h-full object-contain" muted loop playsinline preload="metadata">
-                  <source src="/assets/Videos/karmadomain.webm" type="video/webm" />
-                  <source src="/assets/Videos/karmadomain.mp4" type="video/mp4" />
-                </video>
-              ) : (
-                <div class="w-full h-full" style="background: radial-gradient(circle at 50% 40%, #1a1a2e 0%, #0f0f0f 100%);"></div>
-              )}
-            </div>
+          <div class="relative bg-brand-dark overflow-hidden mb-4">
+            <div class="w-full aspect-square" style="background: radial-gradient(circle at 50% 60%, #1a1a2e 0%, #0f0f0f 100%);"></div>
             <!-- Product name overlay -->
-            <div class="p-4 bg-brand-dark">
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
               <span class="text-[24px] font-semibold text-white">{product.title}</span>
             </div>
           </div>
@@ -358,6 +344,8 @@ const products = [
     const cards = container.querySelectorAll<HTMLElement>('.mobile-product-card');
     if (!cards.length) return;
 
+    let ticking = false;
+
     function updateCards() {
       const containerRect = container!.getBoundingClientRect();
       const containerCenter = containerRect.left + containerRect.width / 2;
@@ -375,11 +363,19 @@ const products = [
         card.style.transform = `scale(${scale})`;
         card.style.opacity = String(opacity);
       });
+
+      ticking = false;
     }
 
-    container.addEventListener('scroll', updateCards, { passive: true });
-    // Initial update
-    requestAnimationFrame(updateCards);
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(updateCards);
+        ticking = true;
+      }
+    }
+
+    container.addEventListener('scroll', onScroll, { passive: true });
+    updateCards();
   }
 
   document.addEventListener('DOMContentLoaded', initAll);
