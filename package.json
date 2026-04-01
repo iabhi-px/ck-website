@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "CodeKarma Website",
   "scripts": {
-    "dev": "astro sync && astro dev",
+    "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -29,7 +29,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.1.1",
+    "astro": "^6.1.2",
     "dialkit": "^1.1.0",
     "geist": "^1.7.0",
     "interface-kit": "^0.1.1",

@@ -157,6 +157,19 @@ const products = [
                       <source src="/assets/Videos/karmadomain.mp4" type="video/mp4" />
                     </video>
                   </div>
+                ) : product.id === 'karmapulse' ? (
+                  <div class="aspect-video overflow-hidden border rounded-[12px]" style="border-color: #2a2a2a;">
+                    <video
+                      class="product-video w-full h-full object-cover"
+                      data-product="karmapulse"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                    >
+                      <source src="/assets/Videos/KarmaPulse.mp4" type="video/mp4" />
+                    </video>
+                  </div>
                 ) : (
                   <div class="product-placeholder aspect-video flex items-center justify-center">
                     <p class="text-gray-600 text-sm">Image / Video placeholder</p>
