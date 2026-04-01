@@ -57,9 +57,9 @@ const products = [
 
   <!-- Mobile: Horizontal scroll product cards -->
   <div class="md:hidden relative z-10 mx-auto max-w-7xl px-5">
-    <div id="mobile-products-scroll" class="flex gap-2 overflow-x-auto snap-x snap-mandatory pb-4" style="-webkit-overflow-scrolling: touch;">
+    <div id="mobile-products-scroll" class="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scroll-smooth" style="-webkit-overflow-scrolling: touch;">
       {products.map((product) => (
-        <a href={product.link} class="mobile-product-card snap-center flex-shrink-0 w-[80vw] group" style="transform-origin: center center; will-change: transform, opacity;">
+        <a href={product.link} class="mobile-product-card snap-center flex-shrink-0 w-[80vw] group" style="transform-origin: center center; will-change: transform, opacity; scroll-snap-stop: always;">
           <!-- Card visual -->
           <div class="relative bg-brand-dark overflow-hidden mb-4">
             <div class="w-full aspect-square" style="background: radial-gradient(circle at 50% 60%, #1a1a2e 0%, #0f0f0f 100%);"></div>
