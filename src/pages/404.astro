@@ -11,9 +11,8 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+    <link rel="preload" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" /></noscript>
     <SEO title="404 — Page not found | CodeKarma" description="This page doesn't exist in production." />
   </head>
   <body class="bg-white text-gray-900 overflow-x-hidden">
@@ -25,7 +24,7 @@ import '../styles/global.css';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           <!-- Left: Headline -->
           <div>
-            <h1 class="text-[48px] md:text-[56px] lg:text-[60px] tracking-tight leading-[1.2] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+            <h1 class="text-[32px] sm:text-[40px] md:text-[56px] lg:text-[60px] tracking-tight leading-[1.2] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
               This page hasn't made it to the production (¬_¬").ᐟ
             </h1>
           </div>
@@ -48,40 +47,62 @@ import '../styles/global.css';
     </section>
 
     <!-- Tetris Game -->
-    <section class="mt-0" style="background-color: #0f0f0f;">
-      <!-- Game header (inside dark area) -->
-      <div class="sticky top-0 z-[60]" style="background-color: #151515;">
-        <div class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] flex flex-wrap items-center justify-between gap-4 py-4">
-          <div class="flex items-center gap-4 md:gap-6">
-            <span class="font-mono tracking-[0.2em] uppercase font-semibold" style="color: #fafafa; font-size: 13px;">404 Tetris</span>
-            <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Level: <span id="tetris-level">1</span></span>
-            <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Match: <span id="tetris-match">5+</span></span>
-            <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Score: <span id="tetris-score">0</span></span>
-          </div>
-          <div class="flex items-center gap-3 md:gap-4">
-            <button id="tetris-restart" class="font-mono hover:text-white flex items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
-              Restart <kbd class="tetris-kbd">R</kbd>
-            </button>
-            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
-              Move Left <kbd class="tetris-kbd">&larr;</kbd>
-            </span>
-            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
-              Move Right <kbd class="tetris-kbd">&rarr;</kbd>
-            </span>
-            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
-              Drop <kbd class="tetris-kbd">&darr;</kbd>
-            </span>
-            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
-              Rotate <kbd class="tetris-kbd">&uarr;</kbd>
-            </span>
-          </div>
+    <!-- Control strip — separate section -->
+    <section id="tetris-controls" style="background-color: #151515;">
+      <div class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] flex flex-wrap items-center justify-between gap-4 py-4">
+        <div class="flex items-center gap-3 md:gap-6">
+          <span class="font-mono tracking-[0.2em] uppercase font-semibold" style="color: #fafafa; font-size: 13px;">404 Tetris</span>
+          <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Score: <span id="tetris-score">0</span></span>
+          <span id="tetris-match" class="hidden">5+</span>
+          <span id="tetris-level" class="hidden">1</span>
+        </div>
+        <div class="flex items-center gap-3 md:gap-4">
+          <button id="tetris-restart" class="font-mono hover:text-white flex items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+            Restart <kbd class="tetris-kbd">R</kbd>
+          </button>
+          <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+            Move Left <kbd class="tetris-kbd">&larr;</kbd>
+          </span>
+          <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+            Move Right <kbd class="tetris-kbd">&rarr;</kbd>
+          </span>
+          <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+            Drop <kbd class="tetris-kbd">&darr;</kbd>
+          </span>
+          <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+            Rotate <kbd class="tetris-kbd">&uarr;</kbd>
+          </span>
         </div>
       </div>
-      <!-- Game canvas -->
+    </section>
+
+    <!-- Game canvas — separate section, fits remaining viewport -->
+    <section id="tetris-game" style="background-color: #0f0f0f;">
       <div id="tetris-container" class="w-full bg-[#0f0f0f] relative cursor-pointer" tabindex="0">
-        <canvas id="tetris-canvas" class="block w-full"></canvas>
+        <canvas id="tetris-canvas" class="block"></canvas>
+
+        <!-- Game Over overlay -->
+        <div id="game-over-overlay" class="hidden absolute inset-0 z-20 flex flex-col items-center justify-center px-5 backdrop-blur-md" style="background: rgba(15, 15, 15, 0.75);">
+          <p class="font-mono text-white/80 text-sm">Score: <span id="game-over-score">0</span></p>
+          <p class="text-[20px] sm:text-[26px] md:text-[32px] font-semibold text-white text-center leading-[1.3] mt-4 max-w-xl" style="font-family: 'Geist', system-ui, sans-serif;">
+            This game resets with "R".<br />Your production resets with a demo.
+          </p>
+          <p class="text-[13px] text-white/40 font-[410] mt-6">Schedule a call:</p>
+          <a href="https://cal.com/ananth-vanchi/30min" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 border p-4 mt-3 transition-all duration-200" style="width: 360px; max-width: 100%; background: #0f0f0f; border-color: rgba(255,255,255,0.1);" onmouseover="this.style.borderColor='rgba(255,255,255,0.4)';this.style.boxShadow='0 0 20px rgba(205,255,82,0.15)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.boxShadow='none'">
+            <img src="/images/team/anantharam.png" alt="Anantharam Vanchi Prakash" class="w-12 h-12 object-cover flex-shrink-0" loading="lazy" decoding="async" />
+            <div class="flex-1 min-w-0">
+              <p class="text-[15px] font-semibold text-white">Anantharam Vanchi Prakash</p>
+              <p class="text-[13px] text-white/50 font-[410]">Co-Founder & CEO</p>
+            </div>
+            <div class="flex-shrink-0 w-10 h-10 border border-white/20 flex items-center justify-center">
+              <i class="ph ph-calendar-blank text-white/70 text-[20px]"></i>
+            </div>
+          </a>
+          <button id="game-over-restart" class="hidden"></button>
+        </div>
+
         <!-- Mobile touch controls overlay -->
-        <div class="md:hidden absolute bottom-4 left-0 right-0 flex items-center justify-center gap-3 z-10">
+        <div class="md:hidden absolute bottom-6 left-0 right-0 flex items-center justify-center gap-4 z-10">
           <button class="tetris-touch-btn" data-action="left">
             <i class="ph ph-arrow-left text-lg"></i>
           </button>
@@ -105,33 +126,36 @@ import '../styles/global.css';
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 30px;
-    height: 28px;
-    padding: 0 10px;
-    margin-left: 6px;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 6px;
+    margin-left: 4px;
     font-family: "Geist Mono", monospace;
-    font-size: 12px;
+    font-size: 10px;
     color: #fafafa99;
     background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    border-bottom: 3px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
   }
   .tetris-touch-btn {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.6);
-    transition: background 0.15s;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    transition: background 0.15s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
   }
   .tetris-touch-btn:active {
-    background: rgba(205, 255, 82, 0.2);
+    background: rgba(205, 255, 82, 0.25);
     color: #cdff52;
+    transform: scale(0.92);
   }
 </style>
 
@@ -144,6 +168,9 @@ import '../styles/global.css';
     const levelEl = document.getElementById('tetris-level')!;
     const matchEl = document.getElementById('tetris-match')!;
     const restartBtn = document.getElementById('tetris-restart');
+    const gameOverOverlay = document.getElementById('game-over-overlay')!;
+    const gameOverScore = document.getElementById('game-over-score')!;
+    const gameOverRestart = document.getElementById('game-over-restart');
 
     // "4" and "0" shapes as pixel art
     const SHAPE_4 = [
@@ -174,19 +201,30 @@ import '../styles/global.css';
     let COLS: number;
     let ROWS: number;
     let BLOCK_SIZE: number;
+    let offsetX: number = 0;
+    let offsetY: number = 0;
     let pieceIndex = 0; // alternates 0 (=shape "4") and 1 (=shape "0")
 
     function resize() {
       const w = container.clientWidth;
+      const controlsEl = document.getElementById('tetris-controls');
+      const controlsHeight = controlsEl ? controlsEl.offsetHeight : 52;
+      const availableHeight = window.innerHeight - controlsHeight;
+
+      // Calculate block size to fit within viewport
       BLOCK_SIZE = Math.floor(w / 27);
       if (BLOCK_SIZE < 13) BLOCK_SIZE = 13;
       if (BLOCK_SIZE > 38) BLOCK_SIZE = 38;
       COLS = Math.floor(w / BLOCK_SIZE);
-      if (COLS % 2 !== 0) COLS--;
-      ROWS = Math.max(18, Math.floor(COLS * 0.6));
-      if (ROWS % 2 !== 0) ROWS--;
-      canvas.width = COLS * BLOCK_SIZE;
-      canvas.height = ROWS * BLOCK_SIZE;
+      ROWS = Math.floor(availableHeight / BLOCK_SIZE);
+      if (ROWS < 12) ROWS = 12;
+
+      canvas.width = w;
+      canvas.height = availableHeight;
+      offsetX = Math.floor((w - COLS * BLOCK_SIZE) / 2);
+      offsetY = Math.floor((availableHeight - ROWS * BLOCK_SIZE) / 2);
+
+      container.style.height = availableHeight + 'px';
     }
 
     let board: (string | 0)[][];
@@ -197,11 +235,14 @@ import '../styles/global.css';
     let dropInterval: number;
     let lastDrop: number;
     let totalCleared: number;
+    let speedTimer: number;
     let gameOver: boolean;
     let animationId: number;
     let clearingRows: number[] = [];
     let clearingTimer: number = 0;
     let isClearingAnimation: boolean = false;
+    let isGravityAnimating: boolean = false;
+    let gravityTimer: number = 0;
 
     function createBoard() {
       board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
@@ -246,6 +287,35 @@ import '../styles/global.css';
       }
     }
 
+    // Returns true if any block moved down one row
+    function gravityStep(): boolean {
+      let moved = false;
+      // Scan from second-to-last row upward
+      for (let r = ROWS - 2; r >= 0; r--) {
+        for (let c = 0; c < COLS; c++) {
+          if (board[r][c] && !board[r + 1][c]) {
+            board[r + 1][c] = board[r][c];
+            board[r][c] = 0;
+            moved = true;
+          }
+        }
+      }
+      return moved;
+    }
+
+    function startGravityAnimation(onComplete: () => void) {
+      isGravityAnimating = true;
+      function step() {
+        if (gravityStep()) {
+          gravityTimer = window.setTimeout(step, 40);
+        } else {
+          isGravityAnimating = false;
+          onComplete();
+        }
+      }
+      step();
+    }
+
     function findFullRows(): number[] {
       const full: number[] = [];
       for (let r = ROWS - 1; r >= 0; r--) {
@@ -282,19 +352,22 @@ import '../styles/global.css';
           board.unshift(Array(COLS).fill(0));
         }
 
-        const points = [0, 100, 300, 500, 800];
-        score += (points[Math.min(cleared, 4)] || 800) * level;
+        score += cleared * 10;
         lines += cleared;
         totalCleared += cleared;
-        level = Math.floor(lines / 5) + 1;
-        dropInterval = Math.max(150, 800 - (level - 1) * 60);
         scoreEl.textContent = String(score);
-        levelEl.textContent = String(level);
-        matchEl.textContent = totalCleared >= 5 ? `${totalCleared}+` : String(totalCleared);
 
         clearingRows = [];
         isClearingAnimation = false;
-        newPiece();
+        startGravityAnimation(() => {
+          // Check if gravity created new full rows
+          const newFull = findFullRows();
+          if (newFull.length > 0) {
+            startClearAnimation();
+          } else {
+            newPiece();
+          }
+        });
       }, 400);
     }
 
@@ -326,14 +399,14 @@ import '../styles/global.css';
       ctx.lineWidth = 0.5;
       for (let r = 0; r <= ROWS; r++) {
         ctx.beginPath();
-        ctx.moveTo(0, r * BLOCK_SIZE);
-        ctx.lineTo(COLS * BLOCK_SIZE, r * BLOCK_SIZE);
+        ctx.moveTo(offsetX, offsetY + r * BLOCK_SIZE);
+        ctx.lineTo(offsetX + COLS * BLOCK_SIZE, offsetY + r * BLOCK_SIZE);
         ctx.stroke();
       }
       for (let c = 0; c <= COLS; c++) {
         ctx.beginPath();
-        ctx.moveTo(c * BLOCK_SIZE, 0);
-        ctx.lineTo(c * BLOCK_SIZE, ROWS * BLOCK_SIZE);
+        ctx.moveTo(offsetX + c * BLOCK_SIZE, offsetY);
+        ctx.lineTo(offsetX + c * BLOCK_SIZE, offsetY + ROWS * BLOCK_SIZE);
         ctx.stroke();
       }
 
@@ -357,8 +430,8 @@ import '../styles/global.css';
             ctx.fillStyle = current.color;
             ctx.globalAlpha = GHOST_ALPHA;
             ctx.fillRect(
-              (current.x + c) * BLOCK_SIZE + 1,
-              drawY * BLOCK_SIZE + 1,
+              offsetX + (current.x + c) * BLOCK_SIZE + 1,
+              offsetY + drawY * BLOCK_SIZE + 1,
               BLOCK_SIZE - 2,
               BLOCK_SIZE - 2
             );
@@ -378,25 +451,22 @@ import '../styles/global.css';
       }
 
       if (gameOver) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#cdff52';
-        ctx.font = `bold ${Math.min(BLOCK_SIZE * 1.5, 48)}px "Geist", system-ui, sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 20);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = `${Math.min(BLOCK_SIZE * 0.6, 18)}px "Geist Mono", monospace`;
-        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 16);
-        ctx.fillText('Press R to restart', canvas.width / 2, canvas.height / 2 + 44);
+        if (!gameOverOverlay.classList.contains('hidden')) return;
+        gameOverOverlay.classList.remove('hidden');
+        gameOverScore.textContent = String(score);
+        const audio = new Audio('/assets/audio/fahhhhh.mp3');
+        audio.play().catch(() => {});
       }
     }
 
     function drawBlock(x: number, y: number, color: string) {
+      const px = offsetX + x * BLOCK_SIZE;
+      const py = offsetY + y * BLOCK_SIZE;
       ctx.fillStyle = color;
-      ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+      ctx.fillRect(px + 1, py + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
       ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-      ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, 2);
-      ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, 2, BLOCK_SIZE - 2);
+      ctx.fillRect(px + 1, py + 1, BLOCK_SIZE - 2, 2);
+      ctx.fillRect(px + 1, py + 1, 2, BLOCK_SIZE - 2);
     }
 
     function moveLeft() {
@@ -415,9 +485,7 @@ import '../styles/global.css';
     function hardDrop() {
       while (!collides(current.shape, current.x, current.y + 1)) {
         current.y++;
-        score += 2;
       }
-      scoreEl.textContent = String(score);
       lock();
     }
     function rotatePiece() {
@@ -435,11 +503,16 @@ import '../styles/global.css';
 
     function lock() {
       merge();
-      startClearAnimation();
+      isGravityAnimating = true; // block input during pause
+      window.setTimeout(() => {
+        startGravityAnimation(() => {
+          startClearAnimation();
+        });
+      }, 300);
     }
 
     function gameLoop(time: number) {
-      if (!gameOver && !isClearingAnimation) {
+      if (!gameOver && !isClearingAnimation && !isGravityAnimating) {
         if (time - lastDrop > dropInterval) {
           if (!moveDown()) lock();
           lastDrop = time;
@@ -460,18 +533,28 @@ import '../styles/global.css';
       dropInterval = 800;
       lastDrop = 0;
       gameOver = false;
+      isGravityAnimating = false;
+      gameOverOverlay.classList.add('hidden');
+      isClearingAnimation = false;
       scoreEl.textContent = '0';
       levelEl.textContent = '1';
       matchEl.textContent = '0';
       newPiece();
       if (animationId) cancelAnimationFrame(animationId);
+      if (speedTimer) clearInterval(speedTimer);
       animationId = requestAnimationFrame(gameLoop);
+      // Increase speed every 30 seconds
+      speedTimer = window.setInterval(() => {
+        if (!gameOver) {
+          dropInterval = Math.max(100, dropInterval - 80);
+        }
+      }, 30000);
     }
 
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
       if (e.key.toLowerCase() === 'r') { init(); return; }
-      if (gameOver) return;
+      if (gameOver || isGravityAnimating || isClearingAnimation) return;
       switch (e.key) {
         case 'ArrowLeft': e.preventDefault(); moveLeft(); break;
         case 'ArrowRight': e.preventDefault(); moveRight(); break;
@@ -481,11 +564,13 @@ import '../styles/global.css';
     });
 
     restartBtn?.addEventListener('click', init);
+    gameOverRestart?.addEventListener('click', init);
 
     // Mobile touch controls
     document.querySelectorAll('.tetris-touch-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         if (gameOver) { init(); return; }
+        if (isGravityAnimating || isClearingAnimation) return;
         const action = (btn as HTMLElement).dataset.action;
         switch (action) {
           case 'left': moveLeft(); break;
