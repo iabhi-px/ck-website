@@ -1,0 +1,512 @@
+---
+import SEO from '../components/shared/SEO.astro';
+import Navbar from '../components/landing/Navbar.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+    <SEO title="404 — Page not found | CodeKarma" description="This page doesn't exist in production." />
+  </head>
+  <body class="bg-white text-gray-900 overflow-x-hidden">
+    <Navbar />
+
+    <!-- 404 Content -->
+    <section class="relative bg-white overflow-visible pt-44 lg:pt-[240px]" style="padding-bottom: 120px;">
+      <div class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          <!-- Left: Headline -->
+          <div>
+            <h1 class="text-[48px] md:text-[56px] lg:text-[60px] tracking-tight leading-[1.2] font-semibold bg-gradient-to-b from-[#3b4049] via-[#2a2e35] via-[50%] to-[#0f0f0f] bg-clip-text text-transparent">
+              This page hasn't made it to the production (¬_¬").ᐟ
+            </h1>
+          </div>
+          <!-- Right: Description + CTA -->
+          <div class="flex flex-col justify-between py-2">
+            <p class="text-[18px] text-gray-600 leading-[1.45] md:leading-[1.65] max-w-lg font-normal">
+              The route you're looking for wasn't found. It may have been removed, renamed, or never deployed.
+            </p>
+            <div class="flex flex-wrap items-center gap-2 mt-8 lg:mt-0">
+              <a
+                href="/"
+                class="inline-flex items-center justify-center px-6 py-2 md:px-10 md:py-3 rounded-none bg-brand-dark font-medium text-[15px] md:text-lg hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+              >
+                <span>Go to Home</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tetris Game -->
+    <section class="mt-0" style="background-color: #0f0f0f;">
+      <!-- Game header (inside dark area) -->
+      <div class="sticky top-0 z-[60]" style="background-color: #151515;">
+        <div class="mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] flex flex-wrap items-center justify-between gap-4 py-4">
+          <div class="flex items-center gap-4 md:gap-6">
+            <span class="font-mono tracking-[0.2em] uppercase font-semibold" style="color: #fafafa; font-size: 13px;">404 Tetris</span>
+            <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Level: <span id="tetris-level">1</span></span>
+            <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Match: <span id="tetris-match">5+</span></span>
+            <span class="font-mono" style="color: #fafafa99; font-size: 13px;">Score: <span id="tetris-score">0</span></span>
+          </div>
+          <div class="flex items-center gap-3 md:gap-4">
+            <button id="tetris-restart" class="font-mono hover:text-white flex items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+              Restart <kbd class="tetris-kbd">R</kbd>
+            </button>
+            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+              Move Left <kbd class="tetris-kbd">&larr;</kbd>
+            </span>
+            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+              Move Right <kbd class="tetris-kbd">&rarr;</kbd>
+            </span>
+            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+              Drop <kbd class="tetris-kbd">&darr;</kbd>
+            </span>
+            <span class="hidden md:flex font-mono items-center gap-1.5" style="color: #fafafa99; font-size: 13px;">
+              Rotate <kbd class="tetris-kbd">&uarr;</kbd>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- Game canvas -->
+      <div id="tetris-container" class="w-full bg-[#0f0f0f] relative cursor-pointer" tabindex="0">
+        <canvas id="tetris-canvas" class="block w-full"></canvas>
+        <!-- Mobile touch controls overlay -->
+        <div class="md:hidden absolute bottom-4 left-0 right-0 flex items-center justify-center gap-3 z-10">
+          <button class="tetris-touch-btn" data-action="left">
+            <i class="ph ph-arrow-left text-lg"></i>
+          </button>
+          <button class="tetris-touch-btn" data-action="rotate">
+            <i class="ph ph-arrow-clockwise text-lg"></i>
+          </button>
+          <button class="tetris-touch-btn" data-action="drop">
+            <i class="ph ph-arrow-down text-lg"></i>
+          </button>
+          <button class="tetris-touch-btn" data-action="right">
+            <i class="ph ph-arrow-right text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+
+<style>
+  .tetris-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 28px;
+    padding: 0 10px;
+    margin-left: 6px;
+    font-family: "Geist Mono", monospace;
+    font-size: 12px;
+    color: #fafafa99;
+    background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .tetris-touch-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.6);
+    transition: background 0.15s;
+  }
+  .tetris-touch-btn:active {
+    background: rgba(205, 255, 82, 0.2);
+    color: #cdff52;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('tetris-canvas') as HTMLCanvasElement;
+    const container = document.getElementById('tetris-container') as HTMLElement;
+    const ctx = canvas.getContext('2d')!;
+    const scoreEl = document.getElementById('tetris-score')!;
+    const levelEl = document.getElementById('tetris-level')!;
+    const matchEl = document.getElementById('tetris-match')!;
+    const restartBtn = document.getElementById('tetris-restart');
+
+    // "4" and "0" shapes as pixel art
+    const SHAPE_4 = [
+      [1, 0, 1],
+      [1, 0, 1],
+      [1, 1, 1],
+      [0, 0, 1],
+      [0, 0, 1],
+    ];
+
+    const SHAPE_0 = [
+      [1, 1, 1],
+      [1, 0, 1],
+      [1, 0, 1],
+      [1, 0, 1],
+      [1, 1, 1],
+    ];
+
+    const SHAPES = [SHAPE_4, SHAPE_0];
+
+    // Brand colors — alternate between two shades
+    const COLORS = ['#cdff52', '#a3d944'];
+
+    const EMPTY_COLOR = '#1a1a1a';
+    const GRID_COLOR = '#222222';
+    const GHOST_ALPHA = 0.15;
+
+    let COLS: number;
+    let ROWS: number;
+    let BLOCK_SIZE: number;
+    let pieceIndex = 0; // alternates 0 (=shape "4") and 1 (=shape "0")
+
+    function resize() {
+      const w = container.clientWidth;
+      BLOCK_SIZE = Math.floor(w / 27);
+      if (BLOCK_SIZE < 13) BLOCK_SIZE = 13;
+      if (BLOCK_SIZE > 38) BLOCK_SIZE = 38;
+      COLS = Math.floor(w / BLOCK_SIZE);
+      if (COLS % 2 !== 0) COLS--;
+      ROWS = Math.max(18, Math.floor(COLS * 0.6));
+      if (ROWS % 2 !== 0) ROWS--;
+      canvas.width = COLS * BLOCK_SIZE;
+      canvas.height = ROWS * BLOCK_SIZE;
+    }
+
+    let board: (string | 0)[][];
+    let current: { shape: number[][]; color: string; x: number; y: number };
+    let score: number;
+    let level: number;
+    let lines: number;
+    let dropInterval: number;
+    let lastDrop: number;
+    let totalCleared: number;
+    let gameOver: boolean;
+    let animationId: number;
+    let clearingRows: number[] = [];
+    let clearingTimer: number = 0;
+    let isClearingAnimation: boolean = false;
+
+    function createBoard() {
+      board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    }
+
+    function newPiece() {
+      const shape = SHAPES[pieceIndex].map(row => [...row]);
+      const color = COLORS[pieceIndex];
+      pieceIndex = pieceIndex === 0 ? 1 : 0;
+      const x = Math.floor((COLS - shape[0].length) / 2);
+      const y = -2;
+      current = { shape, color, x, y };
+
+      if (collides(current.shape, current.x, Math.max(0, current.y))) {
+        gameOver = true;
+      }
+    }
+
+    function collides(shape: number[][], cx: number, cy: number): boolean {
+      for (let r = 0; r < shape.length; r++) {
+        for (let c = 0; c < shape[r].length; c++) {
+          if (!shape[r][c]) continue;
+          const nx = cx + c;
+          const ny = cy + r;
+          if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
+          if (ny >= 0 && board[ny][nx]) return true;
+        }
+      }
+      return false;
+    }
+
+    function merge() {
+      for (let r = 0; r < current.shape.length; r++) {
+        for (let c = 0; c < current.shape[r].length; c++) {
+          if (!current.shape[r][c]) continue;
+          const ny = current.y + r;
+          const nx = current.x + c;
+          if (ny >= 0 && ny < ROWS && nx >= 0 && nx < COLS) {
+            board[ny][nx] = current.color;
+          }
+        }
+      }
+    }
+
+    function findFullRows(): number[] {
+      const full: number[] = [];
+      for (let r = ROWS - 1; r >= 0; r--) {
+        if (board[r].every(cell => cell !== 0)) {
+          full.push(r);
+        }
+      }
+      return full;
+    }
+
+    function startClearAnimation() {
+      const fullRows = findFullRows();
+      if (fullRows.length === 0) {
+        newPiece();
+        return;
+      }
+
+      // Turn rows grey
+      clearingRows = fullRows;
+      isClearingAnimation = true;
+      for (const r of clearingRows) {
+        for (let c = 0; c < COLS; c++) {
+          board[r][c] = '#555555';
+        }
+      }
+
+      // After delay, remove rows
+      clearingTimer = window.setTimeout(() => {
+        const cleared = clearingRows.length;
+        // Remove rows from bottom to top
+        const sorted = [...clearingRows].sort((a, b) => b - a);
+        for (const r of sorted) {
+          board.splice(r, 1);
+          board.unshift(Array(COLS).fill(0));
+        }
+
+        const points = [0, 100, 300, 500, 800];
+        score += (points[Math.min(cleared, 4)] || 800) * level;
+        lines += cleared;
+        totalCleared += cleared;
+        level = Math.floor(lines / 5) + 1;
+        dropInterval = Math.max(150, 800 - (level - 1) * 60);
+        scoreEl.textContent = String(score);
+        levelEl.textContent = String(level);
+        matchEl.textContent = totalCleared >= 5 ? `${totalCleared}+` : String(totalCleared);
+
+        clearingRows = [];
+        isClearingAnimation = false;
+        newPiece();
+      }, 400);
+    }
+
+    function rotate(shape: number[][]): number[][] {
+      const rows = shape.length;
+      const cols = shape[0].length;
+      const rotated: number[][] = [];
+      for (let c = 0; c < cols; c++) {
+        rotated.push([]);
+        for (let r = rows - 1; r >= 0; r--) {
+          rotated[c].push(shape[r][c]);
+        }
+      }
+      return rotated;
+    }
+
+    function ghostY(): number {
+      let gy = current.y;
+      while (!collides(current.shape, current.x, gy + 1)) gy++;
+      return gy;
+    }
+
+    function draw() {
+      ctx.fillStyle = EMPTY_COLOR;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw grid lines
+      ctx.strokeStyle = GRID_COLOR;
+      ctx.lineWidth = 0.5;
+      for (let r = 0; r <= ROWS; r++) {
+        ctx.beginPath();
+        ctx.moveTo(0, r * BLOCK_SIZE);
+        ctx.lineTo(COLS * BLOCK_SIZE, r * BLOCK_SIZE);
+        ctx.stroke();
+      }
+      for (let c = 0; c <= COLS; c++) {
+        ctx.beginPath();
+        ctx.moveTo(c * BLOCK_SIZE, 0);
+        ctx.lineTo(c * BLOCK_SIZE, ROWS * BLOCK_SIZE);
+        ctx.stroke();
+      }
+
+      // Draw board
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (board[r][c]) {
+            drawBlock(c, r, board[r][c] as string);
+          }
+        }
+      }
+
+      if (!gameOver && current && !isClearingAnimation) {
+        // Draw ghost
+        const gy = ghostY();
+        for (let r = 0; r < current.shape.length; r++) {
+          for (let c = 0; c < current.shape[r].length; c++) {
+            if (!current.shape[r][c]) continue;
+            const drawY = gy + r;
+            if (drawY < 0) continue;
+            ctx.fillStyle = current.color;
+            ctx.globalAlpha = GHOST_ALPHA;
+            ctx.fillRect(
+              (current.x + c) * BLOCK_SIZE + 1,
+              drawY * BLOCK_SIZE + 1,
+              BLOCK_SIZE - 2,
+              BLOCK_SIZE - 2
+            );
+            ctx.globalAlpha = 1;
+          }
+        }
+
+        // Draw current piece
+        for (let r = 0; r < current.shape.length; r++) {
+          for (let c = 0; c < current.shape[r].length; c++) {
+            if (!current.shape[r][c]) continue;
+            const drawY = current.y + r;
+            if (drawY < 0) continue;
+            drawBlock(current.x + c, drawY, current.color);
+          }
+        }
+      }
+
+      if (gameOver) {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#cdff52';
+        ctx.font = `bold ${Math.min(BLOCK_SIZE * 1.5, 48)}px "Geist", system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 20);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `${Math.min(BLOCK_SIZE * 0.6, 18)}px "Geist Mono", monospace`;
+        ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 16);
+        ctx.fillText('Press R to restart', canvas.width / 2, canvas.height / 2 + 44);
+      }
+    }
+
+    function drawBlock(x: number, y: number, color: string) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, BLOCK_SIZE - 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, BLOCK_SIZE - 2, 2);
+      ctx.fillRect(x * BLOCK_SIZE + 1, y * BLOCK_SIZE + 1, 2, BLOCK_SIZE - 2);
+    }
+
+    function moveLeft() {
+      if (!collides(current.shape, current.x - 1, current.y)) current.x--;
+    }
+    function moveRight() {
+      if (!collides(current.shape, current.x + 1, current.y)) current.x++;
+    }
+    function moveDown(): boolean {
+      if (!collides(current.shape, current.x, current.y + 1)) {
+        current.y++;
+        return true;
+      }
+      return false;
+    }
+    function hardDrop() {
+      while (!collides(current.shape, current.x, current.y + 1)) {
+        current.y++;
+        score += 2;
+      }
+      scoreEl.textContent = String(score);
+      lock();
+    }
+    function rotatePiece() {
+      const rotated = rotate(current.shape);
+      // Try normal, then wall kicks
+      const kicks = [0, -1, 1, -2, 2];
+      for (const kick of kicks) {
+        if (!collides(rotated, current.x + kick, current.y)) {
+          current.x += kick;
+          current.shape = rotated;
+          return;
+        }
+      }
+    }
+
+    function lock() {
+      merge();
+      startClearAnimation();
+    }
+
+    function gameLoop(time: number) {
+      if (!gameOver && !isClearingAnimation) {
+        if (time - lastDrop > dropInterval) {
+          if (!moveDown()) lock();
+          lastDrop = time;
+        }
+      }
+      draw();
+      animationId = requestAnimationFrame(gameLoop);
+    }
+
+    function init() {
+      resize();
+      createBoard();
+      score = 0;
+      level = 1;
+      lines = 0;
+      totalCleared = 0;
+      pieceIndex = 0;
+      dropInterval = 800;
+      lastDrop = 0;
+      gameOver = false;
+      scoreEl.textContent = '0';
+      levelEl.textContent = '1';
+      matchEl.textContent = '0';
+      newPiece();
+      if (animationId) cancelAnimationFrame(animationId);
+      animationId = requestAnimationFrame(gameLoop);
+    }
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'r') { init(); return; }
+      if (gameOver) return;
+      switch (e.key) {
+        case 'ArrowLeft': e.preventDefault(); moveLeft(); break;
+        case 'ArrowRight': e.preventDefault(); moveRight(); break;
+        case 'ArrowDown': e.preventDefault(); hardDrop(); break;
+        case 'ArrowUp': e.preventDefault(); rotatePiece(); break;
+      }
+    });
+
+    restartBtn?.addEventListener('click', init);
+
+    // Mobile touch controls
+    document.querySelectorAll('.tetris-touch-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (gameOver) { init(); return; }
+        const action = (btn as HTMLElement).dataset.action;
+        switch (action) {
+          case 'left': moveLeft(); break;
+          case 'right': moveRight(); break;
+          case 'drop': hardDrop(); break;
+          case 'rotate': rotatePiece(); break;
+        }
+      });
+    });
+
+    container.addEventListener('click', () => container.focus());
+
+    let resizeTimeout: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(() => {
+        resize();
+        draw();
+      }, 150);
+    });
+
+    init();
+  });
+</script>
