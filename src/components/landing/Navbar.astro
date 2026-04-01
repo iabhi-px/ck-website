@@ -201,46 +201,45 @@ const currentPath = Astro.url.pathname;
   }
 </style>
 
-<script>
-  let navCleanup: (() => void) | null = null;
+<script is:inline>
+  var navCleanup = null;
 
   function initNavbar() {
-    // Clean up previous listeners
     if (navCleanup) navCleanup();
 
-    const navbar = document.getElementById('navbar');
-    const navPill = document.getElementById('nav-pill') as SVGSVGElement | null;
-    const navLinksContainer = document.getElementById('navbar-links');
-    const navLinkEls = navLinksContainer?.querySelectorAll<HTMLAnchorElement>('.nav-link');
+    var navbar = document.getElementById('navbar');
+    var navPill = document.getElementById('nav-pill');
+    var navLinksContainer = document.getElementById('navbar-links');
+    var navLinkEls = navLinksContainer ? navLinksContainer.querySelectorAll('.nav-link') : null;
 
     if (!navbar || !navPill || !navLinksContainer || !navLinkEls) return;
 
-    const listeners: Array<[EventTarget, string, EventListener]> = [];
-    function listen(el: EventTarget, evt: string, fn: EventListener, opts?: AddEventListenerOptions) {
+    var listeners = [];
+    function listen(el, evt, fn, opts) {
       el.addEventListener(evt, fn, opts);
       listeners.push([el, evt, fn]);
     }
 
-    // --- Pill: snap to active link ---
-    const activeLink = navLinksContainer.querySelector<HTMLAnchorElement>('.nav-link[data-active]');
+    // Pill: snap to active link
+    var activeLink = navLinksContainer.querySelector('.nav-link[data-active]');
     if (activeLink) {
-      const containerRect = navLinksContainer.getBoundingClientRect();
-      const linkRect = activeLink.getBoundingClientRect();
+      var containerRect = navLinksContainer.getBoundingClientRect();
+      var linkRect = activeLink.getBoundingClientRect();
       navPill.setAttribute('width', String(linkRect.width));
       navPill.setAttribute('height', String(linkRect.height));
-      navPill.style.transform = `translate(${linkRect.left - containerRect.left}px, ${linkRect.top - containerRect.top}px)`;
+      navPill.style.transform = 'translate(' + (linkRect.left - containerRect.left) + 'px, ' + (linkRect.top - containerRect.top) + 'px)';
       navPill.style.opacity = '1';
     } else {
       navPill.style.opacity = '0';
     }
 
-    // --- Scroll: hide on scroll down, show on scroll up ---
-    let lastScrollY = window.scrollY;
+    // Scroll: hide on scroll down, show on scroll up
+    var lastScrollY = window.scrollY;
     navbar.style.transition = 'transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease';
 
     function onScroll() {
-      const scrollY = window.scrollY;
-      const isMobile = window.innerWidth < 768;
+      var scrollY = window.scrollY;
+      var isMobile = window.innerWidth < 768;
       if (scrollY > 80) {
         if (isMobile) {
           navbar.classList.add('bg-white', 'shadow-sm');
@@ -256,53 +255,49 @@ const currentPath = Astro.url.pathname;
     }
     listen(window, 'scroll', onScroll, { passive: true });
 
-    // --- CTA swap (homepage only) ---
-    const navbarCtas = document.getElementById('navbar-ctas');
-    const navbarLinks = document.getElementById('navbar-links');
-    const heroCta = document.getElementById('hero-cta');
+    // CTA swap (homepage only)
+    var navbarCtas = document.getElementById('navbar-ctas');
+    var navbarLinks = document.getElementById('navbar-links');
+    var heroCta = document.getElementById('hero-cta');
 
     if (navbarCtas && navbarLinks && heroCta) {
       function updateNavbarCtas() {
-        const rect = heroCta!.getBoundingClientRect();
-        const visible = rect.bottom > 0 && rect.top < window.innerHeight;
-        navbarLinks!.style.opacity = visible ? '1' : '0';
-        navbarLinks!.style.pointerEvents = visible ? 'auto' : 'none';
-        navbarCtas!.style.opacity = visible ? '0' : '1';
-        navbarCtas!.style.pointerEvents = visible ? 'none' : 'auto';
+        var rect = heroCta.getBoundingClientRect();
+        var visible = rect.bottom > 0 && rect.top < window.innerHeight;
+        navbarLinks.style.opacity = visible ? '1' : '0';
+        navbarLinks.style.pointerEvents = visible ? 'auto' : 'none';
+        navbarCtas.style.opacity = visible ? '0' : '1';
+        navbarCtas.style.pointerEvents = visible ? 'none' : 'auto';
       }
       listen(window, 'scroll', updateNavbarCtas, { passive: true });
       updateNavbarCtas();
     }
 
-    // --- Mobile menu ---
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-    const closeIcon = document.getElementById('close-icon');
-
-    const overlay = document.getElementById('mobile-menu-overlay');
+    // Mobile menu
+    var btn = document.getElementById('mobile-menu-btn');
+    var menu = document.getElementById('mobile-menu');
+    var menuIcon = document.getElementById('menu-icon');
+    var closeIcon = document.getElementById('close-icon');
+    var overlay = document.getElementById('mobile-menu-overlay');
 
     if (btn && menu && menuIcon && closeIcon) {
       function toggleMenu() {
         menu.classList.toggle('open');
         menuIcon.classList.toggle('hidden');
         closeIcon.classList.toggle('hidden');
-        overlay?.classList.toggle('open');
+        if (overlay) overlay.classList.toggle('open');
         document.body.classList.toggle('overflow-hidden');
         navbar.classList.toggle('menu-open');
       }
 
       listen(btn, 'click', toggleMenu);
-
-      // Close menu when overlay is clicked
       if (overlay) {
         listen(overlay, 'click', toggleMenu);
       }
     }
 
-    // Cleanup function
-    navCleanup = () => {
-      listeners.forEach(([el, evt, fn]) => el.removeEventListener(evt, fn));
+    navCleanup = function() {
+      listeners.forEach(function(l) { l[0].removeEventListener(l[1], l[2]); });
       listeners.length = 0;
     };
   }

@@ -204,8 +204,17 @@ const karmaIQFeatures = [
 
       <!-- Full-width visual -->
       <div class="relative mb-16">
-        <div class="w-full aspect-[16/9] overflow-hidden border rounded-none flex items-center justify-center" style="border-color: #2a2a2a; background: rgba(255,255,255,0.05);">
-          <span class="text-sm text-white/30 font-mono">KarmaPulse Screenshot</span>
+        <div class="w-full aspect-[16/9] overflow-hidden border rounded-none" style="border-color: #2a2a2a;">
+          <video
+            class="w-full h-full object-cover"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="/assets/Videos/KarmaPulse.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 

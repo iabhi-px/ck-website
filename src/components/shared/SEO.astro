@@ -13,11 +13,12 @@ const {
   canonicalURL = Astro.url.href,
 } = Astro.props;
 
-const siteName = 'YourSite';
+const siteName = 'CodeKarma';
 ---
 
 <title>{title} | {siteName}</title>
 <meta name="description" content={description} />
+<meta name="robots" content="index, follow" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />

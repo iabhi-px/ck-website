@@ -233,7 +233,7 @@ const investors = [
               <div class={`founder-card relative overflow-hidden p-5 pt-6 md:p-8 lg:p-10 ${index === 0 ? 'sm:border-r border-b sm:border-b-0 border-gray-200' : ''}`}>
                 {founder.photo ? (
                   <div class="w-full aspect-square bg-gray-100 mb-6 overflow-hidden">
-                    <img src={founder.photo} alt={founder.name} class="w-full h-full object-cover" />
+                    <img src={founder.photo} alt={founder.name} class="w-full h-full object-cover" loading="lazy" decoding="async" />
                   </div>
                 ) : (
                   <div class="w-full aspect-square bg-gray-100 mb-6 flex items-center justify-center">
@@ -256,7 +256,7 @@ const investors = [
                     {founder.logos.map((logo: { src: any; alt: string; height?: number; isSvg?: boolean }, i: number) => (
                       <>
                         {logo.isSvg ? (
-                          <img src={logo.src} alt={logo.alt} class="w-auto object-contain" style={`height: ${logo.height || 28}px;`} />
+                          <img src={logo.src} alt={logo.alt} class="w-auto object-contain" loading="lazy" decoding="async" style={`height: ${logo.height || 28}px;`} />
                         ) : (
                           <Image src={logo.src} alt={logo.alt} class="w-auto object-contain" style={`height: ${logo.height || 28}px;`} />
                         )}
