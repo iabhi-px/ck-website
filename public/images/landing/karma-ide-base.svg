@@ -242,7 +242,7 @@
       <text x="207" y="462" fill="#BFC5D0">java</text>
       <path d="M189.5 481.5L193 485L196.5 481.5" class="chevron-line"/>
       <use href="#ide-icon-folder" x="202" y="475" width="16" height="16" class="asset-icon"/>
-      <text x="226" y="489" fill="#BFC5D0">com.example</text>
+      <text x="226" y="489" fill="#BFC5D0">ai.codekarma</text>
       <path d="M208.5 508.5L212 512L215.5 508.5" class="chevron-line"/>
       <use href="#ide-icon-folder" x="221" y="502" width="16" height="16" class="asset-icon"/>
       <text x="245" y="516" fill="#BFC5D0">codetrails</text>
@@ -310,7 +310,7 @@
       <text x="118" y="981">›</text>
       <use href="#ide-icon-folder" x="134" y="968" width="16" height="16" class="asset-icon"/>
       <text x="154" y="981">code-trails</text>
-      <text x="238" y="981">› src › main › java › com › example › codetrails › orders › service › impl › OrderServiceImpl › getOrderById</text>
+      <text x="238" y="981">› src › main › java › ai › codekarma › codetrails › orders › service › impl › OrderServiceImpl › getOrderById</text>
       <text x="1400" y="981">86:44</text>
       <text x="1450" y="981">LF</text>
       <text x="1484" y="981">UTF-8</text>
