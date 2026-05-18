@@ -9,6 +9,37 @@ type CodeLine = {
 
 const codeLineStart = 72;
 const codeLines: CodeLine[] = [
+  { text: '@Override' },
+  { text: 'public Order getOrderById(Long orderId) {' },
+  { text: '    // Find order' },
+  { text: '    Order order = mockOrders.stream()' },
+  { text: '            .filter(o -> o.getId().equals(orderId))' },
+  { text: '            .findFirst()' },
+  { text: '            .orElse(createMockOrder(orderId));' },
+  { text: '' },
+  { text: '    String orderType = order.getType();' },
+  { text: '' },
+  { text: '    // Branch based on order type with different latencies and errors' },
+  { text: '    switch (orderType) {' },
+  { text: '        case "virtual":' },
+  { text: '            processVirtualOrder(order);' },
+  { text: '            break;' },
+  { text: '        case "physical":' },
+  { text: '            try {' },
+  { text: '                processPhysicalOrder(order);' },
+  { text: '            } catch (Exception e) {' },
+  { text: '                System.out.println("Physical order processing failed: " + e.getMessage());' },
+  { text: '                fallbackOrderHandler(order);' },
+  { text: '            }' },
+  { text: '            break;' },
+  { text: '        default:' },
+  { text: '            handleUnknownOrder(order);' },
+  { text: '    }' },
+  { text: '' },
+  { text: '    OrderUtil.enrichOrder(order);' },
+  { text: '    return order;' },
+  { text: '}' },
+  { text: '' },
   { text: 'private void processVirtualOrder(Order order) {', deadStage: 1 },
   { text: '    System.out.println("Processing virtual order: " + order.getId());', deadStage: 1 },
   { text: '    generateLicense(order);', deadStage: 1 },
@@ -133,7 +164,7 @@ function getLineStyle(line: CodeLine) {
 	        ></span>
         <div
 	          class="dead-code-lines"
-	          style="position:relative;z-index:1;padding-top:10px;font-size:15px;line-height:1.55;letter-spacing:0;font-weight:500"
+	          style="position:relative;z-index:1;padding-top:10px;font-size:9px;line-height:1.05;letter-spacing:0;font-weight:500"
         >
           {
             codeLines.map((line, index) => (
