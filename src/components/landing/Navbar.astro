@@ -235,7 +235,19 @@ const currentPath = Astro.url.pathname;
 
     // Scroll: hide on scroll down, show on scroll up
     var lastScrollY = window.scrollY;
+    var navbarHiddenSections = Array.prototype.slice.call(document.querySelectorAll('[data-hide-navbar-on-scroll]'));
     navbar.style.transition = 'transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease';
+
+    function isInsideNavbarHiddenSection() {
+      if (!navbarHiddenSections.length) return false;
+      var navbarHeight = navbar.offsetHeight || 96;
+      var probeY = Math.min(window.innerHeight - 1, Math.max(navbarHeight + 8, 96));
+
+      return navbarHiddenSections.some(function(section) {
+        var rect = section.getBoundingClientRect();
+        return rect.top <= probeY && rect.bottom >= probeY;
+      });
+    }
 
     function onScroll() {
       var scrollY = window.scrollY;
@@ -246,7 +258,7 @@ const currentPath = Astro.url.pathname;
         } else {
           navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
         }
-        navbar.style.transform = scrollY > lastScrollY ? 'translateY(-100%)' : 'translateY(0)';
+        navbar.style.transform = scrollY > lastScrollY || isInsideNavbarHiddenSection() ? 'translateY(-100%)' : 'translateY(0)';
       } else {
         navbar.classList.remove('bg-white/90', 'bg-white', 'backdrop-blur-md', 'shadow-sm');
         navbar.style.transform = 'translateY(0)';
@@ -304,4 +316,3 @@ const currentPath = Astro.url.pathname;
 
   document.addEventListener('DOMContentLoaded', initNavbar);
 </script>
-

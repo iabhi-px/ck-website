@@ -1,0 +1,605 @@
+---
+type DeadStage = 1 | 2 | 3;
+
+type CodeLine = {
+  text: string;
+  deadStage?: DeadStage;
+  metricsBefore?: string;
+};
+
+const codeLineStart = 72;
+const codeLines: CodeLine[] = [
+  { text: 'private void processVirtualOrder(Order order) {', deadStage: 1 },
+  { text: '    System.out.println("Processing virtual order: " + order.getId());', deadStage: 1 },
+  { text: '    generateLicense(order);', deadStage: 1 },
+  { text: '    sendUserEmail(order);', deadStage: 1 },
+  { text: '    createAuditLog(order, "virtual_processed");', deadStage: 1 },
+  { text: '    order.setStatus("COMPLETED");', deadStage: 1 },
+  { text: '}', deadStage: 1 },
+  { text: '' },
+  { text: 'private void processPhysicalOrder(Order order) {' },
+  { text: '    System.out.println("Processing physical order: " + order.getId());' },
+  { text: '    validateInventory(order);' },
+  { text: '    estimateShipping(order);' },
+  { text: '    dispatchToVendor(order);' },
+  { text: '' },
+  { text: '    // Simulate error for every 5th order' },
+  { text: '    if (order.getId() % 5 == 0) {' },
+  { text: '        throw new RuntimeException("Inventory service failure for order: " + order.getId());' },
+  { text: '    }' },
+  { text: '' },
+  { text: '    order.setStatus("PROCESSING");' },
+  { text: '}' },
+];
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function highlightJava(value: string) {
+  let html = escapeHtml(value);
+
+  if (html.trim().startsWith('/**') || html.trim().startsWith('*') || html.trim().startsWith('//')) {
+    return `<span class="tok-comment">${html}</span>`;
+  }
+
+  const strings: string[] = [];
+  html = html.replace(/(&quot;[^&]*?&quot;)/g, (match) => {
+    strings.push(`<span class="tok-string">${match}</span>`);
+    return `__CODEKARMA_STRING_${strings.length - 1}__`;
+  });
+
+  html = html.replace(
+    /\b(package|public|class|private|final|return|new|for|if|null|boolean|void|switch|case|break|default|try|catch|throw)\b/g,
+    '<span class="tok-keyword">$1</span>'
+  );
+  html = html.replace(/(@[A-Za-z0-9_]+)/g, '<span class="tok-annotation">$1</span>');
+  html = html.replace(
+    /\b(Order|Long|String|OrderUtil|Exception|RuntimeException|System)\b/g,
+    '<span class="tok-type">$1</span>'
+  );
+  html = html.replace(
+    /\b(getOrderById|stream|filter|getId|equals|findFirst|orElse|createMockOrder|getType|processVirtualOrder|processPhysicalOrder|println|getMessage|fallbackOrderHandler|handleUnknownOrder|enrichOrder|generateLicense|sendUserEmail|createAuditLog|setStatus|validateInventory|estimateShipping|dispatchToVendor)\b/g,
+    '<span class="tok-method">$1</span>'
+  );
+  html = html.replace(/__CODEKARMA_STRING_(\d+)__/g, (_, index) => strings[Number(index)] ?? '');
+
+  return html;
+}
+
+function getLineStyle(line: CodeLine) {
+  const strikeProgress = line.deadStage ? `--strike-progress:var(--strike-${line.deadStage});` : '';
+
+  return [
+    `--line-chars:${Math.max(line.text.trimEnd().length, 1)}`,
+    strikeProgress,
+    'position:relative',
+    'display:grid',
+    'grid-template-columns:74px minmax(0,1fr)',
+    'min-height:1.5em',
+  ]
+    .filter(Boolean)
+    .join(';');
+}
+---
+
+<section
+  id="dead-code-statement"
+  data-hide-navbar-on-scroll
+  class="dead-code-section"
+  style="position:relative;min-height:132vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--strike-1:0;--strike-2:0;--strike-3:0"
+>
+  <div
+    class="dead-code-sticky"
+  >
+    <div
+      class="dead-code-layout"
+    >
+      <div class="dead-code-heading relative z-10 w-full text-left">
+        <p class="dead-code-label text-sm font-mono tracking-[0.3em] uppercase text-white/40 mb-5">
+          Do you know?
+        </p>
+        <h2 class="dead-code-title text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-white leading-[1.1] font-semibold">
+          More than half of your<br />code is dead or dormant
+        </h2>
+      </div>
+      <div class="dead-code-visual-slot">
+      <div
+        class="dead-code-frame"
+      >
+        <img
+          src="/images/landing/karma-ide-base.svg"
+          alt="IntelliJ-style IDE with CodeKarma dead-code insights"
+          class="dead-code-ide-image"
+          loading="eager"
+          decoding="async"
+          style="display:block;width:100%;height:100%;object-fit:contain;user-select:none"
+        />
+
+	      <div
+		        class="dead-code-editor-overlay"
+		        aria-label="Java code with dead sections highlighted on scroll"
+		        style='position:absolute;left:var(--editor-left);top:var(--editor-top);width:var(--editor-width);height:var(--editor-height);z-index:2;overflow:hidden;border-top:1px solid rgba(72,78,86,.85);border-left:1px solid rgba(72,78,86,.75);border-radius:var(--editor-radius);background:#1f2024;color:#d9dde4;font-family:"JetBrains Mono","Geist Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-weight:500;font-synthesis:none'
+	      >
+	        <span
+	          aria-hidden="true"
+	          class="dead-code-gutter-border"
+	          style="position:absolute;top:0;bottom:0;left:calc(var(--editor-inner-left) + 74px);z-index:5;width:1px;background:rgba(72,78,86,.85)"
+	        ></span>
+        <div
+	          class="dead-code-lines"
+	          style="position:relative;z-index:1;padding-top:10px;font-size:15px;line-height:1.55;letter-spacing:0;font-weight:500"
+        >
+          {
+            codeLines.map((line, index) => (
+              <>
+                {line.metricsBefore && (
+                  <div
+                    class="dead-code-metrics-row"
+                  >
+                    <span aria-hidden="true"></span>
+                    <span
+                      class="dead-code-metrics"
+                    >
+                      <img
+                        src="/images/landing/ide-icon-16px.svg"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      <span>{line.metricsBefore}</span>
+                    </span>
+                  </div>
+                )}
+                <div
+                  class:list={[
+                    'dead-code-line',
+                    line.deadStage && 'dead-code-line--dead',
+                    line.deadStage && `dead-code-line--stage-${line.deadStage}`,
+                  ]}
+                  style={getLineStyle(line)}
+                >
+                  <span
+                    class="dead-code-number"
+                    style="position:relative;z-index:2;padding-right:18px;color:#69727d;text-align:right"
+                  >
+                    {codeLineStart + index}
+                  </span>
+                  <span
+	                  class="dead-code-source"
+	                  style="position:relative;z-index:2;display:block;min-width:0;overflow:hidden;padding-left:18px;color:#d9dde4;white-space:pre"
+                    set:html={highlightJava(line.text)}
+                  />
+                </div>
+              </>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .dead-code-section {
+    position: relative;
+    min-height: 132vh;
+    overflow: clip;
+    background: #0f0f0f;
+    --ide-dock: 0;
+    --ide-base-opacity: 1;
+    --ide-x: -26vw;
+    --ide-y: clamp(96px, 8vh, 128px);
+    --ide-scale: 1;
+    --copy-reveal: 0;
+    --copy-blur: 10px;
+    --copy-y: 20px;
+    --copy-top-offset: 0px;
+    --editor-left: 24.44%;
+    --editor-top: 10.88%;
+    --editor-width: 71.05%;
+    --editor-height: 83.22%;
+    --editor-radius: 0px;
+    --editor-inner-left: 0px;
+    --strike-1: 0;
+    --strike-2: 0;
+    --strike-3: 0;
+  }
+
+  .dead-code-sticky {
+    position: sticky;
+    top: 0;
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: start;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(54px, 7vh, 78px) 0 22px;
+  }
+
+  .dead-code-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: min(96vw, 1760px);
+    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 2.18fr);
+    align-items: start;
+    gap: clamp(24px, 3.2vw, 48px);
+  }
+
+  .dead-code-visual-slot {
+    position: relative;
+    min-height: clamp(400px, 58vw, 720px);
+    overflow: visible;
+  }
+
+  .dead-code-heading {
+    width: 100%;
+    padding-left: clamp(24px, 2.4vw, 48px);
+    text-align: left;
+    opacity: var(--copy-reveal);
+    filter: blur(var(--copy-blur));
+    transform: translateY(calc(var(--copy-top-offset) + var(--copy-y)));
+    will-change: transform, opacity, filter;
+  }
+
+  .dead-code-title {
+    max-width: 680px;
+    text-wrap: balance;
+  }
+
+  .dead-code-frame {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(92vw, 1500px);
+    aspect-ratio: 1596 / 1020;
+    z-index: 1;
+    transform-origin: center center;
+    transform: translate(calc(-50% + var(--ide-x)), calc(-50% + var(--ide-y))) scale(var(--ide-scale));
+    will-change: transform;
+  }
+
+  .dead-code-ide-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: var(--ide-base-opacity);
+    user-select: none;
+    will-change: opacity;
+  }
+
+	  .dead-code-editor-overlay {
+	    position: absolute;
+	    left: var(--editor-left);
+	    top: var(--editor-top);
+	    width: var(--editor-width);
+	    height: var(--editor-height);
+	    box-sizing: border-box;
+	    z-index: 2;
+	    overflow: hidden;
+	    border-top: 1px solid rgba(72, 78, 86, 0.85);
+	    border-left: 1px solid rgba(72, 78, 86, 0.75);
+	    border-radius: var(--editor-radius);
+	    background: #1f2024;
+	    color: #d9dde4;
+	    font-family: "JetBrains Mono", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+	      monospace;
+	    font-weight: 500;
+	    font-synthesis: none;
+	  }
+
+	  .dead-code-gutter-border {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    left: calc(var(--editor-inner-left) + 74px);
+	    z-index: 5;
+	    width: 1px;
+	    background: rgba(72, 78, 86, 0.85);
+	  }
+
+  .dead-code-lines {
+	    position: relative;
+	    z-index: 1;
+	    box-sizing: border-box;
+	    width: 100%;
+	    padding-top: 10px;
+	    padding-left: var(--editor-inner-left);
+	    padding-right: var(--editor-inner-left);
+	    font-size: 13px;
+	    font-weight: 500;
+	    line-height: 1.5;
+	    letter-spacing: 0;
+	  }
+
+  .dead-code-line {
+	    position: relative;
+	    display: grid;
+	    grid-template-columns: 74px minmax(0, 1fr);
+		    min-height: 1.5em;
+	  }
+
+  .dead-code-number {
+    position: relative;
+	    z-index: 2;
+	    padding-right: 18px;
+	    color: #69727d;
+	    text-align: right;
+	    font-variant-numeric: tabular-nums;
+	  }
+
+	  .dead-code-source {
+	    position: relative;
+	    z-index: 2;
+	    display: block;
+	    max-width: none;
+	    min-width: 0;
+	    overflow: hidden;
+	    padding-left: 18px;
+	    color: #d9dde4;
+    white-space: pre;
+  }
+
+  .dead-code-line--dead {
+    --strike-progress: 0;
+  }
+
+  .dead-code-line--stage-1 {
+    --strike-progress: var(--strike-1);
+  }
+
+  .dead-code-line--stage-2 {
+    --strike-progress: var(--strike-2);
+  }
+
+  .dead-code-line--stage-3 {
+    --strike-progress: var(--strike-3);
+  }
+
+  .dead-code-line--dead::after {
+    content: "";
+	    position: absolute;
+	    left: 92px;
+	    top: 50%;
+	    z-index: 3;
+	    width: min(calc(var(--line-chars) * 0.58em), calc(100% - 112px));
+	    height: 1px;
+	    background: rgba(158, 164, 176, 0.72);
+    transform: scaleX(var(--strike-progress));
+    transform-origin: left center;
+  }
+
+  .dead-code-line--dead .dead-code-source {
+    opacity: calc(1 - (var(--strike-progress) * 0.42));
+    filter: grayscale(var(--strike-progress));
+  }
+
+  .dead-code-metrics-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    min-height: 32px;
+    margin: 10px 0 8px;
+  }
+
+  .dead-code-metrics {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 5px 0 5px 18px;
+    color: #9ea1aa;
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: clamp(11px, 0.92vw, 17px);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .dead-code-metrics img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+  }
+
+  .tok-keyword {
+    color: #cc7832;
+  }
+
+  .tok-type {
+    color: #ffc66d;
+  }
+
+  .tok-method {
+    color: #589df6;
+  }
+
+	  .tok-string {
+	    color: #6aab73;
+	  }
+
+	  .tok-annotation {
+	    color: #bbb65a;
+	  }
+
+  .tok-comment {
+    color: #808080;
+    font-style: italic;
+  }
+
+  @media (max-width: 767px) {
+    .dead-code-sticky {
+      padding-top: 64px;
+    }
+
+    .dead-code-layout {
+      width: calc(100vw - 40px);
+      grid-template-columns: minmax(210px, 0.95fr) minmax(300px, 1.2fr);
+      gap: 18px;
+    }
+
+    .dead-code-heading {
+      padding-left: 0;
+    }
+
+    .dead-code-visual-slot {
+      min-height: 430px;
+    }
+
+    .dead-code-title {
+      max-width: 250px;
+    }
+
+    .dead-code-frame {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .dead-code-sticky {
+      justify-content: flex-start;
+      padding-top: 72px;
+    }
+
+    .dead-code-layout {
+      width: calc(100vw - 40px);
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .dead-code-visual-slot {
+      min-height: 360px;
+    }
+
+    .dead-code-frame {
+      width: 150vw;
+      margin-left: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dead-code-section {
+      min-height: 100vh;
+      min-height: 100svh;
+      --ide-dock: 1;
+      --ide-base-opacity: 0;
+      --ide-x: 0px;
+      --ide-y: 0px;
+      --ide-scale: 1;
+      --copy-reveal: 1;
+      --copy-blur: 0px;
+      --copy-y: 0px;
+      --editor-inner-left: clamp(30px, 2.4vw, 52px);
+      --strike-1: 1;
+      --strike-2: 1;
+      --strike-3: 1;
+    }
+  }
+</style>
+
+<script>
+  function clamp(value: number, min = 0, max = 1) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function smoothStep(start: number, end: number, value: number) {
+    const progress = clamp((value - start) / (end - start));
+    return progress * progress * (3 - 2 * progress);
+  }
+
+  function initDeadCodeScroll() {
+    const section = document.getElementById('dead-code-statement');
+    if (!section || section.dataset.deadCodeScrollBound === 'true') return;
+
+    section.dataset.deadCodeScrollBound = 'true';
+    const layout = section.querySelector<HTMLElement>('.dead-code-layout');
+    const visualSlot = section.querySelector<HTMLElement>('.dead-code-visual-slot');
+    const ideFrame = section.querySelector<HTMLElement>('.dead-code-frame');
+    if (!layout || !visualSlot || !ideFrame) return;
+
+    let ticking = false;
+
+    function update() {
+      const rect = section!.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const scrollDistance = Math.max(rect.height - viewportHeight, 1);
+      const sectionProgress = clamp(-rect.top / scrollDistance);
+      const dockProgress = smoothStep(0.05, 0.64, sectionProgress);
+      const copyReveal = smoothStep(0.32, 0.86, sectionProgress);
+      const layoutRect = layout.getBoundingClientRect();
+      const visualSlotRect = visualSlot.getBoundingClientRect();
+      const frameWidth = Math.max(ideFrame.offsetWidth, 1);
+      const layoutCenterX = layoutRect.left + layoutRect.width / 2;
+      const visualSlotCenterX = visualSlotRect.left + visualSlotRect.width / 2;
+      const startX = layoutCenterX - visualSlotCenterX;
+      const dockWidth = Math.min(visualSlotRect.width * 1.08, layoutRect.width * 0.76);
+      const dockScale = clamp(dockWidth / frameWidth, 0.64, 1);
+      const ideX = startX * (1 - dockProgress);
+      const startY = clamp(viewportHeight * 0.08, 96, 128);
+      const dockY = clamp(viewportHeight * 0.005, 4, 12);
+      const ideY = startY + (dockY - startY) * dockProgress;
+      const ideScale = 1 + (dockScale - 1) * dockProgress;
+      const ideHeight = ideFrame.offsetHeight * ideScale;
+      const ideTopOffset = visualSlotRect.height / 2 - ideHeight / 2 + ideY;
+      const copyTopOffset = (ideTopOffset + 30) * dockProgress;
+      const editorExpand = dockProgress;
+      const finalEditorInset = 6.25;
+      const editorLeft = 24.44 * (1 - editorExpand) + finalEditorInset * editorExpand;
+      const editorTop = 10.88 * (1 - editorExpand);
+      const editorWidth = 71.05 + (100 - finalEditorInset * 2 - 71.05) * editorExpand;
+      const editorHeight = 83.22 + (100 - 83.22) * editorExpand;
+      const editorRadius = 9 * editorExpand;
+      const finalEditorInnerLeft = clamp(window.innerWidth * 0.024, 30, 52);
+      const editorInnerLeft = finalEditorInnerLeft * editorExpand;
+      const ideBaseOpacity = 1 - smoothStep(0.18, 0.5, sectionProgress);
+      const deadCut = smoothStep(0.38, 0.78, sectionProgress);
+      const strikeOne = deadCut;
+      const strikeTwo = deadCut;
+      const strikeThree = deadCut;
+
+      section!.style.setProperty('--ide-dock', dockProgress.toFixed(3));
+      section!.style.setProperty('--ide-base-opacity', ideBaseOpacity.toFixed(3));
+      section!.style.setProperty('--ide-x', `${ideX.toFixed(3)}px`);
+      section!.style.setProperty('--ide-y', `${ideY.toFixed(3)}px`);
+      section!.style.setProperty('--ide-scale', ideScale.toFixed(3));
+      section!.style.setProperty('--copy-reveal', copyReveal.toFixed(3));
+      section!.style.setProperty('--copy-blur', `${(10 * (1 - copyReveal)).toFixed(3)}px`);
+      section!.style.setProperty('--copy-y', `${(20 * (1 - copyReveal)).toFixed(3)}px`);
+      section!.style.setProperty('--copy-top-offset', `${copyTopOffset.toFixed(3)}px`);
+      section!.style.setProperty('--editor-left', `${editorLeft.toFixed(3)}%`);
+      section!.style.setProperty('--editor-top', `${editorTop.toFixed(3)}%`);
+      section!.style.setProperty('--editor-width', `${editorWidth.toFixed(3)}%`);
+      section!.style.setProperty('--editor-height', `${editorHeight.toFixed(3)}%`);
+      section!.style.setProperty('--editor-radius', `${editorRadius.toFixed(3)}px`);
+      section!.style.setProperty('--editor-inner-left', `${editorInnerLeft.toFixed(3)}px`);
+      section!.style.setProperty('--strike-1', strikeOne.toFixed(3));
+      section!.style.setProperty('--strike-2', strikeTwo.toFixed(3));
+      section!.style.setProperty('--strike-3', strikeThree.toFixed(3));
+      ticking = false;
+    }
+
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    update();
+  }
+
+  initDeadCodeScroll();
+  document.addEventListener('DOMContentLoaded', initDeadCodeScroll);
+  document.addEventListener('astro:page-load', initDeadCodeScroll);
+</script>

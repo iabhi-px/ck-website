@@ -1,0 +1,580 @@
+---
+const iconPositions = [
+  [367, 120],
+  [805, 120],
+  [1243, 120],
+  [1681, 120],
+  [2119, 120],
+  [2557, 120],
+  [2995, 120],
+  [3433, 120],
+  [367, 410],
+  [805, 410],
+  [1243, 410],
+  [1681, 410],
+  [2119, 410],
+  [2557, 410],
+  [2995, 410],
+  [3433, 410],
+  [367, 745],
+  [3433, 745],
+  [367, 1080],
+  [805, 1080],
+  [1243, 1080],
+  [2557, 1080],
+  [2995, 1080],
+  [3433, 1080],
+  [367, 1370],
+  [805, 1370],
+  [1243, 1370],
+  [1681, 1370],
+  [2119, 1370],
+  [2557, 1370],
+  [2995, 1370],
+  [3433, 1370],
+  [367, 1630],
+  [805, 1630],
+  [1243, 1630],
+  [1681, 1630],
+  [2119, 1630],
+  [2557, 1630],
+  [2995, 1630],
+  [3433, 1630],
+];
+
+const circleHeadPath =
+  'M100 14C126.51 14 148 35.49 148 62C148 88.51 126.51 110 100 110C73.49 110 52 88.51 52 62C52 35.49 73.49 14 100 14Z';
+const sparkleGlyphPath =
+  'M0 -82C12 -34 34 -12 82 0C34 12 12 34 0 82C-12 34 -34 12 -82 0C-34 -12 -12 -34 0 -82Z';
+
+const iconScale = 0.84;
+const copyFontSize = 112;
+const copyLineGap = 152;
+
+const chipHeight = 118;
+const chipGap = 0;
+const chipCenterY = 950;
+const codeKarmaChipWidth = 396;
+const showsChipWidth = 230;
+function makeChipRow(rowOffset: number) {
+  const rowCenterX = rowOffset === 0 ? 2000 : 2000 + (Math.abs(rowOffset) % 2 === 0 ? 112 : -112);
+  const y = chipCenterY + rowOffset * chipHeight - chipHeight / 2;
+  const items = [
+    {
+      label: 'CodeKarma',
+      width: codeKarmaChipWidth,
+      x: rowCenterX - codeKarmaChipWidth / 2,
+      y,
+      isCenter: rowOffset === 0,
+    },
+  ];
+
+  let rightEdge = rowCenterX + codeKarmaChipWidth / 2 + chipGap;
+  let leftEdge = rowCenterX - codeKarmaChipWidth / 2 - chipGap;
+
+  for (let index = 0; rightEdge < 4300; index += 1) {
+    const label = index % 2 === 0 ? 'shows' : 'CodeKarma';
+    const width = label === 'CodeKarma' ? codeKarmaChipWidth : showsChipWidth;
+    items.push({
+      label,
+      width,
+      x: rightEdge,
+      y,
+      isCenter: false,
+    });
+    rightEdge += width + chipGap;
+  }
+
+  for (let index = 0; leftEdge > -300; index += 1) {
+    const label = index % 2 === 0 ? 'shows' : 'CodeKarma';
+    const width = label === 'CodeKarma' ? codeKarmaChipWidth : showsChipWidth;
+    leftEdge -= width;
+    items.push({
+      label,
+      width,
+      x: leftEdge,
+      y,
+      isCenter: false,
+    });
+    leftEdge -= chipGap;
+  }
+
+  const sortedItems = items
+    .sort((a, b) => a.x - b.x)
+    .map((item, index) => ({
+      ...item,
+      label: item.label === 'CodeKarma' && item.x < 80 ? 'shows' : item.label,
+      lineOrder: index,
+    }));
+
+  return {
+    rowOffset,
+    rowDistance: Math.abs(rowOffset),
+    items: sortedItems,
+  };
+}
+
+const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
+  return makeChipRow(rowIndex - 10);
+});
+---
+
+<section id="engineer-identity" class="engineer-identity-section relative bg-brand-dark" data-hide-navbar-on-scroll>
+  <div class="engineer-identity-sticky">
+  <div class="mx-auto w-full max-w-[1800px]">
+    <svg
+      class="engineer-identity-svg"
+      viewBox="0 0 4000 1900"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-labelledby="engineer-identity-title"
+    >
+      <title id="engineer-identity-title">CodeKarma shows what runs in your production.</title>
+      <rect class="identity-background" width="4000" height="1900" />
+
+      <g
+        class="engineer-identity-icons"
+        stroke="#ffffff"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        {iconPositions.map(([x, y], index) => (
+          <g
+            class="identity-icon"
+            transform={`translate(${x} ${y}) translate(100 86) scale(${iconScale}) translate(-100 -86)`}
+            style={`--identity-delay: ${index * 12}ms`}
+          >
+            <path class="identity-head-path" d={circleHeadPath} />
+
+            <path
+              class="identity-body"
+              d="M25 158C45 124 70 110 100 110C130 110 155 124 175 158"
+            />
+
+          </g>
+        ))}
+      </g>
+
+      <g class="identity-center-spark-wrap" transform="translate(2000 950)">
+        <path class="identity-center-spark" d={sparkleGlyphPath} />
+      </g>
+
+      <g class="identity-copy identity-copy-original">
+        <text
+          x="2000"
+          y="850"
+          fill="#ffffff"
+          text-anchor="middle"
+          font-family="Geist, system-ui, sans-serif"
+          font-size={copyFontSize}
+          font-weight="600"
+          letter-spacing="0"
+        >
+          <tspan x="2000">Your engineers can't</tspan>
+          <tspan x="2000" dy={copyLineGap}>confidently tell which is which.</tspan>
+        </text>
+      </g>
+
+      <g class="identity-copy identity-copy-ai">
+        <text
+          x="2000"
+          y="840"
+          fill="#ffffff"
+          text-anchor="middle"
+          font-family="Geist, system-ui, sans-serif"
+          font-size={copyFontSize}
+          font-weight="600"
+          letter-spacing="0"
+        >
+          <tspan x="2000">and neither can</tspan>
+          <tspan x="2000" dy={copyLineGap}>your AI.</tspan>
+        </text>
+      </g>
+
+      <g class="identity-pill-field" aria-hidden="true">
+        {pillRows.map((row) => (
+          <g
+            class="identity-pill-row"
+            data-row-offset={row.rowOffset}
+            data-row-distance={row.rowDistance}
+          >
+            {row.items.map((item) => (
+              <g
+                class={`identity-pill-chip${item.isCenter ? ' identity-pill-chip-center' : ''}`}
+                data-row-offset={row.rowOffset}
+                data-row-distance={row.rowDistance}
+                data-line-order={item.lineOrder}
+                data-center-chip={item.isCenter ? 'true' : 'false'}
+              >
+                <rect
+                  x={item.x}
+                  y={item.y}
+                  width={item.width}
+                  height={chipHeight}
+                  rx={chipHeight / 2}
+                />
+                <text
+                  x={item.x + item.width / 2}
+                  y={item.y + 77}
+                  text-anchor="middle"
+                  font-family="Geist, system-ui, sans-serif"
+                  font-size="50"
+                  font-weight="400"
+                  letter-spacing="0"
+                >
+                  {item.label}
+                </text>
+              </g>
+            ))}
+          </g>
+        ))}
+      </g>
+
+      <g class="identity-copy identity-copy-final">
+        <text
+          x="2000"
+          y="855"
+          fill="#0f0f0f"
+          text-anchor="middle"
+          font-family="Geist, system-ui, sans-serif"
+          font-size="142"
+          font-weight="650"
+          letter-spacing="0"
+        >
+          <tspan x="2000">CodeKarma shows</tspan>
+          <tspan x="2000" dy="172">what runs in your production</tspan>
+        </text>
+      </g>
+    </svg>
+  </div>
+  </div>
+</section>
+
+<style is:global>
+  .engineer-identity-section {
+    min-height: 340vh;
+    overflow: clip;
+    background: var(--identity-bg-color, #0f0f0f);
+    --identity-bg-color: #0f0f0f;
+    --identity-grid-opacity: 1;
+    --identity-icon-color: #ffffff;
+    --identity-head-opacity: 1;
+    --identity-body-opacity: 1;
+    --identity-copy-original-opacity: 0;
+    --identity-copy-original-y: 20px;
+    --identity-copy-original-blur: 10px;
+    --identity-copy-ai-opacity: 0;
+    --identity-copy-ai-y: 28px;
+    --identity-copy-ai-blur: 8px;
+    --identity-center-spark-opacity: 0;
+    --identity-center-spark-scale: 0.7;
+    --identity-center-spark-fill: #cdff52;
+    --identity-pill-opacity: 0;
+    --identity-pill-x: 0px;
+    --identity-pill-y: 80px;
+    --identity-pill-track-scale: 1;
+    --identity-pill-text-opacity: 1;
+    --identity-copy-final-opacity: 0;
+    --identity-copy-final-y: 24px;
+    --identity-copy-final-blur: 10px;
+    --identity-copy-final-color: #0f0f0f;
+  }
+
+  .engineer-identity-sticky {
+    position: sticky;
+    top: 0;
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .engineer-identity-svg {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    max-height: none;
+  }
+
+  .identity-background {
+    fill: var(--identity-bg-color);
+  }
+
+  .engineer-identity-icons {
+    opacity: var(--identity-grid-opacity);
+    stroke: var(--identity-icon-color);
+  }
+
+  .identity-head-path,
+  .identity-body,
+  .identity-copy,
+  .identity-center-spark,
+  .identity-pill-field,
+  .identity-pill-chip {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .identity-head-path {
+    opacity: var(--identity-head-opacity);
+  }
+
+  .identity-body {
+    opacity: var(--identity-body-opacity);
+  }
+
+  .identity-copy-original {
+    opacity: var(--identity-copy-original-opacity);
+    transform: translateY(var(--identity-copy-original-y));
+    filter: blur(var(--identity-copy-original-blur));
+  }
+
+  .identity-copy-ai {
+    opacity: var(--identity-copy-ai-opacity);
+    transform: translateY(var(--identity-copy-ai-y));
+    filter: blur(var(--identity-copy-ai-blur));
+  }
+
+  .identity-pill-field {
+    opacity: var(--identity-pill-opacity);
+    pointer-events: none;
+    transform-box: view-box;
+    transform: translateX(var(--identity-pill-x)) translateY(var(--identity-pill-y))
+      scale(var(--identity-pill-track-scale));
+  }
+
+  .identity-pill-chip {
+    opacity: 0;
+    transform: none;
+  }
+
+  .identity-pill-field rect {
+    fill: transparent;
+    stroke: #0f0f0f;
+    stroke-width: 3;
+  }
+
+  .identity-pill-field text {
+    fill: #0f0f0f;
+    opacity: var(--identity-pill-text-opacity);
+  }
+
+  .identity-center-spark {
+    opacity: var(--identity-center-spark-opacity);
+    fill: var(--identity-center-spark-fill);
+    stroke: none;
+    stroke-width: 0;
+    transform: scale(var(--identity-center-spark-scale));
+  }
+
+  .identity-copy-final {
+    opacity: var(--identity-copy-final-opacity);
+    transform: translateY(var(--identity-copy-final-y));
+    filter: blur(var(--identity-copy-final-blur));
+  }
+
+  .identity-copy-final text {
+    fill: var(--identity-copy-final-color);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .engineer-identity-section {
+      min-height: 100vh;
+      min-height: 100svh;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #engineer-identity > div {
+      width: 180vw;
+      margin-left: -40vw;
+      margin-right: -40vw;
+    }
+  }
+</style>
+
+<script>
+  const circleHeadNumbers = [
+    100, 14, 126.51, 14, 148, 35.49, 148, 62, 148, 88.51, 126.51, 110, 100, 110,
+    73.49, 110, 52, 88.51, 52, 62, 52, 35.49, 73.49, 14, 100, 14,
+  ];
+  const sparkleHeadNumbers = [
+    100, 18, 108, 45, 118, 54, 145, 62, 118, 70, 108, 79, 100, 106, 92, 79, 82,
+    70, 55, 62, 82, 54, 92, 45, 100, 18,
+  ];
+
+  function clamp(value: number, min = 0, max = 1) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function smoothStep(start: number, end: number, value: number) {
+    const progress = clamp((value - start) / (end - start));
+    return progress * progress * (3 - 2 * progress);
+  }
+
+  function mixColor(start: [number, number, number], end: [number, number, number], progress: number) {
+    const amount = clamp(progress);
+    const channels = start.map((value, index) => Math.round(value + (end[index] - value) * amount));
+    return `rgb(${channels[0]} ${channels[1]} ${channels[2]})`;
+  }
+
+  function getHeadPath(progress: number) {
+    const points = circleHeadNumbers.map((start, index) => {
+      const end = sparkleHeadNumbers[index];
+      return Number((start + (end - start) * progress).toFixed(2));
+    });
+
+    return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
+  }
+
+  function initEngineerIdentityScroll() {
+    const section = document.getElementById('engineer-identity');
+    if (!section || section.dataset.identityScrollBound === 'true') return;
+
+    section.dataset.identityScrollBound = 'true';
+
+    const headPaths = Array.from(section.querySelectorAll<SVGPathElement>('.identity-head-path'));
+    const pillChips = Array.from(section.querySelectorAll<SVGGElement>('.identity-pill-chip'));
+    const lineChips = pillChips.filter((chip) => Number(chip.dataset.rowDistance) === 0);
+    const maxLineOrder = Math.max(...lineChips.map((chip) => Number(chip.dataset.lineOrder || 0)), 1);
+    const maxRowDistance = Math.max(...pillChips.map((chip) => Number(chip.dataset.rowDistance || 0)), 1);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      headPaths.forEach((path) => {
+        path.setAttribute('d', getHeadPath(1));
+      });
+
+      section.style.setProperty('--identity-bg-color', '#CDFF52');
+      section.style.setProperty('--identity-grid-opacity', '0');
+      section.style.setProperty('--identity-icon-color', '#0f0f0f');
+      section.style.setProperty('--identity-head-opacity', '1');
+      section.style.setProperty('--identity-body-opacity', '0');
+      section.style.setProperty('--identity-copy-original-opacity', '0');
+      section.style.setProperty('--identity-copy-ai-opacity', '0');
+      section.style.setProperty('--identity-center-spark-opacity', '0');
+      section.style.setProperty('--identity-pill-opacity', '0');
+      section.style.setProperty('--identity-pill-x', '0px');
+      section.style.setProperty('--identity-pill-y', '0px');
+      section.style.setProperty('--identity-pill-track-scale', '1');
+      section.style.setProperty('--identity-pill-text-opacity', '0');
+      section.style.setProperty('--identity-copy-final-opacity', '1');
+      section.style.setProperty('--identity-copy-final-y', '0px');
+      section.style.setProperty('--identity-copy-final-blur', '0px');
+      section.style.setProperty('--identity-copy-final-color', '#0f0f0f');
+      return;
+    }
+
+    let ticking = false;
+
+    function update() {
+      const rect = section!.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const scrollDistance = Math.max(rect.height - viewportHeight, 1);
+      const sectionProgress = clamp(-rect.top / scrollDistance);
+      const originalCopyEnter = smoothStep(viewportHeight * 0.82, viewportHeight * 0.34, rect.top);
+      const headProgress = smoothStep(0.04, 0.42, sectionProgress);
+      const originalCopyExit = smoothStep(0.18, 0.28, sectionProgress);
+      const aiCopyEnter = smoothStep(0.2, 0.3, sectionProgress);
+      const aiCopyExit = smoothStep(0.48, 0.56, sectionProgress);
+      const centerSparkExpand = smoothStep(0.56, 0.78, sectionProgress);
+      const backgroundProgress = smoothStep(0.7, 0.78, sectionProgress);
+      const iconColorProgress = smoothStep(0.66, 0.78, sectionProgress);
+      const centerLineProgress = smoothStep(0.66, 0.8, sectionProgress);
+      const pillRowsProgress = smoothStep(0.815, 0.94, sectionProgress);
+      const pillForwardProgress = smoothStep(0.68, 0.955, sectionProgress);
+      const centerChipExpand = smoothStep(0.955, 0.992, sectionProgress);
+      const pillTextExit = smoothStep(0.965, 0.982, sectionProgress);
+      const finalCopyEnter = smoothStep(0.986, 0.998, sectionProgress);
+      const pillForwardX = -626 * pillForwardProgress;
+      const pillTrackScale = 1 + pillForwardProgress * 0.025 + centerChipExpand * 15.5;
+
+      headPaths.forEach((path) => {
+        path.setAttribute('d', getHeadPath(headProgress));
+      });
+
+      pillChips.forEach((chip) => {
+        const rowOffset = Number(chip.dataset.rowOffset || 0);
+        const rowDistance = Number(chip.dataset.rowDistance || 0);
+        const lineOrder = Number(chip.dataset.lineOrder || 0);
+        let chipOpacity = 0;
+
+        if (rowDistance === 0) {
+          chipOpacity = centerLineProgress >= lineOrder / maxLineOrder ? 1 : 0;
+        } else {
+          chipOpacity =
+            pillRowsProgress > 0 && pillRowsProgress >= (rowDistance - 1) / maxRowDistance ? 1 : 0;
+        }
+
+        const rowDepth = 1 - Math.min(rowDistance / maxRowDistance, 1);
+        const rowParallax = 0.34 + Math.pow(rowDepth, 1.35) * 0.66;
+        const rowForwardX = pillForwardX * rowParallax;
+
+        chip.style.opacity = String(chipOpacity);
+        chip.style.transform = `translateX(${rowForwardX.toFixed(2)}px)`;
+      });
+
+      const backgroundColor = mixColor([15, 15, 15], [205, 255, 82], backgroundProgress);
+      const iconColor = mixColor([255, 255, 255], [15, 15, 15], iconColorProgress);
+      const centerSparkOpacity = sectionProgress >= 0.56 ? 1 : 0;
+      const centerSparkScale = 0.72 + centerSparkExpand * 56;
+      const chipFieldOpacity = centerLineProgress > 0.01 ? 1 - finalCopyEnter : 0;
+
+      section!.style.setProperty('--identity-bg-color', backgroundColor);
+      section!.style.setProperty('--identity-grid-opacity', String(1 - smoothStep(0.78, 0.9, sectionProgress)));
+      section!.style.setProperty('--identity-icon-color', iconColor);
+      section!.style.setProperty('--identity-head-opacity', '1');
+      section!.style.setProperty('--identity-body-opacity', String(1 - headProgress));
+      section!.style.setProperty(
+        '--identity-copy-original-opacity',
+        String(originalCopyEnter * (1 - originalCopyExit))
+      );
+      section!.style.setProperty(
+        '--identity-copy-original-y',
+        `${20 * (1 - originalCopyEnter) - 28 * originalCopyExit}px`
+      );
+      section!.style.setProperty(
+        '--identity-copy-original-blur',
+        `${10 * (1 - originalCopyEnter) + 4 * originalCopyExit}px`
+      );
+      section!.style.setProperty('--identity-copy-ai-opacity', String(aiCopyEnter * (1 - aiCopyExit)));
+      section!.style.setProperty('--identity-copy-ai-y', `${28 * (1 - aiCopyEnter) - 20 * aiCopyExit}px`);
+      section!.style.setProperty(
+        '--identity-copy-ai-blur',
+        `${4 * (1 - aiCopyEnter) + 8 * aiCopyExit}px`
+      );
+      section!.style.setProperty('--identity-center-spark-opacity', String(centerSparkOpacity));
+      section!.style.setProperty('--identity-center-spark-scale', centerSparkScale.toFixed(3));
+      section!.style.setProperty('--identity-center-spark-fill', '#cdff52');
+      section!.style.setProperty('--identity-pill-opacity', String(chipFieldOpacity));
+      section!.style.setProperty('--identity-pill-x', '0px');
+      section!.style.setProperty('--identity-pill-y', '0px');
+      section!.style.setProperty('--identity-pill-track-scale', pillTrackScale.toFixed(3));
+      section!.style.setProperty('--identity-pill-text-opacity', String(1 - pillTextExit));
+      section!.style.setProperty('--identity-copy-final-opacity', String(finalCopyEnter));
+      section!.style.setProperty('--identity-copy-final-y', `${24 * (1 - finalCopyEnter)}px`);
+      section!.style.setProperty('--identity-copy-final-blur', `${10 * (1 - finalCopyEnter)}px`);
+      section!.style.setProperty('--identity-copy-final-color', '#0f0f0f');
+      ticking = false;
+    }
+
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    update();
+  }
+
+  initEngineerIdentityScroll();
+  document.addEventListener('DOMContentLoaded', initEngineerIdentityScroll);
+  document.addEventListener('astro:page-load', initEngineerIdentityScroll);
+</script>

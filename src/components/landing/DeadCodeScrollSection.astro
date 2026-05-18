@@ -1,0 +1,894 @@
+---
+type DeadCodeStepId = 'retired' | 'path' | 'service';
+
+type DeadCodeStep = {
+  id: DeadCodeStepId;
+  eyebrow: string;
+  title: string;
+  description: string;
+  metric: string;
+  lineRange: string;
+};
+
+type CodeLine = {
+  number: number;
+  text: string;
+  deadStep?: DeadCodeStepId;
+  metricBefore?: DeadCodeStepId;
+};
+
+// Edit this array to change the scroll-state captions, metrics, and line-range labels.
+const deadCodeSteps: DeadCodeStep[] = [
+  {
+    id: 'retired',
+    eyebrow: 'State 01',
+    title: 'Retired feature',
+    description: 'Old functionality still sitting in production.',
+    metric: '0 qps | last used 180 days ago',
+    lineRange: 'Lines 1642-1649',
+  },
+  {
+    id: 'path',
+    eyebrow: 'State 02',
+    title: 'Untaken path',
+    description: 'The branch exists. Users never enter.',
+    metric: 'Path A: 120 qps | Path B: 0 qps',
+    lineRange: 'Lines 1651-1664',
+  },
+  {
+    id: 'service',
+    eyebrow: 'State 03',
+    title: 'Service nobody calls anymore',
+    description: 'Still deployed. No callers found.',
+    metric: '0 callers | 0 dependencies | 0 qps',
+    lineRange: 'Lines 1666-1670',
+  },
+];
+
+const deadCodeStepById = Object.fromEntries(
+  deadCodeSteps.map((step) => [step.id, step])
+) as Record<DeadCodeStepId, DeadCodeStep>;
+
+// Edit this array to change the fake Java code. Assign `deadStep` to connect lines to a scroll state.
+// Add `metricBefore` to show the green metric badge above a code block.
+const codeLines: CodeLine[] = [
+  {
+    number: 1642,
+    text: '    private MethodSignatureDTO convertEntityToDTO(MethodSignatureEntity entity) {',
+    deadStep: 'retired',
+    metricBefore: 'retired',
+  },
+  {
+    number: 1643,
+    text: '        MethodSignatureDTO dto = new MethodSignatureDTO(entity.getDomainName(), entity.getServiceName(),',
+    deadStep: 'retired',
+  },
+  {
+    number: 1644,
+    text: '                entity.getMethodDetailsHash(), entity.getClassName(), entity.getMethodName(),',
+    deadStep: 'retired',
+  },
+  {
+    number: 1645,
+    text: '                entity.getMethodNameOnly(), entity.getMethodParams() != null ? entity.getMethodParams() : new String[0],',
+    deadStep: 'retired',
+  },
+  { number: 1646, text: '                entity.getAdditionalInfo());', deadStep: 'retired' },
+  { number: 1647, text: '        dto.setId(entity.getId());', deadStep: 'retired' },
+  { number: 1648, text: '        return dto;', deadStep: 'retired' },
+  { number: 1649, text: '    }', deadStep: 'retired' },
+  { number: 1650, text: '' },
+  {
+    number: 1651,
+    text: '    private Map<MethodSignatureDTO, Set<Integer>> convertRawResultsToSignatureMpkMap(List<Object[]> resultData) {',
+    deadStep: 'path',
+    metricBefore: 'path',
+  },
+  {
+    number: 1652,
+    text: '        Map<MethodSignatureDTO, Set<Integer>> profiledMethodSignatureToMpks = new LinkedHashMap<>();',
+    deadStep: 'path',
+  },
+  {
+    number: 1653,
+    text: '        Map<MethodSignatureDTO, Map<Integer, Set<Integer>>> profiledMethodSignatureToFlowMpks =',
+    deadStep: 'path',
+  },
+  {
+    number: 1654,
+    text: '                convertRawResultsToSignatureFlowMpkMap(resultData);',
+    deadStep: 'path',
+  },
+  {
+    number: 1655,
+    text: '        for (Map.Entry<MethodSignatureDTO, Map<Integer, Set<Integer>>> methodSignatureDTOMapEntry :',
+    deadStep: 'path',
+  },
+  { number: 1656, text: '                profiledMethodSignatureToFlowMpks.entrySet()) {', deadStep: 'path' },
+  { number: 1657, text: '            Set<Integer> mpks = new HashSet<>();', deadStep: 'path' },
+  {
+    number: 1658,
+    text: '            for (Map.Entry<Integer, Set<Integer>> flowMpkEntry : methodSignatureDTOMapEntry.getValue().entrySet()) {',
+    deadStep: 'path',
+  },
+  { number: 1659, text: '                mpks.addAll(flowMpkEntry.getValue());', deadStep: 'path' },
+  { number: 1660, text: '            }', deadStep: 'path' },
+  { number: 1661, text: '            profiledMethodSignatureToMpks.put(methodSignatureDTOMapEntry.getKey(), mpks);', deadStep: 'path' },
+  { number: 1662, text: '        }', deadStep: 'path' },
+  { number: 1663, text: '        return profiledMethodSignatureToMpks;', deadStep: 'path' },
+  { number: 1664, text: '    }', deadStep: 'path' },
+  { number: 1665, text: '' },
+  {
+    number: 1666,
+    text: '    /** Filter out main methods from the profiled method signatures */',
+    deadStep: 'service',
+    metricBefore: 'service',
+  },
+  {
+    number: 1667,
+    text: '    private Set<MethodSignatureDTO> filterOutMainMethods(Set<MethodSignatureDTO> profiledSignatures) {',
+    deadStep: 'service',
+  },
+  {
+    number: 1668,
+    text: '        return profiledSignatures.stream().filter(sig -> !isMainMethod(sig))',
+    deadStep: 'service',
+  },
+  {
+    number: 1669,
+    text: '                .collect(Collectors.toCollection(LinkedHashSet::new));',
+    deadStep: 'service',
+  },
+  { number: 1670, text: '    }', deadStep: 'service' },
+];
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function highlightJava(value: string) {
+  let html = escapeHtml(value);
+
+  if (html.trim().startsWith('/**') || html.trim().startsWith('*')) {
+    return `<span class="tok-comment">${html}</span>`;
+  }
+
+  const strings: string[] = [];
+  html = html.replace(/(&quot;[^&]*?&quot;)/g, (match) => {
+    strings.push(`<span class="tok-string">${match}</span>`);
+    return `__CK_STRING_${strings.length - 1}__`;
+  });
+
+  html = html.replace(
+    /\b(package|public|class|private|final|return|new|for|if|null|boolean)\b/g,
+    '<span class="tok-keyword">$1</span>'
+  );
+  html = html.replace(/(@[A-Za-z0-9_]+)/g, '<span class="tok-annotation">$1</span>');
+  html = html.replace(
+    /\b(MethodSignatureDTO|MethodSignatureEntity|Map|Set|Integer|List|Object|HashMap|HashSet|LinkedHashMap|LinkedHashSet|Collectors|String)\b/g,
+    '<span class="tok-type">$1</span>'
+  );
+  html = html.replace(
+    /\b(convertEntityToDTO|convertRawResultsToSignatureMpkMap|convertRawResultsToSignatureFlowMpkMap|filterOutMainMethods|isMainMethod|entrySet|addAll|put|collect|stream|filter|getValue|getKey|getId|setId)\b/g,
+    '<span class="tok-method">$1</span>'
+  );
+  html = html.replace(/__CK_STRING_(\d+)__/g, (_, index) => strings[Number(index)] ?? '');
+
+  return html;
+}
+
+function getLineStyle(line: CodeLine) {
+  const deadProgress = line.deadStep ? `--line-progress:var(--dead-${line.deadStep});` : '--line-progress:0;';
+
+  return [
+    `--line-chars:${Math.max(line.text.trimEnd().length, 1)}`,
+    deadProgress,
+  ].join(';');
+}
+---
+
+<section
+  id="dead-code-scroll-section"
+  class="dead-scroll-section"
+  data-current-step="retired"
+  style="--dead-retired:0;--dead-path:0;--dead-service:0;--path-visual:0"
+>
+  <div class="dead-scroll-sticky">
+    <div class="dead-scroll-layout">
+      <div class="dead-scroll-copy">
+        <p class="dead-scroll-kicker">Do you know?</p>
+        <h2>Dead code hides in plain sight.</h2>
+        <p class="dead-scroll-intro">
+          Production traffic reveals which code is active, and which code is just taking up space.
+        </p>
+
+        <div class="dead-scroll-step-list" aria-label="Dead code types">
+          {
+            deadCodeSteps.map((step) => (
+              <article class="dead-scroll-step-card" data-step={step.id}>
+                <span>{step.eyebrow}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+                <small>{step.lineRange}</small>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="dead-scroll-editor-shell" aria-label="Scroll-linked IDE dead-code visualization">
+        <div class="dead-scroll-editor">
+          <div class="dead-scroll-window-bar" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>ck-nexus</strong>
+            <em>feat-dead-code-lens</em>
+          </div>
+
+          <div class="dead-scroll-tabs" aria-hidden="true">
+            <button class="is-active" tabindex="-1">MethodFlowService.java</button>
+            <button tabindex="-1">NexusMetrics.java</button>
+          </div>
+
+          <div class="dead-scroll-editor-body">
+            <aside class="dead-scroll-sidebar" aria-hidden="true">
+              <div class="dead-scroll-sidebar-title">Project</div>
+              <ul>
+                <li class="is-folder">ck-nexus [nexus]</li>
+                <li class="is-folder is-nested">main</li>
+                <li class="is-folder is-nested-2">java</li>
+                <li class="is-file is-active">MethodFlowService</li>
+                <li class="is-file">MethodSignatureDTO</li>
+                <li class="is-file">MethodSignatureEntity</li>
+                <li class="is-interface">SignatureMapper</li>
+                <li class="is-interface">MethodFlowRepository</li>
+              </ul>
+            </aside>
+
+            <div class="dead-scroll-code-pane">
+              <div class="dead-scroll-path-visual" aria-hidden="true">
+                <div class="dead-scroll-path-row is-live">
+                  <span>Path A</span>
+                  <strong>120 qps</strong>
+                  <i></i>
+                </div>
+                <div class="dead-scroll-path-row is-dead">
+                  <span>Path B</span>
+                  <strong>0 qps</strong>
+                  <i></i>
+                </div>
+              </div>
+
+              <div class="dead-scroll-lines">
+                {
+                  codeLines.map((line) => (
+                    <>
+                      {line.metricBefore && (
+                        <div
+                          class:list={[
+                            'dead-scroll-metric-row',
+                            `dead-scroll-metric-row--${line.metricBefore}`,
+                          ]}
+                          style={`--metric-progress:var(--dead-${line.metricBefore})`}
+                        >
+                          <span></span>
+                          <div class="dead-scroll-metric">
+                            <img src="/images/landing/ide-icon-16px.svg" alt="" aria-hidden="true" />
+                            <span>{deadCodeStepById[line.metricBefore].metric}</span>
+                          </div>
+                        </div>
+                      )}
+                      <div
+                        class:list={[
+                          'dead-scroll-line',
+                          line.deadStep && 'dead-scroll-line--dead',
+                          line.deadStep && `dead-scroll-line--${line.deadStep}`,
+                        ]}
+                        style={getLineStyle(line)}
+                      >
+                        <span class="dead-scroll-line-number">{line.number}</span>
+                        <span
+                          class="dead-scroll-source"
+                          set:html={highlightJava(line.text)}
+                        />
+                      </div>
+                    </>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .dead-scroll-section {
+    min-height: 300vh;
+    background: #0f0f0f;
+    color: #fff;
+    overflow: clip;
+  }
+
+  .dead-scroll-sticky {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: clamp(44px, 6vh, 76px) 0;
+    overflow: hidden;
+  }
+
+  .dead-scroll-layout {
+    width: min(94vw, 1740px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.75fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 92px);
+  }
+
+  .dead-scroll-copy {
+    padding-left: clamp(22px, 2.4vw, 48px);
+  }
+
+  .dead-scroll-kicker {
+    margin: 0 0 22px;
+    color: rgba(255, 255, 255, 0.42);
+    font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .dead-scroll-copy h2 {
+    max-width: 600px;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(42px, 4.4vw, 78px);
+    font-weight: 650;
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .dead-scroll-intro {
+    max-width: 460px;
+    margin: 22px 0 0;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: clamp(16px, 1.1vw, 20px);
+    line-height: 1.5;
+  }
+
+  .dead-scroll-step-list {
+    display: grid;
+    gap: 12px;
+    margin-top: clamp(26px, 3vh, 42px);
+  }
+
+  .dead-scroll-step-card {
+    border-left: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 3px 0 5px 18px;
+    opacity: 0.42;
+    transform: translateX(-4px);
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .dead-scroll-section[data-current-step="retired"] .dead-scroll-step-card[data-step="retired"],
+  .dead-scroll-section[data-current-step="path"] .dead-scroll-step-card[data-step="path"],
+  .dead-scroll-section[data-current-step="service"] .dead-scroll-step-card[data-step="service"] {
+    border-color: #c8ff3d;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .dead-scroll-step-card span,
+  .dead-scroll-step-card small {
+    display: block;
+    color: rgba(255, 255, 255, 0.44);
+    font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .dead-scroll-step-card h3 {
+    margin: 7px 0 3px;
+    color: #fff;
+    font-size: clamp(18px, 1.35vw, 24px);
+    font-weight: 620;
+    letter-spacing: 0;
+  }
+
+  .dead-scroll-step-card p {
+    margin: 0 0 8px;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: clamp(14px, 1vw, 17px);
+    line-height: 1.35;
+  }
+
+  .dead-scroll-editor-shell {
+    min-width: 0;
+  }
+
+  .dead-scroll-editor {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(86, 94, 110, 0.6);
+    border-radius: 8px;
+    background: #1f2024;
+    box-shadow: 0 22px 80px rgba(0, 0, 0, 0.34);
+    color: #d9dde4;
+    font-family: "JetBrains Mono", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-weight: 500;
+    font-synthesis: none;
+  }
+
+  .dead-scroll-window-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 0 16px;
+    border-bottom: 1px solid rgba(68, 75, 87, 0.78);
+    background:
+      linear-gradient(90deg, rgba(124, 160, 62, 0.36), rgba(31, 32, 36, 0.94) 42%),
+      #202328;
+    color: #c7ccd5;
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: 13px;
+  }
+
+  .dead-scroll-window-bar > span {
+    width: 8px;
+    height: 8px;
+    border: 1px solid rgba(207, 213, 224, 0.5);
+    border-radius: 999px;
+  }
+
+  .dead-scroll-window-bar strong {
+    margin-left: 8px;
+    font-weight: 650;
+  }
+
+  .dead-scroll-window-bar em {
+    color: rgba(213, 218, 228, 0.72);
+    font-style: normal;
+  }
+
+  .dead-scroll-tabs {
+    display: flex;
+    height: 38px;
+    border-bottom: 1px solid rgba(68, 75, 87, 0.78);
+    background: #24272c;
+  }
+
+  .dead-scroll-tabs button {
+    min-width: 178px;
+    border: 0;
+    border-right: 1px solid rgba(68, 75, 87, 0.65);
+    background: transparent;
+    color: rgba(214, 219, 228, 0.62);
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .dead-scroll-tabs button.is-active {
+    background: #292c32;
+    color: #f0f2f6;
+  }
+
+  .dead-scroll-editor-body {
+    display: grid;
+    grid-template-columns: minmax(190px, 250px) minmax(0, 1fr);
+    min-height: min(680px, 66vh);
+  }
+
+  .dead-scroll-sidebar {
+    border-right: 1px solid rgba(68, 75, 87, 0.78);
+    background: #2a2d32;
+    color: #c6ccd6;
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .dead-scroll-sidebar-title {
+    padding: 14px 18px 8px;
+    color: #f1f3f7;
+  }
+
+  .dead-scroll-sidebar ul {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 6px 12px 20px;
+    list-style: none;
+  }
+
+  .dead-scroll-sidebar li {
+    position: relative;
+    min-height: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 4px;
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .dead-scroll-sidebar li::before {
+    content: "";
+    width: 12px;
+    height: 10px;
+    border: 1.6px solid #a9b0bd;
+    border-radius: 2px;
+  }
+
+  .dead-scroll-sidebar li.is-nested {
+    margin-left: 18px;
+  }
+
+  .dead-scroll-sidebar li.is-nested-2,
+  .dead-scroll-sidebar li.is-file,
+  .dead-scroll-sidebar li.is-interface {
+    margin-left: 36px;
+  }
+
+  .dead-scroll-sidebar li.is-file::before {
+    border-color: #5d98ff;
+    border-radius: 999px;
+  }
+
+  .dead-scroll-sidebar li.is-interface::before {
+    border-color: #5fb16a;
+    border-radius: 999px;
+  }
+
+  .dead-scroll-sidebar li.is-active {
+    background: #31599e;
+    color: #fff;
+  }
+
+  .dead-scroll-code-pane {
+    position: relative;
+    overflow: hidden;
+    background: #1f2024;
+  }
+
+  .dead-scroll-lines {
+    position: relative;
+    z-index: 1;
+    padding: 18px clamp(34px, 3vw, 58px) 28px clamp(20px, 2vw, 36px);
+    font-size: clamp(12px, 0.78vw, 15px);
+    line-height: 1.55;
+  }
+
+  .dead-scroll-metric-row,
+  .dead-scroll-line {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .dead-scroll-metric-row {
+    min-height: 36px;
+    align-items: center;
+    margin: 6px 0 4px;
+  }
+
+  .dead-scroll-metric {
+    display: inline-flex;
+    width: max-content;
+    max-width: 100%;
+    align-items: center;
+    gap: 12px;
+    color: rgba(218, 222, 230, 0.7);
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: clamp(12px, 0.92vw, 17px);
+    font-weight: 520;
+    white-space: nowrap;
+  }
+
+  .dead-scroll-metric img {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+  }
+
+  .dead-scroll-line {
+    position: relative;
+    min-height: 1.55em;
+    transition: opacity 220ms ease;
+  }
+
+  .dead-scroll-section[data-current-step="service"] .dead-scroll-line:not(.dead-scroll-line--service) {
+    opacity: 0.48;
+  }
+
+  .dead-scroll-line-number {
+    color: #6e7783;
+    padding-right: 18px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+
+  .dead-scroll-source {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    color: #d9dde4;
+    white-space: pre;
+    transition:
+      opacity 180ms ease,
+      filter 180ms ease;
+  }
+
+  .dead-scroll-line--dead::after {
+    content: "";
+    position: absolute;
+    left: 96px;
+    top: 50%;
+    z-index: 3;
+    width: min(calc(var(--line-chars) * 0.61em), calc(100% - 132px));
+    height: 1px;
+    background: rgba(165, 171, 183, 0.78);
+    transform: scaleX(var(--line-progress));
+    transform-origin: left center;
+    transition: transform 160ms linear;
+  }
+
+  .dead-scroll-line--dead .dead-scroll-source {
+    opacity: calc(1 - (var(--line-progress) * 0.54));
+    filter: grayscale(var(--line-progress));
+  }
+
+  .dead-scroll-path-visual {
+    position: absolute;
+    right: clamp(24px, 3vw, 48px);
+    top: 46%;
+    z-index: 4;
+    width: min(250px, 28%);
+    opacity: var(--path-visual);
+    transform: translateY(calc(12px * (1 - var(--path-visual))));
+    pointer-events: none;
+  }
+
+  .dead-scroll-path-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.72);
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 620;
+  }
+
+  .dead-scroll-path-row i {
+    grid-column: 1 / -1;
+    height: 2px;
+    border-radius: 999px;
+  }
+
+  .dead-scroll-path-row.is-live i {
+    background: linear-gradient(90deg, #c8ff3d, rgba(200, 255, 61, 0.16));
+  }
+
+  .dead-scroll-path-row.is-dead {
+    color: rgba(255, 255, 255, 0.36);
+  }
+
+  .dead-scroll-path-row.is-dead i {
+    height: 0;
+    border-top: 2px dotted rgba(255, 255, 255, 0.26);
+  }
+
+  .tok-keyword {
+    color: #cc7832;
+  }
+
+  .tok-type {
+    color: #ffc66d;
+  }
+
+  .tok-method {
+    color: #589df6;
+  }
+
+  .tok-string {
+    color: #6aab73;
+  }
+
+  .tok-annotation {
+    color: #bbb65a;
+  }
+
+  .tok-comment {
+    color: #808080;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .dead-scroll-layout {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .dead-scroll-editor-shell {
+      order: 1;
+    }
+
+    .dead-scroll-copy {
+      order: 2;
+      padding-left: 0;
+    }
+
+    .dead-scroll-copy h2 {
+      max-width: 100%;
+      font-size: clamp(32px, 9vw, 52px);
+    }
+
+    .dead-scroll-intro {
+      max-width: 100%;
+    }
+
+    .dead-scroll-editor-body {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .dead-scroll-sidebar {
+      display: none;
+    }
+
+    .dead-scroll-lines {
+      max-height: 48vh;
+      overflow: hidden;
+      font-size: 11px;
+      padding: 14px 18px 22px 8px;
+    }
+
+    .dead-scroll-path-visual {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .dead-scroll-sticky {
+      align-items: start;
+      padding-top: 70px;
+    }
+
+    .dead-scroll-layout {
+      width: calc(100vw - 32px);
+    }
+
+    .dead-scroll-window-bar em,
+    .dead-scroll-tabs button:nth-child(2) {
+      display: none;
+    }
+
+    .dead-scroll-tabs button {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .dead-scroll-metric-row,
+    .dead-scroll-line {
+      grid-template-columns: 54px minmax(0, 1fr);
+    }
+
+    .dead-scroll-line--dead::after {
+      left: 72px;
+      width: min(calc(var(--line-chars) * 0.61em), calc(100% - 90px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dead-scroll-section {
+      min-height: auto;
+      --dead-retired: 1;
+      --dead-path: 1;
+      --dead-service: 1;
+      --path-visual: 1;
+    }
+
+    .dead-scroll-sticky {
+      position: relative;
+    }
+
+    .dead-scroll-step-card {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  function clamp(value: number, min = 0, max = 1) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function smoothStep(start: number, end: number, value: number) {
+    const progress = clamp((value - start) / (end - start));
+    return progress * progress * (3 - 2 * progress);
+  }
+
+  function initDeadCodeScrollSection() {
+    const section = document.getElementById('dead-code-scroll-section');
+    if (!section || section.dataset.deadCodeScrollBound === 'true') return;
+
+    section.dataset.deadCodeScrollBound = 'true';
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      section.dataset.currentStep = 'service';
+      section.style.setProperty('--dead-retired', '1');
+      section.style.setProperty('--dead-path', '1');
+      section.style.setProperty('--dead-service', '1');
+      section.style.setProperty('--path-visual', '1');
+      return;
+    }
+
+    let ticking = false;
+
+    function update() {
+      const rect = section!.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const scrollDistance = Math.max(rect.height - viewportHeight, 1);
+      const sectionProgress = clamp(-rect.top / scrollDistance);
+
+      const retiredProgress = smoothStep(0.04, 0.26, sectionProgress);
+      const pathProgress = smoothStep(0.34, 0.56, sectionProgress);
+      const serviceProgress = smoothStep(0.64, 0.84, sectionProgress);
+      const pathVisual = pathProgress * (1 - smoothStep(0.62, 0.78, sectionProgress));
+
+      let currentStep: 'retired' | 'path' | 'service' = 'retired';
+      if (sectionProgress >= 0.62) {
+        currentStep = 'service';
+      } else if (sectionProgress >= 0.31) {
+        currentStep = 'path';
+      }
+
+      section!.dataset.currentStep = currentStep;
+      section!.style.setProperty('--dead-retired', retiredProgress.toFixed(3));
+      section!.style.setProperty('--dead-path', pathProgress.toFixed(3));
+      section!.style.setProperty('--dead-service', serviceProgress.toFixed(3));
+      section!.style.setProperty('--path-visual', pathVisual.toFixed(3));
+      ticking = false;
+    }
+
+    function requestUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    update();
+  }
+
+  initDeadCodeScrollSection();
+  document.addEventListener('DOMContentLoaded', initDeadCodeScrollSection);
+  document.addEventListener('astro:page-load', initDeadCodeScrollSection);
+</script>
