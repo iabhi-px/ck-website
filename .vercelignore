@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.git/
+.playwright-mcp/
+.codex/
+.codex 2/
+output/
+*.log
+.DS_Store
+ck-pill-camera-zoom.png
+engineer-identity-*.png

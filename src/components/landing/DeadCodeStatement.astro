@@ -146,7 +146,7 @@ function getLineStyle(line: CodeLine) {
   id="dead-code-statement"
   data-hide-navbar-on-scroll
   class="dead-code-section"
-  style="position:relative;min-height:300vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--base-title:1;--base-title-y:0px;--base-title-blur:0px;--feature-title:0;--feature-title-y:20px;--feature-title-blur:10px;--physical-title:0;--physical-title-y:20px;--physical-title-blur:10px;--feature-annotation:0;--physical-annotation:0;--feature-annotation-top:50%;--conclusion-title:0;--conclusion-blur:10px;--conclusion-y:20px;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--code-focus-scale:1;--code-focus-x:0px;--code-focus-y:0px;--annotation-target-x:0px;--strike-1:0;--strike-2:0;--strike-3:0;--feature-highlight:0;--feature-highlight-rail:0;--feature-highlight-glow:0;--feature-highlight-zoom:0;--physical-highlight:0;--physical-highlight-rail:0;--physical-highlight-glow:0;--physical-highlight-zoom:0;--feature-highlight-y:0;--physical-highlight-y:0"
+  style="position:relative;min-height:380vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--base-title:1;--base-title-y:0px;--base-title-blur:0px;--feature-title:0;--feature-title-y:20px;--feature-title-blur:10px;--physical-title:0;--physical-title-y:20px;--physical-title-blur:10px;--feature-annotation:0;--physical-annotation:0;--feature-annotation-top:50%;--conclusion-title:0;--conclusion-blur:10px;--conclusion-y:20px;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--code-focus-scale:1;--code-focus-x:0px;--code-focus-y:0px;--annotation-target-x:0px;--strike-1:0;--strike-2:0;--strike-3:0;--feature-highlight:0;--feature-highlight-rail:0;--feature-highlight-glow:0;--feature-highlight-zoom:0;--physical-highlight:0;--physical-highlight-rail:0;--physical-highlight-glow:0;--physical-highlight-zoom:0;--feature-highlight-y:0;--physical-highlight-y:0"
 >
   <div
     class="dead-code-sticky"
@@ -252,7 +252,12 @@ function getLineStyle(line: CodeLine) {
     </div>
     </div>
       <div class="dead-code-conclusion" aria-live="polite">
-        Services nobody call anymore.
+        <p class="dead-code-conclusion-label">
+          Retired features.<br />Untaken paths.
+        </p>
+        <h2 class="dead-code-conclusion-title">
+          Services nobody<br />call anymore.
+        </h2>
       </div>
     </div>
   </div>
@@ -261,7 +266,7 @@ function getLineStyle(line: CodeLine) {
 <style is:global>
   .dead-code-section {
     position: relative;
-		    min-height: 300vh;
+				    min-height: 380vh;
     overflow: clip;
     background: #0f0f0f;
     --ide-dock: 0;
@@ -389,24 +394,42 @@ function getLineStyle(line: CodeLine) {
 
 	  .dead-code-conclusion {
 	    position: absolute;
-	    left: 50%;
-	    top: clamp(72px, 11vh, 124px);
+	    left: 0;
+	    top: 0;
 	    z-index: 6;
-	    width: min(920px, calc(100vw - 48px));
+	    width: min(680px, max(280px, calc(38vw - 24px)));
+	    padding-left: clamp(24px, 2.4vw, 48px);
 	    color: #fff;
 	    font-family: "Geist", system-ui, sans-serif;
+	    opacity: var(--conclusion-title);
+	    filter: blur(var(--conclusion-blur));
+	    transform: translateY(calc(var(--copy-top-offset) + var(--conclusion-y)));
+	    pointer-events: none;
+	    will-change: opacity, transform, filter;
+	  }
+
+	  .dead-code-conclusion-label {
+	    margin: 0 0 20px;
+	    color: rgba(255, 255, 255, 0.4);
+	    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	    font-size: 14px;
+	    font-weight: 500;
+	    letter-spacing: 0.3em;
+	    line-height: 1.45;
+	    text-transform: uppercase;
+	  }
+
+	  .dead-code-conclusion-title {
+	    margin: 0;
+	    max-width: 680px;
+	    color: #fff;
 	    font-size: 28px;
 	    font-weight: 600;
 	    letter-spacing: -0.025em;
 	    line-height: 1.1;
-	    text-align: center;
+	    text-align: left;
 	    text-shadow: 0 0 18px rgba(0, 0, 0, 0.55);
-	    opacity: var(--conclusion-title);
-	    filter: blur(var(--conclusion-blur));
-	    transform: translate(-50%, var(--conclusion-y));
-	    pointer-events: none;
 	    text-wrap: balance;
-	    will-change: opacity, transform, filter;
 	  }
 
 	  .dead-code-annotation {
@@ -448,14 +471,14 @@ function getLineStyle(line: CodeLine) {
 	  }
 
 	  @media (min-width: 640px) {
-	    .dead-code-conclusion,
+	    .dead-code-conclusion-title,
 	    .dead-code-annotation {
 	      font-size: 40px;
 	    }
 	  }
 
 	  @media (min-width: 768px) {
-	    .dead-code-conclusion,
+	    .dead-code-conclusion-title,
 	    .dead-code-annotation {
 	      font-size: 48px;
 	    }
@@ -743,9 +766,14 @@ function getLineStyle(line: CodeLine) {
       gap: 18px;
     }
 
-    .dead-code-heading {
-      padding-left: 0;
-    }
+	    .dead-code-heading {
+	      padding-left: 0;
+	    }
+
+	    .dead-code-conclusion {
+	      width: min(280px, 100%);
+	      padding-left: 0;
+	    }
 
     .dead-code-visual-slot {
       min-height: 430px;
@@ -766,11 +794,15 @@ function getLineStyle(line: CodeLine) {
       padding-top: 72px;
     }
 
-    .dead-code-layout {
-      width: calc(100vw - 40px);
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
+	    .dead-code-layout {
+	      width: calc(100vw - 40px);
+	      grid-template-columns: 1fr;
+	      gap: 28px;
+	    }
+
+	    .dead-code-conclusion {
+	      width: 100%;
+	    }
 
     .dead-code-visual-slot {
       min-height: 360px;
@@ -832,6 +864,11 @@ function getLineStyle(line: CodeLine) {
 </style>
 
 <script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
   function clamp(value: number, min = 0, max = 1) {
     return Math.min(Math.max(value, min), max);
   }
@@ -841,25 +878,52 @@ function getLineStyle(line: CodeLine) {
     return progress * progress * (3 - 2 * progress);
   }
 
+  function heldReveal(
+    enterStart: number,
+    enterEnd: number,
+    exitStart: number,
+    exitEnd: number,
+    value: number
+  ) {
+    return smoothStep(enterStart, enterEnd, value) * (1 - smoothStep(exitStart, exitEnd, value));
+  }
+
+  const featurePause = {
+    enterStart: 0.69,
+    enterEnd: 0.76,
+    exitStart: 0.82,
+    exitEnd: 0.875,
+  };
+
+  const physicalPause = {
+    enterStart: 0.895,
+    enterEnd: 0.93,
+    exitStart: 0.975,
+    exitEnd: 0.998,
+  };
+
   function initDeadCodeScroll() {
     const section = document.getElementById('dead-code-statement');
     if (!section || section.dataset.deadCodeScrollBound === 'true') return;
 
-    section.dataset.deadCodeScrollBound = 'true';
-	    const layout = section.querySelector<HTMLElement>('.dead-code-layout');
-	    const visualSlot = section.querySelector<HTMLElement>('.dead-code-visual-slot');
-	    const ideFrame = section.querySelector<HTMLElement>('.dead-code-frame');
-		    if (!layout || !visualSlot || !ideFrame) return;
+	    section.dataset.deadCodeScrollBound = 'true';
+		    const layout = section.querySelector<HTMLElement>('.dead-code-layout');
+		    const visualSlot = section.querySelector<HTMLElement>('.dead-code-visual-slot');
+		    const ideFrame = section.querySelector<HTMLElement>('.dead-code-frame');
+			    if (!layout || !visualSlot || !ideFrame) return;
 
-    let ticking = false;
+	    const progressState = { value: 0 };
+	    const animationCompleteAt = 0.8;
 
-    function update() {
-      const rect = section!.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      const scrollDistance = Math.max(rect.height - viewportHeight, 1);
-      const sectionProgress = clamp(-rect.top / scrollDistance);
-	      const dockProgress = smoothStep(0.04, 0.48, sectionProgress);
-	      const copyReveal = smoothStep(0.22, 0.38, sectionProgress);
+	    function renderScrollProgress(scrollProgress: number) {
+	      render(scrollProgress / animationCompleteAt);
+	    }
+
+	    function render(sectionProgress: number) {
+	      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+	      sectionProgress = clamp(sectionProgress);
+		      const dockProgress = smoothStep(0.04, 0.48, sectionProgress);
+		      const copyReveal = smoothStep(0.22, 0.38, sectionProgress);
       const layoutRect = layout.getBoundingClientRect();
       const visualSlotRect = visualSlot.getBoundingClientRect();
       const frameWidth = Math.max(ideFrame.offsetWidth, 1);
@@ -901,33 +965,50 @@ function getLineStyle(line: CodeLine) {
 			      const baseTitleBlur = 4 * baseTitleExit;
 			      const featureTitleBlur = 10 * (1 - featureTitleEnter) + 4 * featureTitleExit;
 			      const physicalTitleBlur = 10 * (1 - physicalTitleEnter);
-			      const conclusionTitle = smoothStep(0.98, 0.998, sectionProgress);
-			      const finalZoomOut = smoothStep(0.965, 0.998, sectionProgress);
-			      const conclusionHighlight = smoothStep(0.975, 0.998, sectionProgress);
-			      const featureHighlightActive =
-			        smoothStep(0.71, 0.82, sectionProgress) * (1 - smoothStep(0.84, 0.9, sectionProgress));
-			      const physicalHighlightActive = smoothStep(0.905, 0.995, sectionProgress);
+								      const conclusionTitle = smoothStep(0.996, 0.999, sectionProgress);
+			      const finalZoomOut = smoothStep(0.965, 0.995, sectionProgress);
+								      const conclusionHighlight = smoothStep(0.996, 0.999, sectionProgress);
+				      const featurePhase = heldReveal(
+				        featurePause.enterStart,
+				        featurePause.enterEnd,
+				        featurePause.exitStart,
+				        featurePause.exitEnd,
+				        sectionProgress
+				      );
+				      const physicalPhase = heldReveal(
+				        physicalPause.enterStart,
+				        physicalPause.enterEnd,
+				        physicalPause.exitStart,
+				        physicalPause.exitEnd,
+				        sectionProgress
+				      );
+				      const featureHighlightActive = featurePhase;
+									      const physicalHighlightActive = physicalPhase;
 			      const featureHighlight = Math.max(featureHighlightActive, conclusionHighlight);
 			      const physicalHighlight = Math.max(physicalHighlightActive, conclusionHighlight);
-			      const featureHighlightRail =
-			        sectionProgress >= 0.71 && sectionProgress < 0.9 ? 1 : conclusionHighlight;
-			      const physicalHighlightRail = sectionProgress >= 0.905 ? 1 : 0;
-			      const featureHighlightGlowActive =
-			        smoothStep(0.71, 0.82, sectionProgress) * (1 - smoothStep(0.87, 0.9, sectionProgress));
-			      const physicalHighlightGlowActive = smoothStep(0.905, 0.975, sectionProgress);
+				      const featureHighlightRail =
+				        smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress) *
+				        (1 - smoothStep(0.855, 0.89, sectionProgress));
+				      const physicalHighlightRail =
+				        smoothStep(physicalPause.enterStart, physicalPause.enterEnd, sectionProgress) *
+				        (1 - smoothStep(0.99, 0.999, sectionProgress));
+				      const featureHighlightGlowActive = featurePhase;
+									      const physicalHighlightGlowActive = physicalPhase;
 			      const featureHighlightGlow = Math.max(featureHighlightGlowActive, conclusionHighlight);
 			      const physicalHighlightGlow = Math.max(physicalHighlightGlowActive, conclusionHighlight);
 			      const featureHighlightZoom = featureHighlightGlow;
 			      const physicalHighlightZoom = physicalHighlightGlow;
-			      const featureAnnotation =
-			        smoothStep(0.71, 0.78, sectionProgress) * (1 - smoothStep(0.875, 0.9, sectionProgress));
-			      const physicalAnnotation =
-			        smoothStep(0.915, 0.96, sectionProgress) * (1 - smoothStep(0.965, 0.98, sectionProgress));
+						      const featureAnnotation = featurePhase;
+										      const physicalAnnotation = physicalPhase;
 			      const featureAnnotationTop = 53;
 			      const conclusionBlur = 10 * (1 - conclusionTitle);
 			      const conclusionY = 20 * (1 - conclusionTitle);
-			      const featureHighlightY = smoothStep(0.71, 0.84, sectionProgress);
-			      const physicalHighlightY = smoothStep(0.9, 0.99, sectionProgress);
+					      const featureHighlightY = smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress);
+								      const physicalHighlightY = smoothStep(
+								        physicalPause.enterStart,
+								        physicalPause.enterEnd,
+								        sectionProgress
+								      );
 			      const codeFeatureFocus = featureHighlightGlowActive * (1 - finalZoomOut);
 			      const codePhysicalFocus = physicalHighlightGlowActive * (1 - finalZoomOut);
 			      const codeFocus = Math.max(codeFeatureFocus, codePhysicalFocus);
@@ -981,23 +1062,30 @@ function getLineStyle(line: CodeLine) {
 			      section!.style.setProperty('--physical-highlight-rail', physicalHighlightRail.toFixed(3));
 			      section!.style.setProperty('--feature-highlight-glow', featureHighlightGlow.toFixed(3));
 			      section!.style.setProperty('--physical-highlight-glow', physicalHighlightGlow.toFixed(3));
-			      section!.style.setProperty('--feature-highlight-zoom', featureHighlightZoom.toFixed(3));
-			      section!.style.setProperty('--physical-highlight-zoom', physicalHighlightZoom.toFixed(3));
-			      section!.style.setProperty('--feature-highlight-y', featureHighlightY.toFixed(3));
-			      section!.style.setProperty('--physical-highlight-y', physicalHighlightY.toFixed(3));
-	      ticking = false;
-	    }
+				      section!.style.setProperty('--feature-highlight-zoom', featureHighlightZoom.toFixed(3));
+				      section!.style.setProperty('--physical-highlight-zoom', physicalHighlightZoom.toFixed(3));
+				      section!.style.setProperty('--feature-highlight-y', featureHighlightY.toFixed(3));
+				      section!.style.setProperty('--physical-highlight-y', physicalHighlightY.toFixed(3));
+		    }
 
-    function requestUpdate() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }
+	    const tween = gsap.to(progressState, {
+	      value: 1,
+	      ease: 'none',
+	      onUpdate: () => renderScrollProgress(progressState.value),
+	      scrollTrigger: {
+	        trigger: section,
+	        start: 'top top',
+	        end: 'bottom bottom',
+	        scrub: 0.45,
+	        invalidateOnRefresh: true,
+	        onRefresh: () => renderScrollProgress(progressState.value),
+	      },
+	    });
 
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
-    update();
-  }
+	    window.addEventListener('resize', () => ScrollTrigger.refresh(), { passive: true });
+	    document.addEventListener('astro:before-swap', () => tween.kill(), { once: true });
+	    renderScrollProgress(0);
+	  }
 
   initDeadCodeScroll();
   document.addEventListener('DOMContentLoaded', initDeadCodeScroll);

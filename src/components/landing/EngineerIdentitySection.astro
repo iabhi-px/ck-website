@@ -292,7 +292,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
 <style is:global>
   .engineer-identity-section {
-    min-height: 260vh;
+    min-height: 360vh;
     width: 100%;
     max-width: none;
     overflow-x: clip;
@@ -473,6 +473,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 </style>
 
 <script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
   const circleHeadNumbers = [
     100, 14, 126.51, 14, 148, 35.49, 148, 62, 148, 88.51, 126.51, 110, 100, 110,
     73.49, 110, 52, 88.51, 52, 62, 52, 35.49, 73.49, 14, 100, 14,
@@ -549,29 +554,28 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       return;
     }
 
-    let ticking = false;
+    const progressState = { value: 0 };
 
-    function update() {
+    function render(sectionProgress: number) {
       const rect = section!.getBoundingClientRect();
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      const scrollDistance = Math.max(rect.height - viewportHeight, 1);
-      const sectionProgress = clamp(-rect.top / scrollDistance);
+      sectionProgress = clamp(sectionProgress);
       const originalCopyEnter = smoothStep(viewportHeight * 0.82, viewportHeight * 0.34, rect.top);
       const headProgress = smootherStep(0.025, 0.24, sectionProgress);
       const bodyOpacity = 1 - smootherStep(0.05, 0.22, sectionProgress);
       const originalCopyExit = smootherStep(0.055, 0.215, sectionProgress);
       const aiCopyEnter = smootherStep(0.115, 0.255, sectionProgress);
-      const aiCopyExit = smootherStep(0.38, 0.48, sectionProgress);
-      const centerSparkEnter = smootherStep(0.44, 0.54, sectionProgress);
-      const centerSparkExpand = smoothStep(0.44, 0.62, sectionProgress);
-      const backgroundProgress = smoothStep(0.5, 0.64, sectionProgress);
-      const iconColorProgress = smoothStep(0.48, 0.64, sectionProgress);
-      const centerLineProgress = smoothStep(0.52, 0.66, sectionProgress);
-      const pillRowsProgress = smoothStep(0.62, 0.74, sectionProgress);
-      const pillForwardProgress = smoothStep(0.75, 0.84, sectionProgress);
-      const centerChipExpand = smoothStep(0.86, 0.995, sectionProgress);
-      const pillTextExit = smoothStep(0.94, 0.995, sectionProgress);
-      const finalCopyEnter = smoothStep(0.975, 0.998, sectionProgress);
+      const aiCopyExit = smootherStep(0.3, 0.38, sectionProgress);
+      const centerSparkEnter = smootherStep(0.3, 0.39, sectionProgress);
+      const centerSparkExpand = smoothStep(0.34, 0.5, sectionProgress);
+      const backgroundProgress = smoothStep(0.39, 0.52, sectionProgress);
+      const iconColorProgress = smoothStep(0.37, 0.52, sectionProgress);
+      const centerLineProgress = smoothStep(0.44, 0.58, sectionProgress);
+      const pillRowsProgress = smoothStep(0.5, 0.62, sectionProgress);
+      const pillForwardProgress = smoothStep(0.62, 0.72, sectionProgress);
+      const centerChipExpand = smoothStep(0.72, 0.86, sectionProgress);
+      const pillTextExit = smoothStep(0.8, 0.88, sectionProgress);
+      const finalCopyEnter = smoothStep(0.83, 0.9, sectionProgress);
       const pillForwardX = -626 * pillForwardProgress;
       const pillTrackScale = 1 + pillForwardProgress * 0.025 + centerChipExpand * 15.5;
 
@@ -643,18 +647,35 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section!.style.setProperty('--identity-copy-final-y', `${24 * (1 - finalCopyEnter)}px`);
       section!.style.setProperty('--identity-copy-final-blur', `${10 * (1 - finalCopyEnter)}px`);
       section!.style.setProperty('--identity-copy-final-color', '#0f0f0f');
-      ticking = false;
     }
 
-    function requestUpdate() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }
+    const tween = gsap.to(progressState, {
+      value: 1,
+      ease: 'none',
+      onUpdate: () => render(progressState.value),
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.55,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onRefresh: () => render(progressState.value),
+      },
+    });
 
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
-    update();
+    const handleResize = () => ScrollTrigger.refresh();
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        tween.kill();
+        window.removeEventListener('resize', handleResize);
+      },
+      { once: true }
+    );
+    render(0);
   }
 
   initEngineerIdentityScroll();

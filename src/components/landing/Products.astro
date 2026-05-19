@@ -6,6 +6,7 @@ const products = [
     title: 'KarmaLens',
     description: 'IDE plugin. Dead and dormant code, method-level telemetry, and performance insights — right where you code.',
     link: '/products#karmalens',
+    poster: '/assets/Videos/posters/karmalens.webp',
   },
   {
     id: 'karmadomain',
@@ -13,6 +14,7 @@ const products = [
     title: 'KarmaDomain',
     description: 'Live system topology. API-level dependencies, fan-outs, and traffic flows in a single graph.',
     link: '/products#karmadomain',
+    poster: '/assets/Videos/posters/karmadomain.webp',
   },
   {
     id: 'karmapulse',
@@ -20,6 +22,7 @@ const products = [
     title: 'KarmaPulse',
     description: 'Operational action dashboard for leadership. See what\'s broken, what\'s drifting, and what to fix first.',
     link: '/products#karmapulse',
+    poster: '/assets/Videos/posters/karmapulse.webp',
   },
   {
     id: 'karmaiq',
@@ -27,6 +30,7 @@ const products = [
     title: 'KarmaIQ',
     description: 'MCP server for AI agents. Production context for Cursor, Claude, Copilot, and custom agents.',
     link: '/products#karmaiq',
+    poster: '/assets/Videos/posters/karmaiq.webp',
   },
 ];
 ---
@@ -62,7 +66,13 @@ const products = [
         <a href={product.link} class="mobile-product-card snap-center flex-shrink-0 w-[80vw] group" style="transform-origin: center center; will-change: transform, opacity; scroll-snap-stop: always;">
           <!-- Card visual -->
           <div class="relative bg-brand-dark overflow-hidden mb-4">
-            <div class="w-full aspect-square" style="background: radial-gradient(circle at 50% 60%, #1a1a2e 0%, #0f0f0f 100%);"></div>
+            <img
+              src={product.poster}
+              alt={`${product.title} product video snapshot`}
+              class="w-full aspect-square object-cover"
+              loading="lazy"
+              decoding="async"
+            />
             <!-- Product name overlay -->
             <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
               <span class="text-[24px] font-semibold text-white">{product.title}</span>
@@ -138,6 +148,7 @@ const products = [
                       loop
                       playsinline
                       preload="metadata"
+                      poster={product.poster}
                     >
                       <source src="/assets/Videos/karmalens.webm" type="video/webm" />
                       <source src="/assets/Videos/karmalens.mp4" type="video/mp4" />
@@ -152,6 +163,7 @@ const products = [
                       loop
                       playsinline
                       preload="metadata"
+                      poster={product.poster}
                     >
                       <source src="/assets/Videos/karmadomain.webm" type="video/webm" />
                       <source src="/assets/Videos/karmadomain.mp4" type="video/mp4" />
@@ -166,6 +178,7 @@ const products = [
                       loop
                       playsinline
                       preload="metadata"
+                      poster={product.poster}
                     >
                       <source src="/assets/Videos/KarmaPulse.mp4" type="video/mp4" />
                     </video>
@@ -179,6 +192,7 @@ const products = [
                       loop
                       playsinline
                       preload="metadata"
+                      poster={product.poster}
                     >
                       <source src="/assets/Videos/karmaiq.mp4" type="video/mp4" />
                     </video>
