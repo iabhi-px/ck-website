@@ -146,7 +146,7 @@ function getLineStyle(line: CodeLine) {
   id="dead-code-statement"
   data-hide-navbar-on-scroll
   class="dead-code-section"
-  style="position:relative;min-height:380vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--base-title:1;--base-title-y:0px;--base-title-blur:0px;--feature-title:0;--feature-title-y:20px;--feature-title-blur:10px;--physical-title:0;--physical-title-y:20px;--physical-title-blur:10px;--feature-annotation:0;--physical-annotation:0;--feature-annotation-top:50%;--conclusion-title:0;--conclusion-blur:10px;--conclusion-y:20px;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--code-focus-scale:1;--code-focus-x:0px;--code-focus-y:0px;--annotation-target-x:0px;--strike-1:0;--strike-2:0;--strike-3:0;--feature-highlight:0;--feature-highlight-rail:0;--feature-highlight-glow:0;--feature-highlight-zoom:0;--physical-highlight:0;--physical-highlight-rail:0;--physical-highlight-glow:0;--physical-highlight-zoom:0;--feature-highlight-y:0;--physical-highlight-y:0"
+  style="position:relative;min-height:480vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--base-title:1;--base-title-y:0px;--base-title-blur:0px;--feature-title:0;--feature-title-y:20px;--feature-title-blur:10px;--physical-title:0;--physical-title-y:20px;--physical-title-blur:10px;--feature-annotation:0;--physical-annotation:0;--feature-annotation-top:50%;--conclusion-title:0;--conclusion-blur:10px;--conclusion-y:20px;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--code-focus-scale:1;--code-focus-x:0px;--code-focus-y:0px;--annotation-target-x:0px;--strike-1:0;--strike-2:0;--strike-3:0;--feature-highlight:0;--feature-highlight-rail:0;--feature-highlight-glow:0;--feature-highlight-zoom:0;--physical-highlight:0;--physical-highlight-rail:0;--physical-highlight-glow:0;--physical-highlight-zoom:0;--feature-highlight-y:0;--physical-highlight-y:0"
 >
   <div
     class="dead-code-sticky"
@@ -266,7 +266,7 @@ function getLineStyle(line: CodeLine) {
 <style is:global>
   .dead-code-section {
     position: relative;
-				    min-height: 380vh;
+				    min-height: 480vh;
     overflow: clip;
     background: #0f0f0f;
     --ide-dock: 0;
@@ -335,7 +335,7 @@ function getLineStyle(line: CodeLine) {
     display: grid;
     width: min(96vw, 1760px);
     grid-template-columns: minmax(280px, 0.82fr) minmax(0, 2.18fr);
-    align-items: start;
+    align-items: center;
     gap: clamp(24px, 3.2vw, 48px);
   }
 
@@ -351,7 +351,7 @@ function getLineStyle(line: CodeLine) {
     text-align: left;
     opacity: calc(var(--copy-reveal) * var(--base-title));
     filter: blur(var(--copy-blur));
-    transform: translateY(calc(var(--copy-top-offset) + var(--copy-y)));
+    transform: translateY(var(--copy-y));
     will-change: transform, opacity, filter;
   }
 
@@ -395,7 +395,7 @@ function getLineStyle(line: CodeLine) {
 	  .dead-code-conclusion {
 	    position: absolute;
 	    left: 0;
-	    top: 0;
+	    top: 50%;
 	    z-index: 6;
 	    width: min(680px, max(280px, calc(38vw - 24px)));
 	    padding-left: clamp(24px, 2.4vw, 48px);
@@ -403,7 +403,7 @@ function getLineStyle(line: CodeLine) {
 	    font-family: "Geist", system-ui, sans-serif;
 	    opacity: var(--conclusion-title);
 	    filter: blur(var(--conclusion-blur));
-	    transform: translateY(calc(var(--copy-top-offset) + var(--conclusion-y)));
+	    transform: translateY(calc(-50% + var(--conclusion-y)));
 	    pointer-events: none;
 	    will-change: opacity, transform, filter;
 	  }
@@ -889,17 +889,17 @@ function getLineStyle(line: CodeLine) {
   }
 
   const featurePause = {
-    enterStart: 0.69,
-    enterEnd: 0.76,
-    exitStart: 0.82,
-    exitEnd: 0.875,
+    enterStart: 0.46,
+    enterEnd: 0.58,
+    exitStart: 0.66,
+    exitEnd: 0.76,
   };
 
   const physicalPause = {
-    enterStart: 0.895,
-    enterEnd: 0.93,
-    exitStart: 0.975,
-    exitEnd: 0.998,
+    enterStart: 0.7,
+    enterEnd: 0.82,
+    exitStart: 0.88,
+    exitEnd: 0.94,
   };
 
   function initDeadCodeScroll() {
@@ -913,7 +913,7 @@ function getLineStyle(line: CodeLine) {
 			    if (!layout || !visualSlot || !ideFrame) return;
 
 	    const progressState = { value: 0 };
-	    const animationCompleteAt = 0.8;
+	    const animationCompleteAt = 0.85;
 
 	    function renderScrollProgress(scrollProgress: number) {
 	      render(scrollProgress / animationCompleteAt);
@@ -922,8 +922,8 @@ function getLineStyle(line: CodeLine) {
 	    function render(sectionProgress: number) {
 	      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 	      sectionProgress = clamp(sectionProgress);
-		      const dockProgress = smoothStep(0.04, 0.48, sectionProgress);
-		      const copyReveal = smoothStep(0.22, 0.38, sectionProgress);
+		      const dockProgress = smoothStep(0.03, 0.42, sectionProgress);
+		      const copyReveal = smoothStep(0.18, 0.36, sectionProgress);
       const layoutRect = layout.getBoundingClientRect();
       const visualSlotRect = visualSlot.getBoundingClientRect();
       const frameWidth = Math.max(ideFrame.offsetWidth, 1);
@@ -949,13 +949,13 @@ function getLineStyle(line: CodeLine) {
       const editorRadius = 9 * editorExpand;
       const finalEditorInnerLeft = clamp(window.innerWidth * 0.024, 30, 52);
       const editorInnerLeft = finalEditorInnerLeft * editorExpand;
-		      const ideBaseOpacity = 1 - smoothStep(0.18, 0.44, sectionProgress);
+		      const ideBaseOpacity = 1 - smoothStep(0.16, 0.4, sectionProgress);
 		      const deadCut = copyReveal;
 			      const baseTitleEnter = 1;
-			      const baseTitleExit = smoothStep(0.62, 0.7, sectionProgress);
-			      const featureTitleEnter = smoothStep(0.71, 0.79, sectionProgress);
-			      const featureTitleExit = smoothStep(0.82, 0.9, sectionProgress);
-			      const physicalTitleEnter = smoothStep(0.9, 0.98, sectionProgress);
+			      const baseTitleExit = smoothStep(0.42, 0.52, sectionProgress);
+			      const featureTitleEnter = smoothStep(0.52, 0.62, sectionProgress);
+			      const featureTitleExit = smoothStep(0.7, 0.78, sectionProgress);
+			      const physicalTitleEnter = smoothStep(0.78, 0.86, sectionProgress);
 			      const baseTitle = baseTitleEnter * (1 - baseTitleExit);
 			      const featureTitle = 0;
 			      const physicalTitle = 0;
@@ -965,9 +965,9 @@ function getLineStyle(line: CodeLine) {
 			      const baseTitleBlur = 4 * baseTitleExit;
 			      const featureTitleBlur = 10 * (1 - featureTitleEnter) + 4 * featureTitleExit;
 			      const physicalTitleBlur = 10 * (1 - physicalTitleEnter);
-								      const conclusionTitle = smoothStep(0.996, 0.999, sectionProgress);
-			      const finalZoomOut = smoothStep(0.965, 0.995, sectionProgress);
-								      const conclusionHighlight = smoothStep(0.996, 0.999, sectionProgress);
+								      const conclusionTitle = smoothStep(0.92, 0.98, sectionProgress);
+			      const finalZoomOut = smoothStep(0.86, 0.96, sectionProgress);
+								      const conclusionHighlight = smoothStep(0.92, 0.98, sectionProgress);
 				      const featurePhase = heldReveal(
 				        featurePause.enterStart,
 				        featurePause.enterEnd,
@@ -988,10 +988,10 @@ function getLineStyle(line: CodeLine) {
 			      const physicalHighlight = Math.max(physicalHighlightActive, conclusionHighlight);
 				      const featureHighlightRail =
 				        smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress) *
-				        (1 - smoothStep(0.855, 0.89, sectionProgress));
+				        (1 - smoothStep(0.68, 0.76, sectionProgress));
 				      const physicalHighlightRail =
 				        smoothStep(physicalPause.enterStart, physicalPause.enterEnd, sectionProgress) *
-				        (1 - smoothStep(0.99, 0.999, sectionProgress));
+				        (1 - smoothStep(0.9, 0.95, sectionProgress));
 				      const featureHighlightGlowActive = featurePhase;
 									      const physicalHighlightGlowActive = physicalPhase;
 			      const featureHighlightGlow = Math.max(featureHighlightGlowActive, conclusionHighlight);
@@ -1011,7 +1011,7 @@ function getLineStyle(line: CodeLine) {
 								      );
 			      const codeFeatureFocus = featureHighlightGlowActive * (1 - finalZoomOut);
 			      const codePhysicalFocus = physicalHighlightGlowActive * (1 - finalZoomOut);
-			      const codeFocus = Math.max(codeFeatureFocus, codePhysicalFocus);
+			      const codeFocus = clamp(codeFeatureFocus + codePhysicalFocus, 0, 1);
 			      const codeFocusScale = 1 + codeFocus * 0.58;
 			      const codeFocusX = codeFocus * 120;
 			      const codeFocusY = codeFeatureFocus * -600 + codePhysicalFocus * -112;
@@ -1076,7 +1076,7 @@ function getLineStyle(line: CodeLine) {
 	        trigger: section,
 	        start: 'top top',
 	        end: 'bottom bottom',
-	        scrub: 0.45,
+	        scrub: 0.8,
 	        invalidateOnRefresh: true,
 	        onRefresh: () => renderScrollProgress(progressState.value),
 	      },

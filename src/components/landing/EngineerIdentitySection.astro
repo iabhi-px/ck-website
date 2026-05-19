@@ -146,6 +146,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         stroke-width="5"
         stroke-linecap="round"
         stroke-linejoin="round"
+        transform="translate(2000 950) scale(0.96) translate(-2000 -950)"
       >
         {iconPositions.map(([x, y], index) => (
           <g
@@ -304,9 +305,9 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     --identity-icon-color: #ffffff;
     --identity-head-opacity: 1;
     --identity-body-opacity: 1;
-    --identity-copy-original-opacity: 0;
-    --identity-copy-original-y: 20px;
-    --identity-copy-original-blur: 10px;
+    --identity-copy-original-opacity: 1;
+    --identity-copy-original-y: 0px;
+    --identity-copy-original-blur: 0px;
     --identity-copy-ai-opacity: 0;
     --identity-copy-ai-y: 28px;
     --identity-copy-ai-blur: 8px;
@@ -560,7 +561,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const rect = section!.getBoundingClientRect();
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       sectionProgress = clamp(sectionProgress);
-      const originalCopyEnter = smoothStep(viewportHeight * 0.82, viewportHeight * 0.34, rect.top);
+      const originalCopyEnter = 1;
       const headProgress = smootherStep(0.025, 0.24, sectionProgress);
       const bodyOpacity = 1 - smootherStep(0.05, 0.22, sectionProgress);
       const originalCopyExit = smootherStep(0.055, 0.215, sectionProgress);
@@ -570,7 +571,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const centerSparkExpand = smoothStep(0.34, 0.5, sectionProgress);
       const backgroundProgress = smoothStep(0.39, 0.52, sectionProgress);
       const iconColorProgress = smoothStep(0.37, 0.52, sectionProgress);
-      const centerLineProgress = smoothStep(0.44, 0.58, sectionProgress);
+      const centerLineProgress = smoothStep(0.38, 0.54, sectionProgress);
       const pillRowsProgress = smoothStep(0.5, 0.62, sectionProgress);
       const pillForwardProgress = smoothStep(0.62, 0.72, sectionProgress);
       const centerChipExpand = smoothStep(0.72, 0.86, sectionProgress);
@@ -589,13 +590,17 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         const rowDistance = Number(chip.dataset.rowDistance || 0);
         const lineOrder = Number(chip.dataset.lineOrder || 0);
         let chipOpacity = 0;
+        let chipParallaxY = 0;
 
         if (rowDistance === 0) {
           const lineRevealStart = (lineOrder / maxLineOrder) * 0.78;
           chipOpacity = smoothStep(lineRevealStart, lineRevealStart + 0.12, centerLineProgress);
         } else {
           const rowRevealStart = ((rowDistance - 1) / Math.max(maxRowDistance - 1, 1)) * 0.74;
-          chipOpacity = smoothStep(rowRevealStart, rowRevealStart + 0.22, pillRowsProgress);
+          const rowRevealProgress = smoothStep(rowRevealStart, rowRevealStart + 0.22, pillRowsProgress);
+          chipOpacity = rowRevealProgress;
+          const parallaxStrength = 16 * Math.sign(rowOffset) * Math.pow(rowDistance / maxRowDistance, 0.85);
+          chipParallaxY = parallaxStrength * maxRowDistance * (1 - rowRevealProgress);
         }
 
         const rowDepth = 1 - Math.min(rowDistance / maxRowDistance, 1);
@@ -603,7 +608,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         const rowForwardX = pillForwardX * rowParallax;
 
         chip.style.opacity = chipOpacity.toFixed(3);
-        chip.style.transform = `translateX(${rowForwardX.toFixed(2)}px)`;
+        chip.style.transform = `translateX(${rowForwardX.toFixed(2)}px) translateY(${chipParallaxY.toFixed(2)}px)`;
       });
 
       const backgroundColor = mixColor([15, 15, 15], [205, 255, 82], backgroundProgress);
