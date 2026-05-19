@@ -165,6 +165,12 @@ function getLineStyle(line: CodeLine) {
           <span class="dead-code-title-swap dead-code-title-swap--base">
             More than half of your<br />code is dead or dormant
           </span>
+          <span class="dead-code-title-swap dead-code-title-swap--feature">
+            Retired features
+          </span>
+          <span class="dead-code-title-swap dead-code-title-swap--physical">
+            Untaken paths
+          </span>
         </h2>
       </div>
       <div class="dead-code-visual-slot">
@@ -221,6 +227,7 @@ function getLineStyle(line: CodeLine) {
 	                    line.deadStage && `dead-code-line--stage-${line.deadStage}`,
 	                    line.highlightStage && 'dead-code-line--highlight',
 	                  ]}
+                  data-highlight-stage={line.highlightStage}
                   style={getLineStyle(line)}
                 >
                   <span
@@ -756,61 +763,183 @@ function getLineStyle(line: CodeLine) {
   }
 
   @media (max-width: 767px) {
+    .dead-code-section {
+      overflow-x: clip;
+    }
+
     .dead-code-sticky {
-      padding-top: 64px;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(42px, 7svh, 64px) 0 24px;
     }
 
     .dead-code-layout {
-      width: calc(100vw - 40px);
-      grid-template-columns: minmax(210px, 0.95fr) minmax(300px, 1.2fr);
-      gap: 18px;
+      width: min(calc(100vw - 32px), 430px);
+      grid-template-columns: 1fr;
+      gap: clamp(14px, 3.4svh, 24px);
     }
 
 	    .dead-code-heading {
+	      min-height: clamp(112px, 18svh, 154px);
+	      padding-left: 0;
+      opacity: var(--copy-reveal);
+	    }
+
+    .dead-code-label {
+      opacity: var(--base-title);
+      transition: opacity 0.18s ease;
+    }
+
+	    .dead-code-conclusion {
+	      width: 100%;
 	      padding-left: 0;
 	    }
 
-	    .dead-code-conclusion {
-	      width: min(280px, 100%);
-	      padding-left: 0;
+	    .dead-code-conclusion-label {
+	      margin-bottom: 14px;
+	      font-size: 12px;
+	      line-height: 1.55;
+	    }
+
+	    .dead-code-conclusion-title {
+	      max-width: 330px;
+	      font-size: clamp(32px, 10vw, 44px);
 	    }
 
     .dead-code-visual-slot {
-      min-height: 430px;
+      display: grid;
+      min-height: auto;
+      place-items: center;
     }
 
     .dead-code-title {
-      max-width: 250px;
+      max-width: 340px;
+      min-height: 3.3em;
     }
 
     .dead-code-frame {
-      margin-left: 0;
+      position: relative;
+      left: auto;
+      top: auto;
+      width: min(92vw, 430px);
+      min-width: 282px;
+      max-height: calc(100svh - 220px);
+      aspect-ratio: 9 / 14;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid rgba(78, 85, 95, 0.76);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(44, 47, 55, 0.88) 0 34px, rgba(31, 32, 36, 0.98) 34px),
+        #1f2024;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.38);
+      transform: translate(var(--ide-x), var(--ide-y)) scale(var(--ide-scale));
+      transform-origin: center top;
+    }
+
+    .dead-code-frame::before {
+      content: "OrderServiceImpl.java";
+      position: absolute;
+      left: 14px;
+      top: 10px;
+      z-index: 4;
+      color: rgba(222, 227, 236, 0.72);
+      font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .dead-code-frame::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 34px;
+      z-index: 4;
+      height: 1px;
+      background: rgba(78, 85, 95, 0.72);
+      pointer-events: none;
+    }
+
+    .dead-code-ide-image {
+      display: none !important;
+    }
+
+    .dead-code-editor-overlay {
+      left: 0 !important;
+      top: 34px !important;
+      width: 100% !important;
+      height: calc(100% - 34px) !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background:
+        radial-gradient(circle at 80% 12%, rgba(205, 255, 82, 0.05), transparent 26%),
+        #1f2024 !important;
+    }
+
+    .dead-code-gutter-border {
+      left: calc(var(--editor-inner-left) + 44px) !important;
+    }
+
+    .dead-code-lines {
+      padding-top: 14px !important;
+      font-size: clamp(8px, 2.35vw, 11px) !important;
+      line-height: 1.56 !important;
+      transform-origin: calc(var(--editor-inner-left) + 54px) 0;
+    }
+
+    .dead-code-line,
+    .dead-code-metrics-row {
+      grid-template-columns: 44px minmax(0, 1fr) !important;
+    }
+
+    .dead-code-number {
+      padding-right: 10px !important;
+    }
+
+    .dead-code-source {
+      padding-left: 10px !important;
+    }
+
+    .dead-code-line--dead::after {
+      left: 54px;
+      width: min(calc(var(--line-chars) * 0.58em), calc(100% - 64px));
+    }
+
+    .dead-code-line--highlight::before {
+      inset: 0 6px 0 48px;
+    }
+
+    .dead-code-line--highlight .dead-code-source::before {
+      left: 2px;
+      width: 2px;
+    }
+
+    .dead-code-annotation {
+      display: none;
     }
   }
 
   @media (max-width: 479px) {
     .dead-code-sticky {
-      justify-content: flex-start;
-      padding-top: 72px;
+      padding-top: clamp(36px, 6svh, 54px);
     }
 
 	    .dead-code-layout {
-	      width: calc(100vw - 40px);
-	      grid-template-columns: 1fr;
-	      gap: 28px;
+	      width: calc(100vw - 28px);
+	      gap: clamp(12px, 2.8svh, 20px);
 	    }
 
-	    .dead-code-conclusion {
-	      width: 100%;
+	    .dead-code-heading {
+	      min-height: clamp(102px, 17svh, 132px);
 	    }
-
-    .dead-code-visual-slot {
-      min-height: 360px;
-    }
 
     .dead-code-frame {
-      width: 150vw;
-      margin-left: 0;
+      min-width: 0;
+      width: 92vw;
+      max-height: calc(100svh - 200px);
     }
   }
 
@@ -910,7 +1039,23 @@ function getLineStyle(line: CodeLine) {
 		    const layout = section.querySelector<HTMLElement>('.dead-code-layout');
 		    const visualSlot = section.querySelector<HTMLElement>('.dead-code-visual-slot');
 		    const ideFrame = section.querySelector<HTMLElement>('.dead-code-frame');
-			    if (!layout || !visualSlot || !ideFrame) return;
+		    const editorOverlay = section.querySelector<HTMLElement>('.dead-code-editor-overlay');
+		    const codeLinesElement = section.querySelector<HTMLElement>('.dead-code-lines');
+			    if (!layout || !visualSlot || !ideFrame || !editorOverlay || !codeLinesElement) return;
+
+	    function getStageLines(stage: 'feature' | 'physical') {
+	      return Array.from(
+	        section!.querySelectorAll<HTMLElement>(`.dead-code-line[data-highlight-stage="${stage}"]`)
+	      );
+	    }
+
+	    function getStageCenterY(stage: 'feature' | 'physical') {
+	      const lines = getStageLines(stage);
+	      if (lines.length === 0) return 0;
+	      const firstLine = lines[0];
+	      const lastLine = lines[lines.length - 1];
+	      return firstLine.offsetTop + (lastLine.offsetTop + lastLine.offsetHeight - firstLine.offsetTop) / 2;
+	    }
 
 	    const progressState = { value: 0 };
 	    const animationCompleteAt = 0.85;
@@ -922,8 +1067,9 @@ function getLineStyle(line: CodeLine) {
 	    function render(sectionProgress: number) {
 	      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 	      sectionProgress = clamp(sectionProgress);
-		      const dockProgress = smoothStep(0.03, 0.42, sectionProgress);
-		      const copyReveal = smoothStep(0.18, 0.36, sectionProgress);
+		      let dockProgress = smoothStep(0.03, 0.42, sectionProgress);
+		      let copyReveal = smoothStep(0.18, 0.36, sectionProgress);
+	      const isMobile = window.matchMedia('(max-width: 767px)').matches;
       const layoutRect = layout.getBoundingClientRect();
       const visualSlotRect = visualSlot.getBoundingClientRect();
       const frameWidth = Math.max(ideFrame.offsetWidth, 1);
@@ -932,42 +1078,42 @@ function getLineStyle(line: CodeLine) {
       const startX = layoutCenterX - visualSlotCenterX;
       const dockWidth = Math.min(visualSlotRect.width * 1.08, layoutRect.width * 0.76);
       const dockScale = clamp(dockWidth / frameWidth, 0.64, 1);
-      const ideX = startX * (1 - dockProgress);
+      let ideX = startX * (1 - dockProgress);
       const startY = clamp(viewportHeight * 0.08, 96, 128);
       const dockY = clamp(viewportHeight * 0.005, 4, 12);
-      const ideY = startY + (dockY - startY) * dockProgress;
-      const ideScale = 1 + (dockScale - 1) * dockProgress;
+      let ideY = startY + (dockY - startY) * dockProgress;
+      let ideScale = 1 + (dockScale - 1) * dockProgress;
       const ideHeight = ideFrame.offsetHeight * ideScale;
       const ideTopOffset = visualSlotRect.height / 2 - ideHeight / 2 + ideY;
-      const copyTopOffset = (ideTopOffset + 30) * dockProgress;
+      let copyTopOffset = (ideTopOffset + 30) * dockProgress;
       const editorExpand = dockProgress;
       const finalEditorInset = 6.25;
-      const editorLeft = 24.44 * (1 - editorExpand) + finalEditorInset * editorExpand;
-      const editorTop = 10.88 * (1 - editorExpand);
-      const editorWidth = 71.05 + (100 - finalEditorInset * 2 - 71.05) * editorExpand;
-      const editorHeight = 83.22 + (100 - 83.22) * editorExpand;
-      const editorRadius = 9 * editorExpand;
+      let editorLeft = 24.44 * (1 - editorExpand) + finalEditorInset * editorExpand;
+      let editorTop = 10.88 * (1 - editorExpand);
+      let editorWidth = 71.05 + (100 - finalEditorInset * 2 - 71.05) * editorExpand;
+      let editorHeight = 83.22 + (100 - 83.22) * editorExpand;
+      let editorRadius = 9 * editorExpand;
       const finalEditorInnerLeft = clamp(window.innerWidth * 0.024, 30, 52);
-      const editorInnerLeft = finalEditorInnerLeft * editorExpand;
-		      const ideBaseOpacity = 1 - smoothStep(0.16, 0.4, sectionProgress);
-		      const deadCut = copyReveal;
-			      const baseTitleEnter = 1;
-			      const baseTitleExit = smoothStep(0.42, 0.52, sectionProgress);
-			      const featureTitleEnter = smoothStep(0.52, 0.62, sectionProgress);
-			      const featureTitleExit = smoothStep(0.7, 0.78, sectionProgress);
-			      const physicalTitleEnter = smoothStep(0.78, 0.86, sectionProgress);
-			      const baseTitle = baseTitleEnter * (1 - baseTitleExit);
-			      const featureTitle = 0;
-			      const physicalTitle = 0;
+      let editorInnerLeft = finalEditorInnerLeft * editorExpand;
+			      let ideBaseOpacity = 1 - smoothStep(0.16, 0.4, sectionProgress);
+			      let deadCut = copyReveal;
+				      const baseTitleEnter = 1;
+				      const baseTitleExit = smoothStep(0.42, 0.52, sectionProgress);
+				      const featureTitleEnter = smoothStep(0.52, 0.62, sectionProgress);
+				      const featureTitleExit = smoothStep(0.7, 0.78, sectionProgress);
+				      const physicalTitleEnter = smoothStep(0.78, 0.86, sectionProgress);
+				      const baseTitle = baseTitleEnter * (1 - baseTitleExit);
+				      let featureTitle = 0;
+				      let physicalTitle = 0;
 			      const baseTitleY = -28 * baseTitleExit;
 			      const featureTitleY = 20 * (1 - featureTitleEnter) - 28 * featureTitleExit;
 			      const physicalTitleY = 20 * (1 - physicalTitleEnter);
 			      const baseTitleBlur = 4 * baseTitleExit;
 			      const featureTitleBlur = 10 * (1 - featureTitleEnter) + 4 * featureTitleExit;
 			      const physicalTitleBlur = 10 * (1 - physicalTitleEnter);
-								      const conclusionTitle = smoothStep(0.92, 0.98, sectionProgress);
-			      const finalZoomOut = smoothStep(0.86, 0.96, sectionProgress);
-								      const conclusionHighlight = smoothStep(0.92, 0.98, sectionProgress);
+									      let conclusionTitle = smoothStep(0.92, 0.98, sectionProgress);
+				      let finalZoomOut = smoothStep(0.86, 0.96, sectionProgress);
+									      let conclusionHighlight = smoothStep(0.92, 0.98, sectionProgress);
 				      const featurePhase = heldReveal(
 				        featurePause.enterStart,
 				        featurePause.enterEnd,
@@ -984,37 +1130,96 @@ function getLineStyle(line: CodeLine) {
 				      );
 				      const featureHighlightActive = featurePhase;
 									      const physicalHighlightActive = physicalPhase;
-			      const featureHighlight = Math.max(featureHighlightActive, conclusionHighlight);
-			      const physicalHighlight = Math.max(physicalHighlightActive, conclusionHighlight);
-				      const featureHighlightRail =
-				        smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress) *
-				        (1 - smoothStep(0.68, 0.76, sectionProgress));
-				      const physicalHighlightRail =
-				        smoothStep(physicalPause.enterStart, physicalPause.enterEnd, sectionProgress) *
-				        (1 - smoothStep(0.9, 0.95, sectionProgress));
-				      const featureHighlightGlowActive = featurePhase;
-									      const physicalHighlightGlowActive = physicalPhase;
-			      const featureHighlightGlow = Math.max(featureHighlightGlowActive, conclusionHighlight);
-			      const physicalHighlightGlow = Math.max(physicalHighlightGlowActive, conclusionHighlight);
-			      const featureHighlightZoom = featureHighlightGlow;
-			      const physicalHighlightZoom = physicalHighlightGlow;
-						      const featureAnnotation = featurePhase;
-										      const physicalAnnotation = physicalPhase;
-			      const featureAnnotationTop = 53;
-			      const conclusionBlur = 10 * (1 - conclusionTitle);
-			      const conclusionY = 20 * (1 - conclusionTitle);
-					      const featureHighlightY = smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress);
-								      const physicalHighlightY = smoothStep(
-								        physicalPause.enterStart,
-								        physicalPause.enterEnd,
-								        sectionProgress
-								      );
+				      let featureHighlight = Math.max(featureHighlightActive, conclusionHighlight);
+				      let physicalHighlight = Math.max(physicalHighlightActive, conclusionHighlight);
+					      let featureHighlightRail =
+					        smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress) *
+					        (1 - smoothStep(0.68, 0.76, sectionProgress));
+					      let physicalHighlightRail =
+					        smoothStep(physicalPause.enterStart, physicalPause.enterEnd, sectionProgress) *
+					        (1 - smoothStep(0.9, 0.95, sectionProgress));
+					      const featureHighlightGlowActive = featurePhase;
+										      const physicalHighlightGlowActive = physicalPhase;
+				      let featureHighlightGlow = Math.max(featureHighlightGlowActive, conclusionHighlight);
+				      let physicalHighlightGlow = Math.max(physicalHighlightGlowActive, conclusionHighlight);
+				      let featureHighlightZoom = featureHighlightGlow;
+				      let physicalHighlightZoom = physicalHighlightGlow;
+							      let featureAnnotation = featurePhase;
+											      let physicalAnnotation = physicalPhase;
+				      let featureAnnotationTop = 53;
+				      let conclusionBlur = 10 * (1 - conclusionTitle);
+				      let conclusionY = 20 * (1 - conclusionTitle);
+						      let featureHighlightY = smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress);
+									      let physicalHighlightY = smoothStep(
+									        physicalPause.enterStart,
+									        physicalPause.enterEnd,
+									        sectionProgress
+									      );
 			      const codeFeatureFocus = featureHighlightGlowActive * (1 - finalZoomOut);
 			      const codePhysicalFocus = physicalHighlightGlowActive * (1 - finalZoomOut);
 			      const codeFocus = clamp(codeFeatureFocus + codePhysicalFocus, 0, 1);
-			      const codeFocusScale = 1 + codeFocus * 0.58;
-			      const codeFocusX = codeFocus * 120;
-			      const codeFocusY = codeFeatureFocus * -600 + codePhysicalFocus * -112;
+				      let codeFocusScale = 1 + codeFocus * 0.58;
+				      let codeFocusX = codeFocus * 120;
+				      let codeFocusY = codeFeatureFocus * -600 + codePhysicalFocus * -112;
+	      if (isMobile) {
+	        dockProgress = smoothStep(0.04, 0.32, sectionProgress);
+	        copyReveal = smoothStep(0.08, 0.24, sectionProgress);
+	        deadCut = copyReveal;
+	        ideX = 0;
+	        ideY = (1 - dockProgress) * 18;
+	        ideScale = 0.975 + dockProgress * 0.025;
+	        copyTopOffset = 0;
+	        editorLeft = 0;
+	        editorTop = 0;
+	        editorWidth = 100;
+	        editorHeight = 100;
+	        editorRadius = 18;
+	        editorInnerLeft = clamp(window.innerWidth * 0.018, 8, 14);
+	        ideBaseOpacity = 0;
+	        finalZoomOut = smoothStep(0.955, 0.995, sectionProgress);
+	        conclusionTitle = smoothStep(0.99, 0.998, sectionProgress);
+	        conclusionHighlight = smoothStep(0.99, 0.998, sectionProgress);
+	        conclusionBlur = 10 * (1 - conclusionTitle);
+	        conclusionY = 18 * (1 - conclusionTitle);
+
+	        featureHighlight = Math.max(featureHighlightActive, conclusionHighlight);
+	        physicalHighlight = Math.max(physicalHighlightActive, conclusionHighlight);
+	        featureHighlightRail =
+	          smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress) *
+	          (1 - smoothStep(0.68, 0.76, sectionProgress));
+	        physicalHighlightRail =
+	          smoothStep(physicalPause.enterStart, physicalPause.enterEnd, sectionProgress) *
+	          (1 - smoothStep(0.9, 0.95, sectionProgress));
+	        featureHighlightGlow = Math.max(featurePhase, conclusionHighlight);
+	        physicalHighlightGlow = Math.max(physicalPhase, conclusionHighlight);
+	        featureHighlightZoom = featureHighlightGlow * 0.55;
+	        physicalHighlightZoom = physicalHighlightGlow * 0.55;
+	        featureAnnotation = featurePhase;
+	        physicalAnnotation = physicalPhase;
+	        featureTitle = featurePhase;
+	        physicalTitle = physicalPhase;
+
+	        const mobileFeatureFocus = featureHighlightGlowActive * (1 - finalZoomOut);
+	        const mobilePhysicalFocus = physicalHighlightGlowActive * (1 - finalZoomOut);
+	        const mobileCodeFocus = Math.max(
+	          mobileFeatureFocus,
+	          mobilePhysicalFocus,
+	          conclusionHighlight * 0.35
+	        );
+	        codeFocusScale = 1 + mobileCodeFocus * 0.16;
+	        codeFocusX = mobileCodeFocus * -6;
+
+	        const editorPixelHeight = Math.max(editorOverlay.clientHeight, ideFrame.clientHeight - 34, 1);
+	        const desiredFeatureY = editorPixelHeight * 0.42;
+	        const desiredPhysicalY = editorPixelHeight * 0.5;
+	        const featureCenterY = getStageCenterY('feature');
+	        const physicalCenterY = getStageCenterY('physical');
+	        const featureFocusY = desiredFeatureY - featureCenterY * codeFocusScale;
+	        const physicalFocusY = desiredPhysicalY - physicalCenterY * codeFocusScale;
+	        codeFocusY = mobileFeatureFocus * featureFocusY + mobilePhysicalFocus * physicalFocusY;
+	        featureHighlightY = smoothStep(featurePause.enterStart, featurePause.enterEnd, sectionProgress);
+	        physicalHighlightY = smoothStep(physicalPause.enterStart, physicalPause.enterEnd, sectionProgress);
+	      }
 	      const strikeOne = deadCut;
 	      const strikeTwo = deadCut;
 	      const strikeThree = deadCut;

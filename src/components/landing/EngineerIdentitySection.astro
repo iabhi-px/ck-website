@@ -251,6 +251,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           <path d="M128 80L112 100.513L128 120" stroke="#0f0f0f" stroke-width="14.4" />
         </g>
         <text
+          class="identity-final-heading"
           x="2000"
           y="855"
           fill="#0f0f0f"
@@ -323,6 +324,9 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     --identity-copy-final-y: 24px;
     --identity-copy-final-blur: 10px;
     --identity-copy-final-color: #0f0f0f;
+    --identity-icon-field-scale: 0.96;
+    --identity-copy-scale: 1;
+    --identity-final-copy-scale: 1;
   }
 
   .engineer-identity-sticky {
@@ -361,6 +365,9 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   .engineer-identity-icons {
     opacity: var(--identity-grid-opacity);
     stroke: var(--identity-icon-color);
+    transform-box: view-box;
+    transform-origin: center;
+    transform: scale(var(--identity-icon-field-scale));
   }
 
   .identity-head-path,
@@ -384,13 +391,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
   .identity-copy-original {
     opacity: var(--identity-copy-original-opacity);
-    transform: translateY(var(--identity-copy-original-y));
+    transform: translateY(var(--identity-copy-original-y)) scale(var(--identity-copy-scale));
     filter: blur(var(--identity-copy-original-blur));
   }
 
   .identity-copy-ai {
     opacity: var(--identity-copy-ai-opacity);
-    transform: translateY(var(--identity-copy-ai-y));
+    transform: translateY(var(--identity-copy-ai-y)) scale(var(--identity-copy-scale));
     filter: blur(var(--identity-copy-ai-blur));
   }
 
@@ -436,6 +443,12 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     fill: var(--identity-copy-final-color);
   }
 
+  .identity-final-heading {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(var(--identity-final-copy-scale));
+  }
+
   .identity-final-cta-link {
     cursor: pointer;
   }
@@ -468,6 +481,35 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     .engineer-identity-section {
       min-height: 100vh;
       min-height: 100svh;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .engineer-identity-section {
+      --identity-icon-field-scale: 0.72;
+      --identity-copy-scale: 0.62;
+      --identity-final-copy-scale: 0.72;
+    }
+
+    .engineer-identity-svg {
+      min-width: 100vw;
+      overflow: visible;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .engineer-identity-section {
+      --identity-icon-field-scale: 0.62;
+      --identity-copy-scale: 0.5;
+      --identity-final-copy-scale: 0.52;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .engineer-identity-section {
+      --identity-icon-field-scale: 0.58;
+      --identity-copy-scale: 0.48;
+      --identity-final-copy-scale: 0.38;
     }
   }
 
