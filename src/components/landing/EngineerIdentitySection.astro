@@ -177,10 +177,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           font-family="Geist, system-ui, sans-serif"
           font-size={copyFontSize}
           font-weight="600"
-          letter-spacing="0"
+          letter-spacing="-0.025em"
         >
           <tspan x="2000">Your engineers can't</tspan>
-          <tspan x="2000" dy={copyLineGap}>confidently tell which is which.</tspan>
+          <tspan x="2000" dy={copyLineGap}>confidently tell which is which,</tspan>
         </text>
       </g>
 
@@ -240,6 +240,15 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       </g>
 
       <g class="identity-copy identity-copy-final">
+        <g class="identity-final-logomark" aria-hidden="true" transform="translate(1841 336) scale(1.24)">
+          <path
+            d="M224 96C224 65.8301 224 50.7452 214.627 41.3726C205.255 32 190.17 32 160 32H96C65.8301 32 50.7452 32 41.3726 41.3726C32 50.7452 32 65.8301 32 96V160C32 190.17 32 205.255 41.3726 214.627C50.7452 224 65.8301 224 96 224H160C190.17 224 205.255 224 214.627 214.627C224 205.255 224 190.17 224 160V96Z"
+            fill="#0f0f0f"
+          />
+          <rect width="144" height="124" rx="24" transform="matrix(-1 0 0 1 208 48)" fill="#cdff52" />
+          <path d="M160 80L176 100.513L160 120" stroke="#0f0f0f" stroke-width="14.4" />
+          <path d="M128 80L112 100.513L128 120" stroke="#0f0f0f" stroke-width="14.4" />
+        </g>
         <text
           x="2000"
           y="855"
@@ -248,7 +257,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           font-family="Geist, system-ui, sans-serif"
           font-size="160"
           font-weight="650"
-          letter-spacing="0"
+          letter-spacing="-0.025em"
         >
           <tspan x="2000">CodeKarma shows</tspan>
           <tspan x="2000" dy="190">what runs in your production</tspan>
@@ -260,7 +269,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           class="identity-final-cta-link"
           aria-label="Schedule Demo"
         >
-          <rect class="identity-final-cta-bg" x="1590" y="1196" width="820" height="132" />
+          <rect class="identity-final-cta-bg" x="1718" y="1196" width="564" height="132" />
           <text
             class="identity-final-cta-text"
             x="2000"
