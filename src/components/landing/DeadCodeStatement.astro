@@ -1,52 +1,58 @@
 ---
 type DeadStage = 1 | 2 | 3;
+type HighlightStage = 'feature' | 'physical';
 
 type CodeLine = {
   text: string;
   deadStage?: DeadStage;
+  highlightStage?: HighlightStage;
   metricsBefore?: string;
 };
 
 const codeLineStart = 72;
 const codeLines: CodeLine[] = [
-  { text: '@Override' },
-  { text: 'public Order getOrderById(Long orderId) {' },
-  { text: '    // Find order' },
-  { text: '    Order order = mockOrders.stream()' },
-  { text: '            .filter(o -> o.getId().equals(orderId))' },
-  { text: '            .findFirst()' },
-  { text: '            .orElse(createMockOrder(orderId));' },
+  { text: '@Override', deadStage: 1 },
+  { text: 'public Order getOrderById(Long orderId) {', deadStage: 1 },
+  { text: '    // Find order', deadStage: 1 },
+  { text: '    Order order = mockOrders.stream()', deadStage: 1 },
+  { text: '            .filter(o -> o.getId().equals(orderId))', deadStage: 1 },
+  { text: '            .findFirst()', deadStage: 1 },
+  { text: '            .orElse(createMockOrder(orderId));', deadStage: 1 },
   { text: '' },
-  { text: '    String orderType = order.getType();' },
+  { text: '    String orderType = order.getType();', deadStage: 1 },
   { text: '' },
-  { text: '    // Branch based on order type with different latencies and errors' },
-  { text: '    switch (orderType) {' },
-  { text: '        case "virtual":' },
-  { text: '            processVirtualOrder(order);' },
-  { text: '            break;' },
-  { text: '        case "physical":' },
-  { text: '            try {' },
-  { text: '                processPhysicalOrder(order);' },
-  { text: '            } catch (Exception e) {' },
-  { text: '                System.out.println("Physical order processing failed: " + e.getMessage());' },
-  { text: '                fallbackOrderHandler(order);' },
-  { text: '            }' },
-  { text: '            break;' },
-  { text: '        default:' },
-  { text: '            handleUnknownOrder(order);' },
-  { text: '    }' },
+  { text: '    // Branch based on order type with different latencies and errors', deadStage: 1 },
+  { text: '    switch (orderType) {', deadStage: 1 },
+  { text: '        case "virtual":', deadStage: 1 },
+  { text: '            processVirtualOrder(order);', deadStage: 1 },
+  { text: '            break;', deadStage: 1 },
+  { text: '        case "physical":', deadStage: 1, highlightStage: 'physical' },
+  { text: '            try {', deadStage: 1, highlightStage: 'physical' },
+  { text: '                processPhysicalOrder(order);', deadStage: 1, highlightStage: 'physical' },
+  { text: '            } catch (Exception e) {', deadStage: 1, highlightStage: 'physical' },
+  {
+    text: '                System.out.println("Physical order processing failed: " + e.getMessage());',
+    deadStage: 1,
+    highlightStage: 'physical',
+  },
+  { text: '                fallbackOrderHandler(order);', deadStage: 1, highlightStage: 'physical' },
+  { text: '            }', deadStage: 1, highlightStage: 'physical' },
+  { text: '            break;', deadStage: 1, highlightStage: 'physical' },
+  { text: '        default:', deadStage: 1 },
+  { text: '            handleUnknownOrder(order);', deadStage: 1 },
+  { text: '    }', deadStage: 1 },
   { text: '' },
-  { text: '    OrderUtil.enrichOrder(order);' },
-  { text: '    return order;' },
-  { text: '}' },
-  { text: '' },
-  { text: 'private void processVirtualOrder(Order order) {', deadStage: 1 },
-  { text: '    System.out.println("Processing virtual order: " + order.getId());', deadStage: 1 },
-  { text: '    generateLicense(order);', deadStage: 1 },
-  { text: '    sendUserEmail(order);', deadStage: 1 },
-  { text: '    createAuditLog(order, "virtual_processed");', deadStage: 1 },
-  { text: '    order.setStatus("COMPLETED");', deadStage: 1 },
+  { text: '    OrderUtil.enrichOrder(order);', deadStage: 1 },
+  { text: '    return order;', deadStage: 1 },
   { text: '}', deadStage: 1 },
+  { text: '' },
+  { text: 'private void processVirtualOrder(Order order) {', highlightStage: 'feature' },
+  { text: '    System.out.println("Processing virtual order: " + order.getId());', highlightStage: 'feature' },
+  { text: '    generateLicense(order);', highlightStage: 'feature' },
+  { text: '    sendUserEmail(order);', highlightStage: 'feature' },
+  { text: '    createAuditLog(order, "virtual_processed");', highlightStage: 'feature' },
+  { text: '    order.setStatus("COMPLETED");', highlightStage: 'feature' },
+  { text: '}', highlightStage: 'feature' },
   { text: '' },
   { text: 'private void processPhysicalOrder(Order order) {' },
   { text: '    System.out.println("Processing physical order: " + order.getId());' },
@@ -105,10 +111,16 @@ function highlightJava(value: string) {
 
 function getLineStyle(line: CodeLine) {
   const strikeProgress = line.deadStage ? `--strike-progress:var(--strike-${line.deadStage});` : '';
+  const highlightProgress = line.highlightStage ? `--line-highlight:var(--${line.highlightStage}-highlight);` : '';
+  const highlightOffset = line.highlightStage
+    ? `--line-highlight-y:var(--${line.highlightStage}-highlight-y);`
+    : '';
 
   return [
     `--line-chars:${Math.max(line.text.trimEnd().length, 1)}`,
     strikeProgress,
+    highlightProgress,
+    highlightOffset,
     'position:relative',
     'display:grid',
     'grid-template-columns:74px minmax(0,1fr)',
@@ -123,7 +135,7 @@ function getLineStyle(line: CodeLine) {
   id="dead-code-statement"
   data-hide-navbar-on-scroll
   class="dead-code-section"
-  style="position:relative;min-height:132vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--strike-1:0;--strike-2:0;--strike-3:0"
+  style="position:relative;min-height:270vh;overflow:clip;background:#0f0f0f;--ide-dock:0;--ide-base-opacity:1;--ide-x:-26vw;--ide-y:clamp(96px,8vh,128px);--ide-scale:1;--copy-reveal:0;--copy-blur:10px;--copy-y:20px;--copy-top-offset:0px;--base-title:1;--feature-title:0;--physical-title:0;--editor-left:24.44%;--editor-top:10.88%;--editor-width:71.05%;--editor-height:83.22%;--editor-radius:0px;--editor-inner-left:0px;--strike-1:0;--strike-2:0;--strike-3:0;--feature-highlight:0;--physical-highlight:0;--feature-highlight-y:0;--physical-highlight-y:0"
 >
   <div
     class="dead-code-sticky"
@@ -135,8 +147,19 @@ function getLineStyle(line: CodeLine) {
         <p class="dead-code-label text-sm font-mono tracking-[0.3em] uppercase text-white/40 mb-5">
           Do you know?
         </p>
-        <h2 class="dead-code-title text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-white leading-[1.1] font-semibold">
-          More than half of your<br />code is dead or dormant
+        <h2
+          class="dead-code-title text-[28px] sm:text-[40px] md:text-[48px] tracking-tight text-white leading-[1.1] font-semibold"
+          aria-live="polite"
+        >
+          <span class="dead-code-title-swap dead-code-title-swap--base">
+            More than half of your<br />code is dead or dormant
+          </span>
+          <span class="dead-code-title-swap dead-code-title-swap--feature">
+            Retired features.
+          </span>
+          <span class="dead-code-title-swap dead-code-title-swap--physical">
+            Untaken paths.
+          </span>
         </h2>
       </div>
       <div class="dead-code-visual-slot">
@@ -164,7 +187,7 @@ function getLineStyle(line: CodeLine) {
 	        ></span>
         <div
 	          class="dead-code-lines"
-	          style="position:relative;z-index:1;padding-top:10px;font-size:8.5px;line-height:1.02;letter-spacing:0;font-weight:500"
+	          style="position:relative;z-index:1;padding-top:10px;font-size:13px;line-height:1.5;letter-spacing:0;font-weight:500"
         >
           {
             codeLines.map((line, index) => (
@@ -187,11 +210,12 @@ function getLineStyle(line: CodeLine) {
                   </div>
                 )}
                 <div
-                  class:list={[
-                    'dead-code-line',
-                    line.deadStage && 'dead-code-line--dead',
-                    line.deadStage && `dead-code-line--stage-${line.deadStage}`,
-                  ]}
+	                  class:list={[
+	                    'dead-code-line',
+	                    line.deadStage && 'dead-code-line--dead',
+	                    line.deadStage && `dead-code-line--stage-${line.deadStage}`,
+	                    line.highlightStage && 'dead-code-line--highlight',
+	                  ]}
                   style={getLineStyle(line)}
                 >
                   <span
@@ -220,7 +244,7 @@ function getLineStyle(line: CodeLine) {
 <style is:global>
   .dead-code-section {
     position: relative;
-    min-height: 132vh;
+		    min-height: 270vh;
     overflow: clip;
     background: #0f0f0f;
     --ide-dock: 0;
@@ -229,19 +253,26 @@ function getLineStyle(line: CodeLine) {
     --ide-y: clamp(96px, 8vh, 128px);
     --ide-scale: 1;
     --copy-reveal: 0;
-    --copy-blur: 10px;
-    --copy-y: 20px;
-    --copy-top-offset: 0px;
-    --editor-left: 24.44%;
-    --editor-top: 10.88%;
-    --editor-width: 71.05%;
-    --editor-height: 83.22%;
-    --editor-radius: 0px;
-    --editor-inner-left: 0px;
-    --strike-1: 0;
-    --strike-2: 0;
-    --strike-3: 0;
-  }
+	    --copy-blur: 10px;
+	    --copy-y: 20px;
+	    --copy-top-offset: 0px;
+	    --base-title: 1;
+	    --feature-title: 0;
+	    --physical-title: 0;
+	    --editor-left: 24.44%;
+	    --editor-top: 10.88%;
+	    --editor-width: 71.05%;
+	    --editor-height: 83.22%;
+	    --editor-radius: 0px;
+	    --editor-inner-left: 0px;
+	    --strike-1: 0;
+	    --strike-2: 0;
+	    --strike-3: 0;
+	    --feature-highlight: 0;
+	    --physical-highlight: 0;
+	    --feature-highlight-y: 0;
+	    --physical-highlight-y: 0;
+	  }
 
   .dead-code-sticky {
     position: sticky;
@@ -281,10 +312,42 @@ function getLineStyle(line: CodeLine) {
     will-change: transform, opacity, filter;
   }
 
-  .dead-code-title {
-    max-width: 680px;
-    text-wrap: balance;
-  }
+	  .dead-code-title {
+	    position: relative;
+	    display: block;
+	    max-width: 680px;
+	    min-height: 2.2em;
+	    text-wrap: balance;
+	  }
+
+	  .dead-code-title-swap {
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    opacity: 0;
+	    filter: blur(10px);
+	    transform: translateY(18px);
+	    will-change: opacity, transform, filter;
+	  }
+
+	  .dead-code-title-swap--base {
+	    opacity: var(--base-title);
+	    filter: blur(calc((1 - var(--base-title)) * 10px));
+	    transform: translateY(calc((1 - var(--base-title)) * 18px));
+	  }
+
+	  .dead-code-title-swap--feature {
+	    opacity: var(--feature-title);
+	    filter: blur(calc((1 - var(--feature-title)) * 10px));
+	    transform: translateY(calc((1 - var(--feature-title)) * 18px));
+	  }
+
+	  .dead-code-title-swap--physical {
+	    opacity: var(--physical-title);
+	    filter: blur(calc((1 - var(--physical-title)) * 10px));
+	    transform: translateY(calc((1 - var(--physical-title)) * 18px));
+	  }
 
   .dead-code-frame {
     position: absolute;
@@ -352,12 +415,15 @@ function getLineStyle(line: CodeLine) {
 	    letter-spacing: 0;
 	  }
 
-  .dead-code-line {
-	    position: relative;
-	    display: grid;
-	    grid-template-columns: 74px minmax(0, 1fr);
-		    min-height: 1.5em;
-	  }
+	  .dead-code-line {
+		    position: relative;
+		    display: grid;
+		    grid-template-columns: 74px minmax(0, 1fr);
+			    min-height: 1.5em;
+	    --strike-progress: 0;
+	    --line-highlight: 0;
+	    --line-highlight-y: 0;
+		  }
 
   .dead-code-number {
     position: relative;
@@ -409,12 +475,33 @@ function getLineStyle(line: CodeLine) {
     transform-origin: left center;
   }
 
-  .dead-code-line--dead .dead-code-source {
-    opacity: calc(1 - (var(--strike-progress) * 0.42));
-    filter: grayscale(var(--strike-progress));
-  }
+	  .dead-code-line--dead .dead-code-source {
+	    opacity: calc(1 - (var(--strike-progress) * (0.42 - (var(--line-highlight) * 0.22))));
+	    filter: grayscale(var(--strike-progress));
+	  }
 
-  .dead-code-metrics-row {
+	  .dead-code-line--highlight::before {
+	    content: "";
+	    position: absolute;
+	    inset: 0 10px 0 78px;
+	    z-index: 1;
+	    background: linear-gradient(
+	      90deg,
+	      rgba(205, 255, 82, calc(var(--line-highlight) * 0.14)) 0%,
+	      rgba(205, 255, 82, calc(var(--line-highlight) * 0.08)) 58%,
+	      rgba(205, 255, 82, 0) 100%
+	    );
+	    border-left: 2px solid rgba(205, 255, 82, calc(var(--line-highlight) * 0.78));
+	    opacity: var(--line-highlight);
+	    transform: translateY(calc((var(--line-highlight-y) - 0.5) * 16px));
+	    will-change: transform, opacity;
+	  }
+
+	  .dead-code-line--highlight .dead-code-number {
+	    color: rgba(205, 255, 82, calc(0.42 + (var(--line-highlight) * 0.42)));
+	  }
+
+	  .dead-code-metrics-row {
     position: relative;
     display: grid;
     grid-template-columns: 74px minmax(0, 1fr);
@@ -528,14 +615,21 @@ function getLineStyle(line: CodeLine) {
       --ide-y: 0px;
       --ide-scale: 1;
       --copy-reveal: 1;
-      --copy-blur: 0px;
-      --copy-y: 0px;
-      --editor-inner-left: clamp(30px, 2.4vw, 52px);
-      --strike-1: 1;
-      --strike-2: 1;
-      --strike-3: 1;
-    }
-  }
+	      --copy-blur: 0px;
+	      --copy-y: 0px;
+	      --base-title: 0;
+	      --feature-title: 0;
+	      --physical-title: 1;
+	      --editor-inner-left: clamp(30px, 2.4vw, 52px);
+	      --strike-1: 1;
+	      --strike-2: 1;
+	      --strike-3: 1;
+	      --feature-highlight: 0;
+	      --physical-highlight: 1;
+	      --feature-highlight-y: 0.5;
+	      --physical-highlight-y: 0.5;
+	    }
+	  }
 </style>
 
 <script>
@@ -553,10 +647,10 @@ function getLineStyle(line: CodeLine) {
     if (!section || section.dataset.deadCodeScrollBound === 'true') return;
 
     section.dataset.deadCodeScrollBound = 'true';
-    const layout = section.querySelector<HTMLElement>('.dead-code-layout');
-    const visualSlot = section.querySelector<HTMLElement>('.dead-code-visual-slot');
-    const ideFrame = section.querySelector<HTMLElement>('.dead-code-frame');
-    if (!layout || !visualSlot || !ideFrame) return;
+	    const layout = section.querySelector<HTMLElement>('.dead-code-layout');
+	    const visualSlot = section.querySelector<HTMLElement>('.dead-code-visual-slot');
+	    const ideFrame = section.querySelector<HTMLElement>('.dead-code-frame');
+		    if (!layout || !visualSlot || !ideFrame) return;
 
     let ticking = false;
 
@@ -565,8 +659,8 @@ function getLineStyle(line: CodeLine) {
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       const scrollDistance = Math.max(rect.height - viewportHeight, 1);
       const sectionProgress = clamp(-rect.top / scrollDistance);
-      const dockProgress = smoothStep(0.05, 0.64, sectionProgress);
-      const copyReveal = smoothStep(0.32, 0.86, sectionProgress);
+	      const dockProgress = smoothStep(0.04, 0.48, sectionProgress);
+	      const copyReveal = smoothStep(0.12, 0.28, sectionProgress);
       const layoutRect = layout.getBoundingClientRect();
       const visualSlotRect = visualSlot.getBoundingClientRect();
       const frameWidth = Math.max(ideFrame.offsetWidth, 1);
@@ -592,32 +686,46 @@ function getLineStyle(line: CodeLine) {
       const editorRadius = 9 * editorExpand;
       const finalEditorInnerLeft = clamp(window.innerWidth * 0.024, 30, 52);
       const editorInnerLeft = finalEditorInnerLeft * editorExpand;
-      const ideBaseOpacity = 1 - smoothStep(0.18, 0.5, sectionProgress);
-      const deadCut = smoothStep(0.38, 0.78, sectionProgress);
-      const strikeOne = deadCut;
-      const strikeTwo = deadCut;
-      const strikeThree = deadCut;
+		      const ideBaseOpacity = 1 - smoothStep(0.18, 0.44, sectionProgress);
+		      const deadCut = smoothStep(0.45, 0.66, sectionProgress);
+			      const featureTitle = smoothStep(0.62, 0.72, sectionProgress) * (1 - smoothStep(0.82, 0.9, sectionProgress));
+			      const physicalTitle = smoothStep(0.84, 0.94, sectionProgress);
+			      const baseTitle = 1 - Math.max(featureTitle, physicalTitle);
+			      const featureHighlight = smoothStep(0.62, 0.76, sectionProgress) * (1 - smoothStep(0.82, 0.9, sectionProgress));
+			      const physicalHighlight = smoothStep(0.84, 0.96, sectionProgress);
+			      const featureHighlightY = smoothStep(0.62, 0.82, sectionProgress);
+			      const physicalHighlightY = smoothStep(0.84, 0.98, sectionProgress);
+	      const strikeOne = deadCut;
+	      const strikeTwo = deadCut;
+	      const strikeThree = deadCut;
 
       section!.style.setProperty('--ide-dock', dockProgress.toFixed(3));
       section!.style.setProperty('--ide-base-opacity', ideBaseOpacity.toFixed(3));
       section!.style.setProperty('--ide-x', `${ideX.toFixed(3)}px`);
       section!.style.setProperty('--ide-y', `${ideY.toFixed(3)}px`);
       section!.style.setProperty('--ide-scale', ideScale.toFixed(3));
-      section!.style.setProperty('--copy-reveal', copyReveal.toFixed(3));
-      section!.style.setProperty('--copy-blur', `${(10 * (1 - copyReveal)).toFixed(3)}px`);
-      section!.style.setProperty('--copy-y', `${(20 * (1 - copyReveal)).toFixed(3)}px`);
-      section!.style.setProperty('--copy-top-offset', `${copyTopOffset.toFixed(3)}px`);
-      section!.style.setProperty('--editor-left', `${editorLeft.toFixed(3)}%`);
-      section!.style.setProperty('--editor-top', `${editorTop.toFixed(3)}%`);
-      section!.style.setProperty('--editor-width', `${editorWidth.toFixed(3)}%`);
+	      section!.style.setProperty('--copy-reveal', copyReveal.toFixed(3));
+	      section!.style.setProperty('--copy-blur', `${(10 * (1 - copyReveal)).toFixed(3)}px`);
+		      section!.style.setProperty('--copy-y', `${(20 * (1 - copyReveal)).toFixed(3)}px`);
+		      section!.style.setProperty('--copy-top-offset', `${copyTopOffset.toFixed(3)}px`);
+			      section!.style.setProperty('--base-title', baseTitle.toFixed(3));
+			      section!.style.setProperty('--feature-title', featureTitle.toFixed(3));
+			      section!.style.setProperty('--physical-title', physicalTitle.toFixed(3));
+	      section!.style.setProperty('--editor-left', `${editorLeft.toFixed(3)}%`);
+	      section!.style.setProperty('--editor-top', `${editorTop.toFixed(3)}%`);
+	      section!.style.setProperty('--editor-width', `${editorWidth.toFixed(3)}%`);
       section!.style.setProperty('--editor-height', `${editorHeight.toFixed(3)}%`);
       section!.style.setProperty('--editor-radius', `${editorRadius.toFixed(3)}px`);
       section!.style.setProperty('--editor-inner-left', `${editorInnerLeft.toFixed(3)}px`);
-      section!.style.setProperty('--strike-1', strikeOne.toFixed(3));
-      section!.style.setProperty('--strike-2', strikeTwo.toFixed(3));
-      section!.style.setProperty('--strike-3', strikeThree.toFixed(3));
-      ticking = false;
-    }
+	      section!.style.setProperty('--strike-1', strikeOne.toFixed(3));
+		      section!.style.setProperty('--strike-2', strikeTwo.toFixed(3));
+		      section!.style.setProperty('--strike-3', strikeThree.toFixed(3));
+			      section!.style.setProperty('--feature-highlight', featureHighlight.toFixed(3));
+			      section!.style.setProperty('--physical-highlight', physicalHighlight.toFixed(3));
+			      section!.style.setProperty('--feature-highlight-y', featureHighlightY.toFixed(3));
+			      section!.style.setProperty('--physical-highlight-y', physicalHighlightY.toFixed(3));
+	      ticking = false;
+	    }
 
     function requestUpdate() {
       if (ticking) return;

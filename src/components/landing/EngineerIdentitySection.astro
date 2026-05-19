@@ -121,17 +121,23 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
 <section id="engineer-identity" class="engineer-identity-section relative bg-brand-dark" data-hide-navbar-on-scroll>
   <div class="engineer-identity-sticky">
-  <div class="mx-auto w-full max-w-[1800px]">
-    <svg
-      class="engineer-identity-svg"
-      viewBox="0 0 4000 1900"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-labelledby="engineer-identity-title"
-    >
-      <title id="engineer-identity-title">CodeKarma shows what runs in your production.</title>
+    <div class="engineer-identity-stage">
+      <svg
+        class="engineer-identity-svg"
+        viewBox="0 0 4000 1900"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="CodeKarma shows what runs in your production."
+      >
+      <defs>
+        <linearGradient id="identity-cta-text-gradient" x1="0" y1="1196" x2="0" y2="1316" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#ffffff" />
+          <stop offset="42%" stop-color="#ffffff" />
+          <stop offset="100%" stop-color="#cdff52" />
+        </linearGradient>
+      </defs>
       <rect class="identity-background" width="4000" height="1900" />
 
       <g
@@ -240,23 +246,49 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           fill="#0f0f0f"
           text-anchor="middle"
           font-family="Geist, system-ui, sans-serif"
-          font-size="142"
+          font-size="160"
           font-weight="650"
           letter-spacing="0"
         >
           <tspan x="2000">CodeKarma shows</tspan>
-          <tspan x="2000" dy="172">what runs in your production</tspan>
+          <tspan x="2000" dy="190">what runs in your production</tspan>
         </text>
+        <a
+          href="https://cal.com/ananth-vanchi/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="identity-final-cta-link"
+          aria-label="Schedule Demo"
+        >
+          <rect class="identity-final-cta-bg" x="1590" y="1196" width="820" height="132" />
+          <text
+            class="identity-final-cta-text"
+            x="2000"
+            y="1262"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            font-family="Geist, system-ui, sans-serif"
+            font-size="54"
+            font-weight="500"
+            letter-spacing="0"
+          >
+            Schedule Demo
+          </text>
+        </a>
       </g>
-    </svg>
-  </div>
+      </svg>
+    </div>
   </div>
 </section>
 
 <style is:global>
   .engineer-identity-section {
-    min-height: 340vh;
-    overflow: clip;
+    min-height: 260vh;
+    width: 100%;
+    max-width: none;
+    overflow-x: clip;
+    overflow-y: visible;
+    isolation: isolate;
     background: var(--identity-bg-color, #0f0f0f);
     --identity-bg-color: #0f0f0f;
     --identity-grid-opacity: 1;
@@ -287,15 +319,26 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     position: sticky;
     top: 0;
     display: flex;
+    width: 100vw;
     min-height: 100vh;
     min-height: 100svh;
     align-items: center;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background: var(--identity-bg-color, #0f0f0f);
+    overflow: hidden;
+  }
+
+  .engineer-identity-stage {
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
     overflow: hidden;
   }
 
   .engineer-identity-svg {
     display: block;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     height: 100svh;
     max-height: none;
@@ -326,6 +369,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
   .identity-body {
     opacity: var(--identity-body-opacity);
+    will-change: opacity;
   }
 
   .identity-copy-original {
@@ -378,8 +422,36 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     filter: blur(var(--identity-copy-final-blur));
   }
 
-  .identity-copy-final text {
+  .identity-copy-final > text {
     fill: var(--identity-copy-final-color);
+  }
+
+  .identity-final-cta-link {
+    cursor: pointer;
+  }
+
+  .identity-final-cta-bg {
+    fill: #0f0f0f;
+    stroke: #0f0f0f;
+    stroke-width: 0;
+    vector-effect: non-scaling-stroke;
+    transition:
+      fill 0.2s ease,
+      stroke-width 0.2s ease;
+  }
+
+  .identity-copy-final .identity-final-cta-text {
+    fill: url('#identity-cta-text-gradient');
+    transition: fill 0.2s ease;
+  }
+
+  .identity-final-cta-link:hover .identity-final-cta-bg {
+    fill: transparent;
+    stroke-width: 2px;
+  }
+
+  .identity-final-cta-link:hover .identity-final-cta-text {
+    fill: #0f0f0f;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -389,13 +461,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
   }
 
-  @media (max-width: 767px) {
-    #engineer-identity > div {
-      width: 180vw;
-      margin-left: -40vw;
-      margin-right: -40vw;
-    }
-  }
 </style>
 
 <script>
@@ -415,6 +480,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   function smoothStep(start: number, end: number, value: number) {
     const progress = clamp((value - start) / (end - start));
     return progress * progress * (3 - 2 * progress);
+  }
+
+  function smootherStep(start: number, end: number, value: number) {
+    const progress = clamp((value - start) / (end - start));
+    return progress * progress * progress * (progress * (progress * 6 - 15) + 10);
   }
 
   function mixColor(start: [number, number, number], end: [number, number, number], progress: number) {
@@ -478,24 +548,27 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const scrollDistance = Math.max(rect.height - viewportHeight, 1);
       const sectionProgress = clamp(-rect.top / scrollDistance);
       const originalCopyEnter = smoothStep(viewportHeight * 0.82, viewportHeight * 0.34, rect.top);
-      const headProgress = smoothStep(0.04, 0.42, sectionProgress);
-      const originalCopyExit = smoothStep(0.18, 0.28, sectionProgress);
-      const aiCopyEnter = smoothStep(0.2, 0.3, sectionProgress);
-      const aiCopyExit = smoothStep(0.48, 0.56, sectionProgress);
-      const centerSparkExpand = smoothStep(0.56, 0.78, sectionProgress);
-      const backgroundProgress = smoothStep(0.7, 0.78, sectionProgress);
-      const iconColorProgress = smoothStep(0.66, 0.78, sectionProgress);
-      const centerLineProgress = smoothStep(0.66, 0.8, sectionProgress);
-      const pillRowsProgress = smoothStep(0.815, 0.94, sectionProgress);
-      const pillForwardProgress = smoothStep(0.68, 0.955, sectionProgress);
-      const centerChipExpand = smoothStep(0.955, 0.992, sectionProgress);
-      const pillTextExit = smoothStep(0.965, 0.982, sectionProgress);
-      const finalCopyEnter = smoothStep(0.986, 0.998, sectionProgress);
+      const headProgress = smootherStep(0.025, 0.24, sectionProgress);
+      const bodyOpacity = 1 - smootherStep(0.05, 0.22, sectionProgress);
+      const originalCopyExit = smootherStep(0.055, 0.215, sectionProgress);
+      const aiCopyEnter = smootherStep(0.115, 0.255, sectionProgress);
+      const aiCopyExit = smootherStep(0.38, 0.48, sectionProgress);
+      const centerSparkEnter = smootherStep(0.44, 0.54, sectionProgress);
+      const centerSparkExpand = smoothStep(0.44, 0.62, sectionProgress);
+      const backgroundProgress = smoothStep(0.5, 0.64, sectionProgress);
+      const iconColorProgress = smoothStep(0.48, 0.64, sectionProgress);
+      const centerLineProgress = smoothStep(0.52, 0.66, sectionProgress);
+      const pillRowsProgress = smoothStep(0.62, 0.74, sectionProgress);
+      const pillForwardProgress = smoothStep(0.75, 0.84, sectionProgress);
+      const centerChipExpand = smoothStep(0.86, 0.995, sectionProgress);
+      const pillTextExit = smoothStep(0.94, 0.995, sectionProgress);
+      const finalCopyEnter = smoothStep(0.975, 0.998, sectionProgress);
       const pillForwardX = -626 * pillForwardProgress;
       const pillTrackScale = 1 + pillForwardProgress * 0.025 + centerChipExpand * 15.5;
 
+      const headPath = getHeadPath(headProgress);
       headPaths.forEach((path) => {
-        path.setAttribute('d', getHeadPath(headProgress));
+        path.setAttribute('d', headPath);
       });
 
       pillChips.forEach((chip) => {
@@ -505,23 +578,24 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         let chipOpacity = 0;
 
         if (rowDistance === 0) {
-          chipOpacity = centerLineProgress >= lineOrder / maxLineOrder ? 1 : 0;
+          const lineRevealStart = (lineOrder / maxLineOrder) * 0.78;
+          chipOpacity = smoothStep(lineRevealStart, lineRevealStart + 0.12, centerLineProgress);
         } else {
-          chipOpacity =
-            pillRowsProgress > 0 && pillRowsProgress >= (rowDistance - 1) / maxRowDistance ? 1 : 0;
+          const rowRevealStart = ((rowDistance - 1) / Math.max(maxRowDistance - 1, 1)) * 0.74;
+          chipOpacity = smoothStep(rowRevealStart, rowRevealStart + 0.22, pillRowsProgress);
         }
 
         const rowDepth = 1 - Math.min(rowDistance / maxRowDistance, 1);
         const rowParallax = 0.34 + Math.pow(rowDepth, 1.35) * 0.66;
         const rowForwardX = pillForwardX * rowParallax;
 
-        chip.style.opacity = String(chipOpacity);
+        chip.style.opacity = chipOpacity.toFixed(3);
         chip.style.transform = `translateX(${rowForwardX.toFixed(2)}px)`;
       });
 
       const backgroundColor = mixColor([15, 15, 15], [205, 255, 82], backgroundProgress);
       const iconColor = mixColor([255, 255, 255], [15, 15, 15], iconColorProgress);
-      const centerSparkOpacity = sectionProgress >= 0.56 ? 1 : 0;
+      const centerSparkOpacity = centerSparkEnter;
       const centerSparkScale = 0.72 + centerSparkExpand * 56;
       const chipFieldOpacity = centerLineProgress > 0.01 ? 1 - finalCopyEnter : 0;
 
@@ -529,7 +603,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section!.style.setProperty('--identity-grid-opacity', String(1 - smoothStep(0.78, 0.9, sectionProgress)));
       section!.style.setProperty('--identity-icon-color', iconColor);
       section!.style.setProperty('--identity-head-opacity', '1');
-      section!.style.setProperty('--identity-body-opacity', String(1 - headProgress));
+      section!.style.setProperty('--identity-body-opacity', String(bodyOpacity));
       section!.style.setProperty(
         '--identity-copy-original-opacity',
         String(originalCopyEnter * (1 - originalCopyExit))

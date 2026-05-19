@@ -279,8 +279,8 @@ const products = [
       const totalScroll = rect.height - vh;
       const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
 
-      const expandEnd = 0.1;
-      const shrinkStart = 0.9;
+      const expandEnd = 0.12;
+      const shrinkStart = 0.86;
 
       const parentPadding = window.innerWidth < 768 ? 20 : window.innerWidth < 1024 ? 40 : 106;
       const fullMargin = -(parentPadding + (window.innerWidth - scrollArea!.offsetWidth) / 2);
@@ -542,12 +542,12 @@ const products = [
   }
 
   .products-scroll-area {
-    height: 300vh;
+    height: 220vh;
   }
 
   @media (min-width: 768px) {
     .products-scroll-area {
-      height: 500vh;
+      height: 260vh;
     }
   }
 
