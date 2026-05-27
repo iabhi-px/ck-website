@@ -42,21 +42,6 @@ const iconPositions = [
   [3433, 1630],
 ];
 
-const mobileExtraIconPositions: Array<[number, number]> = [
-  [1243, -370],
-  [1681, -370],
-  [2119, -370],
-  [2557, -370],
-  [1243, -110],
-  [1681, -110],
-  [2119, -110],
-  [2557, -110],
-  [1243, 1885],
-  [1681, 1885],
-  [2119, 1885],
-  [2557, 1885],
-];
-
 const circleHeadPath =
   'M100 14C126.51 14 148 35.49 148 62C148 88.51 126.51 110 100 110C73.49 110 52 88.51 52 62C52 35.49 73.49 14 100 14Z';
 const sparkleGlyphPath =
@@ -178,21 +163,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
           </g>
         ))}
-        {mobileExtraIconPositions.map(([x, y], index) => (
-          <g
-            class="identity-icon identity-icon--mobile-only"
-            transform={`translate(${x} ${y}) translate(100 86) scale(${iconScale}) translate(-100 -86)`}
-            style={`--identity-delay: ${(iconPositions.length + index) * 12}ms`}
-          >
-            <path class="identity-head-path" d={circleHeadPath} />
-
-            <path
-              class="identity-body"
-              d="M25 158C45 124 70 110 100 110C130 110 155 124 175 158"
-            />
-
-          </g>
-        ))}
       </g>
 
       <g class="identity-center-spark-wrap" transform="translate(2000 950)">
@@ -281,7 +251,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           <path d="M128 80L112 100.513L128 120" stroke="#0f0f0f" stroke-width="14.4" />
         </g>
         <text
-          class="identity-final-heading identity-final-heading--desktop"
+          class="identity-final-heading"
           x="2000"
           y="855"
           fill="#0f0f0f"
@@ -293,21 +263,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         >
           <tspan x="2000">CodeKarma shows</tspan>
           <tspan x="2000" dy="190">what runs in your production</tspan>
-        </text>
-        <text
-          class="identity-final-heading identity-final-heading--mobile"
-          x="2000"
-          y="855"
-          fill="#0f0f0f"
-          text-anchor="middle"
-          font-family="Geist, system-ui, sans-serif"
-          font-size="160"
-          font-weight="650"
-          letter-spacing="-0.025em"
-        >
-          <tspan x="2000">CodeKarma shows</tspan>
-          <tspan x="2000" dy="190">what runs in</tspan>
-          <tspan x="2000" dy="190">your production</tspan>
         </text>
         <a
           href="https://cal.com/ananth-vanchi/30min"
@@ -559,7 +514,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   @media (max-width: 900px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.72;
-      --identity-copy-scale: 0.62;
+      --identity-copy-scale: 0.54;
       --identity-final-copy-scale: 0.72;
     }
 
@@ -569,35 +524,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
   }
 
-  .identity-icon--mobile-only {
-    display: none;
-  }
-
-  .identity-final-heading--mobile {
-    display: none;
-  }
-
   @media (max-width: 767px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.62;
-      --identity-copy-scale: 0.6;
-      --identity-final-copy-scale: 0.59;
-    }
-
-    .identity-icon--mobile-only {
-      display: block;
-    }
-
-    .identity-final-cta-link {
-      display: none;
-    }
-
-    .identity-final-heading--desktop {
-      display: none;
-    }
-
-    .identity-final-heading--mobile {
-      display: block;
+      --identity-copy-scale: 0.43;
+      --identity-final-copy-scale: 0.52;
     }
 
     .identity-copy-final {
@@ -638,23 +569,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       line-height: 1.04;
       letter-spacing: 0;
     }
-
-    .identity-final-logomark {
-      transform-box: view-box;
-      transform-origin: 0 0;
-      transform: translate(1895.04px, 591px) scale(0.82);
-    }
   }
 
   @media (max-width: 479px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.58;
-      --identity-copy-scale: 0.6;
-      --identity-final-copy-scale: 0.50;
-    }
-
-    .identity-final-logomark {
-      transform: translate(1895.04px, 598px) scale(0.82);
+      --identity-copy-scale: 0.38;
+      --identity-final-copy-scale: 0.38;
     }
 
     .identity-final-mobile {
@@ -713,10 +634,9 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v13';
+  const identityScrollBindingVersion = 'native-scroll-v1';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
-    __ckStepScrollOwner?: string;
   };
 
   function initEngineerIdentityScroll() {
@@ -860,37 +780,12 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section!.style.setProperty('--identity-final-pointer-events', finalCopyEnter > 0.98 ? 'auto' : 'none');
     }
 
-    const choreographySteps = [
-      { name: 'intro', progress: 0 },
-      { name: 'ai', progress: 0.28 },
-      { name: 'spark', progress: 0.45 },
-      { name: 'pillField', progress: 0.64 },
-      { name: 'pillDrift', progress: 0.76 },
-      { name: 'final', progress: 0.93 },
-    ];
-    const stepTargets = choreographySteps.map((step) => step.progress);
-    const lastStepIndex = stepTargets.length - 1;
-    let currentStepIndex = 0;
-    let stepTween: gsap.core.Tween | null = null;
     let mobileTween: gsap.core.Tween | null = null;
-    let isSectionActive = false;
-    let isAnimatingStep = false;
-    let activePinDirection: 1 | -1 = 1;
-    let activePinnedScrollY: number | null = null;
-    let activeStepDirection: 1 | -1 | null = null;
-    let lastAcceptedWheelDirection: 1 | -1 | null = null;
-    let lastAcceptedWheelAt = 0;
-    let sameDirectionLockUntil = 0;
-    let suppressWheelUntil = 0;
+    let nativeScrollFrame: number | null = null;
     let lastResizeWidth = window.innerWidth;
     let mobileRefreshFrame: number | null = null;
-    const reverseIntentDebounceMs = 110;
-    const postAnimationMomentumGuardMs = 120;
-    const enterMomentumGuardMs = 180;
-    const clickWheelSuppressMs = 80;
-    const wheelIntentThreshold = 10;
 
-    function isDesktopSnapMode() {
+    function isDesktopNativeMode() {
       return window.matchMedia('(min-width: 768px)').matches;
     }
 
@@ -903,188 +798,31 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       return Math.max(section!.offsetHeight - viewportHeight, viewportHeight);
     }
 
-    function getSectionScrollEnd() {
-      return getSectionScrollStart() + getSectionScrollLength();
-    }
-
-    function getWheelDirection(event: WheelEvent): 1 | -1 | 0 {
-      if (event.deltaY > 0) return 1;
-      if (event.deltaY < 0) return -1;
-      return 0;
-    }
-
-    function clampScrollYToRunway(scrollY: number) {
-      return clamp(scrollY, getSectionScrollStart() + 2, getSectionScrollEnd() - 2);
-    }
-
-    function getBoundaryActivationBand(delta: number) {
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      return Math.min(Math.max(delta, 96), viewportHeight * 0.42);
-    }
-
-    function syncPinnedScrollToCurrentPosition() {
-      activePinnedScrollY = clampScrollYToRunway(window.scrollY);
-    }
-
-    function isFinalCtaEvent(event: Event) {
-      const target = event.target;
-      return target instanceof Element && Boolean(target.closest('.identity-final-cta-link'));
-    }
-
-    function isInsideSectionRunway(scrollY = window.scrollY) {
-      return scrollY >= getSectionScrollStart() - 1 && scrollY <= getSectionScrollEnd() + 1;
-    }
-
     function setControlledProgress(progress: number) {
       progressState.value = clamp(progress);
       render(progressState.value);
     }
 
-    function withInstantScrollBehavior(callback: () => void) {
-      const root = document.documentElement;
-      const body = document.body;
-      const previousRootScrollBehavior = root.style.scrollBehavior;
-      const previousBodyScrollBehavior = body.style.scrollBehavior;
+    function getNativeScrollProgress() {
+      return clamp((window.scrollY - getSectionScrollStart()) / getSectionScrollLength());
+    }
 
-      root.style.setProperty('scroll-behavior', 'auto', 'important');
-      body.style.setProperty('scroll-behavior', 'auto', 'important');
+    function renderNativeScrollProgress() {
+      if (!isDesktopNativeMode()) return;
+      setControlledProgress(getNativeScrollProgress());
+    }
 
-      callback();
+    function requestNativeScrollRender() {
+      if (!isDesktopNativeMode() || nativeScrollFrame !== null) return;
 
-      requestAnimationFrame(() => {
-        root.style.scrollBehavior = previousRootScrollBehavior;
-        body.style.scrollBehavior = previousBodyScrollBehavior;
+      nativeScrollFrame = window.requestAnimationFrame(() => {
+        nativeScrollFrame = null;
+        renderNativeScrollProgress();
       });
-    }
-
-    function forceScrollTo(top: number) {
-      withInstantScrollBehavior(() => {
-        document.documentElement.scrollTop = top;
-        document.body.scrollTop = top;
-        window.scrollTo({ top, left: 0, behavior: 'auto' });
-      });
-    }
-
-    function getPinnedScrollY() {
-      if (activePinnedScrollY !== null) return activePinnedScrollY;
-      return activePinDirection > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
-    }
-
-    function pinViewportToSection() {
-      if (!isSectionActive) return;
-
-      const targetY = getPinnedScrollY();
-      if (Math.abs(window.scrollY - targetY) > 1) {
-        forceScrollTo(targetY);
-      }
-    }
-
-    function placeViewportAtSectionEdge(direction: 1 | -1) {
-      activePinDirection = direction;
-      const targetY = direction > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
-      activePinnedScrollY = targetY;
-      forceScrollTo(targetY);
-    }
-
-    function pinViewportAtCurrentPosition(direction: 1 | -1) {
-      activePinDirection = direction;
-      activePinnedScrollY = clampScrollYToRunway(window.scrollY);
-    }
-
-    function setStep(index: number) {
-      currentStepIndex = Math.min(Math.max(index, 0), lastStepIndex);
-      setControlledProgress(stepTargets[currentStepIndex]);
-    }
-
-    function rememberAcceptedWheel(direction: 1 | -1, lockForMs: number) {
-      const now = window.performance.now();
-      lastAcceptedWheelDirection = direction;
-      lastAcceptedWheelAt = now;
-      sameDirectionLockUntil = now + lockForMs;
-    }
-
-    function clearWheelMemory() {
-      activeStepDirection = null;
-      activePinnedScrollY = null;
-      lastAcceptedWheelDirection = null;
-      lastAcceptedWheelAt = 0;
-      sameDirectionLockUntil = 0;
-
-      if (identityWindow.__ckStepScrollOwner === 'engineer-identity') {
-        delete identityWindow.__ckStepScrollOwner;
-      }
-    }
-
-    function animateToStep(index: number, direction: 1 | -1) {
-      const targetIndex = Math.min(Math.max(index, 0), lastStepIndex);
-      if (targetIndex === currentStepIndex) return;
-
-      stepTween?.kill();
-      currentStepIndex = targetIndex;
-      isAnimatingStep = true;
-      activeStepDirection = direction;
-      const duration = targetIndex === lastStepIndex ? 0.68 : 0.56;
-      rememberAcceptedWheel(direction, duration * 1000 + postAnimationMomentumGuardMs);
-
-      stepTween = gsap.to(progressState, {
-        value: stepTargets[targetIndex],
-        duration,
-        ease: 'power3.out',
-        overwrite: true,
-        onUpdate: () => {
-          render(progressState.value);
-          pinViewportToSection();
-        },
-        onComplete: () => {
-          setControlledProgress(stepTargets[targetIndex]);
-          pinViewportToSection();
-          isAnimatingStep = false;
-          activeStepDirection = null;
-          stepTween = null;
-        },
-        onInterrupt: () => {
-          isAnimatingStep = false;
-          activeStepDirection = null;
-        },
-      });
-    }
-
-    function releaseSection(direction: 1 | -1) {
-      isSectionActive = false;
-      stepTween?.kill();
-      clearWheelMemory();
-
-      const endY = direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, getSectionScrollStart() - 2);
-      forceScrollTo(endY);
-    }
-
-    function enterSection(direction: 1 | -1) {
-      isSectionActive = true;
-      identityWindow.__ckStepScrollOwner = 'engineer-identity';
-      pinViewportAtCurrentPosition(direction);
-      setStep(direction > 0 ? 0 : lastStepIndex);
-      rememberAcceptedWheel(direction, enterMomentumGuardMs);
-    }
-
-    function handleStepIntent(direction: 1 | -1) {
-      if (!isDesktopSnapMode() || !isSectionActive) return false;
-
-      if (direction < 0 && currentStepIndex === 0) {
-        releaseSection(direction);
-        return false;
-      }
-
-      if (direction > 0 && currentStepIndex === lastStepIndex) {
-        releaseSection(direction);
-        return false;
-      }
-
-      animateToStep(currentStepIndex + direction, direction);
-      return true;
     }
 
     function ensureMobileScrub() {
-      if (mobileTween || isDesktopSnapMode()) return;
+      if (mobileTween || isDesktopNativeMode()) return;
 
       mobileTween = gsap.to(progressState, {
         value: 1,
@@ -1120,131 +858,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       });
     }
 
-    function handleWheel(event: WheelEvent) {
-      if (!isDesktopSnapMode()) return;
-
-      const direction = getWheelDirection(event);
-      if (direction === 0) return;
-
-      const currentY = window.scrollY;
-      const delta = Math.abs(event.deltaY);
-      const sectionStart = getSectionScrollStart();
-      const sectionEnd = getSectionScrollEnd();
-      const boundaryActivationBand = getBoundaryActivationBand(delta);
-      const crossesFromAbove =
-        direction > 0 &&
-        currentY < sectionStart &&
-        currentY + delta >= sectionStart &&
-        sectionStart - currentY <= boundaryActivationBand;
-      const crossesFromBelow =
-        direction < 0 &&
-        currentY > sectionEnd &&
-        currentY - delta <= sectionEnd &&
-        currentY - sectionEnd <= boundaryActivationBand;
-      const shouldControl = isSectionActive || isInsideSectionRunway(currentY) || crossesFromAbove || crossesFromBelow;
-
-      if (!shouldControl) return;
-
-      const now = window.performance.now();
-
-      if (isSectionActive && !event.cancelable) {
-        syncPinnedScrollToCurrentPosition();
-      }
-
-      if (now < suppressWheelUntil) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        pinViewportToSection();
-        return;
-      }
-
-      if (event.buttons !== 0) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        pinViewportToSection();
-        return;
-      }
-
-      if (
-        identityWindow.__ckStepScrollOwner &&
-        identityWindow.__ckStepScrollOwner !== 'engineer-identity'
-      ) {
-        isSectionActive = false;
-        isAnimatingStep = false;
-        activeStepDirection = null;
-        stepTween?.kill();
-        stepTween = null;
-        clearWheelMemory();
-        identityWindow.__ckStepScrollOwner = 'engineer-identity';
-      }
-
-      const shouldReleaseToNativeScroll =
-        isSectionActive &&
-        !isAnimatingStep &&
-        !(direction === lastAcceptedWheelDirection && now < sameDirectionLockUntil) &&
-        ((direction < 0 && currentStepIndex === 0) || (direction > 0 && currentStepIndex === lastStepIndex));
-
-      if (shouldReleaseToNativeScroll) {
-        releaseSection(direction);
-        return;
-      }
-
-      event.preventDefault();
-      event.stopImmediatePropagation();
-
-      if (isSectionActive) {
-        pinViewportToSection();
-      }
-
-      if (delta < wheelIntentThreshold) {
-        return;
-      }
-
-      if (isAnimatingStep) {
-        pinViewportToSection();
-        if (
-          direction !== activeStepDirection &&
-          now - lastAcceptedWheelAt >= reverseIntentDebounceMs
-        ) {
-          handleStepIntent(direction);
-        }
-        return;
-      }
-
-      if (direction === lastAcceptedWheelDirection && now < sameDirectionLockUntil) {
-        pinViewportToSection();
-        return;
-      }
-
-      if (!isSectionActive) {
-        killMobileScrub();
-        enterSection(direction);
-        pinViewportToSection();
-        handleStepIntent(direction);
-        return;
-      }
-
-      handleStepIntent(direction);
-    }
-
-    function handleMouseDown(event: MouseEvent) {
-      if (!isDesktopSnapMode() || isFinalCtaEvent(event)) return;
-
-      suppressWheelUntil = window.performance.now() + clickWheelSuppressMs;
-
-      if (event.button === 1) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-    }
-
-    function handleAuxClick(event: MouseEvent) {
-      if (!isDesktopSnapMode() || isFinalCtaEvent(event)) return;
-
-      if (event.button === 1) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
+    function handleNativeScroll() {
+      requestNativeScrollRender();
     }
 
     const handleResize = () => {
@@ -1252,10 +867,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const widthChanged = Math.abs(currentWidth - lastResizeWidth) > 1;
       lastResizeWidth = currentWidth;
 
-      if (!isDesktopSnapMode()) {
-        isSectionActive = false;
-        stepTween?.kill();
-        clearWheelMemory();
+      if (!isDesktopNativeMode()) {
         ensureMobileScrub();
 
         if (widthChanged) {
@@ -1268,24 +880,21 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       }
 
       killMobileScrub();
-      if (isSectionActive) {
-        placeViewportAtSectionEdge(activePinDirection);
-      }
-      setStep(currentStepIndex);
+      renderNativeScrollProgress();
     };
 
     const cleanupEngineerIdentityScroll = () => {
+      window.removeEventListener('scroll', handleNativeScroll);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('wheel', handleWheel, true);
-      section.removeEventListener('mousedown', handleMouseDown, true);
-      section.removeEventListener('auxclick', handleAuxClick, true);
-      stepTween?.kill();
       killMobileScrub();
+      if (nativeScrollFrame !== null) {
+        window.cancelAnimationFrame(nativeScrollFrame);
+        nativeScrollFrame = null;
+      }
       if (mobileRefreshFrame !== null) {
         window.cancelAnimationFrame(mobileRefreshFrame);
         mobileRefreshFrame = null;
       }
-      clearWheelMemory();
       delete section.dataset.identityScrollBound;
 
       if (identityWindow.__engineerIdentityScrollCleanup === cleanupEngineerIdentityScroll) {
@@ -1293,14 +902,16 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       }
     };
 
+    window.addEventListener('scroll', handleNativeScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    section.addEventListener('mousedown', handleMouseDown, { capture: true });
-    section.addEventListener('auxclick', handleAuxClick, { capture: true });
     identityWindow.__engineerIdentityScrollCleanup = cleanupEngineerIdentityScroll;
     document.addEventListener('astro:before-swap', cleanupEngineerIdentityScroll, { once: true });
-    ensureMobileScrub();
-    render(0);
+    if (isDesktopNativeMode()) {
+      renderNativeScrollProgress();
+    } else {
+      ensureMobileScrub();
+      render(progressState.value);
+    }
   }
 
   initEngineerIdentityScroll();
