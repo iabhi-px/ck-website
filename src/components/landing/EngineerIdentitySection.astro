@@ -561,7 +561,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v2';
+  const identityScrollBindingVersion = 'target-step-v4';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -626,10 +626,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const iconColorProgress = smoothStep(0.37, 0.52, sectionProgress);
       const centerLineProgress = smoothStep(0.38, 0.54, sectionProgress);
       const pillRowsProgress = smoothStep(0.5, 0.62, sectionProgress);
-      const pillForwardProgress = smoothStep(0.62, 0.72, sectionProgress);
-      const centerChipExpand = smoothStep(0.72, 0.86, sectionProgress);
-      const pillTextExit = smoothStep(0.8, 0.88, sectionProgress);
-      const finalCopyEnter = smoothStep(0.83, 0.9, sectionProgress);
+      const pillForwardProgress = smoothStep(0.62, 0.8, sectionProgress);
+      const centerChipExpand = smoothStep(0.78, 0.9, sectionProgress);
+      const pillTextExit = smoothStep(0.84, 0.91, sectionProgress);
+      const finalCopyEnter = smoothStep(0.87, 0.93, sectionProgress);
       const pillForwardX = -626 * pillForwardProgress;
       const pillTrackScale = 1 + pillForwardProgress * 0.025 + centerChipExpand * 15.5;
 
@@ -713,7 +713,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       { name: 'ai', progress: 0.28 },
       { name: 'spark', progress: 0.45 },
       { name: 'pillField', progress: 0.64 },
-      { name: 'final', progress: 0.9 },
+      { name: 'pillDrift', progress: 0.76 },
+      { name: 'final', progress: 0.93 },
     ];
     const stepTargets = choreographySteps.map((step) => step.progress);
     const lastStepIndex = stepTargets.length - 1;
@@ -930,18 +931,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const direction = getWheelDirection(event);
       if (direction === 0) return;
 
-      if (
-        identityWindow.__ckStepScrollOwner &&
-        identityWindow.__ckStepScrollOwner !== 'engineer-identity'
-      ) {
-        isSectionActive = false;
-        isAnimatingStep = false;
-        activeStepDirection = null;
-        stepTween?.kill();
-        stepTween = null;
-        return;
-      }
-
       const currentY = window.scrollY;
       const sectionStart = getSectionScrollStart();
       const sectionEnd = getSectionScrollEnd();
@@ -952,6 +941,19 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         isSectionActive || isInsideSectionRunway(currentY) || crossesFromAbove || crossesFromBelow;
 
       if (!shouldControl) return;
+
+      if (
+        identityWindow.__ckStepScrollOwner &&
+        identityWindow.__ckStepScrollOwner !== 'engineer-identity'
+      ) {
+        isSectionActive = false;
+        isAnimatingStep = false;
+        activeStepDirection = null;
+        stepTween?.kill();
+        stepTween = null;
+        clearWheelMemory();
+        identityWindow.__ckStepScrollOwner = 'engineer-identity';
+      }
 
       event.preventDefault();
       event.stopImmediatePropagation();
