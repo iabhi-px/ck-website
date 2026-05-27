@@ -640,7 +640,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v6';
+  const identityScrollBindingVersion = 'target-step-v7';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -809,10 +809,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let sameDirectionLockUntil = 0;
     let suppressWheelUntil = 0;
     const reverseIntentDebounceMs = 110;
-    const postAnimationMomentumGuardMs = 70;
+    const postAnimationMomentumGuardMs = 0;
     const enterMomentumGuardMs = 0;
     const clickWheelSuppressMs = 80;
-    const wheelIntentThreshold = 1;
+    const wheelIntentThreshold = 0;
 
     function isDesktopSnapMode() {
       return window.matchMedia('(min-width: 768px)').matches;
