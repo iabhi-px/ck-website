@@ -713,7 +713,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v10';
+  const identityScrollBindingVersion = 'target-step-v11';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -876,6 +876,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let isSectionActive = false;
     let isAnimatingStep = false;
     let activePinDirection: 1 | -1 = 1;
+    let activePinnedScrollY: number | null = null;
     let activeStepDirection: 1 | -1 | null = null;
     let lastAcceptedWheelDirection: 1 | -1 | null = null;
     let lastAcceptedWheelAt = 0;
@@ -884,10 +885,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let lastResizeWidth = window.innerWidth;
     let mobileRefreshFrame: number | null = null;
     const reverseIntentDebounceMs = 110;
-    const postAnimationMomentumGuardMs = 0;
-    const enterMomentumGuardMs = 0;
+    const postAnimationMomentumGuardMs = 120;
+    const enterMomentumGuardMs = 180;
     const clickWheelSuppressMs = 80;
-    const wheelIntentThreshold = 0;
+    const wheelIntentThreshold = 10;
 
     function isDesktopSnapMode() {
       return window.matchMedia('(min-width: 768px)').matches;
@@ -910,6 +911,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       if (event.deltaY > 0) return 1;
       if (event.deltaY < 0) return -1;
       return 0;
+    }
+
+    function clampScrollYToRunway(scrollY: number) {
+      return clamp(scrollY, getSectionScrollStart() + 2, getSectionScrollEnd() - 2);
     }
 
     function isFinalCtaEvent(event: Event) {
@@ -952,6 +957,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     function getPinnedScrollY() {
+      if (activePinnedScrollY !== null) return activePinnedScrollY;
       return activePinDirection > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
     }
 
@@ -967,7 +973,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     function placeViewportAtSectionEdge(direction: 1 | -1) {
       activePinDirection = direction;
       const targetY = direction > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
+      activePinnedScrollY = targetY;
       forceScrollTo(targetY);
+    }
+
+    function pinViewportAtCurrentPosition(direction: 1 | -1) {
+      activePinDirection = direction;
+      activePinnedScrollY = clampScrollYToRunway(window.scrollY);
     }
 
     function setStep(index: number) {
@@ -984,6 +996,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
     function clearWheelMemory() {
       activeStepDirection = null;
+      activePinnedScrollY = null;
       lastAcceptedWheelDirection = null;
       lastAcceptedWheelAt = 0;
       sameDirectionLockUntil = 0;
@@ -1039,7 +1052,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     function enterSection(direction: 1 | -1) {
       isSectionActive = true;
       identityWindow.__ckStepScrollOwner = 'engineer-identity';
-      placeViewportAtSectionEdge(direction);
+      pinViewportAtCurrentPosition(direction);
       setStep(direction > 0 ? 0 : lastStepIndex);
       rememberAcceptedWheel(direction, enterMomentumGuardMs);
     }
@@ -1105,13 +1118,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       if (direction === 0) return;
 
       const currentY = window.scrollY;
-      const sectionStart = getSectionScrollStart();
-      const sectionEnd = getSectionScrollEnd();
       const delta = Math.abs(event.deltaY);
-      const crossesFromAbove = direction > 0 && currentY < sectionStart && currentY + delta >= sectionStart;
-      const crossesFromBelow = direction < 0 && currentY > sectionEnd && currentY - delta <= sectionEnd;
-      const shouldControl =
-        isSectionActive || isInsideSectionRunway(currentY) || crossesFromAbove || crossesFromBelow;
+      const shouldControl = isSectionActive || isInsideSectionRunway(currentY);
 
       if (!shouldControl) return;
 
@@ -1183,17 +1191,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       }
 
       if (!isSectionActive) {
-        const alreadyInsideRunway = isInsideSectionRunway(currentY) && !crossesFromAbove && !crossesFromBelow;
-        const runwayProgress = clamp((currentY - sectionStart) / Math.max(sectionEnd - sectionStart, 1));
-
         killMobileScrub();
         enterSection(direction);
-
-        if (alreadyInsideRunway) {
-          setStep(runwayProgress > 0.5 ? lastStepIndex : 0);
-          handleStepIntent(direction);
-        }
-
         return;
       }
 
