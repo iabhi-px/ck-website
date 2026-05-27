@@ -142,11 +142,20 @@ const {
         const contactSection = document.getElementById('contact-section');
         if (!ctaBar || !contactSection) return;
 
+        const ctaSuppressedSections = Array.from(document.querySelectorAll('#dead-code-statement'));
         let lastScrollY = Math.max(window.pageYOffset || window.scrollY || 0, 0);
         const scrollThreshold = 6;
 
         function setCtaHidden(hidden) {
           ctaBar.style.transform = hidden ? 'translate3d(0, 100%, 0)' : 'translate3d(0, 0, 0)';
+        }
+
+        function isInsideCtaSuppressedSection() {
+          const windowHeight = window.innerHeight;
+          return ctaSuppressedSections.some((section) => {
+            const rect = section.getBoundingClientRect();
+            return rect.top < windowHeight && rect.bottom > 0;
+          });
         }
 
         function checkVisibility() {
@@ -156,6 +165,12 @@ const {
           const scrollDelta = currentScrollY - lastScrollY;
           const contactTop = contactSection.getBoundingClientRect().top;
           const windowHeight = window.innerHeight;
+
+          if (isInsideCtaSuppressedSection()) {
+            setCtaHidden(true);
+            lastScrollY = currentScrollY;
+            return;
+          }
 
           if (contactTop <= windowHeight) {
             setCtaHidden(true);
