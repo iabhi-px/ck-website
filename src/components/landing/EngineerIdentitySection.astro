@@ -561,7 +561,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v4';
+  const identityScrollBindingVersion = 'target-step-v5';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -728,9 +728,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let lastAcceptedWheelDirection: 1 | -1 | null = null;
     let lastAcceptedWheelAt = 0;
     let sameDirectionLockUntil = 0;
+    let suppressWheelUntil = 0;
     const reverseIntentDebounceMs = 110;
     const postAnimationMomentumGuardMs = 70;
     const enterMomentumGuardMs = 180;
+    const clickWheelSuppressMs = 240;
     const wheelIntentThreshold = 10;
 
     function isDesktopSnapMode() {
@@ -754,6 +756,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       if (event.deltaY > 0) return 1;
       if (event.deltaY < 0) return -1;
       return 0;
+    }
+
+    function isFinalCtaEvent(event: Event) {
+      const target = event.target;
+      return target instanceof Element && Boolean(target.closest('.identity-final-cta-link'));
     }
 
     function isInsideSectionRunway(scrollY = window.scrollY) {
@@ -942,6 +949,22 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
       if (!shouldControl) return;
 
+      const now = window.performance.now();
+
+      if (now < suppressWheelUntil) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        pinViewportToSection();
+        return;
+      }
+
+      if (event.buttons !== 0) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        pinViewportToSection();
+        return;
+      }
+
       if (
         identityWindow.__ckStepScrollOwner &&
         identityWindow.__ckStepScrollOwner !== 'engineer-identity'
@@ -965,8 +988,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       if (delta < wheelIntentThreshold) {
         return;
       }
-
-      const now = window.performance.now();
 
       if (isAnimatingStep) {
         pinViewportToSection();
@@ -993,6 +1014,26 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       handleStepIntent(direction);
     }
 
+    function handleMouseDown(event: MouseEvent) {
+      if (!isDesktopSnapMode() || isFinalCtaEvent(event)) return;
+
+      suppressWheelUntil = window.performance.now() + clickWheelSuppressMs;
+
+      if (event.button === 1) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }
+
+    function handleAuxClick(event: MouseEvent) {
+      if (!isDesktopSnapMode() || isFinalCtaEvent(event)) return;
+
+      if (event.button === 1) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }
+
     const handleResize = () => {
       if (!isDesktopSnapMode()) {
         isSectionActive = false;
@@ -1013,6 +1054,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     const cleanupEngineerIdentityScroll = () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('wheel', handleWheel, true);
+      section.removeEventListener('mousedown', handleMouseDown, true);
+      section.removeEventListener('auxclick', handleAuxClick, true);
       stepTween?.kill();
       killMobileScrub();
       clearWheelMemory();
@@ -1025,6 +1068,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    section.addEventListener('mousedown', handleMouseDown, { capture: true });
+    section.addEventListener('auxclick', handleAuxClick, { capture: true });
     identityWindow.__engineerIdentityScrollCleanup = cleanupEngineerIdentityScroll;
     document.addEventListener('astro:before-swap', cleanupEngineerIdentityScroll, { once: true });
     ensureMobileScrub();
