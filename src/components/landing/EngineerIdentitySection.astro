@@ -561,7 +561,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v5';
+  const identityScrollBindingVersion = 'target-step-v6';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -731,8 +731,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let suppressWheelUntil = 0;
     const reverseIntentDebounceMs = 110;
     const postAnimationMomentumGuardMs = 70;
-    const enterMomentumGuardMs = 180;
-    const clickWheelSuppressMs = 240;
+    const enterMomentumGuardMs = 0;
+    const clickWheelSuppressMs = 80;
     const wheelIntentThreshold = 10;
 
     function isDesktopSnapMode() {
@@ -1006,8 +1006,17 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       }
 
       if (!isSectionActive) {
+        const alreadyInsideRunway = isInsideSectionRunway(currentY) && !crossesFromAbove && !crossesFromBelow;
+        const runwayProgress = clamp((currentY - sectionStart) / Math.max(sectionEnd - sectionStart, 1));
+
         killMobileScrub();
         enterSection(direction);
+
+        if (alreadyInsideRunway) {
+          setStep(runwayProgress > 0.5 ? lastStepIndex : 0);
+          handleStepIntent(direction);
+        }
+
         return;
       }
 
