@@ -43,18 +43,22 @@ const iconPositions = [
 ];
 
 const mobileIconPositions = [
-  [1600, 72],
-  [1900, 72],
-  [2200, 72],
-  [1750, 260],
-  [2050, 260],
-  [2350, 260],
-  [1600, 1530],
-  [1900, 1530],
-  [2200, 1530],
-  [1750, 1720],
-  [2050, 1720],
-  [2350, 1720],
+  [1519, 72],
+  [1773, 72],
+  [2027, 72],
+  [2281, 72],
+  [1519, 260],
+  [1773, 260],
+  [2027, 260],
+  [2281, 260],
+  [1519, 1530],
+  [1773, 1530],
+  [2027, 1530],
+  [2281, 1530],
+  [1519, 1720],
+  [1773, 1720],
+  [2027, 1720],
+  [2281, 1720],
 ];
 
 const circleHeadPath =
@@ -347,7 +351,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         <h2 class="identity-final-mobile-title">
           <span>CodeKarma shows</span>
           <span>what runs in</span>
-          <span>your production —</span>
+          <span>your production.</span>
         </h2>
       </div>
     </div>
@@ -580,7 +584,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   @media (max-width: 767px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.62;
-      --identity-copy-scale: 0.43;
+      --identity-copy-scale: 0.6;
       --identity-final-copy-scale: 0.52;
     }
 
@@ -623,7 +627,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       width: min(100vw, 390px);
       margin: 0;
       font-family: Geist, system-ui, sans-serif;
-      font-size: 40px;
+      font-size: 32px;
       font-weight: 650;
       line-height: 1.04;
       letter-spacing: 0;
@@ -638,7 +642,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   @media (max-width: 479px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.58;
-      --identity-copy-scale: 0.38;
+      --identity-copy-scale: 0.56;
       --identity-final-copy-scale: 0.38;
     }
 
@@ -647,7 +651,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     .identity-final-mobile-title {
-      font-size: 40px;
+      font-size: 32px;
     }
   }
 

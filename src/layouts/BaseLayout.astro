@@ -126,6 +126,7 @@ const {
           overlay.classList.add('opacity-0', 'pointer-events-none');
           document.body.classList.remove('overflow-hidden');
           ctaBar.classList.remove('hidden');
+          window.dispatchEvent(new Event('ck:mobile-cta-refresh'));
         }
 
         btn.addEventListener('click', openSheet);
@@ -141,19 +142,41 @@ const {
         const contactSection = document.getElementById('contact-section');
         if (!ctaBar || !contactSection) return;
 
-        ctaBar.style.transition = 'transform 0.24s ease-out';
+        let lastScrollY = Math.max(window.pageYOffset || window.scrollY || 0, 0);
+        const scrollThreshold = 6;
+
+        function setCtaHidden(hidden) {
+          ctaBar.style.transform = hidden ? 'translate3d(0, 100%, 0)' : 'translate3d(0, 0, 0)';
+        }
 
         function checkVisibility() {
+          if (ctaBar.classList.contains('hidden')) return;
+
+          const currentScrollY = Math.max(window.pageYOffset || window.scrollY || 0, 0);
+          const scrollDelta = currentScrollY - lastScrollY;
           const contactTop = contactSection.getBoundingClientRect().top;
           const windowHeight = window.innerHeight;
+
           if (contactTop <= windowHeight) {
-            ctaBar.style.transform = 'translate3d(0, 100%, 0)';
-          } else {
-            ctaBar.style.transform = 'translate3d(0, 0, 0)';
+            setCtaHidden(true);
+            lastScrollY = currentScrollY;
+            return;
           }
+
+          if (currentScrollY <= 4) {
+            setCtaHidden(false);
+          } else if (scrollDelta > scrollThreshold) {
+            setCtaHidden(true);
+          } else if (scrollDelta < -scrollThreshold) {
+            setCtaHidden(false);
+          }
+
+          lastScrollY = currentScrollY;
         }
 
         window.addEventListener('scroll', checkVisibility, { passive: true });
+        window.addEventListener('resize', checkVisibility);
+        window.addEventListener('ck:mobile-cta-refresh', checkVisibility);
         checkVisibility();
       }
 
@@ -176,8 +199,15 @@ const {
       #mobile-cta-bar {
         padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
         transform: translate3d(0, 0, 0);
+        transition: transform 0.24s ease-out;
         backface-visibility: hidden;
         will-change: transform;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #mobile-cta-bar {
+          transition-duration: 0.01ms;
+        }
       }
     </style>
   </body>
