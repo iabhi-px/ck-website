@@ -206,7 +206,7 @@ const karmaIQFeatures = [
       <div class="relative mb-16">
         <div class="w-full aspect-[16/9] overflow-hidden border rounded-none" style="border-color: #2a2a2a;">
           <video
-            class="w-full h-full object-cover"
+            class="karmapulse-product-video w-full h-full object-cover"
             autoplay
             muted
             loop
@@ -299,7 +299,7 @@ const karmaIQFeatures = [
 
 <script>
   function initProductPageVideos() {
-    const videos = document.querySelectorAll<HTMLVideoElement>('.karmalens-product-video, .karmadomain-product-video, .karmaiq-product-video');
+    const videos = document.querySelectorAll<HTMLVideoElement>('.karmalens-product-video, .karmadomain-product-video, .karmapulse-product-video, .karmaiq-product-video');
     if (!videos.length) return;
 
     const observer = new IntersectionObserver(
