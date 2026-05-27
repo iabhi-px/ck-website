@@ -171,6 +171,9 @@ function getLineStyle(line: CodeLine) {
           <span class="dead-code-title-swap dead-code-title-swap--physical">
             Untaken paths
           </span>
+          <span class="dead-code-title-swap dead-code-title-swap--service">
+            Services nobody<br />calls anymore.
+          </span>
         </h2>
       </div>
       <div class="dead-code-visual-slot">
@@ -294,6 +297,9 @@ function getLineStyle(line: CodeLine) {
 	    --physical-title: 0;
 	    --physical-title-y: 20px;
 	    --physical-title-blur: 10px;
+	    --service-title: 0;
+	    --service-title-y: 20px;
+	    --service-title-blur: 10px;
 	    --feature-annotation: 0;
 	    --physical-annotation: 0;
 	    --feature-annotation-top: 50%;
@@ -399,6 +405,12 @@ function getLineStyle(line: CodeLine) {
 	    opacity: var(--physical-title);
 	    filter: blur(var(--physical-title-blur));
 	    transform: translateY(var(--physical-title-y));
+	  }
+
+	  .dead-code-title-swap--service {
+	    opacity: var(--service-title);
+	    filter: blur(var(--service-title-blur));
+	    transform: translateY(var(--service-title-y));
 	  }
 
 	  .dead-code-conclusion {
@@ -771,51 +783,61 @@ function getLineStyle(line: CodeLine) {
   @media (max-width: 767px) {
     .dead-code-section {
       overflow-x: clip;
+      --mobile-sticky-top: clamp(30px, 5svh, 46px);
+      --mobile-sticky-bottom: calc(86px + env(safe-area-inset-bottom));
+      --mobile-title-block: clamp(118px, 18svh, 148px);
     }
 
     .dead-code-sticky {
-      align-items: flex-start;
+      align-items: stretch;
       justify-content: center;
-      padding: clamp(42px, 7svh, 64px) 0 24px;
+      padding: var(--mobile-sticky-top) 0 var(--mobile-sticky-bottom);
     }
 
     .dead-code-layout {
       width: min(calc(100vw - 32px), 430px);
       grid-template-columns: 1fr;
-      gap: clamp(14px, 3.4svh, 24px);
+      grid-template-rows: var(--mobile-title-block) minmax(0, 1fr);
+      min-height: calc(100svh - var(--mobile-sticky-top) - var(--mobile-sticky-bottom));
+      align-content: stretch;
+      gap: clamp(10px, 2svh, 18px);
     }
 
-	    .dead-code-heading {
-	      min-height: clamp(112px, 18svh, 154px);
-	      padding-left: 0;
-      opacity: var(--copy-reveal);
-	    }
+    .dead-code-heading {
+      min-height: var(--mobile-title-block);
+      padding-left: 0;
+      opacity: 1;
+      filter: none;
+      transform: translate3d(0, 0, 0);
+    }
 
     .dead-code-label {
       opacity: var(--base-title);
       transition: opacity 0.18s ease;
     }
 
-	    .dead-code-conclusion {
-	      width: 100%;
-	      padding-left: 0;
-	    }
+    .dead-code-conclusion {
+      width: 100%;
+      padding-left: 0;
+      display: none;
+    }
 
-	    .dead-code-conclusion-label {
-	      margin-bottom: 14px;
-	      font-size: 12px;
-	      line-height: 1.55;
-	    }
+    .dead-code-conclusion-label {
+      margin-bottom: 14px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
 
-	    .dead-code-conclusion-title {
-	      max-width: 330px;
-	      font-size: clamp(32px, 10vw, 44px);
-	    }
+    .dead-code-conclusion-title {
+      max-width: 330px;
+      font-size: clamp(32px, 10vw, 44px);
+    }
 
     .dead-code-visual-slot {
       display: grid;
-      min-height: auto;
-      place-items: center;
+      height: 100%;
+      min-height: 0;
+      place-items: end center;
     }
 
     .dead-code-title {
@@ -827,9 +849,10 @@ function getLineStyle(line: CodeLine) {
       position: relative;
       left: auto;
       top: auto;
-      width: min(92vw, 430px);
-      min-width: 282px;
-      max-height: calc(100svh - 220px);
+      width: auto;
+      min-width: 0;
+      max-width: min(92vw, 430px);
+      height: min(100%, 600px);
       aspect-ratio: 9 / 14;
       margin: 0 auto;
       overflow: hidden;
@@ -930,22 +953,21 @@ function getLineStyle(line: CodeLine) {
 
   @media (max-width: 479px) {
     .dead-code-sticky {
-      padding-top: clamp(36px, 6svh, 54px);
+      padding-top: var(--mobile-sticky-top);
     }
 
-	    .dead-code-layout {
-	      width: calc(100vw - 28px);
-	      gap: clamp(12px, 2.8svh, 20px);
-	    }
+    .dead-code-layout {
+      width: calc(100vw - 28px);
+      gap: clamp(10px, 1.8svh, 16px);
+    }
 
-	    .dead-code-heading {
-	      min-height: clamp(102px, 17svh, 132px);
-	    }
+    .dead-code-heading {
+      min-height: var(--mobile-title-block);
+    }
 
     .dead-code-frame {
       min-width: 0;
-      width: 92vw;
-      max-height: calc(100svh - 200px);
+      width: auto;
     }
 
     .dead-code-lines {
@@ -971,10 +993,13 @@ function getLineStyle(line: CodeLine) {
 	      --feature-title: 0;
 	      --feature-title-y: -28px;
 	      --feature-title-blur: 4px;
-		      --physical-title: 0;
-		      --physical-title-y: 0px;
-		      --physical-title-blur: 0px;
-		      --feature-annotation: 0;
+	      --physical-title: 0;
+	      --physical-title-y: 0px;
+	      --physical-title-blur: 0px;
+	      --service-title: 0;
+	      --service-title-y: 0px;
+	      --service-title-blur: 0px;
+	      --feature-annotation: 0;
 		      --physical-annotation: 0;
 		      --feature-annotation-top: 53%;
 		      --conclusion-title: 1;
@@ -998,8 +1023,17 @@ function getLineStyle(line: CodeLine) {
 	      --physical-highlight-zoom: 0;
 	      --feature-highlight-y: 0.5;
 	      --physical-highlight-y: 0.5;
-	    }
-	  }
+    }
+  }
+
+  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .dead-code-section {
+      --conclusion-title: 0;
+      --service-title: 1;
+      --service-title-y: 0px;
+      --service-title-blur: 0px;
+    }
+  }
 </style>
 
 <script>
@@ -1131,13 +1165,16 @@ function getLineStyle(line: CodeLine) {
 			      const baseTitle = baseTitleEnter * (1 - baseTitleExit);
 			      let featureTitle = 0;
 			      let physicalTitle = 0;
+			      let serviceTitle = 0;
 			      const baseTitleY = -28 * baseTitleExit;
 			      const featureTitleY = 20 * (1 - featureTitleEnter) - 28 * featureTitleExit;
 			      const physicalTitleY = 20 * (1 - physicalTitleEnter);
+			      let serviceTitleY = 20;
 			      const baseTitleBlur = 4 * baseTitleExit;
 			      const featureTitleBlur = 10 * (1 - featureTitleEnter) + 4 * featureTitleExit;
 			      const physicalTitleBlur = 10 * (1 - physicalTitleEnter);
-				      let conclusionTitle = smoothStep(0.996, 0.999, sectionProgress);
+			      let serviceTitleBlur = 10;
+			      let conclusionTitle = smoothStep(0.996, 0.999, sectionProgress);
 			      let finalZoomOut = smoothStep(0.965, 0.995, sectionProgress);
 								      let conclusionHighlight = smoothStep(0.996, 0.999, sectionProgress);
 				      const featurePhase = heldReveal(
@@ -1192,8 +1229,9 @@ function getLineStyle(line: CodeLine) {
 
 	      if (isMobile) {
 	        dockProgress = smoothStep(0.04, 0.32, sectionProgress);
-	        copyReveal = smoothStep(0.08, 0.24, sectionProgress);
-	        deadCut = copyReveal;
+	        const mobileDeadCut = smoothStep(0.08, 0.24, sectionProgress);
+	        copyReveal = 1;
+	        deadCut = mobileDeadCut;
 	        ideX = 0;
 	        ideY = (1 - dockProgress) * 18;
 	        ideScale = 0.975 + dockProgress * 0.025;
@@ -1227,6 +1265,9 @@ function getLineStyle(line: CodeLine) {
 	        physicalAnnotation = physicalPhase;
 	        featureTitle = featurePhase;
 	        physicalTitle = physicalPhase;
+	        serviceTitle = conclusionTitle;
+	        serviceTitleY = 18 * (1 - conclusionTitle);
+	        serviceTitleBlur = conclusionBlur;
 
 	        const mobileFeatureFocus = featureHighlightGlowActive * (1 - finalZoomOut);
 	        const mobilePhysicalFocus = physicalHighlightGlowActive * (1 - finalZoomOut);
@@ -1280,6 +1321,9 @@ function getLineStyle(line: CodeLine) {
 			      section!.style.setProperty('--physical-title', physicalTitle.toFixed(3));
 			      section!.style.setProperty('--physical-title-y', `${physicalTitleY.toFixed(3)}px`);
 			      section!.style.setProperty('--physical-title-blur', `${physicalTitleBlur.toFixed(3)}px`);
+			      section!.style.setProperty('--service-title', serviceTitle.toFixed(3));
+			      section!.style.setProperty('--service-title-y', `${serviceTitleY.toFixed(3)}px`);
+			      section!.style.setProperty('--service-title-blur', `${serviceTitleBlur.toFixed(3)}px`);
 			      section!.style.setProperty('--feature-annotation', featureAnnotation.toFixed(3));
 			      section!.style.setProperty('--physical-annotation', physicalAnnotation.toFixed(3));
 			      section!.style.setProperty('--feature-annotation-top', `${featureAnnotationTop.toFixed(3)}%`);
@@ -1329,6 +1373,7 @@ function getLineStyle(line: CodeLine) {
     let wheelGestureUnlockTimer: number | null = null;
     let releaseGestureDirection: 1 | -1 | null = null;
     let releaseGestureUnlockTimer: number | null = null;
+    let nativeScrollRaf: number | null = null;
     const enterWheelLockMs = 140;
     const postStepWheelLockMs = 160;
     const releaseGestureIdleMs = 360;
@@ -1353,6 +1398,15 @@ function getLineStyle(line: CodeLine) {
 
     function getSectionScrollEnd() {
       return getSectionScrollStart() + getSectionScrollLength();
+    }
+
+    function getNativeScrollProgress() {
+      return clamp((getScrollY() - getSectionScrollStart()) / getSectionScrollLength());
+    }
+
+    function syncNativeScrollProgress() {
+      if (isDesktopSnapMode()) return;
+      renderScrollProgress(getNativeScrollProgress());
     }
 
     function getWheelDirection(event: WheelEvent): 1 | -1 | 0 {
@@ -1485,6 +1539,15 @@ function getLineStyle(line: CodeLine) {
       clearWheelGestureLock();
       clearReleaseGestureLock();
       releaseScrollOwnership();
+    }
+
+    function handleNativeScroll() {
+      if (isDesktopSnapMode() || nativeScrollRaf !== null) return;
+
+      nativeScrollRaf = window.requestAnimationFrame(() => {
+        nativeScrollRaf = null;
+        syncNativeScrollProgress();
+      });
     }
 
     function getStepDuration(fromIndex: number, targetIndex: number) {
@@ -1641,15 +1704,25 @@ function getLineStyle(line: CodeLine) {
     }
 
     const handleResize = () => {
-      if (isSectionActive) {
+      if (isDesktopSnapMode() && isSectionActive) {
         placeViewportAtSectionEdge(activePinDirection);
       }
-      setStep(currentStepIndex);
+
+      if (isDesktopSnapMode()) {
+        setStep(currentStepIndex);
+      } else {
+        syncNativeScrollProgress();
+      }
     };
 
     const cleanupDeadCodeScroll = () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleNativeScroll);
       window.removeEventListener('wheel', handleWheel, true);
+      if (nativeScrollRaf !== null) {
+        window.cancelAnimationFrame(nativeScrollRaf);
+        nativeScrollRaf = null;
+      }
       stepTween?.kill();
       clearWheelMemory();
       delete section.dataset.deadCodeScrollBound;
@@ -1659,12 +1732,17 @@ function getLineStyle(line: CodeLine) {
       }
     };
 
-	    window.addEventListener('resize', handleResize, { passive: true });
-	    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('scroll', handleNativeScroll, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
     deadCodeWindow.__deadCodeScrollCleanup = cleanupDeadCodeScroll;
-	    document.addEventListener('astro:before-swap', cleanupDeadCodeScroll, { once: true });
-	    renderScrollProgress(0);
-	  }
+    document.addEventListener('astro:before-swap', cleanupDeadCodeScroll, { once: true });
+    if (isDesktopSnapMode()) {
+      renderScrollProgress(0);
+    } else {
+      syncNativeScrollProgress();
+    }
+  }
 
   initDeadCodeScroll();
   document.addEventListener('DOMContentLoaded', initDeadCodeScroll);
