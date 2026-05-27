@@ -43,10 +43,10 @@ const iconPositions = [
 ];
 
 const mobileIconPositions = [
-  [1519, 72],
-  [1773, 72],
-  [2027, 72],
-  [2281, 72],
+  [1519, 112],
+  [1773, 112],
+  [2027, 112],
+  [2281, 112],
   [1519, 260],
   [1773, 260],
   [2027, 260],
@@ -55,10 +55,10 @@ const mobileIconPositions = [
   [1773, 1530],
   [2027, 1530],
   [2281, 1530],
-  [1519, 1720],
-  [1773, 1720],
-  [2027, 1720],
-  [2281, 1720],
+  [1519, 1680],
+  [1773, 1680],
+  [2027, 1680],
+  [2281, 1680],
 ];
 
 const circleHeadPath =
@@ -588,6 +588,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       --identity-final-copy-scale: 0.52;
     }
 
+    .engineer-identity-sticky,
+    .engineer-identity-stage,
+    .engineer-identity-svg {
+      height: 100dvh;
+      min-height: 100dvh;
+    }
+
     .identity-copy-final {
       display: none;
     }
@@ -598,7 +605,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
     .identity-final-mobile {
       position: absolute;
-      inset: 0;
+      inset: 0 0 -2px;
       z-index: 3;
       display: flex;
       box-sizing: border-box;
@@ -607,6 +614,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       justify-content: center;
       gap: 32px;
       padding: clamp(58px, 12svh, 96px) 24px calc(124px + env(safe-area-inset-bottom));
+      background: #cdff52;
       color: #0f0f0f;
       text-align: center;
       opacity: var(--identity-copy-final-opacity);
