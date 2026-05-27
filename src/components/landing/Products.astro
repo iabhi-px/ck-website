@@ -37,19 +37,38 @@ const products = [
 const productTabExpandEnd = 0.12;
 const productTabShrinkStart = 0.86;
 const productScrollAreaHeightVh = 100 + products.length * 80;
+const getProductSnapMetrics = (progress: number) => ({
+  progress: Number(progress.toFixed(6)),
+  snapPercent: Number((progress * 100).toFixed(4)),
+});
 const productTabSnapPoints = products.map((product, index) => {
   const progress =
     products.length <= 1
       ? 0.5
       : productTabExpandEnd + (productTabShrinkStart - productTabExpandEnd) * (index / (products.length - 1));
-  const snapPercent = Number((progress * 100).toFixed(4));
 
   return {
     ...product,
-    progress: Number(progress.toFixed(6)),
-    snapPercent,
+    kind: 'tab',
+    index,
+    ...getProductSnapMetrics(progress),
   };
 });
+const productScrollSnapPoints = [
+  {
+    id: 'products-entry',
+    kind: 'boundary',
+    label: 'Products entry',
+    ...getProductSnapMetrics(0),
+  },
+  ...productTabSnapPoints,
+  {
+    id: 'products-exit',
+    kind: 'boundary',
+    label: 'Products exit',
+    ...getProductSnapMetrics(1),
+  },
+];
 ---
 
 <section id="products-section" class="relative bg-white pt-4 md:pt-20 pb-4 md:pb-20">
@@ -115,11 +134,12 @@ const productTabSnapPoints = products.map((product, index) => {
     style={`--products-scroll-height: ${productScrollAreaHeightVh}vh;`}
   >
     <div class="product-tab-snap-points" aria-hidden="true">
-      {productTabSnapPoints.map((snapPoint, index) => (
+      {productScrollSnapPoints.map((snapPoint) => (
         <span
           class="product-tab-snap-point"
-          data-snap-tab={snapPoint.id}
-          data-index={index}
+          data-snap-kind={snapPoint.kind}
+          data-snap-tab={snapPoint.kind === 'tab' ? snapPoint.id : undefined}
+          data-index={snapPoint.kind === 'tab' ? snapPoint.index : undefined}
           data-progress={snapPoint.progress}
           style={`--product-tab-snap-top: calc(${snapPoint.snapPercent}% - ${snapPoint.snapPercent}vh); --product-tab-snap-top-svh: calc(${snapPoint.snapPercent}% - ${snapPoint.snapPercent}svh);`}
         />
@@ -267,7 +287,7 @@ const productTabSnapPoints = products.map((product, index) => {
     const lastTabIndex = numTabs - 1;
     const defaultMargin = 0;
     const glider = document.getElementById('product-tab-glider');
-    const snapPoints = Array.from(scrollArea.querySelectorAll<HTMLElement>('.product-tab-snap-point'));
+    const tabSnapPoints = Array.from(scrollArea.querySelectorAll<HTMLElement>('.product-tab-snap-point[data-snap-tab]'));
     let currentTabIndex = 0;
     let nativeScrollRaf: number | null = null;
     const rawExpandEnd = Number(scrollArea.dataset.expandEnd);
@@ -280,7 +300,7 @@ const productTabSnapPoints = products.map((product, index) => {
     }
 
     function getSnapPointProgress(index: number) {
-      const progress = Number(snapPoints[index]?.dataset.progress);
+      const progress = Number(tabSnapPoints[index]?.dataset.progress);
       return Number.isFinite(progress) ? clamp(progress) : getTabProgress(index);
     }
 
