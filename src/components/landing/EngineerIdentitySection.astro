@@ -47,10 +47,10 @@ const mobileIconPositions = [
   [1773, 112],
   [2027, 112],
   [2281, 112],
-  [1519, 260],
-  [1773, 260],
-  [2027, 260],
-  [2281, 260],
+  [1519, 283],
+  [1773, 283],
+  [2027, 283],
+  [2281, 283],
   [1519, 1530],
   [1773, 1530],
   [2027, 1530],
@@ -874,6 +874,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     const lastStepIndex = stepTargets.length - 1;
     let currentStepIndex = 0;
     let stepTween: gsap.core.Tween | null = null;
+    let releaseTween: gsap.core.Tween | null = null;
     let isAnimatingStep = false;
     let isSectionActive = false;
     let activePinDirection: 1 | -1 = 1;
@@ -983,6 +984,35 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         document.documentElement.scrollTop = top;
         document.body.scrollTop = top;
         window.scrollTo({ top, left: 0, behavior: 'auto' });
+      });
+    }
+
+    function snapScrollTo(top: number) {
+      releaseTween?.kill();
+
+      if (!isMobileTouchSnapMode()) {
+        forceScrollTo(top);
+        return;
+      }
+
+      const scrollState = { value: getScrollY() };
+      releaseTween = gsap.to(scrollState, {
+        value: top,
+        duration: 0.34,
+        ease: 'power2.out',
+        overwrite: true,
+        onUpdate: () => {
+          forceScrollTo(scrollState.value);
+          lastDetectedMobileScrollY = scrollState.value;
+        },
+        onComplete: () => {
+          forceScrollTo(top);
+          lastDetectedMobileScrollY = top;
+          releaseTween = null;
+        },
+        onInterrupt: () => {
+          releaseTween = null;
+        },
       });
     }
 
@@ -1162,6 +1192,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       if (targetIndex === currentStepIndex) return;
 
       const fromIndex = currentStepIndex;
+      releaseTween?.kill();
+      releaseTween = null;
       stepTween?.kill();
       currentStepIndex = targetIndex;
       isAnimatingStep = true;
@@ -1209,12 +1241,14 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       lockReleaseGesture(direction);
 
       const exitY = getReleaseScrollY(direction);
-      forceScrollTo(exitY);
+      snapScrollTo(exitY);
       lastDetectedMobileScrollY = exitY;
     }
 
     function enterSection(direction: 1 | -1) {
       isSectionActive = true;
+      releaseTween?.kill();
+      releaseTween = null;
       claimScrollOwnership();
       placeViewportAtSectionEdge(direction);
       setStep(direction > 0 ? 0 : lastStepIndex);
@@ -1498,6 +1532,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         window.cancelAnimationFrame(nativeScrollRaf);
         nativeScrollRaf = null;
       }
+      releaseTween?.kill();
       stepTween?.kill();
       clearWheelMemory();
       delete section.dataset.identityScrollBound;

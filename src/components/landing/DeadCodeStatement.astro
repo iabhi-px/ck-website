@@ -1388,6 +1388,7 @@ function getLineStyle(line: CodeLine) {
     const lastStepIndex = stepTargets.length - 1;
     let currentStepIndex = 0;
     let stepTween: gsap.core.Tween | null = null;
+    let releaseTween: gsap.core.Tween | null = null;
     let isAnimatingStep = false;
     let isSectionActive = false;
     let activePinDirection: 1 | -1 = 1;
@@ -1427,12 +1428,20 @@ function getLineStyle(line: CodeLine) {
     }
 
     function getSectionScrollLength() {
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewportHeight = getViewportHeight();
       return Math.max(section!.offsetHeight - viewportHeight, viewportHeight);
     }
 
     function getSectionScrollEnd() {
       return getSectionScrollStart() + getSectionScrollLength();
+    }
+
+    function getSectionScrollBottom() {
+      return getSectionScrollStart() + section!.offsetHeight;
+    }
+
+    function getViewportHeight() {
+      return window.innerHeight || document.documentElement.clientHeight;
     }
 
     function getNativeScrollProgress() {
@@ -1481,6 +1490,35 @@ function getLineStyle(line: CodeLine) {
         document.documentElement.scrollTop = top;
         document.body.scrollTop = top;
         window.scrollTo({ top, left: 0, behavior: 'auto' });
+      });
+    }
+
+    function snapScrollTo(top: number) {
+      releaseTween?.kill();
+
+      if (!isTouchSnapMode()) {
+        forceScrollTo(top);
+        return;
+      }
+
+      const scrollState = { value: getScrollY() };
+      releaseTween = gsap.to(scrollState, {
+        value: top,
+        duration: 0.34,
+        ease: 'power2.out',
+        overwrite: true,
+        onUpdate: () => {
+          forceScrollTo(scrollState.value);
+          lastDetectedScrollY = scrollState.value;
+        },
+        onComplete: () => {
+          forceScrollTo(top);
+          lastDetectedScrollY = top;
+          releaseTween = null;
+        },
+        onInterrupt: () => {
+          releaseTween = null;
+        },
       });
     }
 
@@ -1634,6 +1672,8 @@ function getLineStyle(line: CodeLine) {
       if (targetIndex === currentStepIndex) return;
 
       const fromIndex = currentStepIndex;
+      releaseTween?.kill();
+      releaseTween = null;
       stepTween?.kill();
       currentStepIndex = targetIndex;
       isAnimatingStep = true;
@@ -1662,18 +1702,33 @@ function getLineStyle(line: CodeLine) {
       });
     }
 
+    function getReleaseScrollY(direction: 1 | -1) {
+      const sectionStart = getSectionScrollStart();
+
+      if (isTouchSnapMode()) {
+        return direction > 0
+          ? getSectionScrollBottom() + 2
+          : Math.max(0, sectionStart - getViewportHeight() - 2);
+      }
+
+      return direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, sectionStart - 2);
+    }
+
     function releaseSection(direction: 1 | -1) {
       isSectionActive = false;
       stepTween?.kill();
       clearWheelGestureLock();
       lockReleaseGesture(direction);
 
-      const exitY = direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, getSectionScrollStart() - 2);
-      forceScrollTo(exitY);
+      const exitY = getReleaseScrollY(direction);
+      snapScrollTo(exitY);
+      lastDetectedScrollY = exitY;
     }
 
     function enterSection(direction: 1 | -1) {
       isSectionActive = true;
+      releaseTween?.kill();
+      releaseTween = null;
       claimScrollOwnership();
       placeViewportAtSectionEdge(direction);
       setStep(direction > 0 ? 0 : lastStepIndex);
@@ -1711,9 +1766,21 @@ function getLineStyle(line: CodeLine) {
       const crossesFromBelow = direction < 0 && currentY > sectionEnd && currentY - delta <= sectionEnd;
 
       if (releaseGestureDirection !== null) {
+        const shouldKeepReleaseLock =
+          !isTouchSnapMode() ||
+          (releaseGestureDirection > 0
+            ? currentY <= sectionEnd + getViewportHeight() * 0.12
+            : currentY >= sectionStart - getViewportHeight() * 0.12);
+
         if (direction === releaseGestureDirection) {
-          lockReleaseGesture(direction);
-          return;
+          if (isTouchSnapMode() && shouldKeepReleaseLock) {
+            claimControlledWheel(event);
+          }
+
+          if (shouldKeepReleaseLock) {
+            lockReleaseGesture(direction);
+            return;
+          }
         }
 
         clearReleaseGestureLock();
@@ -1726,11 +1793,17 @@ function getLineStyle(line: CodeLine) {
 
       if (isSectionActive && !isAnimatingStep && !wheelGestureLocked) {
         if (direction < 0 && currentStepIndex === 0) {
+          if (isTouchSnapMode()) {
+            claimControlledWheel(event);
+          }
           releaseSection(direction);
           return;
         }
 
         if (direction > 0 && currentStepIndex === lastStepIndex) {
+          if (isTouchSnapMode()) {
+            claimControlledWheel(event);
+          }
           releaseSection(direction);
           return;
         }
@@ -1891,6 +1964,7 @@ function getLineStyle(line: CodeLine) {
         window.cancelAnimationFrame(nativeScrollRaf);
         nativeScrollRaf = null;
       }
+      releaseTween?.kill();
       stepTween?.kill();
       clearWheelMemory();
       delete section.dataset.deadCodeScrollBound;
