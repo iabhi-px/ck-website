@@ -324,6 +324,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     --identity-copy-final-y: 24px;
     --identity-copy-final-blur: 10px;
     --identity-copy-final-color: #0f0f0f;
+    --identity-final-pointer-events: none;
     --identity-icon-field-scale: 0.96;
     --identity-copy-scale: 1;
     --identity-final-copy-scale: 1;
@@ -437,6 +438,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     opacity: var(--identity-copy-final-opacity);
     transform: translateY(var(--identity-copy-final-y));
     filter: blur(var(--identity-copy-final-blur));
+    pointer-events: var(--identity-final-pointer-events);
   }
 
   .identity-copy-final > text {
@@ -559,11 +561,21 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
+  const identityScrollBindingVersion = 'target-step-v2';
+  type IdentityWindow = Window & {
+    __engineerIdentityScrollCleanup?: () => void;
+    __ckStepScrollOwner?: string;
+  };
+
   function initEngineerIdentityScroll() {
     const section = document.getElementById('engineer-identity');
-    if (!section || section.dataset.identityScrollBound === 'true') return;
+    if (!section) return;
 
-    section.dataset.identityScrollBound = 'true';
+    const identityWindow = window as IdentityWindow;
+    if (section.dataset.identityScrollBound === identityScrollBindingVersion) return;
+
+    identityWindow.__engineerIdentityScrollCleanup?.();
+    section.dataset.identityScrollBound = identityScrollBindingVersion;
 
     const headPaths = Array.from(section.querySelectorAll<SVGPathElement>('.identity-head-path'));
     const pillChips = Array.from(section.querySelectorAll<SVGGElement>('.identity-pill-chip'));
@@ -594,14 +606,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section.style.setProperty('--identity-copy-final-y', '0px');
       section.style.setProperty('--identity-copy-final-blur', '0px');
       section.style.setProperty('--identity-copy-final-color', '#0f0f0f');
+      section.style.setProperty('--identity-final-pointer-events', 'auto');
       return;
     }
 
     const progressState = { value: 0 };
 
     function render(sectionProgress: number) {
-      const rect = section!.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       sectionProgress = clamp(sectionProgress);
       const originalCopyEnter = 1;
       const headProgress = smootherStep(0.025, 0.24, sectionProgress);
@@ -694,34 +705,327 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section!.style.setProperty('--identity-copy-final-y', `${24 * (1 - finalCopyEnter)}px`);
       section!.style.setProperty('--identity-copy-final-blur', `${10 * (1 - finalCopyEnter)}px`);
       section!.style.setProperty('--identity-copy-final-color', '#0f0f0f');
+      section!.style.setProperty('--identity-final-pointer-events', finalCopyEnter > 0.98 ? 'auto' : 'none');
     }
 
-    const tween = gsap.to(progressState, {
-      value: 1,
-      ease: 'none',
-      onUpdate: () => render(progressState.value),
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 0.55,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onRefresh: () => render(progressState.value),
-      },
-    });
+    const choreographySteps = [
+      { name: 'intro', progress: 0 },
+      { name: 'ai', progress: 0.28 },
+      { name: 'spark', progress: 0.45 },
+      { name: 'pillField', progress: 0.64 },
+      { name: 'final', progress: 0.9 },
+    ];
+    const stepTargets = choreographySteps.map((step) => step.progress);
+    const lastStepIndex = stepTargets.length - 1;
+    let currentStepIndex = 0;
+    let stepTween: gsap.core.Tween | null = null;
+    let mobileTween: gsap.core.Tween | null = null;
+    let isSectionActive = false;
+    let isAnimatingStep = false;
+    let activePinDirection: 1 | -1 = 1;
+    let activeStepDirection: 1 | -1 | null = null;
+    let lastAcceptedWheelDirection: 1 | -1 | null = null;
+    let lastAcceptedWheelAt = 0;
+    let sameDirectionLockUntil = 0;
+    const reverseIntentDebounceMs = 110;
+    const postAnimationMomentumGuardMs = 70;
+    const enterMomentumGuardMs = 180;
+    const wheelIntentThreshold = 10;
 
-    const handleResize = () => ScrollTrigger.refresh();
+    function isDesktopSnapMode() {
+      return window.matchMedia('(min-width: 768px)').matches;
+    }
+
+    function getSectionScrollStart() {
+      return section!.getBoundingClientRect().top + window.scrollY;
+    }
+
+    function getSectionScrollLength() {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      return Math.max(section!.offsetHeight - viewportHeight, viewportHeight);
+    }
+
+    function getSectionScrollEnd() {
+      return getSectionScrollStart() + getSectionScrollLength();
+    }
+
+    function getWheelDirection(event: WheelEvent): 1 | -1 | 0 {
+      if (event.deltaY > 0) return 1;
+      if (event.deltaY < 0) return -1;
+      return 0;
+    }
+
+    function isInsideSectionRunway(scrollY = window.scrollY) {
+      return scrollY >= getSectionScrollStart() - 1 && scrollY <= getSectionScrollEnd() + 1;
+    }
+
+    function setControlledProgress(progress: number) {
+      progressState.value = clamp(progress);
+      render(progressState.value);
+    }
+
+    function withInstantScrollBehavior(callback: () => void) {
+      const root = document.documentElement;
+      const body = document.body;
+      const previousRootScrollBehavior = root.style.scrollBehavior;
+      const previousBodyScrollBehavior = body.style.scrollBehavior;
+
+      root.style.setProperty('scroll-behavior', 'auto', 'important');
+      body.style.setProperty('scroll-behavior', 'auto', 'important');
+
+      callback();
+
+      requestAnimationFrame(() => {
+        root.style.scrollBehavior = previousRootScrollBehavior;
+        body.style.scrollBehavior = previousBodyScrollBehavior;
+      });
+    }
+
+    function forceScrollTo(top: number) {
+      withInstantScrollBehavior(() => {
+        document.documentElement.scrollTop = top;
+        document.body.scrollTop = top;
+        window.scrollTo({ top, left: 0, behavior: 'auto' });
+      });
+    }
+
+    function getPinnedScrollY() {
+      return activePinDirection > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
+    }
+
+    function pinViewportToSection() {
+      if (!isSectionActive) return;
+
+      const targetY = getPinnedScrollY();
+      if (Math.abs(window.scrollY - targetY) > 1) {
+        forceScrollTo(targetY);
+      }
+    }
+
+    function placeViewportAtSectionEdge(direction: 1 | -1) {
+      activePinDirection = direction;
+      const targetY = direction > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
+      forceScrollTo(targetY);
+    }
+
+    function setStep(index: number) {
+      currentStepIndex = Math.min(Math.max(index, 0), lastStepIndex);
+      setControlledProgress(stepTargets[currentStepIndex]);
+    }
+
+    function rememberAcceptedWheel(direction: 1 | -1, lockForMs: number) {
+      const now = window.performance.now();
+      lastAcceptedWheelDirection = direction;
+      lastAcceptedWheelAt = now;
+      sameDirectionLockUntil = now + lockForMs;
+    }
+
+    function clearWheelMemory() {
+      activeStepDirection = null;
+      lastAcceptedWheelDirection = null;
+      lastAcceptedWheelAt = 0;
+      sameDirectionLockUntil = 0;
+
+      if (identityWindow.__ckStepScrollOwner === 'engineer-identity') {
+        delete identityWindow.__ckStepScrollOwner;
+      }
+    }
+
+    function animateToStep(index: number, direction: 1 | -1) {
+      const targetIndex = Math.min(Math.max(index, 0), lastStepIndex);
+      if (targetIndex === currentStepIndex) return;
+
+      stepTween?.kill();
+      currentStepIndex = targetIndex;
+      isAnimatingStep = true;
+      activeStepDirection = direction;
+      const duration = targetIndex === lastStepIndex ? 0.68 : 0.56;
+      rememberAcceptedWheel(direction, duration * 1000 + postAnimationMomentumGuardMs);
+
+      stepTween = gsap.to(progressState, {
+        value: stepTargets[targetIndex],
+        duration,
+        ease: 'power3.out',
+        overwrite: true,
+        onUpdate: () => {
+          render(progressState.value);
+          pinViewportToSection();
+        },
+        onComplete: () => {
+          setControlledProgress(stepTargets[targetIndex]);
+          pinViewportToSection();
+          isAnimatingStep = false;
+          activeStepDirection = null;
+          stepTween = null;
+        },
+        onInterrupt: () => {
+          isAnimatingStep = false;
+          activeStepDirection = null;
+        },
+      });
+    }
+
+    function releaseSection(direction: 1 | -1) {
+      isSectionActive = false;
+      stepTween?.kill();
+      clearWheelMemory();
+
+      const endY = direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, getSectionScrollStart() - 2);
+      forceScrollTo(endY);
+    }
+
+    function enterSection(direction: 1 | -1) {
+      isSectionActive = true;
+      identityWindow.__ckStepScrollOwner = 'engineer-identity';
+      placeViewportAtSectionEdge(direction);
+      setStep(direction > 0 ? 0 : lastStepIndex);
+      rememberAcceptedWheel(direction, enterMomentumGuardMs);
+    }
+
+    function handleStepIntent(direction: 1 | -1) {
+      if (!isDesktopSnapMode() || !isSectionActive) return false;
+
+      if (direction < 0 && currentStepIndex === 0) {
+        releaseSection(direction);
+        return false;
+      }
+
+      if (direction > 0 && currentStepIndex === lastStepIndex) {
+        releaseSection(direction);
+        return false;
+      }
+
+      animateToStep(currentStepIndex + direction, direction);
+      return true;
+    }
+
+    function ensureMobileScrub() {
+      if (mobileTween || isDesktopSnapMode()) return;
+
+      mobileTween = gsap.to(progressState, {
+        value: 1,
+        ease: 'none',
+        onUpdate: () => render(progressState.value),
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.55,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefresh: () => render(progressState.value),
+        },
+      });
+    }
+
+    function killMobileScrub() {
+      mobileTween?.scrollTrigger?.kill();
+      mobileTween?.kill();
+      mobileTween = null;
+    }
+
+    function handleWheel(event: WheelEvent) {
+      if (!isDesktopSnapMode()) return;
+
+      const direction = getWheelDirection(event);
+      if (direction === 0) return;
+
+      if (
+        identityWindow.__ckStepScrollOwner &&
+        identityWindow.__ckStepScrollOwner !== 'engineer-identity'
+      ) {
+        isSectionActive = false;
+        isAnimatingStep = false;
+        activeStepDirection = null;
+        stepTween?.kill();
+        stepTween = null;
+        return;
+      }
+
+      const currentY = window.scrollY;
+      const sectionStart = getSectionScrollStart();
+      const sectionEnd = getSectionScrollEnd();
+      const delta = Math.abs(event.deltaY);
+      const crossesFromAbove = direction > 0 && currentY < sectionStart && currentY + delta >= sectionStart;
+      const crossesFromBelow = direction < 0 && currentY > sectionEnd && currentY - delta <= sectionEnd;
+      const shouldControl =
+        isSectionActive || isInsideSectionRunway(currentY) || crossesFromAbove || crossesFromBelow;
+
+      if (!shouldControl) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      if (isSectionActive) {
+        pinViewportToSection();
+      }
+
+      if (delta < wheelIntentThreshold) {
+        return;
+      }
+
+      const now = window.performance.now();
+
+      if (isAnimatingStep) {
+        pinViewportToSection();
+        if (
+          direction !== activeStepDirection &&
+          now - lastAcceptedWheelAt >= reverseIntentDebounceMs
+        ) {
+          handleStepIntent(direction);
+        }
+        return;
+      }
+
+      if (direction === lastAcceptedWheelDirection && now < sameDirectionLockUntil) {
+        pinViewportToSection();
+        return;
+      }
+
+      if (!isSectionActive) {
+        killMobileScrub();
+        enterSection(direction);
+        return;
+      }
+
+      handleStepIntent(direction);
+    }
+
+    const handleResize = () => {
+      if (!isDesktopSnapMode()) {
+        isSectionActive = false;
+        stepTween?.kill();
+        clearWheelMemory();
+        ensureMobileScrub();
+        ScrollTrigger.refresh();
+        return;
+      }
+
+      killMobileScrub();
+      if (isSectionActive) {
+        placeViewportAtSectionEdge(activePinDirection);
+      }
+      setStep(currentStepIndex);
+    };
+
+    const cleanupEngineerIdentityScroll = () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('wheel', handleWheel, true);
+      stepTween?.kill();
+      killMobileScrub();
+      clearWheelMemory();
+      delete section.dataset.identityScrollBound;
+
+      if (identityWindow.__engineerIdentityScrollCleanup === cleanupEngineerIdentityScroll) {
+        delete identityWindow.__engineerIdentityScrollCleanup;
+      }
+    };
 
     window.addEventListener('resize', handleResize, { passive: true });
-    document.addEventListener(
-      'astro:before-swap',
-      () => {
-        tween.kill();
-        window.removeEventListener('resize', handleResize);
-      },
-      { once: true }
-    );
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    identityWindow.__engineerIdentityScrollCleanup = cleanupEngineerIdentityScroll;
+    document.addEventListener('astro:before-swap', cleanupEngineerIdentityScroll, { once: true });
+    ensureMobileScrub();
     render(0);
   }
 
