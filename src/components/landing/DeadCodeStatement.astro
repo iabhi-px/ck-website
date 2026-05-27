@@ -1085,7 +1085,7 @@ function getLineStyle(line: CodeLine) {
     exitEnd: 0.998,
   };
 
-  const deadCodeScrollBindingVersion = 'target-step-carousel-v25';
+  const deadCodeScrollBindingVersion = 'target-step-carousel-v27';
   type DeadCodeWindow = Window & {
     __deadCodeScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -1397,7 +1397,7 @@ function getLineStyle(line: CodeLine) {
     let releaseGestureUnlockTimer: number | null = null;
     let nativeScrollRaf: number | null = null;
     const enterWheelLockMs = 140;
-    const postStepWheelLockMs = 160;
+    const postStepWheelLockMs = 420;
     const releaseGestureIdleMs = 360;
     const minimumWheelDelta = 1;
     let stableMobileViewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
@@ -1424,14 +1424,11 @@ function getLineStyle(line: CodeLine) {
     }
 
     function isSnapMode() {
-      return (
-        window.matchMedia('(min-width: 768px)').matches &&
-        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      );
+      return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
     function isTouchSnapMode() {
-      return isSnapMode() && window.matchMedia('(max-width: 767px)').matches;
+      return isSnapMode() && isMobileLayout();
     }
 
     function refreshStableMobileViewport(force = false) {
@@ -1783,11 +1780,13 @@ function getLineStyle(line: CodeLine) {
       }
 
       if (isAnimatingStep) {
+        lockWheelGestureTail(postStepWheelLockMs);
         pinViewportToSection();
         return;
       }
 
       if (wheelGestureLocked) {
+        lockWheelGestureTail(postStepWheelLockMs);
         pinViewportToSection();
         return;
       }
