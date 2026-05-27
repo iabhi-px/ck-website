@@ -921,12 +921,20 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     function getSectionScrollLength() {
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewportHeight = getViewportHeight();
       return Math.max(section!.offsetHeight - viewportHeight, viewportHeight);
     }
 
     function getSectionScrollEnd() {
       return getSectionScrollStart() + getSectionScrollLength();
+    }
+
+    function getSectionScrollBottom() {
+      return getSectionScrollStart() + section!.offsetHeight;
+    }
+
+    function getViewportHeight() {
+      return window.innerHeight || document.documentElement.clientHeight;
     }
 
     function getNativeScrollProgress() {
@@ -1182,13 +1190,25 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       });
     }
 
+    function getReleaseScrollY(direction: 1 | -1) {
+      const sectionStart = getSectionScrollStart();
+
+      if (isMobileTouchSnapMode()) {
+        return direction > 0
+          ? getSectionScrollBottom() + 2
+          : Math.max(0, sectionStart - getViewportHeight() - 2);
+      }
+
+      return direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, sectionStart - 2);
+    }
+
     function releaseSection(direction: 1 | -1) {
       isSectionActive = false;
       stepTween?.kill();
       clearWheelGestureLock();
       lockReleaseGesture(direction);
 
-      const exitY = direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, getSectionScrollStart() - 2);
+      const exitY = getReleaseScrollY(direction);
       forceScrollTo(exitY);
       lastDetectedMobileScrollY = exitY;
     }
@@ -1232,12 +1252,21 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const crossesFromBelow = direction < 0 && currentY > sectionEnd && currentY - delta <= sectionEnd;
 
       if (releaseGestureDirection !== null) {
+        const shouldKeepReleaseLock =
+          !isMobileTouchSnapMode() ||
+          (releaseGestureDirection > 0
+            ? currentY <= sectionEnd + getViewportHeight() * 0.12
+            : currentY >= sectionStart - getViewportHeight() * 0.12);
+
         if (direction === releaseGestureDirection) {
-          if (isMobileTouchSnapMode()) {
+          if (isMobileTouchSnapMode() && shouldKeepReleaseLock) {
             claimControlledWheel(event);
           }
-          lockReleaseGesture(direction);
-          return;
+
+          if (shouldKeepReleaseLock) {
+            lockReleaseGesture(direction);
+            return;
+          }
         }
 
         clearReleaseGestureLock();
