@@ -1085,7 +1085,7 @@ function getLineStyle(line: CodeLine) {
     exitEnd: 0.998,
   };
 
-  const deadCodeScrollBindingVersion = 'target-step-carousel-v22';
+  const deadCodeScrollBindingVersion = 'target-step-carousel-v23';
   type DeadCodeWindow = Window & {
     __deadCodeScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -1431,10 +1431,6 @@ function getLineStyle(line: CodeLine) {
       return getSectionScrollStart() + getSectionScrollLength();
     }
 
-    function getSectionExitScrollY() {
-      return getSectionScrollStart() + section!.offsetHeight;
-    }
-
     function getNativeScrollProgress() {
       return clamp((getScrollY() - getSectionScrollStart()) / getSectionScrollLength());
     }
@@ -1668,7 +1664,7 @@ function getLineStyle(line: CodeLine) {
       clearWheelGestureLock();
       lockReleaseGesture(direction);
 
-      const exitY = direction > 0 ? getSectionExitScrollY() + 2 : Math.max(0, getSectionScrollStart() - 2);
+      const exitY = direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, getSectionScrollStart() - 2);
       forceScrollTo(exitY);
     }
 
