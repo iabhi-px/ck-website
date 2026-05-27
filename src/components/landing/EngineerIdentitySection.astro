@@ -713,7 +713,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v12';
+  const identityScrollBindingVersion = 'target-step-v13';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -915,6 +915,15 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
     function clampScrollYToRunway(scrollY: number) {
       return clamp(scrollY, getSectionScrollStart() + 2, getSectionScrollEnd() - 2);
+    }
+
+    function getBoundaryActivationBand(delta: number) {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      return Math.min(Math.max(delta, 96), viewportHeight * 0.42);
+    }
+
+    function syncPinnedScrollToCurrentPosition() {
+      activePinnedScrollY = clampScrollYToRunway(window.scrollY);
     }
 
     function isFinalCtaEvent(event: Event) {
@@ -1119,11 +1128,28 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
       const currentY = window.scrollY;
       const delta = Math.abs(event.deltaY);
-      const shouldControl = isSectionActive || isInsideSectionRunway(currentY);
+      const sectionStart = getSectionScrollStart();
+      const sectionEnd = getSectionScrollEnd();
+      const boundaryActivationBand = getBoundaryActivationBand(delta);
+      const crossesFromAbove =
+        direction > 0 &&
+        currentY < sectionStart &&
+        currentY + delta >= sectionStart &&
+        sectionStart - currentY <= boundaryActivationBand;
+      const crossesFromBelow =
+        direction < 0 &&
+        currentY > sectionEnd &&
+        currentY - delta <= sectionEnd &&
+        currentY - sectionEnd <= boundaryActivationBand;
+      const shouldControl = isSectionActive || isInsideSectionRunway(currentY) || crossesFromAbove || crossesFromBelow;
 
       if (!shouldControl) return;
 
       const now = window.performance.now();
+
+      if (isSectionActive && !event.cancelable) {
+        syncPinnedScrollToCurrentPosition();
+      }
 
       if (now < suppressWheelUntil) {
         event.preventDefault();
@@ -1193,6 +1219,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       if (!isSectionActive) {
         killMobileScrub();
         enterSection(direction);
+        pinViewportToSection();
         handleStepIntent(direction);
         return;
       }
