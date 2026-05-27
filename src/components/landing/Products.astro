@@ -212,6 +212,13 @@ const products = [
 </section>
 
 <script>
+  import gsap from 'gsap';
+
+  type ProductScrollWindow = Window & {
+    __productsTabScrollCleanup?: () => void;
+    __ckStepScrollOwner?: string;
+  };
+
   function initProductTabs() {
     const tabs = document.querySelectorAll<HTMLElement>('.product-tab');
     const panels = document.querySelectorAll<HTMLElement>('.product-panel');
@@ -255,48 +262,132 @@ const products = [
     activateTab(0);
   }
 
-  // Scroll-driven: expand → cycle tabs → shrink
-  let scrollHandler: (() => void) | null = null;
+  // Desktop product tabs: one wheel gesture advances one tab.
 
   function initScrollTabs() {
     const scrollArea = document.getElementById('products-scroll-area');
     const wrapper = document.querySelector('.products-tabs-wrapper') as HTMLElement;
-    const panels_el = document.querySelector('.product-panels') as HTMLElement;
+    const panelsEl = document.querySelector('.product-panels') as HTMLElement;
     const tabs = document.querySelectorAll<HTMLElement>('.product-tab');
     const panels = document.querySelectorAll<HTMLElement>('.product-panel');
     if (!scrollArea || !wrapper || tabs.length === 0) return;
 
-    const numTabs = tabs.length;
-    const defaultMargin = 0;
+    const productWindow = window as ProductScrollWindow;
+    productWindow.__productsTabScrollCleanup?.();
 
+    const numTabs = tabs.length;
+    const lastTabIndex = numTabs - 1;
+    const defaultMargin = 0;
     const glider = document.getElementById('product-tab-glider');
+    const progressState = { value: 0 };
+    let currentTabIndex = 0;
+    let stepTween: gsap.core.Tween | null = null;
+    let isSectionActive = false;
+    let isAnimatingStep = false;
+    let activePinDirection: 1 | -1 = 1;
+    let wheelGestureLocked = false;
+    let wheelGestureUnlockTimer: number | null = null;
+    let releaseGestureDirection: 1 | -1 | null = null;
+    let releaseGestureUnlockTimer: number | null = null;
+    let nativeScrollRaf: number | null = null;
+    const ownerKey = 'products-tabs';
+    const expandEnd = 0.12;
+    const shrinkStart = 0.86;
+    const wheelGestureIdleMs = 560;
+    const releaseGestureIdleMs = 360;
+    const minimumWheelDelta = 1;
+
+    const stepTargets = Array.from({ length: numTabs }, (_, index) => getTabProgress(index));
 
     function activateTab(index: number) {
+      currentTabIndex = Math.min(Math.max(index, 0), lastTabIndex);
+
       tabs.forEach((tab, i) => {
-        if (i === index) tab.classList.add('active');
+        if (i === currentTabIndex) tab.classList.add('active');
         else tab.classList.remove('active');
       });
+
       panels.forEach((panel, i) => {
-        if (i === index) panel.classList.add('active');
+        if (i === currentTabIndex) panel.classList.add('active');
         else panel.classList.remove('active');
       });
-      if (glider && tabs[index]) {
-        glider.style.transform = `translateX(${tabs[index].offsetLeft}px)`;
+
+      if (glider && tabs[currentTabIndex]) {
+        glider.style.transform = `translateX(${tabs[currentTabIndex].offsetLeft}px)`;
       }
     }
 
-    function onScroll() {
-      if ((window as any).__scrollingToTop) return;
-      const rect = scrollArea!.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const scrolled = -rect.top;
-      const totalScroll = rect.height - vh;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+    function isDesktopSnapMode() {
+      return window.matchMedia('(min-width: 768px)').matches;
+    }
 
-      const expandEnd = 0.12;
-      const shrinkStart = 0.86;
+    function getScrollY() {
+      return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    }
 
-      const parentPadding = window.innerWidth < 768 ? 20 : window.innerWidth < 1024 ? 40 : 106;
+    function withInstantScrollBehavior(callback: () => void) {
+      const root = document.documentElement;
+      const body = document.body;
+      const rootScrollBehavior = root.style.scrollBehavior;
+      const bodyScrollBehavior = body.style.scrollBehavior;
+
+      root.style.setProperty('scroll-behavior', 'auto', 'important');
+      body.style.setProperty('scroll-behavior', 'auto', 'important');
+
+      callback();
+
+      requestAnimationFrame(() => {
+        root.style.scrollBehavior = rootScrollBehavior;
+        body.style.scrollBehavior = bodyScrollBehavior;
+      });
+    }
+
+    function forceScrollTo(top: number) {
+      withInstantScrollBehavior(() => {
+        document.documentElement.scrollTop = top;
+        document.body.scrollTop = top;
+        window.scrollTo({ top, left: 0, behavior: 'auto' });
+      });
+    }
+
+    function getSectionScrollStart() {
+      return scrollArea!.getBoundingClientRect().top + getScrollY();
+    }
+
+    function getSectionScrollLength() {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      return Math.max(scrollArea!.offsetHeight - viewportHeight, viewportHeight);
+    }
+
+    function getSectionScrollEnd() {
+      return getSectionScrollStart() + getSectionScrollLength();
+    }
+
+    function clamp(value: number) {
+      return Math.max(0, Math.min(1, value));
+    }
+
+    function getProgressForY(scrollY = getScrollY()) {
+      return clamp((scrollY - getSectionScrollStart()) / getSectionScrollLength());
+    }
+
+    function getTabProgress(index: number) {
+      const tabSpan = shrinkStart - expandEnd;
+      return expandEnd + tabSpan * ((index + 0.5) / numTabs);
+    }
+
+    function getIndexFromProgress(progress: number) {
+      if (progress <= expandEnd) return 0;
+      if (progress >= shrinkStart) return lastTabIndex;
+
+      const tabProgress = (progress - expandEnd) / (shrinkStart - expandEnd);
+      return Math.min(lastTabIndex, Math.max(0, Math.floor(tabProgress * numTabs)));
+    }
+
+    function renderForProgress(progress: number) {
+      progress = clamp(progress);
+
+      const parentPadding = window.innerWidth < 1024 ? 40 : 106;
       const fullMargin = -(parentPadding + (window.innerWidth - scrollArea!.offsetWidth) / 2);
 
       if (progress <= expandEnd) {
@@ -304,32 +395,341 @@ const products = [
         const currentMargin = defaultMargin + (fullMargin - defaultMargin) * expandProgress;
         wrapper.style.marginLeft = `${currentMargin}px`;
         wrapper.style.marginRight = `${currentMargin}px`;
-        if (panels_el) panels_el.style.borderRadius = `${8 * (1 - expandProgress)}px`;
+        if (panelsEl) panelsEl.style.borderRadius = `${8 * (1 - expandProgress)}px`;
         activateTab(0);
       } else if (progress <= shrinkStart) {
         wrapper.style.marginLeft = `${fullMargin}px`;
         wrapper.style.marginRight = `${fullMargin}px`;
-        if (panels_el) panels_el.style.borderRadius = '0px';
-        const tabProgress = (progress - expandEnd) / (shrinkStart - expandEnd);
-        const tabIndex = Math.min(numTabs - 1, Math.floor(tabProgress * numTabs));
-        activateTab(tabIndex);
+        if (panelsEl) panelsEl.style.borderRadius = '0px';
+        activateTab(getIndexFromProgress(progress));
       } else {
         const shrinkProgress = (progress - shrinkStart) / (1 - shrinkStart);
         const currentMargin = fullMargin + (defaultMargin - fullMargin) * shrinkProgress;
         wrapper.style.marginLeft = `${currentMargin}px`;
         wrapper.style.marginRight = `${currentMargin}px`;
-        if (panels_el) panels_el.style.borderRadius = `${8 * shrinkProgress}px`;
-        activateTab(numTabs - 1);
+        if (panelsEl) panelsEl.style.borderRadius = `${8 * shrinkProgress}px`;
+        activateTab(lastTabIndex);
       }
     }
 
-    // Clean up previous scroll listener
-    if (scrollHandler) {
-      window.removeEventListener('scroll', scrollHandler);
+    function setControlledProgress(progress: number) {
+      progressState.value = clamp(progress);
+      renderForProgress(progressState.value);
     }
-    scrollHandler = onScroll;
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+
+    function getPinnedScrollY() {
+      return activePinDirection > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
+    }
+
+    function pinViewportToSection() {
+      if (!isSectionActive) return;
+
+      const targetY = getPinnedScrollY();
+      if (Math.abs(getScrollY() - targetY) > 1) {
+        forceScrollTo(targetY);
+      }
+    }
+
+    function placeViewportAtSectionEdge(direction: 1 | -1) {
+      activePinDirection = direction;
+      const targetY = direction > 0 ? getSectionScrollStart() + 2 : getSectionScrollEnd() - 2;
+      forceScrollTo(targetY);
+    }
+
+    function setStep(index: number) {
+      const targetIndex = Math.min(Math.max(index, 0), lastTabIndex);
+      currentTabIndex = targetIndex;
+      setControlledProgress(stepTargets[targetIndex]);
+    }
+
+    function claimControlledWheel(event: WheelEvent) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    function claimScrollOwnership() {
+      productWindow.__ckStepScrollOwner = ownerKey;
+    }
+
+    function releaseScrollOwnership() {
+      if (productWindow.__ckStepScrollOwner === ownerKey) {
+        delete productWindow.__ckStepScrollOwner;
+      }
+    }
+
+    function lockWheelGestureTail(durationMs = wheelGestureIdleMs) {
+      claimScrollOwnership();
+      wheelGestureLocked = true;
+
+      if (wheelGestureUnlockTimer !== null) {
+        window.clearTimeout(wheelGestureUnlockTimer);
+      }
+
+      wheelGestureUnlockTimer = window.setTimeout(() => {
+        wheelGestureLocked = false;
+        wheelGestureUnlockTimer = null;
+      }, durationMs);
+    }
+
+    function clearWheelGestureLock() {
+      wheelGestureLocked = false;
+
+      if (wheelGestureUnlockTimer !== null) {
+        window.clearTimeout(wheelGestureUnlockTimer);
+        wheelGestureUnlockTimer = null;
+      }
+    }
+
+    function lockReleaseGesture(direction: 1 | -1) {
+      claimScrollOwnership();
+      releaseGestureDirection = direction;
+
+      if (releaseGestureUnlockTimer !== null) {
+        window.clearTimeout(releaseGestureUnlockTimer);
+      }
+
+      releaseGestureUnlockTimer = window.setTimeout(() => {
+        releaseGestureDirection = null;
+        releaseGestureUnlockTimer = null;
+        releaseScrollOwnership();
+      }, releaseGestureIdleMs);
+    }
+
+    function clearReleaseGestureLock() {
+      releaseGestureDirection = null;
+
+      if (releaseGestureUnlockTimer !== null) {
+        window.clearTimeout(releaseGestureUnlockTimer);
+        releaseGestureUnlockTimer = null;
+      }
+    }
+
+    function clearWheelMemory() {
+      clearWheelGestureLock();
+      clearReleaseGestureLock();
+      releaseScrollOwnership();
+    }
+
+    function syncNativeScrollProgress() {
+      if (isSectionActive || isAnimatingStep) return;
+
+      progressState.value = getProgressForY();
+      renderForProgress(progressState.value);
+    }
+
+    function handleNativeScroll() {
+      if (nativeScrollRaf !== null) return;
+
+      nativeScrollRaf = window.requestAnimationFrame(() => {
+        nativeScrollRaf = null;
+        if (isDesktopSnapMode()) {
+          syncNativeScrollProgress();
+        }
+      });
+    }
+
+    function animateToStep(index: number, direction: 1 | -1) {
+      const targetIndex = Math.min(Math.max(index, 0), lastTabIndex);
+      if (targetIndex === currentTabIndex) return;
+
+      stepTween?.kill();
+      currentTabIndex = targetIndex;
+      isAnimatingStep = true;
+      activePinDirection = direction;
+      claimScrollOwnership();
+
+      stepTween = gsap.to(progressState, {
+        value: stepTargets[targetIndex],
+        duration: 0.56,
+        ease: 'power3.out',
+        overwrite: true,
+        onUpdate: () => {
+          renderForProgress(progressState.value);
+          pinViewportToSection();
+        },
+        onComplete: () => {
+          setStep(targetIndex);
+          pinViewportToSection();
+          isAnimatingStep = false;
+          stepTween = null;
+          lockWheelGestureTail();
+        },
+        onInterrupt: () => {
+          isAnimatingStep = false;
+        },
+      });
+    }
+
+    function releaseSection(direction: 1 | -1) {
+      isSectionActive = false;
+      stepTween?.kill();
+      clearWheelGestureLock();
+      lockReleaseGesture(direction);
+
+      const exitY = direction > 0 ? getSectionScrollEnd() + 2 : Math.max(0, getSectionScrollStart() - 2);
+      forceScrollTo(exitY);
+    }
+
+    function enterSection(direction: 1 | -1) {
+      isSectionActive = true;
+      claimScrollOwnership();
+      placeViewportAtSectionEdge(direction);
+      setStep(direction > 0 ? 0 : lastTabIndex);
+      lockWheelGestureTail();
+    }
+
+    function handleStepIntent(direction: 1 | -1) {
+      if (!isDesktopSnapMode() || !isSectionActive) return false;
+
+      if (direction < 0 && currentTabIndex === 0) {
+        releaseSection(direction);
+        return false;
+      }
+
+      if (direction > 0 && currentTabIndex === lastTabIndex) {
+        releaseSection(direction);
+        return false;
+      }
+
+      animateToStep(currentTabIndex + direction, direction);
+      return true;
+    }
+
+    function getWheelDirection(event: WheelEvent): 1 | -1 | 0 {
+      if (event.deltaY > 0) return 1;
+      if (event.deltaY < 0) return -1;
+      return 0;
+    }
+
+    function isInsideSectionRunway(scrollY = getScrollY()) {
+      return scrollY >= getSectionScrollStart() - 1 && scrollY <= getSectionScrollEnd() + 1;
+    }
+
+    function handleWheel(event: WheelEvent) {
+      if (!isDesktopSnapMode()) return;
+
+      const direction = getWheelDirection(event);
+      if (direction === 0) return;
+
+      const currentY = getScrollY();
+      const sectionStart = getSectionScrollStart();
+      const sectionEnd = getSectionScrollEnd();
+      const delta = Math.abs(event.deltaY);
+      const crossesFromAbove = direction > 0 && currentY < sectionStart && currentY + delta >= sectionStart;
+      const crossesFromBelow = direction < 0 && currentY > sectionEnd && currentY - delta <= sectionEnd;
+
+      if (releaseGestureDirection !== null) {
+        if (direction === releaseGestureDirection) {
+          lockReleaseGesture(direction);
+          return;
+        }
+
+        clearReleaseGestureLock();
+      }
+
+      const shouldControl =
+        isSectionActive || isInsideSectionRunway(currentY) || crossesFromAbove || crossesFromBelow;
+
+      if (!shouldControl) return;
+
+      if (isSectionActive && !isAnimatingStep && !wheelGestureLocked) {
+        if (direction < 0 && currentTabIndex === 0) {
+          releaseSection(direction);
+          return;
+        }
+
+        if (direction > 0 && currentTabIndex === lastTabIndex) {
+          releaseSection(direction);
+          return;
+        }
+      }
+
+      claimControlledWheel(event);
+
+      if (isSectionActive) {
+        pinViewportToSection();
+      }
+
+      if (delta < minimumWheelDelta) {
+        return;
+      }
+
+      if (isAnimatingStep || wheelGestureLocked) {
+        pinViewportToSection();
+        lockWheelGestureTail();
+        return;
+      }
+
+      if (!isSectionActive) {
+        const alreadyInsideRunway = isInsideSectionRunway(currentY) && !crossesFromAbove && !crossesFromBelow;
+        const startingTabIndex = alreadyInsideRunway ? currentTabIndex : direction > 0 ? 0 : lastTabIndex;
+
+      enterSection(direction);
+      setStep(startingTabIndex);
+
+      if (alreadyInsideRunway) {
+        handleStepIntent(direction);
+        }
+
+        return;
+      }
+
+      handleStepIntent(direction);
+    }
+
+    const handleResize = () => {
+      if (isDesktopSnapMode() && isSectionActive) {
+        placeViewportAtSectionEdge(activePinDirection);
+      }
+
+      if (isDesktopSnapMode()) {
+        setStep(currentTabIndex);
+      } else {
+        isSectionActive = false;
+        stepTween?.kill();
+        clearWheelMemory();
+      }
+    };
+
+    const tabClickHandlers = Array.from(tabs, (tab, index) => {
+      const handleClick = () => {
+        stepTween?.kill();
+        isAnimatingStep = false;
+        clearWheelMemory();
+        setStep(index);
+      };
+
+      tab.addEventListener('click', handleClick);
+      return handleClick;
+    });
+
+    window.addEventListener('scroll', handleNativeScroll, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    const cleanup = () => {
+      window.removeEventListener('scroll', handleNativeScroll);
+      window.removeEventListener('wheel', handleWheel, true);
+      window.removeEventListener('resize', handleResize);
+      tabs.forEach((tab, index) => {
+        const handleClick = tabClickHandlers[index];
+        if (handleClick) tab.removeEventListener('click', handleClick);
+      });
+      if (nativeScrollRaf !== null) {
+        window.cancelAnimationFrame(nativeScrollRaf);
+        nativeScrollRaf = null;
+      }
+      stepTween?.kill();
+      clearWheelMemory();
+
+      if (productWindow.__productsTabScrollCleanup === cleanup) {
+        delete productWindow.__productsTabScrollCleanup;
+      }
+    };
+
+    productWindow.__productsTabScrollCleanup = cleanup;
+    document.addEventListener('astro:before-swap', cleanup, { once: true });
+    syncNativeScrollProgress();
   }
 
   function initProductVideos() {
@@ -371,7 +771,6 @@ const products = [
       panelsEl.style.borderRadius = '';
     }
 
-    initProductTabs();
     initScrollTabs();
     initProductVideos();
     initMobileProductScroll();
