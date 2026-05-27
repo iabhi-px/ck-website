@@ -812,7 +812,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     const postAnimationMomentumGuardMs = 70;
     const enterMomentumGuardMs = 0;
     const clickWheelSuppressMs = 80;
-    const wheelIntentThreshold = 10;
+    const wheelIntentThreshold = 1;
 
     function isDesktopSnapMode() {
       return window.matchMedia('(min-width: 768px)').matches;
