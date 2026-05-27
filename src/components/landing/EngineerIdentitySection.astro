@@ -333,6 +333,26 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         </a>
       </g>
       </svg>
+      <div class="identity-final-mobile" aria-hidden="true">
+        <svg
+          class="identity-final-mobile-logo"
+          viewBox="0 0 256 256"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M224 96C224 65.8301 224 50.7452 214.627 41.3726C205.255 32 190.17 32 160 32H96C65.8301 32 50.7452 32 41.3726 41.3726C32 50.7452 32 65.8301 32 96V160C32 190.17 32 205.255 41.3726 214.627C50.7452 224 65.8301 224 96 224H160C190.17 224 205.255 224 214.627 214.627C224 205.255 224 190.17 224 160V96Z"
+            fill="#0f0f0f"
+          />
+          <rect width="144" height="124" rx="24" transform="matrix(-1 0 0 1 208 48)" fill="#cdff52" />
+          <path d="M160 80L176 100.513L160 120" stroke="#0f0f0f" stroke-width="14.4" />
+          <path d="M128 80L112 100.513L128 120" stroke="#0f0f0f" stroke-width="14.4" />
+        </svg>
+        <h2 class="identity-final-mobile-title">
+          CodeKarma shows<br />
+          what runs in your production
+        </h2>
+      </div>
     </div>
   </div>
 </section>
@@ -390,6 +410,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   }
 
   .engineer-identity-stage {
+    position: relative;
     width: 100vw;
     height: 100vh;
     height: 100svh;
@@ -524,6 +545,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     fill: #0f0f0f;
   }
 
+  .identity-final-mobile {
+    display: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .engineer-identity-section {
       min-height: 100vh;
@@ -534,7 +559,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   @media (max-width: 900px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.72;
-      --identity-copy-scale: 0.54;
+      --identity-copy-scale: 0.62;
       --identity-final-copy-scale: 0.72;
     }
 
@@ -555,7 +580,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   @media (max-width: 767px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.62;
-      --identity-copy-scale: 0.43;
+      --identity-copy-scale: 0.6;
       --identity-final-copy-scale: 0.59;
     }
 
@@ -575,6 +600,45 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       display: block;
     }
 
+    .identity-copy-final {
+      display: none;
+    }
+
+    .identity-final-mobile {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(58px, 12svh, 96px) 24px calc(124px + env(safe-area-inset-bottom));
+      color: #0f0f0f;
+      text-align: center;
+      opacity: var(--identity-copy-final-opacity);
+      transform: translate3d(0, var(--identity-copy-final-y), 0);
+      filter: blur(var(--identity-copy-final-blur));
+      pointer-events: none;
+      will-change: opacity, transform, filter;
+    }
+
+    .identity-final-mobile-logo {
+      width: clamp(72px, 19vw, 90px);
+      height: clamp(72px, 19vw, 90px);
+      flex: 0 0 auto;
+    }
+
+    .identity-final-mobile-title {
+      width: min(100%, 360px);
+      margin: 0;
+      font-family: Geist, system-ui, sans-serif;
+      font-size: clamp(40px, 11.5vw, 52px);
+      font-weight: 650;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
     .identity-final-logomark {
       transform-box: view-box;
       transform-origin: 0 0;
@@ -585,12 +649,20 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   @media (max-width: 479px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.58;
-      --identity-copy-scale: 0.38;
+      --identity-copy-scale: 0.6;
       --identity-final-copy-scale: 0.50;
     }
 
     .identity-final-logomark {
       transform: translate(1895.04px, 598px) scale(0.82);
+    }
+
+    .identity-final-mobile {
+      padding: clamp(52px, 10svh, 82px) 22px calc(118px + env(safe-area-inset-bottom));
+    }
+
+    .identity-final-mobile-title {
+      font-size: clamp(38px, 11vw, 46px);
     }
   }
 
@@ -601,6 +673,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   const circleHeadNumbers = [
     100, 14, 126.51, 14, 148, 35.49, 148, 62, 148, 88.51, 126.51, 110, 100, 110,
@@ -640,7 +713,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-v9';
+  const identityScrollBindingVersion = 'target-step-v10';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -808,6 +881,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let lastAcceptedWheelAt = 0;
     let sameDirectionLockUntil = 0;
     let suppressWheelUntil = 0;
+    let lastResizeWidth = window.innerWidth;
+    let mobileRefreshFrame: number | null = null;
     const reverseIntentDebounceMs = 110;
     const postAnimationMomentumGuardMs = 0;
     const enterMomentumGuardMs = 0;
@@ -1011,6 +1086,18 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       mobileTween = null;
     }
 
+    function refreshMobileScrubForWidthChange() {
+      if (mobileRefreshFrame !== null) {
+        window.cancelAnimationFrame(mobileRefreshFrame);
+      }
+
+      mobileRefreshFrame = window.requestAnimationFrame(() => {
+        mobileRefreshFrame = null;
+        ScrollTrigger.refresh();
+        render(progressState.value);
+      });
+    }
+
     function handleWheel(event: WheelEvent) {
       if (!isDesktopSnapMode()) return;
 
@@ -1134,12 +1221,22 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     const handleResize = () => {
+      const currentWidth = window.innerWidth;
+      const widthChanged = Math.abs(currentWidth - lastResizeWidth) > 1;
+      lastResizeWidth = currentWidth;
+
       if (!isDesktopSnapMode()) {
         isSectionActive = false;
         stepTween?.kill();
         clearWheelMemory();
         ensureMobileScrub();
-        ScrollTrigger.refresh();
+
+        if (widthChanged) {
+          refreshMobileScrubForWidthChange();
+        } else {
+          render(progressState.value);
+        }
+
         return;
       }
 
@@ -1157,6 +1254,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section.removeEventListener('auxclick', handleAuxClick, true);
       stepTween?.kill();
       killMobileScrub();
+      if (mobileRefreshFrame !== null) {
+        window.cancelAnimationFrame(mobileRefreshFrame);
+        mobileRefreshFrame = null;
+      }
       clearWheelMemory();
       delete section.dataset.identityScrollBound;
 
