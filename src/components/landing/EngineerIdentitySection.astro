@@ -42,12 +42,28 @@ const iconPositions = [
   [3433, 1630],
 ];
 
+const mobileIconPositions = [
+  [1600, 72],
+  [1900, 72],
+  [2200, 72],
+  [1750, 260],
+  [2050, 260],
+  [2350, 260],
+  [1600, 1530],
+  [1900, 1530],
+  [2200, 1530],
+  [1750, 1720],
+  [2050, 1720],
+  [2350, 1720],
+];
+
 const circleHeadPath =
   'M100 14C126.51 14 148 35.49 148 62C148 88.51 126.51 110 100 110C73.49 110 52 88.51 52 62C52 35.49 73.49 14 100 14Z';
 const sparkleGlyphPath =
   'M0 -82C12 -34 34 -12 82 0C34 12 12 34 0 82C-12 34 -34 12 -82 0C-34 -12 -12 -34 0 -82Z';
 
 const iconScale = 0.84;
+const mobileIconScale = 0.49;
 const copyFontSize = 112;
 const copyLineGap = 152;
 
@@ -153,6 +169,31 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
             class="identity-icon"
             transform={`translate(${x} ${y}) translate(100 86) scale(${iconScale}) translate(-100 -86)`}
             style={`--identity-delay: ${index * 12}ms`}
+          >
+            <path class="identity-head-path" d={circleHeadPath} />
+
+            <path
+              class="identity-body"
+              d="M25 158C45 124 70 110 100 110C130 110 155 124 175 158"
+            />
+
+          </g>
+        ))}
+      </g>
+
+      <g
+        class="identity-mobile-icons"
+        stroke="#ffffff"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        {mobileIconPositions.map(([x, y], index) => (
+          <g
+            class="identity-icon identity-mobile-icon"
+            transform={`translate(${x} ${y}) translate(100 86) scale(${mobileIconScale}) translate(-100 -86)`}
+            style={`--identity-delay: ${(iconPositions.length + index) * 12}ms`}
           >
             <path class="identity-head-path" d={circleHeadPath} />
 
@@ -304,8 +345,9 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           <path d="M128 80L112 100.513L128 120" stroke="#0f0f0f" stroke-width="14.4" />
         </svg>
         <h2 class="identity-final-mobile-title">
-          CodeKarma shows<br />
-          what runs in your production
+          <span>CodeKarma shows</span>
+          <span>what runs in</span>
+          <span>your production —</span>
         </h2>
       </div>
     </div>
@@ -345,6 +387,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     --identity-copy-final-blur: 10px;
     --identity-copy-final-color: #0f0f0f;
     --identity-final-pointer-events: none;
+    --identity-final-mobile-visibility: hidden;
     --identity-icon-field-scale: 0.96;
     --identity-copy-scale: 1;
     --identity-final-copy-scale: 1;
@@ -390,6 +433,12 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     transform-box: view-box;
     transform-origin: center;
     transform: scale(var(--identity-icon-field-scale));
+  }
+
+  .identity-mobile-icons {
+    display: none;
+    opacity: var(--identity-grid-opacity);
+    stroke: var(--identity-icon-color);
   }
 
   .identity-head-path,
@@ -522,6 +571,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       min-width: 100vw;
       overflow: visible;
     }
+
+    .identity-mobile-icons {
+      display: none;
+    }
   }
 
   @media (max-width: 767px) {
@@ -535,6 +588,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       display: none;
     }
 
+    .identity-mobile-icons {
+      display: block;
+    }
+
     .identity-final-mobile {
       position: absolute;
       inset: 0;
@@ -543,11 +600,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       box-sizing: border-box;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 32px;
       padding: clamp(58px, 12svh, 96px) 24px calc(124px + env(safe-area-inset-bottom));
       color: #0f0f0f;
       text-align: center;
       opacity: var(--identity-copy-final-opacity);
+      visibility: var(--identity-final-mobile-visibility);
       transform: translate3d(0, var(--identity-copy-final-y), 0);
       filter: blur(var(--identity-copy-final-blur));
       pointer-events: none;
@@ -561,13 +620,18 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     .identity-final-mobile-title {
-      width: min(100%, 360px);
+      width: min(100vw, 390px);
       margin: 0;
       font-family: Geist, system-ui, sans-serif;
-      font-size: clamp(40px, 11.5vw, 52px);
+      font-size: 40px;
       font-weight: 650;
       line-height: 1.04;
       letter-spacing: 0;
+    }
+
+    .identity-final-mobile-title span {
+      display: block;
+      white-space: nowrap;
     }
   }
 
@@ -583,7 +647,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     .identity-final-mobile-title {
-      font-size: clamp(38px, 11vw, 46px);
+      font-size: 40px;
     }
   }
 
@@ -591,10 +655,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
 <script>
   import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-  ScrollTrigger.config({ ignoreMobileResize: true });
 
   const circleHeadNumbers = [
     100, 14, 126.51, 14, 148, 35.49, 148, 62, 148, 88.51, 126.51, 110, 100, 110,
@@ -634,7 +694,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-carousel-v1';
+  const identityScrollBindingVersion = 'target-step-carousel-v2';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -680,6 +740,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section.style.setProperty('--identity-copy-final-blur', '0px');
       section.style.setProperty('--identity-copy-final-color', '#0f0f0f');
       section.style.setProperty('--identity-final-pointer-events', 'auto');
+      section.style.setProperty('--identity-final-mobile-visibility', 'visible');
       return;
     }
 
@@ -779,6 +840,10 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       section!.style.setProperty('--identity-copy-final-blur', `${10 * (1 - finalCopyEnter)}px`);
       section!.style.setProperty('--identity-copy-final-color', '#0f0f0f');
       section!.style.setProperty('--identity-final-pointer-events', finalCopyEnter > 0.98 ? 'auto' : 'none');
+      section!.style.setProperty(
+        '--identity-final-mobile-visibility',
+        finalCopyEnter > 0.01 ? 'visible' : 'hidden'
+      );
     }
 
     const choreographySteps = [
@@ -793,7 +858,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     const lastStepIndex = stepTargets.length - 1;
     let currentStepIndex = 0;
     let stepTween: gsap.core.Tween | null = null;
-    let mobileTween: gsap.core.Tween | null = null;
     let isAnimatingStep = false;
     let isSectionActive = false;
     let activePinDirection: 1 | -1 = 1;
@@ -803,7 +867,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let releaseGestureUnlockTimer: number | null = null;
     let nativeScrollRaf: number | null = null;
     let lastResizeWidth = window.innerWidth;
-    let mobileRefreshFrame: number | null = null;
     const enterWheelLockMs = 140;
     const postStepWheelLockMs = 160;
     const releaseGestureIdleMs = 360;
@@ -1069,43 +1132,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       return true;
     }
 
-    function ensureMobileScrub() {
-      if (mobileTween || isDesktopSnapMode()) return;
-
-      mobileTween = gsap.to(progressState, {
-        value: 1,
-        ease: 'none',
-        onUpdate: () => render(progressState.value),
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.55,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onRefresh: () => render(progressState.value),
-        },
-      });
-    }
-
-    function killMobileScrub() {
-      mobileTween?.scrollTrigger?.kill();
-      mobileTween?.kill();
-      mobileTween = null;
-    }
-
-    function refreshMobileScrubForWidthChange() {
-      if (mobileRefreshFrame !== null) {
-        window.cancelAnimationFrame(mobileRefreshFrame);
-      }
-
-      mobileRefreshFrame = window.requestAnimationFrame(() => {
-        mobileRefreshFrame = null;
-        ScrollTrigger.refresh();
-        render(progressState.value);
-      });
-    }
-
     function handleWheel(event: WheelEvent) {
       if (!isDesktopSnapMode()) return;
 
@@ -1179,18 +1205,19 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       lastResizeWidth = currentWidth;
 
       if (!isDesktopSnapMode()) {
-        ensureMobileScrub();
+        isSectionActive = false;
+        isAnimatingStep = false;
+        stepTween?.kill();
+        stepTween = null;
+        clearWheelMemory();
 
         if (widthChanged) {
-          refreshMobileScrubForWidthChange();
-        } else {
-          render(progressState.value);
+          syncNativeScrollProgress();
         }
 
         return;
       }
 
-      killMobileScrub();
       if (isSectionActive) {
         placeViewportAtSectionEdge(activePinDirection);
       }
@@ -1201,14 +1228,9 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       window.removeEventListener('scroll', handleNativeScroll);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('wheel', handleWheel, true);
-      killMobileScrub();
       if (nativeScrollRaf !== null) {
         window.cancelAnimationFrame(nativeScrollRaf);
         nativeScrollRaf = null;
-      }
-      if (mobileRefreshFrame !== null) {
-        window.cancelAnimationFrame(mobileRefreshFrame);
-        mobileRefreshFrame = null;
       }
       stepTween?.kill();
       clearWheelMemory();
@@ -1227,7 +1249,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     if (isDesktopSnapMode()) {
       setStep(0);
     } else {
-      ensureMobileScrub();
       syncNativeScrollProgress();
     }
   }
