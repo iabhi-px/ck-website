@@ -287,13 +287,14 @@ const products = [
     let activePinDirection: 1 | -1 = 1;
     let wheelGestureLocked = false;
     let wheelGestureUnlockTimer: number | null = null;
+    let lastWheelEventAt = 0;
     let releaseGestureDirection: 1 | -1 | null = null;
     let releaseGestureUnlockTimer: number | null = null;
     let nativeScrollRaf: number | null = null;
     const ownerKey = 'products-tabs';
     const expandEnd = 0.12;
     const shrinkStart = 0.86;
-    const wheelGestureIdleMs = 560;
+    const wheelGestureIdleMs = 220;
     const releaseGestureIdleMs = 360;
     const minimumWheelDelta = 1;
 
@@ -471,6 +472,14 @@ const products = [
       }, durationMs);
     }
 
+    function noteWheelEvent(now = window.performance.now()) {
+      if (now - lastWheelEventAt > wheelGestureIdleMs) {
+        clearWheelGestureLock();
+      }
+
+      lastWheelEventAt = now;
+    }
+
     function clearWheelGestureLock() {
       wheelGestureLocked = false;
 
@@ -507,6 +516,7 @@ const products = [
     function clearWheelMemory() {
       clearWheelGestureLock();
       clearReleaseGestureLock();
+      lastWheelEventAt = 0;
       releaseScrollOwnership();
     }
 
@@ -537,6 +547,7 @@ const products = [
       isAnimatingStep = true;
       activePinDirection = direction;
       claimScrollOwnership();
+      lockWheelGestureTail();
 
       stepTween = gsap.to(progressState, {
         value: stepTargets[targetIndex],
@@ -552,7 +563,6 @@ const products = [
           pinViewportToSection();
           isAnimatingStep = false;
           stepTween = null;
-          lockWheelGestureTail();
         },
         onInterrupt: () => {
           isAnimatingStep = false;
@@ -570,11 +580,11 @@ const products = [
       forceScrollTo(exitY);
     }
 
-    function enterSection(direction: 1 | -1) {
+    function enterSection(direction: 1 | -1, initialTabIndex = direction > 0 ? 0 : lastTabIndex) {
       isSectionActive = true;
       claimScrollOwnership();
       placeViewportAtSectionEdge(direction);
-      setStep(direction > 0 ? 0 : lastTabIndex);
+      setStep(initialTabIndex);
       lockWheelGestureTail();
     }
 
@@ -632,6 +642,8 @@ const products = [
 
       if (!shouldControl) return;
 
+      noteWheelEvent();
+
       if (isSectionActive && !isAnimatingStep && !wheelGestureLocked) {
         if (direction < 0 && currentTabIndex === 0) {
           releaseSection(direction);
@@ -664,11 +676,10 @@ const products = [
         const alreadyInsideRunway = isInsideSectionRunway(currentY) && !crossesFromAbove && !crossesFromBelow;
         const startingTabIndex = alreadyInsideRunway ? currentTabIndex : direction > 0 ? 0 : lastTabIndex;
 
-      enterSection(direction);
-      setStep(startingTabIndex);
+        enterSection(direction, startingTabIndex);
 
-      if (alreadyInsideRunway) {
-        handleStepIntent(direction);
+        if (alreadyInsideRunway) {
+          handleStepIntent(direction);
         }
 
         return;
