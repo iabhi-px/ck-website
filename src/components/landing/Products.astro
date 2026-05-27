@@ -33,6 +33,23 @@ const products = [
     poster: '/assets/Videos/posters/karmaiq.webp',
   },
 ];
+
+const productTabExpandEnd = 0.12;
+const productTabShrinkStart = 0.86;
+const productScrollAreaHeightVh = 100 + products.length * 80;
+const productTabSnapPoints = products.map((product, index) => {
+  const progress =
+    products.length <= 1
+      ? 0.5
+      : productTabExpandEnd + (productTabShrinkStart - productTabExpandEnd) * (index / (products.length - 1));
+  const snapPercent = Number((progress * 100).toFixed(4));
+
+  return {
+    ...product,
+    progress: Number(progress.toFixed(6)),
+    snapPercent,
+  };
+});
 ---
 
 <section id="products-section" class="relative bg-white pt-4 md:pt-20 pb-4 md:pb-20">
@@ -90,7 +107,24 @@ const products = [
   </div>
 
   <!-- Desktop: Tabs sticky container — tall to allow scroll room -->
-  <div id="products-scroll-area" class="hidden md:block relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] products-scroll-area">
+  <div
+    id="products-scroll-area"
+    class="hidden md:block relative z-10 mx-auto max-w-7xl px-5 md:px-10 lg:px-[88px] products-scroll-area"
+    data-expand-end={productTabExpandEnd}
+    data-shrink-start={productTabShrinkStart}
+    style={`--products-scroll-height: ${productScrollAreaHeightVh}vh;`}
+  >
+    <div class="product-tab-snap-points" aria-hidden="true">
+      {productTabSnapPoints.map((snapPoint, index) => (
+        <span
+          class="product-tab-snap-point"
+          data-snap-tab={snapPoint.id}
+          data-index={index}
+          data-progress={snapPoint.progress}
+          style={`--product-tab-snap-top: calc(${snapPoint.snapPercent}% - ${snapPoint.snapPercent}vh); --product-tab-snap-top-svh: calc(${snapPoint.snapPercent}% - ${snapPoint.snapPercent}svh);`}
+        />
+      ))}
+    </div>
     <div class="products-tabs-wrapper sticky top-[15vh]" style="transition: margin 0.15s ease, border-radius 0.15s ease;">
       <!-- Tab buttons - folder style -->
       <div class="product-tabs-row">
@@ -216,7 +250,7 @@ const products = [
     __productsTabScrollCleanup?: () => void;
   };
 
-  // Desktop product tabs: native page scroll selects one discrete tab step at a time.
+  // Desktop product tabs: native page scroll snaps to one discrete tab step at a time.
 
   function initScrollTabs() {
     const scrollArea = document.getElementById('products-scroll-area');
@@ -233,16 +267,24 @@ const products = [
     const lastTabIndex = numTabs - 1;
     const defaultMargin = 0;
     const glider = document.getElementById('product-tab-glider');
+    const snapPoints = Array.from(scrollArea.querySelectorAll<HTMLElement>('.product-tab-snap-point'));
     let currentTabIndex = 0;
     let nativeScrollRaf: number | null = null;
-    const expandEnd = 0.12;
-    const shrinkStart = 0.86;
-
-    const stepTargets = Array.from({ length: numTabs }, (_, index) => getTabProgress(index));
+    const rawExpandEnd = Number(scrollArea.dataset.expandEnd);
+    const rawShrinkStart = Number(scrollArea.dataset.shrinkStart);
+    const expandEnd = Number.isFinite(rawExpandEnd) ? rawExpandEnd : 0.12;
+    const shrinkStart = Number.isFinite(rawShrinkStart) ? rawShrinkStart : 0.86;
 
     function clamp(value: number) {
       return Math.max(0, Math.min(1, value));
     }
+
+    function getSnapPointProgress(index: number) {
+      const progress = Number(snapPoints[index]?.dataset.progress);
+      return Number.isFinite(progress) ? clamp(progress) : getTabProgress(index);
+    }
+
+    const stepTargets = Array.from({ length: numTabs }, (_, index) => getSnapPointProgress(index));
 
     function activateTab(index: number) {
       currentTabIndex = Math.min(Math.max(index, 0), lastTabIndex);
@@ -305,6 +347,23 @@ const products = [
       return nearestIndex;
     }
 
+    function setNativeSnapEnabled(enabled: boolean) {
+      document.documentElement.classList.toggle('products-tab-native-snap', enabled);
+      document.body.classList.toggle('products-tab-native-snap', enabled);
+    }
+
+    function updateNativeSnapState() {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const scrollY = getScrollY();
+      const sectionStart = getSectionScrollStart();
+      const sectionEnd = sectionStart + getSectionScrollLength();
+      const snapPadding = viewportHeight * 0.1;
+      const shouldSnap =
+        isDesktopSnapMode() && scrollY >= sectionStart - snapPadding && scrollY <= sectionEnd + snapPadding;
+
+      setNativeSnapEnabled(shouldSnap);
+    }
+
     function renderForProgress(progress: number) {
       progress = clamp(progress);
 
@@ -334,7 +393,12 @@ const products = [
     }
 
     function syncNativeScrollProgress() {
-      if (!isDesktopSnapMode()) return;
+      if (!isDesktopSnapMode()) {
+        setNativeSnapEnabled(false);
+        return;
+      }
+
+      updateNativeSnapState();
       renderForProgress(getProgressForY());
     }
 
@@ -353,6 +417,7 @@ const products = [
       if (isDesktopSnapMode()) {
         syncNativeScrollProgress();
       } else {
+        setNativeSnapEnabled(false);
         wrapper.style.marginLeft = '';
         wrapper.style.marginRight = '';
         if (panelsEl) panelsEl.style.borderRadius = '';
@@ -383,6 +448,7 @@ const products = [
         window.cancelAnimationFrame(nativeScrollRaf);
         nativeScrollRaf = null;
       }
+      setNativeSnapEnabled(false);
 
       if (productWindow.__productsTabScrollCleanup === cleanup) {
         delete productWindow.__productsTabScrollCleanup;
@@ -617,12 +683,41 @@ const products = [
   }
 
   .products-scroll-area {
-    height: 220vh;
+    height: var(--products-scroll-height, 420vh);
+  }
+
+  .product-tab-snap-points {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .product-tab-snap-point {
+    position: absolute;
+    top: var(--product-tab-snap-top);
+    left: 0;
+    width: 1px;
+    height: 1px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  @supports (height: 100svh) {
+    .product-tab-snap-point {
+      top: var(--product-tab-snap-top-svh);
+    }
+  }
+
+  @media (min-width: 768px) {
+    :global(html.products-tab-native-snap),
+    :global(body.products-tab-native-snap) {
+      scroll-snap-type: y mandatory;
+    }
   }
 
   @media (min-width: 768px) {
     .products-scroll-area {
-      height: 260vh;
+      height: var(--products-scroll-height, 420vh);
     }
   }
 
