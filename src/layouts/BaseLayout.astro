@@ -144,44 +144,10 @@ const {
 
         const ctaSuppressedSections = Array.from(document.querySelectorAll('#dead-code-statement'));
         let lastScrollY = Math.max(window.pageYOffset || window.scrollY || 0, 0);
-        let touchLastY = 0;
-        let touchDirection = null;
-        let touchDirectionTimer = null;
-        let isCtaHidden = false;
-        const hideScrollThreshold = 6;
-        const showScrollThreshold = 1;
+        const scrollThreshold = 6;
 
         function setCtaHidden(hidden) {
-          isCtaHidden = hidden;
           ctaBar.style.transform = hidden ? 'translate3d(0, 100%, 0)' : 'translate3d(0, 0, 0)';
-        }
-
-        function setTouchDirection(direction) {
-          touchDirection = direction;
-
-          if (touchDirectionTimer !== null) {
-            window.clearTimeout(touchDirectionTimer);
-          }
-
-          touchDirectionTimer = window.setTimeout(() => {
-            touchDirection = null;
-            touchDirectionTimer = null;
-          }, 320);
-        }
-
-        function handleTouchStart(event) {
-          touchLastY = event.touches?.[0]?.clientY || 0;
-        }
-
-        function handleTouchMove(event) {
-          const nextTouchY = event.touches?.[0]?.clientY || touchLastY;
-          const touchDelta = nextTouchY - touchLastY;
-
-          if (Math.abs(touchDelta) > 2) {
-            setTouchDirection(touchDelta < 0 ? 'down' : 'up');
-          }
-
-          touchLastY = nextTouchY;
         }
 
         function isInsideCtaSuppressedSection() {
@@ -199,9 +165,12 @@ const {
           const scrollDelta = currentScrollY - lastScrollY;
           const contactTop = contactSection.getBoundingClientRect().top;
           const windowHeight = window.innerHeight;
-          const scrollDirection =
-            touchDirection ||
-            (scrollDelta > hideScrollThreshold ? 'down' : scrollDelta < -showScrollThreshold ? 'up' : null);
+
+          if (isInsideCtaSuppressedSection()) {
+            setCtaHidden(true);
+            lastScrollY = currentScrollY;
+            return;
+          }
 
           if (contactTop <= windowHeight) {
             setCtaHidden(true);
@@ -211,12 +180,10 @@ const {
 
           if (currentScrollY <= 4) {
             setCtaHidden(false);
-          } else if (scrollDirection === 'up') {
+          } else if (scrollDelta > scrollThreshold) {
+            setCtaHidden(true);
+          } else if (scrollDelta < -scrollThreshold) {
             setCtaHidden(false);
-          } else if (scrollDirection === 'down') {
-            setCtaHidden(true);
-          } else if (isInsideCtaSuppressedSection() && isCtaHidden) {
-            setCtaHidden(true);
           }
 
           lastScrollY = currentScrollY;
@@ -224,8 +191,6 @@ const {
 
         window.addEventListener('scroll', checkVisibility, { passive: true });
         window.addEventListener('resize', checkVisibility);
-        window.addEventListener('touchstart', handleTouchStart, { passive: true });
-        window.addEventListener('touchmove', handleTouchMove, { passive: true });
         window.addEventListener('ck:mobile-cta-refresh', checkVisibility);
         checkVisibility();
       }

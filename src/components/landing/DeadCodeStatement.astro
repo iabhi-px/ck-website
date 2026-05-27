@@ -783,6 +783,7 @@ function getLineStyle(line: CodeLine) {
   @media (max-width: 767px) {
     .dead-code-section {
       overflow-x: clip;
+      overscroll-behavior: contain;
       --mobile-sticky-top: clamp(28px, 6svh, 46px);
       --mobile-sticky-bottom: calc(70px + env(safe-area-inset-bottom));
       --mobile-title-block: clamp(118px, 18svh, 148px);
@@ -790,7 +791,6 @@ function getLineStyle(line: CodeLine) {
 
     .dead-code-sticky {
       align-items: stretch;
-      height: 100svh;
       justify-content: center;
       padding: var(--mobile-sticky-top) 0 var(--mobile-sticky-bottom);
     }
@@ -1085,7 +1085,7 @@ function getLineStyle(line: CodeLine) {
     exitEnd: 0.998,
   };
 
-  const deadCodeScrollBindingVersion = 'target-step-carousel-v27';
+  const deadCodeScrollBindingVersion = 'target-step-carousel-v24';
   type DeadCodeWindow = Window & {
     __deadCodeScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -1138,11 +1138,11 @@ function getLineStyle(line: CodeLine) {
 	    }
 
 	    function render(sectionProgress: number) {
-	      const isMobile = isMobileLayout();
-	      const viewportHeight = getAnimationViewportHeight();
+	      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 	      sectionProgress = clamp(sectionProgress);
 	      let dockProgress = smoothStep(0, 0.48, sectionProgress);
 		      let copyReveal = smoothStep(0.08, 0.44, sectionProgress);
+	      const isMobile = window.matchMedia('(max-width: 767px)').matches;
       const layoutRect = layout.getBoundingClientRect();
       const visualSlotRect = visualSlot.getBoundingClientRect();
       const frameWidth = Math.max(ideFrame.offsetWidth, 1);
@@ -1396,12 +1396,11 @@ function getLineStyle(line: CodeLine) {
     let releaseGestureDirection: 1 | -1 | null = null;
     let releaseGestureUnlockTimer: number | null = null;
     let nativeScrollRaf: number | null = null;
-    const enterWheelLockMs = 140;
-    const postStepWheelLockMs = 420;
+    const isMobileLayout = window.matchMedia('(max-width: 767px)').matches;
+    const enterWheelLockMs = isMobileLayout ? 80 : 140;
+    const postStepWheelLockMs = isMobileLayout ? 90 : 160;
     const releaseGestureIdleMs = 360;
     const minimumWheelDelta = 1;
-    let stableMobileViewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
-    let stableMobileViewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
 
     let touchStartY = 0;
     let touchLastY = 0;
@@ -1411,44 +1410,12 @@ function getLineStyle(line: CodeLine) {
     const touchSwipeMinDistance = 28;
     const touchSwipeMinVelocity = 0.18;
 
-    function getLiveViewportHeight() {
-      return window.innerHeight || document.documentElement.clientHeight || stableMobileViewportHeight;
-    }
-
-    function getLiveViewportWidth() {
-      return window.innerWidth || document.documentElement.clientWidth || stableMobileViewportWidth;
-    }
-
-    function isMobileLayout() {
-      return window.matchMedia('(max-width: 767px)').matches;
-    }
-
     function isSnapMode() {
       return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
     function isTouchSnapMode() {
-      return isSnapMode() && isMobileLayout();
-    }
-
-    function refreshStableMobileViewport(force = false) {
-      const nextWidth = getLiveViewportWidth();
-      const nextHeight = getLiveViewportHeight();
-      const widthChanged = Math.abs(nextWidth - stableMobileViewportWidth) > 1;
-
-      if (force || widthChanged) {
-        stableMobileViewportWidth = nextWidth;
-        stableMobileViewportHeight = nextHeight;
-        return true;
-      }
-
-      stableMobileViewportHeight = Math.min(stableMobileViewportHeight, nextHeight);
-      return false;
-    }
-
-    function getAnimationViewportHeight() {
-      if (isMobileLayout()) return stableMobileViewportHeight;
-      return getLiveViewportHeight();
+      return isSnapMode() && window.matchMedia('(max-width: 767px)').matches;
     }
 
     function getScrollY() {
@@ -1460,7 +1427,7 @@ function getLineStyle(line: CodeLine) {
     }
 
     function getSectionScrollLength() {
-      const viewportHeight = getAnimationViewportHeight();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       return Math.max(section!.offsetHeight - viewportHeight, viewportHeight);
     }
 
@@ -1646,7 +1613,7 @@ function getLineStyle(line: CodeLine) {
     function getStepDuration(fromIndex: number, targetIndex: number) {
       const lowStep = Math.min(fromIndex, targetIndex);
       const highStep = Math.max(fromIndex, targetIndex);
-      const mobileScale = isMobileLayout() ? 0.78 : 1;
+      const mobileScale = isMobileLayout ? 0.78 : 1;
 
       if (lowStep === 1 && highStep === 2) return (fromIndex > targetIndex ? 0.94 : 1.08) * mobileScale;
       if (lowStep === 0 && highStep === 1) return 0.98 * mobileScale;
@@ -1780,13 +1747,11 @@ function getLineStyle(line: CodeLine) {
       }
 
       if (isAnimatingStep) {
-        lockWheelGestureTail(postStepWheelLockMs);
         pinViewportToSection();
         return;
       }
 
       if (wheelGestureLocked) {
-        lockWheelGestureTail(postStepWheelLockMs);
         pinViewportToSection();
         return;
       }
@@ -1903,15 +1868,6 @@ function getLineStyle(line: CodeLine) {
     }
 
     const handleResize = () => {
-      const shouldRelayoutMobile = refreshStableMobileViewport();
-
-      if (!isSnapMode()) {
-        if (shouldRelayoutMobile) {
-          syncNativeScrollProgress();
-        }
-        return;
-      }
-
       if (isSnapMode() && isSectionActive) {
         placeViewportAtSectionEdge(activePinDirection);
       }
@@ -1947,12 +1903,10 @@ function getLineStyle(line: CodeLine) {
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('scroll', handleNativeScroll, { passive: true });
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    if (isTouchSnapMode()) {
-      window.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
-      window.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
-      window.addEventListener('touchend', handleTouchEnd, { passive: true, capture: true });
-      window.addEventListener('touchcancel', handleTouchCancel, { passive: true, capture: true });
-    }
+    window.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true, capture: true });
+    window.addEventListener('touchcancel', handleTouchCancel, { passive: true, capture: true });
     deadCodeWindow.__deadCodeScrollCleanup = cleanupDeadCodeScroll;
     document.addEventListener('astro:before-swap', cleanupDeadCodeScroll, { once: true });
     if (isSnapMode()) {

@@ -51,10 +51,6 @@ const mobileIconPositions = [
   [1773, 260],
   [2027, 260],
   [2281, 260],
-  [1519, 1228],
-  [1773, 1228],
-  [2027, 1228],
-  [2281, 1228],
   [1519, 1530],
   [1773, 1530],
   [2027, 1530],
@@ -710,7 +706,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     return `M${points[0]} ${points[1]}C${points[2]} ${points[3]} ${points[4]} ${points[5]} ${points[6]} ${points[7]}C${points[8]} ${points[9]} ${points[10]} ${points[11]} ${points[12]} ${points[13]}C${points[14]} ${points[15]} ${points[16]} ${points[17]} ${points[18]} ${points[19]}C${points[20]} ${points[21]} ${points[22]} ${points[23]} ${points[24]} ${points[25]}Z`;
   }
 
-  const identityScrollBindingVersion = 'target-step-carousel-v3';
+  const identityScrollBindingVersion = 'target-step-carousel-v2';
   type IdentityWindow = Window & {
     __engineerIdentityScrollCleanup?: () => void;
     __ckStepScrollOwner?: string;
@@ -882,13 +878,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     let releaseGestureDirection: 1 | -1 | null = null;
     let releaseGestureUnlockTimer: number | null = null;
     let nativeScrollRaf: number | null = null;
-    let mobileSnapTimer: number | null = null;
-    let mobileSnapReleaseTimer: number | null = null;
-    let isMobileSnapScrolling = false;
-    let isMobileTouchActive = false;
     let lastResizeWidth = window.innerWidth;
-    let stableMobileViewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
-    let stableMobileViewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
     const enterWheelLockMs = 140;
     const postStepWheelLockMs = 160;
     const releaseGestureIdleMs = 360;
@@ -898,50 +888,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       return window.matchMedia('(min-width: 768px)').matches;
     }
 
-    function isMobileLayout() {
-      return window.matchMedia('(max-width: 767px)').matches;
-    }
-
-    function isMobileSnapMode() {
-      return (
-        isMobileLayout() &&
-        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      );
-    }
-
     function getScrollY() {
       return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    }
-
-    function getLiveViewportWidth() {
-      return window.innerWidth || document.documentElement.clientWidth || stableMobileViewportWidth || 1;
-    }
-
-    function getLiveViewportHeight() {
-      return window.innerHeight || document.documentElement.clientHeight || stableMobileViewportHeight || 1;
-    }
-
-    function refreshStableMobileViewport(force = false) {
-      const nextWidth = getLiveViewportWidth();
-      const nextHeight = getLiveViewportHeight();
-      const widthChanged = Math.abs(nextWidth - stableMobileViewportWidth) > 1;
-
-      if (force || widthChanged) {
-        stableMobileViewportWidth = nextWidth;
-        stableMobileViewportHeight = nextHeight;
-        return true;
-      }
-
-      stableMobileViewportHeight = Math.min(stableMobileViewportHeight, nextHeight);
-      return false;
-    }
-
-    function getAnimationViewportHeight() {
-      if (isMobileLayout()) {
-        return stableMobileViewportHeight;
-      }
-
-      return getLiveViewportHeight();
     }
 
     function getSectionScrollStart() {
@@ -949,7 +897,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
 
     function getSectionScrollLength() {
-      const viewportHeight = getAnimationViewportHeight();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
       return Math.max(section!.offsetHeight - viewportHeight, viewportHeight);
     }
 
@@ -974,10 +922,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
     function isInsideSectionRunway(scrollY = getScrollY()) {
       return scrollY >= getSectionScrollStart() - 1 && scrollY <= getSectionScrollEnd() + 1;
-    }
-
-    function isInsideMobileSnapRunway(scrollY = getScrollY()) {
-      return scrollY > getSectionScrollStart() + 24 && scrollY < getSectionScrollEnd() - 24;
     }
 
     function setControlledProgress(progress: number) {
@@ -1102,108 +1046,13 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       releaseScrollOwnership();
     }
 
-    function clearMobileSnapTimer() {
-      if (mobileSnapTimer !== null) {
-        window.clearTimeout(mobileSnapTimer);
-        mobileSnapTimer = null;
-      }
-    }
-
-    function clearMobileSnapMemory() {
-      clearMobileSnapTimer();
-      isMobileSnapScrolling = false;
-      isMobileTouchActive = false;
-
-      if (mobileSnapReleaseTimer !== null) {
-        window.clearTimeout(mobileSnapReleaseTimer);
-        mobileSnapReleaseTimer = null;
-      }
-    }
-
-    function getNearestStepIndex(progress: number) {
-      let nearestIndex = 0;
-      let nearestDistance = Infinity;
-
-      stepTargets.forEach((target, index) => {
-        const distance = Math.abs(progress - target);
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearestIndex = index;
-        }
-      });
-
-      return nearestIndex;
-    }
-
-    function getStepScrollY(index: number) {
-      return getSectionScrollStart() + getSectionScrollLength() * stepTargets[index];
-    }
-
-    function snapMobileToNearestStep() {
-      mobileSnapTimer = null;
-
-      if (!isMobileSnapMode() || !isInsideMobileSnapRunway()) {
-        return;
-      }
-
-      const targetIndex = getNearestStepIndex(getNativeScrollProgress());
-      const targetY = getStepScrollY(targetIndex);
-
-      currentStepIndex = targetIndex;
-
-      if (Math.abs(getScrollY() - targetY) < 10) {
-        setControlledProgress(stepTargets[targetIndex]);
-        return;
-      }
-
-      isMobileSnapScrolling = true;
-      window.scrollTo({ top: targetY, left: 0, behavior: 'smooth' });
-
-      if (mobileSnapReleaseTimer !== null) {
-        window.clearTimeout(mobileSnapReleaseTimer);
-      }
-
-      mobileSnapReleaseTimer = window.setTimeout(() => {
-        isMobileSnapScrolling = false;
-        mobileSnapReleaseTimer = null;
-        syncNativeScrollProgress();
-      }, 520);
-    }
-
-    function scheduleMobileSnap() {
-      if (!isMobileSnapMode() || isMobileTouchActive || isMobileSnapScrolling) return;
-
-      if (!isInsideMobileSnapRunway()) {
-        clearMobileSnapTimer();
-        return;
-      }
-
-      clearMobileSnapTimer();
-      mobileSnapTimer = window.setTimeout(snapMobileToNearestStep, 150);
-    }
-
     function handleNativeScroll() {
       if (isDesktopSnapMode() || nativeScrollRaf !== null) return;
 
       nativeScrollRaf = window.requestAnimationFrame(() => {
         nativeScrollRaf = null;
         syncNativeScrollProgress();
-        scheduleMobileSnap();
       });
-    }
-
-    function handleMobileTouchStart() {
-      if (!isMobileSnapMode()) return;
-
-      isMobileTouchActive = true;
-      clearMobileSnapTimer();
-    }
-
-    function handleMobileTouchEnd() {
-      if (!isMobileSnapMode()) return;
-
-      isMobileTouchActive = false;
-      scheduleMobileSnap();
     }
 
     function getStepDuration(fromIndex: number, targetIndex: number) {
@@ -1366,7 +1215,6 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       const currentWidth = window.innerWidth;
       const widthChanged = Math.abs(currentWidth - lastResizeWidth) > 1;
       lastResizeWidth = currentWidth;
-      const mobileViewportChanged = refreshStableMobileViewport();
 
       if (!isDesktopSnapMode()) {
         isSectionActive = false;
@@ -1375,14 +1223,12 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         stepTween = null;
         clearWheelMemory();
 
-        if (widthChanged || mobileViewportChanged) {
+        if (widthChanged) {
           syncNativeScrollProgress();
         }
 
         return;
       }
-
-      clearMobileSnapMemory();
 
       if (isSectionActive) {
         placeViewportAtSectionEdge(activePinDirection);
@@ -1394,15 +1240,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
       window.removeEventListener('scroll', handleNativeScroll);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('wheel', handleWheel, true);
-      window.removeEventListener('touchstart', handleMobileTouchStart);
-      window.removeEventListener('touchend', handleMobileTouchEnd);
-      window.removeEventListener('touchcancel', handleMobileTouchEnd);
       if (nativeScrollRaf !== null) {
         window.cancelAnimationFrame(nativeScrollRaf);
         nativeScrollRaf = null;
       }
       stepTween?.kill();
-      clearMobileSnapMemory();
       clearWheelMemory();
       delete section.dataset.identityScrollBound;
 
@@ -1414,12 +1256,8 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     window.addEventListener('scroll', handleNativeScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    window.addEventListener('touchstart', handleMobileTouchStart, { passive: true });
-    window.addEventListener('touchend', handleMobileTouchEnd, { passive: true });
-    window.addEventListener('touchcancel', handleMobileTouchEnd, { passive: true });
     identityWindow.__engineerIdentityScrollCleanup = cleanupEngineerIdentityScroll;
     document.addEventListener('astro:before-swap', cleanupEngineerIdentityScroll, { once: true });
-    refreshStableMobileViewport(true);
     if (isDesktopSnapMode()) {
       setStep(0);
     } else {
