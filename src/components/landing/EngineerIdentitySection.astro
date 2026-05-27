@@ -42,6 +42,21 @@ const iconPositions = [
   [3433, 1630],
 ];
 
+const mobileExtraIconPositions: Array<[number, number]> = [
+  [1243, -370],
+  [1681, -370],
+  [2119, -370],
+  [2557, -370],
+  [1243, -110],
+  [1681, -110],
+  [2119, -110],
+  [2557, -110],
+  [1243, 1885],
+  [1681, 1885],
+  [2119, 1885],
+  [2557, 1885],
+];
+
 const circleHeadPath =
   'M100 14C126.51 14 148 35.49 148 62C148 88.51 126.51 110 100 110C73.49 110 52 88.51 52 62C52 35.49 73.49 14 100 14Z';
 const sparkleGlyphPath =
@@ -163,6 +178,21 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
 
           </g>
         ))}
+        {mobileExtraIconPositions.map(([x, y], index) => (
+          <g
+            class="identity-icon identity-icon--mobile-only"
+            transform={`translate(${x} ${y}) translate(100 86) scale(${iconScale}) translate(-100 -86)`}
+            style={`--identity-delay: ${(iconPositions.length + index) * 12}ms`}
+          >
+            <path class="identity-head-path" d={circleHeadPath} />
+
+            <path
+              class="identity-body"
+              d="M25 158C45 124 70 110 100 110C130 110 155 124 175 158"
+            />
+
+          </g>
+        ))}
       </g>
 
       <g class="identity-center-spark-wrap" transform="translate(2000 950)">
@@ -251,7 +281,7 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
           <path d="M128 80L112 100.513L128 120" stroke="#0f0f0f" stroke-width="14.4" />
         </g>
         <text
-          class="identity-final-heading"
+          class="identity-final-heading identity-final-heading--desktop"
           x="2000"
           y="855"
           fill="#0f0f0f"
@@ -263,6 +293,21 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
         >
           <tspan x="2000">CodeKarma shows</tspan>
           <tspan x="2000" dy="190">what runs in your production</tspan>
+        </text>
+        <text
+          class="identity-final-heading identity-final-heading--mobile"
+          x="2000"
+          y="855"
+          fill="#0f0f0f"
+          text-anchor="middle"
+          font-family="Geist, system-ui, sans-serif"
+          font-size="160"
+          font-weight="650"
+          letter-spacing="-0.025em"
+        >
+          <tspan x="2000">CodeKarma shows</tspan>
+          <tspan x="2000" dy="190">what runs in</tspan>
+          <tspan x="2000" dy="190">your production</tspan>
         </text>
         <a
           href="https://cal.com/ananth-vanchi/30min"
@@ -499,11 +544,41 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     }
   }
 
+  .identity-icon--mobile-only {
+    display: none;
+  }
+
+  .identity-final-heading--mobile {
+    display: none;
+  }
+
   @media (max-width: 767px) {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.62;
       --identity-copy-scale: 0.5;
-      --identity-final-copy-scale: 0.52;
+      --identity-final-copy-scale: 0.59;
+    }
+
+    .identity-icon--mobile-only {
+      display: block;
+    }
+
+    .identity-final-cta-link {
+      display: none;
+    }
+
+    .identity-final-heading--desktop {
+      display: none;
+    }
+
+    .identity-final-heading--mobile {
+      display: block;
+    }
+
+    .identity-final-logomark {
+      transform-box: view-box;
+      transform-origin: 0 0;
+      transform: translate(1895.04px, 591px) scale(0.82);
     }
   }
 
@@ -511,7 +586,11 @@ const pillRows = Array.from({ length: 21 }, (_, rowIndex) => {
     .engineer-identity-section {
       --identity-icon-field-scale: 0.58;
       --identity-copy-scale: 0.48;
-      --identity-final-copy-scale: 0.38;
+      --identity-final-copy-scale: 0.50;
+    }
+
+    .identity-final-logomark {
+      transform: translate(1895.04px, 598px) scale(0.82);
     }
   }
 
