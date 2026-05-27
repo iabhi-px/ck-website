@@ -823,6 +823,7 @@ function getLineStyle(line: CodeLine) {
     .dead-code-label {
       opacity: var(--base-title);
       transition: opacity 0.18s ease;
+      text-align: center;
     }
 
     .dead-code-conclusion {
@@ -1371,7 +1372,12 @@ function getLineStyle(line: CodeLine) {
 
     function getStepScrollProgress(stepIndex: number) {
       const step = choreographySteps[stepIndex] ?? choreographySteps[0];
-      return clamp(step.progress * animationCompleteAt, 0, 0.995);
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      let progress = step.progress;
+      if (isMobile && step.name === 'physical') {
+        progress = 0.97;
+      }
+      return clamp(progress * animationCompleteAt, 0, 0.995);
     }
 
     const stepTargets = choreographySteps.map((_, index) => getStepScrollProgress(index));
@@ -1603,7 +1609,7 @@ function getLineStyle(line: CodeLine) {
     function getStepDuration(fromIndex: number, targetIndex: number) {
       const lowStep = Math.min(fromIndex, targetIndex);
       const highStep = Math.max(fromIndex, targetIndex);
-      const mobileScale = isMobileLayout ? 0.62 : 1;
+      const mobileScale = isMobileLayout ? 0.78 : 1;
 
       if (lowStep === 1 && highStep === 2) return (fromIndex > targetIndex ? 0.94 : 1.08) * mobileScale;
       if (lowStep === 0 && highStep === 1) return 0.98 * mobileScale;
@@ -1792,10 +1798,6 @@ function getLineStyle(line: CodeLine) {
       }
       touchClaimed = true;
       claimScrollOwnership();
-
-      if (isSectionActive) {
-        pinViewportToSection();
-      }
     }
 
     function handleTouchEnd(event: TouchEvent) {
