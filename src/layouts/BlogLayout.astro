@@ -16,9 +16,31 @@ const formattedDate = publishedAt.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+const agentSummary = {
+  eyebrow: 'CodeKarma blog post',
+  title,
+  description,
+  metadata: [
+    { label: 'published_at', value: formattedDate },
+    { label: 'tags', value: tags.length ? tags.join(', ') : 'none' },
+  ],
+  sections: [
+    {
+      heading: 'Article context',
+      items: [
+        `Title: ${title}`,
+        `Description: ${description}`,
+        `Published: ${formattedDate}`,
+        `Tags: ${tags.length ? tags.join(', ') : 'none'}`,
+      ],
+      links: [{ label: 'All articles', href: '/blog' }],
+    },
+  ],
+};
 ---
 
-<BaseLayout title={`${title} — CodeKarma Blog`} description={description} ogImage={coverImage}>
+<BaseLayout title={`${title} — CodeKarma Blog`} description={description} ogImage={coverImage} agentSummary={agentSummary}>
   <article class="relative bg-white pt-32 pb-20 overflow-hidden">
     <!-- Vertical gridlines (matching homepage) -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">

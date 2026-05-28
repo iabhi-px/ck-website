@@ -47,9 +47,26 @@ const caseStudies = [
     ],
   },
 ];
+
+const agentSummary = {
+  eyebrow: 'CodeKarma outcomes',
+  title: 'Real results from real production systems',
+  description: 'Case studies showing how CodeKarma improves detection, migration confidence, alert quality, and production visibility.',
+  sections: caseStudies.map((study) => ({
+    heading: study.title,
+    body: study.industry,
+    items: [
+      `Challenge: ${study.challenge}`,
+      `Solution: ${study.solution}`,
+      `Result: ${study.result}`,
+      ...study.metrics.map((metric) => `${metric.label}: ${metric.value}`),
+    ],
+    links: [{ label: `${study.title} case study`, href: `/case-studies/${study.slug}` }],
+  })),
+};
 ---
 
-<BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise.">
+<BaseLayout title="Solutions — CodeKarma" description="See how engineering teams use CodeKarma to gain production visibility, eliminate dead code, and reduce incident noise." agentSummary={agentSummary}>
   <section class="relative bg-white pt-44 lg:pt-[240px] pb-20 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">

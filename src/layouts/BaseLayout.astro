@@ -3,27 +3,33 @@ import SEO from '../components/shared/SEO.astro';
 import Navbar from '../components/landing/Navbar.astro';
 
 import Footer from '../components/shared/Footer.astro';
+import AgentModeShell from '../components/shared/AgentModeShell.astro';
+import ModeHead from '../components/shared/ModeHead.astro';
+import ModeToggle from '../components/shared/ModeToggle.astro';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  agentSummary?: any;
 }
 
 const {
   title,
   description = 'Build faster with the modern developer platform.',
   ogImage,
+  agentSummary,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="dark" data-ck-mode="human">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+    <ModeHead />
     <link rel="icon" type="image/svg+xml" href="/assets/Logos/Logomark/Colored%20%28for%20light%20bg%29.svg" />
     <link rel="icon" type="image/svg+xml" href="/assets/Logos/Logomark/Colored%20%28for%20light%20bg%29.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="/assets/Logos/Logomark/Colored%20%28for%20dark%20bg%29.svg" media="(prefers-color-scheme: dark)" />
@@ -39,69 +45,70 @@ const {
 
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-900 pb-[72px] md:pb-0">
-    <Navbar />
-    <main class="flex-1 relative z-10 bg-white">
-      <slot />
-    </main>
-    <div id="footer-spacer"></div>
-    <Footer />
+    <div class="ck-human-site contents">
+      <Navbar />
+      <main class="flex-1 relative z-10 bg-white">
+        <slot />
+      </main>
+      <div id="footer-spacer"></div>
+      <Footer />
 
-    <!-- Mobile sticky CTA bar -->
-    <div id="mobile-cta-bar" class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-5 pt-3 pb-3 flex gap-3">
-      <a
-        href="https://cal.com/ananth-vanchi/30min" target="_blank" rel="noopener noreferrer"
-        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none bg-brand-dark text-[15px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
-      >
-        <span>Schedule Call</span>
-      </a>
-      <button
-        id="mobile-contact-btn"
-        class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none border border-brand-dark text-[15px] font-medium text-brand-dark hover:bg-gray-100 transition-colors duration-200"
-      >
-        Contact Us
-      </button>
-    </div>
-
-    <!-- Mobile bottom sheet -->
-    <div id="mobile-sheet-overlay" class="fixed inset-0 z-[60] bg-black/50 md:hidden pointer-events-none opacity-0 transition-opacity duration-300"></div>
-    <div id="mobile-sheet" class="fixed bottom-0 left-0 right-0 z-[70] md:hidden bg-white rounded-t-2xl translate-y-full transition-transform duration-300 ease-out" style="max-height: 90vh; overflow-y: auto;">
-      <!-- Handle + Close -->
-      <div class="flex items-center justify-between px-5 pt-4 pb-2">
-        <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto"></div>
-      </div>
-      <div class="flex items-center justify-between px-5 pb-2">
-        <h3 class="text-[20px] font-semibold text-brand-dark">Contact Us</h3>
-        <button id="mobile-sheet-close" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-dark">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
+      <!-- Mobile sticky CTA bar -->
+      <div id="mobile-cta-bar" class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-5 pt-3 pb-3 flex gap-3">
+        <a
+          href="https://cal.com/ananth-vanchi/30min" target="_blank" rel="noopener noreferrer"
+          class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none bg-brand-dark text-[15px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary"
+        >
+          <span>Schedule Call</span>
+        </a>
+        <button
+          id="mobile-contact-btn"
+          class="flex-1 inline-flex items-center justify-center px-4 py-3 rounded-none border border-brand-dark text-[15px] font-medium text-brand-dark hover:bg-gray-100 transition-colors duration-200"
+        >
+          Contact Us
         </button>
       </div>
-      <!-- Form -->
-      <form class="px-5 pb-8">
-        <div class="border-t border-gray-200">
-          <div class="py-4 border-b border-gray-200">
-            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Company</label>
-            <input type="text" name="company" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
-          </div>
-          <div class="py-4 border-b border-gray-200">
-            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Work Email</label>
-            <input type="email" name="email" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
-          </div>
-          <div class="py-4 border-b border-gray-200">
-            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Name</label>
-            <input type="text" name="name" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
-          </div>
-          <div class="py-4 border-b border-gray-200">
-            <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Role</label>
-            <input type="text" name="role" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
-          </div>
+
+      <!-- Mobile bottom sheet -->
+      <div id="mobile-sheet-overlay" class="fixed inset-0 z-[60] bg-black/50 md:hidden pointer-events-none opacity-0 transition-opacity duration-300"></div>
+      <div id="mobile-sheet" class="fixed bottom-0 left-0 right-0 z-[70] md:hidden bg-white rounded-t-2xl translate-y-full transition-transform duration-300 ease-out" style="max-height: 90vh; overflow-y: auto;">
+        <!-- Handle + Close -->
+        <div class="flex items-center justify-between px-5 pt-4 pb-2">
+          <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto"></div>
         </div>
-        <button type="submit" class="w-full mt-6 inline-flex items-center justify-center px-5 py-3 rounded-none bg-brand-dark text-[15px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
-          <span>Send</span>
-        </button>
-      </form>
-    </div>
+        <div class="flex items-center justify-between px-5 pb-2">
+          <h3 class="text-[20px] font-semibold text-brand-dark">Contact Us</h3>
+          <button id="mobile-sheet-close" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-dark">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <!-- Form -->
+        <form class="px-5 pb-8">
+          <div class="border-t border-gray-200">
+            <div class="py-4 border-b border-gray-200">
+              <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Company</label>
+              <input type="text" name="company" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Company name" />
+            </div>
+            <div class="py-4 border-b border-gray-200">
+              <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Work Email</label>
+              <input type="email" name="email" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="you@company.com" />
+            </div>
+            <div class="py-4 border-b border-gray-200">
+              <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Name</label>
+              <input type="text" name="name" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your name" />
+            </div>
+            <div class="py-4 border-b border-gray-200">
+              <label class="block text-[12px] font-mono tracking-[0.2em] uppercase text-gray-400 mb-2">Role</label>
+              <input type="text" name="role" class="w-full bg-transparent text-[16px] text-brand-dark font-[410] focus:outline-none placeholder:text-gray-400" placeholder="Your role" />
+            </div>
+          </div>
+          <button type="submit" class="w-full mt-6 inline-flex items-center justify-center px-5 py-3 rounded-none bg-brand-dark text-[15px] font-medium hover:bg-brand-primary transition-colors duration-200 hero-btn-primary">
+            <span>Send</span>
+          </button>
+        </form>
+      </div>
 
     <script>
       function initMobileSheet() {
@@ -227,5 +234,8 @@ const {
         }
       }
     </style>
+    </div>
+    <AgentModeShell title={title} description={description} currentPath={Astro.url.pathname} agentSummary={agentSummary} />
+    <ModeToggle />
   </body>
 </html>

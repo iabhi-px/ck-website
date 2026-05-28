@@ -26,9 +26,41 @@ const commitments = [
     description: 'Independent penetration tests and security assessments are conducted on a regular cadence. Findings are remediated promptly and verified in follow-up reviews.',
   },
 ];
+
+const agentSummary = {
+  eyebrow: 'CodeKarma security posture',
+  title: 'Security-first production intelligence',
+  description: 'CodeKarma is designed for enterprise environments that need production insight without compromising data control, compliance, or deployment speed.',
+  metadata: [
+    { label: 'certification', value: 'SOC 2 Type 2' },
+    { label: 'deployment', value: 'SaaS with enterprise security controls' },
+  ],
+  sections: [
+    {
+      heading: 'Deployment model',
+      items: [
+        'Managed SaaS for fastest time to value.',
+        'Enterprise security and compliance controls built in.',
+        'Contract-to-production target measured in weeks, not months.',
+      ],
+    },
+    {
+      heading: 'Commitments',
+      items: commitments.map((commitment) => `${commitment.title}: ${commitment.description}`),
+    },
+    {
+      heading: 'Security FAQ themes',
+      items: [
+        'Source code access is limited to what is needed for product functionality.',
+        'Production telemetry is protected with encryption, RBAC, audit logging, and access controls.',
+        'Security review and deployment planning are supported during onboarding.',
+      ],
+    },
+  ],
+};
 ---
 
-<BaseLayout title="Security — CodeKarma" description="Security-first by design. Learn how CodeKarma protects your production environment with zero data egress, SOC 2 compliance, and enterprise-grade controls.">
+<BaseLayout title="Security — CodeKarma" description="Security-first by design. Learn how CodeKarma protects your production environment with zero data egress, SOC 2 compliance, and enterprise-grade controls." agentSummary={agentSummary}>
   <section class="relative bg-white pt-44 lg:pt-[240px] pb-0 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">

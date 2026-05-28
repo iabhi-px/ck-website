@@ -1,0 +1,177 @@
+---
+const currentUrl = new URL(Astro.url);
+const agentUrl = new URL(currentUrl);
+const humanUrl = new URL(currentUrl);
+
+agentUrl.searchParams.set('mode', 'agent');
+humanUrl.searchParams.delete('mode');
+
+const toRelativeHref = (url: URL) => `${url.pathname}${url.search}${url.hash}`;
+---
+
+<div class="ck-mode-toggle" role="group" aria-label="Website display mode">
+  <a href={toRelativeHref(humanUrl)} class="ck-mode-option" data-ck-mode-target="human" aria-pressed="true">
+    <span class="ck-mode-dot" aria-hidden="true"></span>
+    Human
+  </a>
+  <a href={toRelativeHref(agentUrl)} class="ck-mode-option" data-ck-mode-target="agent" aria-pressed="false">
+    <span class="ck-mode-dot" aria-hidden="true"></span>
+    Agent
+  </a>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+
+    function getModeFromUrl() {
+      return new URLSearchParams(window.location.search).get('mode') === 'agent' ? 'agent' : 'human';
+    }
+
+    function hrefForMode(mode) {
+      var nextUrl = new URL(window.location.href);
+      if (mode === 'agent') {
+        nextUrl.searchParams.set('mode', 'agent');
+      } else {
+        nextUrl.searchParams.delete('mode');
+      }
+
+      return nextUrl.pathname + nextUrl.search + nextUrl.hash;
+    }
+
+    function syncMode() {
+      var mode = getModeFromUrl();
+      root.setAttribute('data-ck-mode', mode);
+
+      if (mode === 'agent') {
+        root.classList.remove('products-tab-native-snap');
+        document.body.classList.remove('products-tab-native-snap');
+      }
+
+      document.querySelectorAll('[data-ck-mode-target]').forEach(function (option) {
+        var optionMode = option.getAttribute('data-ck-mode-target');
+        var active = optionMode === mode;
+        option.setAttribute('aria-pressed', active ? 'true' : 'false');
+        option.setAttribute('href', hrefForMode(optionMode));
+      });
+    }
+
+    document.addEventListener('click', function (event) {
+      var target = event.target instanceof Element ? event.target : event.target && event.target.parentElement;
+      var option = target ? target.closest('[data-ck-mode-target]') : null;
+      if (!option) return;
+
+      event.preventDefault();
+      var mode = option.getAttribute('data-ck-mode-target') === 'agent' ? 'agent' : 'human';
+      history.pushState({}, '', hrefForMode(mode));
+      window.scrollTo(0, 0);
+      syncMode();
+      window.dispatchEvent(new CustomEvent('ck:modechange', { detail: { mode: mode } }));
+    });
+
+    window.addEventListener('popstate', syncMode);
+    syncMode();
+  })();
+</script>
+
+<style is:global>
+  .ck-mode-toggle {
+    position: fixed;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid rgba(15, 15, 15, 0.16);
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f0f0f;
+    box-shadow: 0 16px 48px rgba(15, 15, 15, 0.14);
+    backdrop-filter: blur(16px);
+    transform: translateX(-50%);
+  }
+
+  .ck-mode-option {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 10px;
+    color: rgba(15, 15, 15, 0.58);
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+
+  .ck-mode-option[aria-pressed="true"] {
+    background: #0f0f0f;
+    color: #ffffff;
+  }
+
+  .ck-mode-dot {
+    width: 7px;
+    height: 7px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+  }
+
+  .ck-mode-option[aria-pressed="true"] .ck-mode-dot {
+    background: #cdff52;
+    border-color: #cdff52;
+  }
+
+  html[data-ck-mode="agent"] .ck-mode-toggle {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(28, 28, 30, 0.92);
+    color: #ffffff;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  }
+
+  html[data-ck-mode="agent"] .ck-mode-option {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  html[data-ck-mode="agent"] .ck-mode-option[aria-pressed="true"] {
+    background: #cdff52;
+    color: #0f0f0f;
+  }
+
+  html[data-ck-mode="agent"] .ck-mode-option[aria-pressed="true"] .ck-mode-dot {
+    background: #0f0f0f;
+    border-color: #0f0f0f;
+  }
+
+  @media (hover: hover) {
+    .ck-mode-option:hover {
+      background: rgba(15, 15, 15, 0.08);
+      color: #0f0f0f;
+    }
+
+    html[data-ck-mode="agent"] .ck-mode-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ck-mode-toggle {
+      bottom: calc(90px + env(safe-area-inset-bottom));
+    }
+
+    html[data-ck-mode="agent"] .ck-mode-toggle {
+      bottom: calc(16px + env(safe-area-inset-bottom));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ck-mode-option {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

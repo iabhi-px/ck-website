@@ -35,9 +35,52 @@ const karmaIQFeatures = [
   { title: 'MTTR reduction', desc: 'Trace failures across services and methods in minutes' },
   { title: 'BYOK model support', desc: 'Use your own LLM keys' },
 ];
+
+const productSummaries = [
+  {
+    name: 'KarmaLens',
+    role: 'For developers',
+    summary: 'Production intelligence inside the IDE: dead code, method frequency, performance hotspots, and execution paths.',
+    href: '/products#karmalens',
+    features: karmaLensFeatures,
+  },
+  {
+    name: 'KarmaDomain',
+    role: 'For architects and platform teams',
+    summary: 'Live API-level dependency graph for fan-out, multi-hop traces, golden signals, and architectural drift.',
+    href: '/products#karmadomain',
+    features: karmaDomainFeatures,
+  },
+  {
+    name: 'KarmaPulse',
+    role: 'For engineering leaders',
+    summary: 'Operational action dashboard for API health, error drift, deployment regressions, dead-code hotspots, and RCA.',
+    href: '/products#karmapulse',
+    features: karmaPulseFeatures,
+  },
+  {
+    name: 'KarmaIQ',
+    role: 'For AI agents',
+    summary: 'MCP server and agent context layer for production-grounded code understanding, debugging, and RCA.',
+    href: '/products#karmaiq',
+    features: karmaIQFeatures,
+  },
+];
+
+const agentSummary = {
+  eyebrow: 'CodeKarma product map',
+  title: 'One production context engine, four product surfaces',
+  description: 'CodeKarma exposes production intelligence to developers, platform teams, engineering leaders, and AI agents.',
+  sections: productSummaries.map((product) => ({
+    heading: `${product.name} — ${product.role}`,
+    body: product.summary,
+    items: product.features.map((feature) => `${feature.title}: ${feature.desc}`),
+    links: [{ label: product.name, href: product.href }],
+  })),
+};
 ---
 
-<BaseLayout title="Products — CodeKarma" description="Explore CodeKarma's production intelligence platform: KarmaPulse, KarmaLens, KarmaDomain, and KarmaIQ.">
+<BaseLayout title="Products — CodeKarma" description="Explore CodeKarma's production intelligence platform: KarmaPulse, KarmaLens, KarmaDomain, and KarmaIQ." agentSummary={agentSummary}>
 
   <!-- HERO -->
   <section class="relative bg-white pt-44 lg:pt-[240px] pb-20 md:pb-10 overflow-hidden">

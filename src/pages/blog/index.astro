@@ -8,9 +8,25 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 
 // Fixed 4 filter categories
 const filterTags = ['tutorial', 'engineering', 'architecture', 'performance'];
+
+const agentSummary = {
+  eyebrow: 'CodeKarma blog index',
+  title: 'Articles and updates from CodeKarma',
+  description: 'Engineering insights, product updates, and deep dives about production intelligence, observability, AI agents, and software architecture.',
+  metadata: [
+    { label: 'published_posts', value: String(posts.length) },
+  ],
+  sections: [
+    {
+      heading: 'Published posts',
+      items: posts.map((post) => `${post.data.title}: ${post.data.description}`),
+      links: posts.map((post) => ({ label: post.data.title, href: `/blog/${post.id}` })),
+    },
+  ],
+};
 ---
 
-<BaseLayout title="Blog — CodeKarma" description="Articles, tutorials, and updates from the CodeKarma team.">
+<BaseLayout title="Blog — CodeKarma" description="Articles, tutorials, and updates from the CodeKarma team." agentSummary={agentSummary}>
   <section class="relative bg-white pt-44 lg:pt-[240px] pb-20 overflow-hidden">
     <!-- Vertical gridlines (matching homepage) -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">

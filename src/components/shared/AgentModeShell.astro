@@ -1,0 +1,406 @@
+---
+interface AgentLink {
+  label: string;
+  href: string;
+}
+
+interface AgentSection {
+  heading: string;
+  body?: string;
+  items?: string[];
+  links?: AgentLink[];
+}
+
+interface AgentSummary {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  metadata?: { label: string; value: string }[];
+  actions?: AgentLink[];
+  sections?: AgentSection[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  currentPath?: string;
+  agentSummary?: AgentSummary;
+}
+
+const {
+  title,
+  description,
+  currentPath = Astro.url.pathname,
+  agentSummary = {},
+} = Astro.props;
+
+const siteLinks: AgentLink[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products' },
+  { label: 'Solutions', href: '/solutions' },
+  { label: 'Security', href: '/security' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+];
+
+const defaultActions: AgentLink[] = [
+  { label: 'Schedule demo', href: 'https://cal.com/ananth-vanchi/30min' },
+  { label: 'View platform', href: 'https://app.codekarma.tech/' },
+  { label: 'Email', href: 'mailto:info@codekarma.ai' },
+];
+
+const fallbackSections: AgentSection[] = [
+  {
+    heading: 'Page summary',
+    body: description,
+  },
+];
+
+const summaryTitle = agentSummary.title || title;
+const summaryDescription = agentSummary.description || description;
+const summaryEyebrow = agentSummary.eyebrow || 'Agent-readable CodeKarma page';
+const summaryActions = agentSummary.actions?.length ? agentSummary.actions : defaultActions;
+const summarySections = agentSummary.sections?.length ? agentSummary.sections : fallbackSections;
+const summaryMetadata = [
+  { label: 'path', value: currentPath },
+  ...(agentSummary.metadata || []),
+];
+
+function withAgentMode(href: string) {
+  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) {
+    return href;
+  }
+
+  const [pathAndSearch, hash = ''] = href.split('#');
+  const [path, search = ''] = pathAndSearch.split('?');
+  const params = new URLSearchParams(search);
+  params.set('mode', 'agent');
+  const nextSearch = params.toString();
+
+  return `${path}${nextSearch ? `?${nextSearch}` : ''}${hash ? `#${hash}` : ''}`;
+}
+
+function markdownLink(link: AgentLink) {
+  const href = withAgentMode(link.href);
+  return `[${link.label}](${href})`;
+}
+---
+
+<section class="ck-agent-shell" aria-label="Agent-readable CodeKarma website">
+  <div class="ck-agent-page">
+    <header class="ck-agent-header">
+      <a class="ck-agent-brand" href={withAgentMode('/')}>codekarma.ai</a>
+      <nav class="ck-agent-nav" aria-label="Agent mode navigation">
+        {siteLinks.map((link) => (
+          <a href={withAgentMode(link.href)}>{`/${link.label.toLowerCase()}`}</a>
+        ))}
+      </nav>
+    </header>
+
+    <main class="ck-agent-main">
+      <section class="ck-agent-block ck-agent-hero">
+        <p class="ck-agent-command"><span aria-hidden="true">$</span> curl codekarma.ai{currentPath}.md</p>
+        <p class="ck-agent-eyebrow">{summaryEyebrow}</p>
+        <h1># {summaryTitle}</h1>
+        <p class="ck-agent-description">&gt; {summaryDescription}</p>
+        <div class="ck-agent-links ck-agent-primary-links" aria-label="Primary actions">
+          <span class="ck-agent-label">links:</span>
+          {summaryActions.map((link) => (
+            <a href={withAgentMode(link.href)}>{markdownLink(link)}</a>
+          ))}
+        </div>
+      </section>
+
+      <section class="ck-agent-block">
+        <h2>## metadata</h2>
+        <dl class="ck-agent-meta">
+          {summaryMetadata.map((item) => (
+            <>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </>
+          ))}
+        </dl>
+      </section>
+
+      {summarySections.map((section) => (
+        <section class="ck-agent-block">
+          <h2>## {section.heading}</h2>
+          {section.body && <p class="ck-agent-copy">&gt; {section.body}</p>}
+          {section.items && section.items.length > 0 && (
+            <ul class="ck-agent-list">
+              {section.items.map((item) => (
+                <li><span aria-hidden="true">-</span><span>{item}</span></li>
+              ))}
+            </ul>
+          )}
+          {section.links && section.links.length > 0 && (
+            <div class="ck-agent-links">
+              <span class="ck-agent-label">refs:</span>
+              {section.links.map((link) => (
+                <a href={withAgentMode(link.href)}>{markdownLink(link)}</a>
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
+    </main>
+
+    <footer class="ck-agent-footer">
+      <span>CodeKarma Technologies Pvt. Ltd.</span>
+      <a href="mailto:info@codekarma.ai">[info@codekarma.ai](mailto:info@codekarma.ai)</a>
+      <a href="https://www.linkedin.com/company/codekarma-ai/">[LinkedIn](https://www.linkedin.com/company/codekarma-ai/)</a>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .ck-agent-shell {
+    min-height: 100vh;
+    background: #080808;
+    color: #e9e9e1;
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+
+  .ck-agent-page {
+    width: min(100%, 1040px);
+    min-width: 0;
+    margin: 0 auto;
+    padding: 18px 18px 88px;
+  }
+
+  .ck-agent-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 10px 0 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .ck-agent-brand {
+    color: #cdff52;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .ck-agent-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px 16px;
+  }
+
+  .ck-agent-nav a,
+  .ck-agent-links a,
+  .ck-agent-footer a {
+    color: rgba(233, 233, 225, 0.7);
+    text-decoration: none;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  .ck-agent-nav a {
+    font-size: 12px;
+  }
+
+  .ck-agent-main {
+    display: grid;
+    gap: 1px;
+    margin-top: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .ck-agent-block {
+    min-width: 0;
+    padding: 18px 20px;
+    background: #0b0b0c;
+  }
+
+  .ck-agent-hero {
+    padding-block: 20px;
+  }
+
+  .ck-agent-command,
+  .ck-agent-eyebrow,
+  .ck-agent-block h1,
+  .ck-agent-block h2,
+  .ck-agent-block p,
+  .ck-agent-block ul,
+  .ck-agent-block dl {
+    margin: 0;
+  }
+
+  .ck-agent-command {
+    color: rgba(233, 233, 225, 0.46);
+    font-size: 12px;
+  }
+
+  .ck-agent-command span {
+    color: #cdff52;
+  }
+
+  .ck-agent-eyebrow {
+    margin-top: 18px;
+    color: rgba(205, 255, 82, 0.78);
+    font-size: 12px;
+  }
+
+  .ck-agent-block h1 {
+    max-width: 84ch;
+    margin-top: 8px;
+    color: #ffffff;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 650;
+    line-height: 1.45;
+  }
+
+  .ck-agent-block h2 {
+    margin-bottom: 10px;
+    color: #cdff52;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .ck-agent-description,
+  .ck-agent-copy,
+  .ck-agent-block li {
+    max-width: 92ch;
+    color: rgba(233, 233, 225, 0.72);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .ck-agent-description {
+    margin-top: 8px !important;
+  }
+
+  .ck-agent-meta {
+    display: grid;
+    grid-template-columns: minmax(96px, max-content) 1fr;
+    gap: 6px 18px;
+    color: rgba(233, 233, 225, 0.72);
+    font-size: 13px;
+  }
+
+  .ck-agent-meta dt {
+    color: rgba(205, 255, 82, 0.74);
+  }
+
+  .ck-agent-meta dd {
+    overflow-wrap: anywhere;
+  }
+
+  .ck-agent-list {
+    display: grid;
+    gap: 6px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ck-agent-copy + .ck-agent-list {
+    margin-top: 10px;
+  }
+
+  .ck-agent-list li {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: 6px;
+  }
+
+  .ck-agent-list li > span:first-child,
+  .ck-agent-label {
+    color: rgba(205, 255, 82, 0.72);
+  }
+
+  .ck-agent-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    min-width: 0;
+    margin-top: 12px;
+    font-size: 12px;
+  }
+
+  .ck-agent-primary-links {
+    margin-top: 14px;
+  }
+
+  .ck-agent-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    padding-top: 20px;
+    color: rgba(233, 233, 225, 0.42);
+    font-size: 12px;
+  }
+
+  .ck-agent-footer a {
+    color: rgba(233, 233, 225, 0.58);
+  }
+
+  .ck-agent-brand:focus-visible,
+  .ck-agent-nav a:focus-visible,
+  .ck-agent-links a:focus-visible,
+  .ck-agent-footer a:focus-visible {
+    outline: 1px solid #cdff52;
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) {
+    .ck-agent-nav a:hover,
+    .ck-agent-links a:hover,
+    .ck-agent-footer a:hover {
+      color: #cdff52;
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ck-agent-shell {
+      font-size: 12px;
+    }
+
+    .ck-agent-page {
+      padding: 12px 10px 82px;
+    }
+
+    .ck-agent-header {
+      display: grid;
+      gap: 12px;
+    }
+
+    .ck-agent-nav {
+      justify-content: flex-start;
+      gap: 6px 12px;
+    }
+
+    .ck-agent-block {
+      padding: 16px 12px;
+    }
+
+    .ck-agent-block h1 {
+      font-size: 15px;
+    }
+
+    .ck-agent-description,
+    .ck-agent-copy,
+    .ck-agent-block li,
+    .ck-agent-meta {
+      font-size: 12px;
+    }
+
+    .ck-agent-meta {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+</style>

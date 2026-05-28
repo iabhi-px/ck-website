@@ -22,9 +22,34 @@ interface Props {
 }
 
 const { title, description, industry, coverImage, metrics = [], prevStudy, nextStudy } = Astro.props;
+
+const agentSummary = {
+  eyebrow: 'CodeKarma case study',
+  title,
+  description,
+  metadata: [
+    { label: 'industry', value: industry },
+    { label: 'metrics', value: metrics.length ? metrics.map((metric) => `${metric.label}: ${metric.value}`).join('; ') : 'none' },
+  ],
+  sections: [
+    {
+      heading: 'Case study summary',
+      body: description,
+      items: [
+        `Industry: ${industry}`,
+        ...metrics.map((metric) => `${metric.label}: ${metric.value}`),
+      ],
+      links: [
+        { label: 'All solutions', href: '/solutions' },
+        ...(prevStudy?.slug ? [{ label: `Previous: ${prevStudy.title}`, href: `/case-studies/${prevStudy.slug}` }] : []),
+        ...(nextStudy?.slug ? [{ label: `Next: ${nextStudy.title}`, href: `/case-studies/${nextStudy.slug}` }] : []),
+      ],
+    },
+  ],
+};
 ---
 
-<BaseLayout title={`${title} — CodeKarma Case Study`} description={description} ogImage={coverImage}>
+<BaseLayout title={`${title} — CodeKarma Case Study`} description={description} ogImage={coverImage} agentSummary={agentSummary}>
   <article class="relative bg-white pt-32 pb-20">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">

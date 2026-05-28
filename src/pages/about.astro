@@ -56,9 +56,34 @@ const investors = [
   { name: 'SenseAI Ventures', logo: senseaiLogo },
   { name: 'Stargazer Ventures', logo: stargazerLogo },
 ];
+
+const agentSummary = {
+  eyebrow: 'About CodeKarma',
+  title: 'A production truth company for the AI era',
+  description: 'CodeKarma believes the future of software engineering depends on understanding production systems deeply enough for both humans and AI agents to evolve them safely.',
+  sections: [
+    {
+      heading: 'Principles',
+      items: principles.map((principle) => `${principle.title}: ${principle.description}`),
+    },
+    {
+      heading: 'Founders',
+      items: founders.map((founder) => `${founder.name}: ${founder.title}`),
+    },
+    {
+      heading: 'Investors',
+      items: investors.map((investor) => investor.name),
+    },
+    {
+      heading: 'Press',
+      items: pressItems.map((item) => `${item.outlet}: ${item.title}`),
+      links: pressItems.map((item) => ({ label: item.outlet, href: item.href })),
+    },
+  ],
+};
 ---
 
-<BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team.">
+<BaseLayout title="About — CodeKarma" description="Meet the team behind CodeKarma. Learn about our mission to bring production intelligence to every engineering team." agentSummary={agentSummary}>
   <section class="relative bg-white pt-44 lg:pt-[240px] pb-0 overflow-hidden">
     <!-- Vertical gridlines -->
     <div class="hidden md:block absolute inset-0 mx-auto max-w-7xl px-10 lg:px-[88px] pointer-events-none z-0" aria-hidden="true">
