@@ -18,8 +18,6 @@ Migrating a legacy monolith to microservices is one of the hardest problems in s
 
 The retailer had a 15-year-old Java monolith serving their entire e-commerce platform. The migration to microservices had been planned for over a year, but the team couldn't move forward.
 
-<div class="cs-img-placeholder" />
-
 - **Unknown dependencies**: No one knew which modules depended on which — the original architects had long since left
 - **Fear of breaking things**: Every attempted change risked taking down the entire platform
 - **Wasted resources**: Infrastructure was provisioned for the entire monolith, including code paths that hadn't been hit in years
@@ -28,8 +26,6 @@ The retailer had a 15-year-old Java monolith serving their entire e-commerce pla
 ## The Solution
 
 CodeKarma was deployed to analyze real production traffic against the codebase, identifying exactly which code was live and which was dead.
-
-<div class="cs-img-placeholder" />
 
 **Week 1 — Traffic Analysis**: KarmaPulse monitored all production traffic to the monolith, mapping every code path that was actually executed.
 
@@ -40,8 +36,6 @@ CodeKarma was deployed to analyze real production traffic against the codebase, 
 ## The Results
 
 The findings were eye-opening:
-
-<div class="cs-img-placeholder" />
 
 - **60% of the codebase was dead** — never hit by production traffic in the 30-day analysis window
 - **Months of migration effort saved** — the team could focus on migrating only the 40% of code that mattered

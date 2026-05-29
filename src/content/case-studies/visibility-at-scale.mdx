@@ -22,8 +22,6 @@ We deployed **KarmaDomain** and **KarmaPulse** across their entire infrastructur
 
 The platform had grown organically over eight years. What started as a handful of services on AWS had expanded into a sprawling multi-cloud deployment:
 
-<div class="cs-img-placeholder" />
-
 - **5,000+ microservices** across AWS, GCP, and Azure
 - **200+ engineering teams** deploying independently, averaging 400 deployments per day
 - **Mixed communication patterns**: synchronous REST/gRPC calls interleaved with asynchronous Kafka and SQS event flows
@@ -38,8 +36,6 @@ Before CodeKarma, the team relied on a combination of Datadog, CloudWatch, and c
 - **Datadog** captured APM traces for the ~15% of services with manual instrumentation
 - **CloudWatch** had infrastructure metrics but no service-level correlation
 - **Grafana dashboards** were maintained by individual teams with no standardization
-
-<div class="cs-img-placeholder" />
 
 The result was a fragmented picture. During incidents, engineers spent the first 30-60 minutes just figuring out *which* services were involved — before they could even begin diagnosing the root cause.
 
@@ -64,8 +60,6 @@ No code changes. No SDK integrations. No restart required.
 
 KarmaPulse attached to production traffic and began correlating individual requests across the full service mesh. Unlike traditional distributed tracing, KarmaPulse doesn't require trace context propagation — it infers causality from eBPF-level observations.
 
-<div class="cs-img-placeholder" />
-
 This meant the team got full end-to-end traces covering all 5,000+ services, including the 85% that had no OpenTelemetry instrumentation.
 
 ### Phase 3: Alert Correlation (Week 3)
@@ -87,8 +81,6 @@ Within the first month, the results were measurable and significant:
 **Zero performance overhead.** eBPF-based collection added no measurable latency to production traffic. P99 latency remained unchanged across all monitored services.
 
 **First sale event with zero P1 incidents.** The flash sale following deployment was the first in company history with no critical incidents. The war room was staffed but quiet.
-
-<div class="cs-img-placeholder" />
 
 ## What Changed
 
